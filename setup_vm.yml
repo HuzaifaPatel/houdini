@@ -1,0 +1,33 @@
+# sudo ansible-playbook setup_vm.yml
+---
+- name: Create KVM VM
+  hosts: localhost
+  vars:
+    disk_image_path: /var/lib/libvirt/images/lol.qcow2
+    disk_size_gb: 25  # Adjust the disk size as needed
+    iso_path: ubuntu-22.04.4-desktop-amd64.iso  # Assuming the ISO is in the same directory as the playbook
+  tasks:
+    - name: Create qcow2 disk image
+      command: qemu-img create -f qcow2 "{{ disk_image_path }}" "{{ disk_size_gb }}G"
+      
+    - name: Define VM XML configuration
+      template:
+        src: /home/huzi/Documents/houdini/vm.xml  # Adjust the path if necessary
+        dest: /home/huzi/Documents/houdini/lol.xml  # Adjust the path if necessary
+
+    - name: Define VM using virt-install
+      command: virt-install --import --name my_vm --ram 5000 --vcpus 5 --disk {{ disk_image_path }},format=qcow2 --cdrom {{ iso_path }} --os-variant ubuntu20.04 --graphics spice --network network=default,model=virtio --console pty,target_type=serial
+      async: 100
+      poll: 0
+
+    - name: Wait for VM to boot and retrieve IP address
+      uri:
+        url: "http://{{ ansible_host }}"
+        return_content: yes
+        status_code: 200
+      register: vm_response
+      until: vm_response.status == 200
+      retries: 60
+      delay: 10
+      delegate_to: localhost
+      ignore_errors: yes
