@@ -19,15 +19,3 @@
       command: virt-install --import --name my_vm --ram 5000 --vcpus 5 --disk {{ disk_image_path }},format=qcow2 --cdrom {{ iso_path }} --os-variant ubuntu20.04 --graphics spice --network network=default,model=virtio --console pty,target_type=serial
       async: 100
       poll: 0
-
-    - name: Wait for VM to boot and retrieve IP address
-      uri:
-        url: "http://{{ ansible_host }}"
-        return_content: yes
-        status_code: 200
-      register: vm_response
-      until: vm_response.status == 200
-      retries: 60
-      delay: 10
-      delegate_to: localhost
-      ignore_errors: yes
