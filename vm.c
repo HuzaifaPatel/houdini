@@ -3,6 +3,7 @@
 #include <libvirt/libvirt.h>
 
 int get_ip_address() {
+    // https://libvirt.org/html/libvirt-libvirt-domain.html#virDomainInterfacePtr
     virDomainInterfacePtr *ifaces = NULL;
     virDomainPtr *domains = NULL;
     int ifaces_count = 0;
