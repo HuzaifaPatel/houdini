@@ -1,6 +1,76 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <libvirt/libvirt.h>
+#include "vm.h"
+
+short int make_qcow2(){
+    FILE *file = fopen("lol.qcow2", "r");
+    if (file != NULL) {
+        printf("Qcow2 image already exists.\n");
+        fclose(file);
+        return 0;
+    }
+
+    // Define the command to create the qcow2 image
+    const char *command = "qemu-img create -f qcow2 lol.qcow2 20G";
+
+    // Execute the command
+    int status = system(command);
+
+    if (status == 0) {
+        printf("Qcow2 image created successfully.\n");
+    } else {
+        printf("Failed to create qcow2 image.\n");
+    }
+
+    return 0;
+}
+
+short int add_file_to_vm() {
+    // virt-df -a /var/lib/libvirt/images/lol.xcow2
+    // guestfish -a lol.qcow2
+    guestfs_h *g;
+
+    make_qcow2();
+    g = guestfs_create();
+    if (g == NULL) {
+        fprintf(stderr, "Failed to create libguestfs handle\n");
+        exit(EXIT_FAILURE);
+    }
+
+    if (guestfs_add_drive(g, "lol.qcow2") == -1) {
+        fprintf(stderr, "Failed to add drive\n");
+        guestfs_close(g);
+        exit(EXIT_FAILURE);
+    }
+
+    if (guestfs_launch(g) == -1) {
+        fprintf(stderr, "Failed to launch libguestfs\n");
+        guestfs_close(g);
+        exit(EXIT_FAILURE);
+    }
+
+    if (guestfs_mount(g, "/dev/sda1", "/") == -1) {
+        fprintf(stderr, "Failed to mount filesystem\n");
+        guestfs_close(g);
+        exit(EXIT_FAILURE);
+    }
+
+    if (guestfs_upload(g, "main.c", "/main.c") == -1) {
+        fprintf(stderr, "Failed to upload file\n");
+        guestfs_close(g);
+        exit(EXIT_FAILURE);
+    }
+
+    if (guestfs_umount_all(g) == -1) {
+        fprintf(stderr, "Failed to unmount filesystem\n");
+        guestfs_close(g);
+        exit(EXIT_FAILURE);
+    }
+
+    guestfs_close(g);
+
+    return 0;
+}
+
+
 
 int get_ip_address() {
     // https://libvirt.org/html/libvirt-libvirt-domain.html#virDomainInterfacePtr
