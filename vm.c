@@ -6,27 +6,35 @@ short int make_qcow2(){
         printf("Qcow2 image already exists.\n");
         fclose(file);
         return 0;
-    }
+    }else{
+        // Define the command to create the qcow2 image
+        const char *command = "qemu-img create -f qcow2 lol.qcow2 20G";
 
-    // Define the command to create the qcow2 image
-    const char *command = "qemu-img create -f qcow2 lol.qcow2 20G";
+        // Execute the command
+        int status = system(command);
 
-    // Execute the command
-    int status = system(command);
-
-    if (status == 0) {
-        printf("Qcow2 image created successfully.\n");
-    } else {
-        printf("Failed to create qcow2 image.\n");
-    }
+        if (status == 0) {
+            printf("Qcow2 image created successfully.\n");
+        } else {
+            printf("Failed to create qcow2 image.\n");
+        }
+    } 
 
     return 0;
 }
 
 short int add_file_to_vm() {
-    // virt-df -a /var/lib/libvirt/images/lol.xcow2
+    // virt-df -a /var/lib/libvirt/images/lol.qcow2
     // guestfish -a lol.qcow2
+    int ret;
     guestfs_h *g;
+
+    // Create the mount point directory
+    ret = mkdir(MOUNT_POINT, 0777); // Create directory with read/write/execute permissions for owner, read/execute for group and others
+    if (ret == -1) {
+        perror("Failed to create mount point directory");
+        // return 1;
+    }
 
     make_qcow2();
     g = guestfs_create();
@@ -35,7 +43,7 @@ short int add_file_to_vm() {
         exit(EXIT_FAILURE);
     }
 
-    if (guestfs_add_drive(g, "lol.qcow2") == -1) {
+    if (guestfs_add_drive_opts(g, "lol.qcow2", GUESTFS_ADD_DRIVE_OPTS_FORMAT, "qcow2", GUESTFS_ADD_DRIVE_OPTS_READONLY, 0, -1) == -1) {
         fprintf(stderr, "Failed to add drive\n");
         guestfs_close(g);
         exit(EXIT_FAILURE);
@@ -47,25 +55,53 @@ short int add_file_to_vm() {
         exit(EXIT_FAILURE);
     }
 
-    if (guestfs_mount(g, "/dev/sda1", "/") == -1) {
-        fprintf(stderr, "Failed to mount filesystem\n");
-        guestfs_close(g);
-        exit(EXIT_FAILURE);
-    }
+      char **devices = guestfs_list_devices (g);
+      if (devices == NULL)
+        exit (EXIT_FAILURE);
+      if (devices[0] == NULL || devices[1] != NULL) {
+        fprintf (stderr, "error: expected a single device from list-devices\n");
+        exit (EXIT_FAILURE);
+      }
 
-    if (guestfs_upload(g, "main.c", "/main.c") == -1) {
-        fprintf(stderr, "Failed to upload file\n");
-        guestfs_close(g);
-        exit(EXIT_FAILURE);
-    }
+      /* Partition the disk as one single MBR partition. */
+      if (guestfs_part_disk (g, devices[0], "mbr") == -1)
+        exit (EXIT_FAILURE);
 
-    if (guestfs_umount_all(g) == -1) {
-        fprintf(stderr, "Failed to unmount filesystem\n");
-        guestfs_close(g);
-        exit(EXIT_FAILURE);
-    }
+      /* Get the list of partitions.  We expect a single element, which
+       * is the partition we have just created.
+       */
+      char **partitions = guestfs_list_partitions (g);
+      if (partitions == NULL)
+        exit (EXIT_FAILURE);
+      if (partitions[0] == NULL || partitions[1] != NULL) {
+        fprintf (stderr, "error: expected a single partition from list-partitions\n");
+        exit (EXIT_FAILURE);
+      }
 
-    guestfs_close(g);
+      /* Create a filesystem on the partition. */
+      if (guestfs_mkfs (g, "ext4", partitions[0]) == -1)
+        exit (EXIT_FAILURE);
+
+      /* Now mount the filesystem so that we can add files. */
+      if (guestfs_mount_options (g, "", partitions[0], "dirm") == -1)
+        exit (EXIT_FAILURE);
+
+    // Success
+    // printf("Filesystem created and mounted successfully\n");
+
+    // if (guestfs_upload(g, "main.c", "/main.c") == -1) {
+    //     fprintf(stderr, "Failed to upload file\n");
+    //     guestfs_close(g);
+    //     exit(EXIT_FAILURE);
+    // }
+
+    // if (guestfs_umount_all(g) == -1) {
+    //     fprintf(stderr, "Failed to unmount filesystem\n");
+    //     guestfs_close(g);
+    //     exit(EXIT_FAILURE);
+    // }
+
+    // guestfs_close(g);
 
     return 0;
 }

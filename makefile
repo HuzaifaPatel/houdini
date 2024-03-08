@@ -15,3 +15,4 @@ clean:
 	@if [ -f houdini ]; then rm houdini; fi
 	@if [ -f main.o ]; then rm main.o; fi
 	@if [ -f client.o ]; then rm client.o; fi
+	@if [ -f lol.qcow2 ]; then rm lol.qcow2; fi
