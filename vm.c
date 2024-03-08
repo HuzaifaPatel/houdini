@@ -1,8 +1,109 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <libvirt/libvirt.h>
+#include "vm.h"
+
+
+short int add_file_to_vm() {
+    // virt-df -a /var/lib/libvirt/images/lol.qcow2
+    // guestfish -a lol.qcow2
+    int ret;
+    guestfs_h *g = guestfs_create();
+    const char *image_path = "lol.qcow2";
+    const char *format = "qcow2";
+    int64_t size = 1024 * 1024 * 1024; // 20 GB
+
+    // Create the mount point directory
+    // ret = mkdir(MOUNT_POINT, 0777); // Create directory with read/write/execute permissions for owner, read/execute for group and others
+    // if (ret == -1) {
+    //     perror("Failed to create mount point directory");
+    //     // return 1;
+    // }
+
+
+    // Initialize libguestfs
+    if (g == NULL) {
+        fprintf(stderr, "Error: Failed to create libguestfs handle\n");
+        exit(EXIT_FAILURE);
+    }
+
+    // Create a new empty disk image. Terminate with -1
+    if (guestfs_disk_create(g, image_path, format, size, -1) == -1) {
+        fprintf(stderr, "Error: Failed to create disk image\n");
+        guestfs_close(g);
+        exit(EXIT_FAILURE);
+    }
+
+    if (guestfs_add_drive_opts(g, "lol.qcow2", GUESTFS_ADD_DRIVE_OPTS_FORMAT, "qcow2", GUESTFS_ADD_DRIVE_OPTS_READONLY, 0, -1) == -1) {
+        fprintf(stderr, "Failed to add drive\n");
+        guestfs_close(g);
+        exit(EXIT_FAILURE);
+    }
+
+    if (guestfs_launch(g) == -1) {
+        fprintf(stderr, "Failed to launch libguestfs\n");
+        guestfs_close(g);
+        exit(EXIT_FAILURE);
+    }
+
+
+      /* Get the list of devices.  Because we only added one drive
+       * above, we expect that this list should contain a single
+       * element.
+       */
+      char **devices = guestfs_list_devices (g);
+      if (devices == NULL)
+        exit (EXIT_FAILURE);
+      if (devices[0] == NULL || devices[1] != NULL) {
+        fprintf (stderr, "error: expected a single device from list-devices\n");
+        exit (EXIT_FAILURE);
+      }
+
+
+      /* Partition the disk as one single MBR partition. */
+      if (guestfs_part_disk (g, devices[0], "mbr") == -1)
+        exit (EXIT_FAILURE);
+
+      /* Get the list of partitions.  We expect a single element, which
+       * is the partition we have just created.
+       */
+      char **partitions = guestfs_list_partitions (g);
+      if (partitions == NULL)
+        exit (EXIT_FAILURE);
+      if (partitions[0] == NULL || partitions[1] != NULL) {
+        fprintf (stderr, "error: expected a single partition from list-partitions\n");
+        exit (EXIT_FAILURE);
+      }
+
+      /* Create a filesystem on the partition. */
+      if (guestfs_mkfs (g, "ext4", partitions[0]) == -1)
+        exit (EXIT_FAILURE);
+
+      /* Now mount the filesystem so that we can add files. */
+      if (guestfs_mount_options (g, "", partitions[0], "/") == -1)
+        exit (EXIT_FAILURE);
+
+    // Success
+    // printf("Filesystem created and mounted successfully\n");
+
+    // if (guestfs_upload(g, "main.c", "/main.c") == -1) {
+    //     fprintf(stderr, "Failed to upload file\n");
+    //     guestfs_close(g);
+    //     exit(EXIT_FAILURE);
+    // }
+
+    // if (guestfs_umount_all(g) == -1) {
+    //     fprintf(stderr, "Failed to unmount filesystem\n");
+    //     guestfs_close(g);
+    //     exit(EXIT_FAILURE);
+    // }
+
+    // guestfs_close(g);
+
+    return 0;
+}
+
+
 
 int get_ip_address() {
+    // https://libvirt.org/html/libvirt-libvirt-domain.html#virDomainInterfacePtr
     virDomainInterfacePtr *ifaces = NULL;
     virDomainPtr *domains = NULL;
     int ifaces_count = 0;
