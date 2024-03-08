@@ -1,45 +1,33 @@
 #include "vm.h"
 
-short int make_qcow2(){
-    FILE *file = fopen("lol.qcow2", "r");
-    if (file != NULL) {
-        printf("Qcow2 image already exists.\n");
-        fclose(file);
-        return 0;
-    }else{
-        // Define the command to create the qcow2 image
-        const char *command = "qemu-img create -f qcow2 lol.qcow2 20G";
-
-        // Execute the command
-        int status = system(command);
-
-        if (status == 0) {
-            printf("Qcow2 image created successfully.\n");
-        } else {
-            printf("Failed to create qcow2 image.\n");
-        }
-    } 
-
-    return 0;
-}
 
 short int add_file_to_vm() {
     // virt-df -a /var/lib/libvirt/images/lol.qcow2
     // guestfish -a lol.qcow2
     int ret;
-    guestfs_h *g;
+    guestfs_h *g = guestfs_create();
+    const char *image_path = "lol.qcow2";
+    const char *format = "qcow2";
+    int64_t size = 1024 * 1024 * 1024; // 20 GB
 
     // Create the mount point directory
-    ret = mkdir(MOUNT_POINT, 0777); // Create directory with read/write/execute permissions for owner, read/execute for group and others
-    if (ret == -1) {
-        perror("Failed to create mount point directory");
-        // return 1;
+    // ret = mkdir(MOUNT_POINT, 0777); // Create directory with read/write/execute permissions for owner, read/execute for group and others
+    // if (ret == -1) {
+    //     perror("Failed to create mount point directory");
+    //     // return 1;
+    // }
+
+
+    // Initialize libguestfs
+    if (g == NULL) {
+        fprintf(stderr, "Error: Failed to create libguestfs handle\n");
+        exit(EXIT_FAILURE);
     }
 
-    make_qcow2();
-    g = guestfs_create();
-    if (g == NULL) {
-        fprintf(stderr, "Failed to create libguestfs handle\n");
+    // Create a new empty disk image. Terminate with -1
+    if (guestfs_disk_create(g, image_path, format, size, -1) == -1) {
+        fprintf(stderr, "Error: Failed to create disk image\n");
+        guestfs_close(g);
         exit(EXIT_FAILURE);
     }
 
@@ -55,6 +43,11 @@ short int add_file_to_vm() {
         exit(EXIT_FAILURE);
     }
 
+
+      /* Get the list of devices.  Because we only added one drive
+       * above, we expect that this list should contain a single
+       * element.
+       */
       char **devices = guestfs_list_devices (g);
       if (devices == NULL)
         exit (EXIT_FAILURE);
@@ -62,6 +55,7 @@ short int add_file_to_vm() {
         fprintf (stderr, "error: expected a single device from list-devices\n");
         exit (EXIT_FAILURE);
       }
+
 
       /* Partition the disk as one single MBR partition. */
       if (guestfs_part_disk (g, devices[0], "mbr") == -1)
@@ -83,7 +77,7 @@ short int add_file_to_vm() {
         exit (EXIT_FAILURE);
 
       /* Now mount the filesystem so that we can add files. */
-      if (guestfs_mount_options (g, "", partitions[0], "dirm") == -1)
+      if (guestfs_mount_options (g, "", partitions[0], "/") == -1)
         exit (EXIT_FAILURE);
 
     // Success
