@@ -2,16 +2,20 @@ CC=gcc
 LDFLAGS=-lvirt
 GUESTFS =-lguestfs
 
-houdini: main.o client.o client.h vm.o vm.h install_libvirt_dev install_libguestfs_dev
+houdini: install_libvirt_dev install_libguestfs_dev install_guest_fs install_libnbd_dev main.o client.o client.h vm.o vm.h
 	gcc -o houdini main.c client.c client.h vm.c vm.h ${LDFLAGS} ${GUESTFS}
 
 install_libvirt_dev:
-	dpkg -s libvirt-dev >/dev/null 2>&1 || sudo apt-get -y install libvirt-dev
+	sudo apt-get install -y libvirt-dev
 
 install_libguestfs_dev:
-	dpkg -s libguestfs-tools >/dev/null 2>&1 || sudo apt-get -y install libguestfs-tools
-# also add sudo apt-get install libguestfs-dev
-# sudo apt-get install libnbd-dev
+	sudo apt-get install -y libguestfs-tools
+
+install_guest_fs:
+	sudo apt-get install -y libguestfs-dev
+
+install_libnbd_dev:
+	sudo apt-get install -y libnbd-dev
 
 clean:
 	@if [ -f houdini ]; then rm houdini; fi
