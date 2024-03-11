@@ -4,9 +4,8 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <libvirt/libvirt.h>
-#include <libvirt/libvirt.h>
 #include <guestfs.h>
-#define MOUNT_POINT "dirm"
-#define FILESYSTEM "/dev/sda"
+#include <string.h>
+#define FILESYSTEM "/dev/sda1"
 int get_ip_address();
-short int add_file_to_vm();
+int add_file_to_vm();

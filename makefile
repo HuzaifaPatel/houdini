@@ -10,6 +10,8 @@ install_libvirt_dev:
 
 install_libguestfs_dev:
 	dpkg -s libguestfs-tools >/dev/null 2>&1 || sudo apt-get -y install libguestfs-tools
+# also add sudo apt-get install libguestfs-dev
+# sudo apt-get install libnbd-dev
 
 clean:
 	@if [ -f houdini ]; then rm houdini; fi

@@ -3,19 +3,127 @@
 - name: Create KVM VM
   hosts: localhost
   vars:
-    disk_image_path: /var/lib/libvirt/images/lol.qcow2
-    disk_size_gb: 25  # Adjust the disk size as needed
-    iso_path: ubuntu-22.04.4-desktop-amd64.iso  # Assuming the ISO is in the same directory as the playbook
+    disk_image_path: "lol.qcow2"
+    disk_size_gb: 30  # Adjust the disk size as needed
+    kernel_version: "5.10.7"
+    kernel_url: "https://mirrors.edge.kernel.org/pub/linux/kernel/v{{ kernel_version.split('.')[0] }}.x/linux-{{ kernel_version }}.tar.gz"
+    filesystem_type: "ext4"  # Adjust the filesystem type as needed
+    destination_file: "/home/huzi"
+    mount_point: "/mnt/qemu_image"
+    kernel_src_dir: "{{mount_point}}/linux-{{ kernel_version }}"
+    block_device: "/dev/nbd1"
+    vm_name: "vm"
+    memory_mb: 2048
+    vcpus: 2
+    xml: lol.xml
+    format: "qcow2"
   tasks:
+    - name: Check if disk image file exists
+      stat:
+        path: "{{ disk_image_path }}"
+      register: disk_image_result
+
     - name: Create qcow2 disk image
       command: qemu-img create -f qcow2 "{{ disk_image_path }}" "{{ disk_size_gb }}G"
-      
+      when: not disk_image_result.stat.exists
+
+    - name: Install libguestfs-tools package
+      become: true
+      package:
+        name: libguestfs-tools
+        state: present
+
+    - name: Disconnect existing NBD connections
+      command: nbd-client -d "{{ block_device }}"
+      ignore_errors: true
+      changed_when: nbd_check is defined and nbd_check.rc == 0
+
+    - name: Create mount point if it doesn't exist
+      file:
+        path: "{{ mount_point }}"
+        state: directory
+      become: true
+
+    - name: Disconnect existing NBD connections if any
+      command: qemu-nbd --disconnect "{{ block_device }}"
+      ignore_errors: true
+      become: true
+
+    - name: Connect QEMU image to NBD
+      command: qemu-nbd --connect="{{ block_device }}" --format="{{ format }}" "{{ disk_image_path }}"
+      become: true
+
+    - name: Wait for nbd device to appear
+      wait_for:
+        path: "{{ block_device }}"
+        state: "present"
+      become: true
+
+    - name: Mount NBD device
+      become: true
+      mount:
+        path: "{{ mount_point }}"
+        src: "{{ block_device }}"
+        fstype: "{{ filesystem_type }}"
+        state: mounted
+
+    - name: Check if kernel source exists
+      stat:
+        path: "{{ mount_point }}/linux-{{ kernel_version }}.tar.gz"
+      register: kernel_source_exists
+
+    - name: Download kernel source archive if it doesn't exist
+      get_url:
+        url: "{{ kernel_url }}"
+        dest: "{{mount_point}}/linux-{{ kernel_version }}.tar.gz"
+      when: not kernel_source_exists.stat.exists
+      register: kernel_download_result
+
+    - name: Show message if kernel source was downloaded
+      debug:
+        msg: "Kernel source downloaded: {{ kernel_download_result.changed }}"
+      when: kernel_download_result.changed
+
+    - name: Untar kernel source archive
+      unarchive:
+        src: "{{ mount_point }}/linux-{{ kernel_version }}.tar.gz"
+        dest: "{{ mount_point }}/"
+        remote_src: yes
+
+    - name: Install GRUB
+      command: chroot {{ mount_point }} grub-install --target=i386-pc /dev/sda
+      become: true
+
+    - name: Copy kernel and initramfs to disk image
+      copy:
+        src: "{{ item }}"
+        dest: "{{ mount_point }}/boot/"
+      with_items:
+        - "{{ kernel_src_dir }}/arch/x86_64/boot/bzImage"  # Kernel image
+        - "{{ kernel_src_dir }}/initramfs.gz"              # Initramfs
+
+    - name: Generate GRUB configuration
+      command: chroot {{ mount_point }} grub-mkconfig -o /boot/grub/grub.cfg
+      become: true
+
+    - name: Update GRUB configuration
+      command: chroot {{ mount_point }} update-grub
+      become: true
+
+    - name: Unmount NBD device
+      become: true
+      filesystem:
+        dev: /dev/nbd1
+        state: unmounted
+
+    - name: Disconnect QEMU image from NBD
+      command: qemu-nbd --disconnect "{{ block_device }}"
+      become: true
+
     - name: Define VM XML configuration
       template:
-        src: /home/huzi/Documents/houdini/vm.xml  # Adjust the path if necessary
-        dest: /home/huzi/Documents/houdini/lol.xml  # Adjust the path if necessary
+        src: lol.xml
+        dest: "{{ disk_image_path }}"
 
-    - name: Define VM using virt-install
-      command: virt-install --import --name my_vm --ram 5000 --vcpus 5 --disk {{ disk_image_path }},format=qcow2 --cdrom {{ iso_path }} --os-variant ubuntu20.04 --graphics spice --network network=default,model=virtio --console pty,target_type=serial
-      async: 100
-      poll: 0
+    - name: Start VM
+      command: virt-install --import --name vm --memory 2048 --vcpus 2 --disk lol.qcow2,format=qcow2 --noautoconsole

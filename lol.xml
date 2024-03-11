@@ -1,6 +1,6 @@
 <disk type="file" device="disk">
   <driver name="qemu" type="qcow2" discard="unmap"/>
-  <source file="/var/lib/libvirt/images/lol.qcow2" index="2"/>
+  <source file="lol.qcow2" index="2"/>
   <backingStore/>
   <target dev="vda" bus="virtio"/>
   <boot order="1"/>

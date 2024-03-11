@@ -1,0 +1,32 @@
+---
+- name: Create and Start VM on KVM
+  hosts: localhost
+  gather_facts: no
+  vars:
+    vm_name: my_vm
+    vm_disk_size: 10
+    vm_ram: 2048
+    vm_vcpus: 2
+    base_image: lol.qcow2
+    os_variant: linux2022  # You may adjust this according to your Linux distribution
+  tasks:
+    - name: Create disk for VM
+      command: qemu-img create -f qcow2 {{ vm_name }}.qcow2 {{ vm_disk_size }}G
+      args:
+        creates: "{{ vm_name }}.qcow2"
+
+    - name: Clone base image
+      command: qemu-img create -f qcow2 -b {{ base_image }} {{ vm_name }}.qcow2
+      args:
+        creates: "{{ vm_name }}.qcow2"
+
+    - name: Define VM
+      command: virt-install \
+               --name {{ vm_name }} \
+               --ram {{ vm_ram }} \
+               --vcpus {{ vm_vcpus }} \
+               --disk path={{ vm_name }}.qcow2,format=qcow2 \
+               --os-variant {{ os_variant }} \
+               --graphics vnc \
+               --network network=default \
+               --import
