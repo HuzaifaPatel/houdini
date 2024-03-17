@@ -2,3 +2,4 @@
 houdini
 *.iso
 *.qcow2
+buildroot/

@@ -8,4 +8,4 @@
 #include <string.h>
 #define FILESYSTEM "/dev/sda1"
 int get_ip_address();
-int add_file_to_vm();
+short int add_file_to_vm();
