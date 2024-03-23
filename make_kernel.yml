@@ -1,36 +1,18 @@
-- name: Build Buildroot with Specific Kernel Version
-  hosts: buildroot_servers
-  vars:
-    kernel_version: "5.11.8"
-    buildroot_path: "/home/huzi/Documents/houdini/buildroot"  # Ensure this path is correctly set
+---
+- name: Update Buildroot .config file
+  hosts: all
+  become: yes
+  vars_files:
+    - config/config.yml
+
   tasks:
-    - name: Ensure Buildroot is configured
-      command: make defconfig
-      args:
-        chdir: "{{ buildroot_path }}"
+    - name: Update .config file with new values
+      ansible.builtin.lineinfile:
+        path: ".config"
+        line: "{{ item }}"
+      loop: "{{ config_lines }}"
 
-    - name: Set Kernel Version in Buildroot Configuration
-      lineinfile:
-        path: "{{ buildroot_path }}/.config"
-        regexp: '^BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE=".*"$'
-        line: 'BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="{{ kernel_version }}"'
-        state: present
-
-    - name: Configure Buildroot to generate bzImage
-      lineinfile:
-        path: "{{ buildroot_path }}/.config"
-        regexp: '^BR2_LINUX_KERNEL_BZIMAGE=y$'
-        line: 'BR2_LINUX_KERNEL_BZIMAGE=y'
-        state: present
-      register: bzimage_config
-
-    - name: Reconfigure Buildroot if bzImage config changed
-      command: make olddefconfig
-      args:
-        chdir: "{{ buildroot_path }}"
-      when: bzimage_config.changed
-
-    - name: Build Buildroot
-      command: make
-      args:
-        chdir: "{{ buildroot_path }}"
+    - name: Build the kernel using Buildroot
+      ansible.builtin.shell: 
+        cmd: |
+          cd buildroot && make -j $(nproc)

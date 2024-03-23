@@ -13,3 +13,5 @@
 #define SERVER_IP "192.168.122.64"
 short int connect_to_vm();
 unsigned long send_message(const char* message);
+short int make_kernel();
+#define NUM_CHOICES 2

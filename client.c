@@ -3,6 +3,16 @@ int sock = 0, valread;
 struct sockaddr_in serv_addr;
 char buffer[1024] = {0};
 
+short int make_kernel(){
+    int status = system("ansible-playbook make_kernel.yml -i hosts.ini -e @config/config.yml");
+    if (status == -1) {
+        printf("Failed to execute command\n");
+        return 1;
+    }
+
+    return 0;
+}
+
 short int connect_to_vm(){
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         printf("\n Socket creation error \n");

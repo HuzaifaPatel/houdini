@@ -2,6 +2,12 @@
 #include "vm.h"
 
 int main(){
+	unsigned int choice = 1;
+	while(choice != 0 && choice < NUM_CHOICES){
+		scanf("%d", &choice);
+		while (getchar() != '\n');
+		make_kernel();
+	}
 	// if(!connect_to_vm()){
 		// send_message("THIS IS A TEST\n");
 	// }

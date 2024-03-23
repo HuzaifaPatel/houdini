@@ -1,4 +1,5 @@
 sudo make distclean // removes all the files that were generated during the build process
 
+make linux-extract // to get kernel source
 
 https://github.com/torvalds/linux/commit/1d489151e9f9d1647110277ff77282fe4d96d09b.patch
