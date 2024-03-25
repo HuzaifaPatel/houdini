@@ -1,5 +1,5 @@
 ---
-- name: Update Buildroot .config file
+- name: Update Buildroot .config file and extract kernel version
   hosts: all
   become: yes
   vars_files:
@@ -8,11 +8,17 @@
   tasks:
     - name: Update .config file with new values
       ansible.builtin.lineinfile:
-        path: ".config"
+        path: "buildroot/.config"
+        regexp: '^{{ item.split("=")[0] }}=.*$'
         line: "{{ item }}"
       loop: "{{ config_lines }}"
 
-    - name: Build the kernel using Buildroot
-      ansible.builtin.shell: 
-        cmd: |
-          cd buildroot && make -j $(nproc)
+    - name: Extract BR2_LINUX_KERNEL_VERSION
+      shell: grep 'BR2_LINUX_KERNEL_VERSION=' .config | cut -d'=' -f2 | tr -d '"'
+      register: kernel_version_result
+      changed_when: false
+
+    - name: Build the kernel using a bash script with kernel version argument
+      ansible.builtin.script:
+        cmd: "build_kernel.sh {{ kernel_version_result.stdout }}"
+      when: kernel_version_result.stdout != ""

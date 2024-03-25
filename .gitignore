@@ -7,3 +7,4 @@ buildroot/
 *.tar
 *.tar.xz
 qemu/
+cache

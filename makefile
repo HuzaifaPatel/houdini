@@ -23,6 +23,12 @@ install_lib_ssl:
 install_libelf-dev:
 	sudo apt-get install -y libelf-dev
 
+install_qemu:
+	sudo apt-get install -y qemu
+
+install_qemu:
+	sudo apt-get install -y qemu-kvm
+
 clean:
 	@if [ -f houdini ]; then rm houdini; fi
 	@if [ -f main.o ]; then rm main.o; fi
