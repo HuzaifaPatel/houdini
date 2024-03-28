@@ -10,3 +10,6 @@ sudo qemu-system-x86_64 -kernel output/images/bzImage -hda output/images/rootfs.
 
 // this is where all the kernels are
 https://sources.buildroot.net/linux/
+
+
+buildroot username: root

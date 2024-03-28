@@ -23,9 +23,16 @@ mkdir -p "$DEST_DIR"
 # Return to the original directory (buildroot dir)
 popd
 
-sudo make linux-headers-dirclean
-sudo make clean
+# sudo make linux-headers-dirclean
+# sudo make clean
 sudo make > /dev/tty
 
-# move the entire build to cache
-cp -r output "$DEST_DIR/"
+# Check if the destination directory does not exist
+if [ ! -d "$DEST_DIR" ]; then
+    # Destination directory does not exist, so copy the output directory
+    cp -r output "$DEST_DIR/"
+    echo "Output directory copied to $DEST_DIR"
+else
+    # Destination directory exists, so do not copy
+    echo "$DEST_DIR already exists. Copy not performed."
+fi
