@@ -2,7 +2,6 @@
 houdini
 *.iso
 *.qcow2
-buildroot/
 *tar.gz
 *.tar
 *.tar.xz
