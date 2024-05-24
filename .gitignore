@@ -1,12 +1,2 @@
 *.o
 houdini
-*.iso
-*.qcow2
-*tar.gz
-*.tar
-*.tar.xz
-qemu/
-cache
-rootfs/
-image/
-mirror/
