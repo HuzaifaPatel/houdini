@@ -1,10 +1,11 @@
 import re
 import os
-config_path = "../config/config.conf"
-runc_mk_path = "../buildroot/package/runc/runc.mk"
-docker_cli_mk_path = "../buildroot/package/docker-cli/docker-cli.mk"
-docker_engine_mk_path = "../buildroot/package/docker-engine/docker-engine.mk"
-buildroot_path = "../buildroot"
+from root import get_root_dir
+config_path = get_root_dir('/config/config.conf')
+runc_mk_path = get_root_dir('/buildroot/package/runc/runc.mk')
+docker_cli_mk_path = get_root_dir('/buildroot/package/docker-cli/docker-cli.mk')
+docker_engine_mk_path = get_root_dir('/buildroot/package/docker-engine/docker-engine.mk')
+buildroot_path = get_root_dir('../buildroot')
 
 def update_runc_version(config_path, runc_mk_path):
     # Construct the path to the Docker CLI build directory

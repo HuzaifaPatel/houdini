@@ -1,0 +1,4 @@
+from set_kernel_version import set_br2_linux_kernel_custom_version_value, set_br2_package_host_linux_headers_custom
+
+set_br2_linux_kernel_custom_version_value()
+set_br2_package_host_linux_headers_custom()
