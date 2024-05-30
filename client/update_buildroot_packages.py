@@ -1,4 +1,3 @@
-import re
 import os
 from root import get_root_dir
 config_path = get_root_dir('/config/config.conf')
