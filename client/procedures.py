@@ -1,6 +1,6 @@
-from root import get_root_dir
-from update_buildroot_packages import update_runc_version, update_docker_cli_version, update_docker_engine_version
 import subprocess
+from update_buildroot_packages import *
+from style import colors
 
 def make_buildroot(target=None):
 	command = ['make', '-j', '10']
@@ -13,11 +13,12 @@ def make_buildroot(target=None):
 
 	# Output the results
 	if result.returncode == 0:
-		print("Make command succeeded")
+		print(colors.BOLD + colors.GREEN  + "\nMake succeeded" + colors.RESET + "\n")
 	else:
-		print("Make command failed")
-		print("Error:")
+		print(colors.BOLD + colors.RED + "\nMake failed" + colors.RESET)
+		print(colors.BOLD + colors.RED + "\nError:" + colors.RESET + "\n")
 		print(result.stderr)
+
 
 def make_olddefconfig():
 	command = ['make', 'olddefconfig', '-j', '20']
@@ -45,8 +46,13 @@ def start_vm(kernel="/buildroot/output/images/bzImage", drive="/buildroot/output
 	result = subprocess.run(terminal_command)
 
 
-#update docker-cli, docker engine, runc
+#update runc, docker-cli, docker engine
 def update_packages():
 	update_runc_version()
 	update_docker_cli_version()
 	update_docker_engine_version()
+
+
+def exit_program():
+	print(colors.BOLD + colors.GREEN + "\nExiting" + colors.RESET)
+	exit(0)

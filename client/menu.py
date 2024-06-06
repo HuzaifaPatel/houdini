@@ -1,31 +1,39 @@
-from houdini import make_buildroot, start_vm, update_packages, make_olddefconfig
+from procedures import *
+from style import colors
 
 menu_options = {
 	'1':make_buildroot,
 	'2':start_vm,
 	'3':update_packages,
-	'4':make_olddefconfig
+	'4':make_olddefconfig,
+	'5':exit_program
 }
 
 def display_menu():
-	print("Welcome to Houdini\n\nEnter your Choice")
 	print("1. Make Buildroot")
 	print("2. Start VM")
 	print("3. Update Packages")
 	print("4. Make Olddefconfig")
+	print("5. Exit")
 
 def get_user_choice():
-	choice = input("Enter your Choice: ")
-	return choice.strip()
+    choice = input(colors.BOLD + colors.CYAN + "Enter your Choice: " + colors.RESET)
+    return choice.strip()
 
-def main():
-	while True:
-		display_menu()
-		choice = get_user_choice()
+def menu():
+	try:
+		print(colors.BOLD + colors.CYAN + "Welcome to Houdini\n" + colors.RESET)
+		while True:
+			display_menu()
+			choice = get_user_choice()
 
-		if choice in menu_options:
-			menu_options[choice]()
-		else:
-			print("Invalid choice. Please try again.")
+			if choice in menu_options:
+				menu_options[choice]()
+			else:
+				print("Invalid choice. Please try again.")
+	except KeyboardInterrupt:
+		print("\b\b  \n")
+		print(colors.BOLD + colors.GREEN + "Exiting" + colors.RESET)
+		exit(0)
 
-main()
+menu()

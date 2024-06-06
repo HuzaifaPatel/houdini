@@ -1,15 +1,11 @@
 import os
 import re
 import fileinput
-import config
-from root import get_root_dir
-config_path = get_root_dir('/config/config.conf')
-runc_mk_path = get_root_dir('/buildroot/package/runc/runc.mk')
-docker_cli_mk_path = get_root_dir('/buildroot/package/docker-cli/docker-cli.mk')
-docker_engine_mk_path = get_root_dir('/buildroot/package/docker-engine/docker-engine.mk')
-buildroot_path = get_root_dir('/buildroot')
+from config import *
+from package_paths import *
+from style import colors
 
-def update_runc_version(line):
+def update_runc_version():
     # Construct the path to the Docker CLI build directory
     runc_build_dir = os.path.join(buildroot_path, "output", "build", "runc*")
 
@@ -20,65 +16,31 @@ def update_runc_version(line):
     for line in fileinput.input(runc_mk_path, inplace=True):
         line = re.sub(r"RUNC_VERSION\s*=\s*\S+", f"RUNC_VERSION = {RUNC_VERSION}", line)
 
+    print(f"\n{colors.BOLD}{colors.GREEN}Updated RUNC VERSION to {RUNC_VERSION} {colors.RESET}")
 
-def update_docker_cli_version(config_path, docker_cli_mk_path):
+def update_docker_cli_version():
     # Construct the path to the Docker CLI build directory
     docker_cli_build_dir = os.path.join(buildroot_path, "output", "build", "docker-cli-*")
 
     # Remove the Docker CLI build directory
     os.system(f"rm -rf {docker_cli_build_dir}")
 
-    # Read the desired version from config.conf
-    with open(config_path, "r") as config_file:
-        config_content = config_file.read()
-        match = re.search(r"DOCKER_CLI_VERSION\s*=\s*(\S+)", config_content)
-        if match:
-            docker_cli_version = match.group(1)
-        else:
-            print("DOCKER_CLI_VERSION not found in config.conf")
-            return
+    # Use fileinput to modify the file in place
+    for line in fileinput.input(docker_cli_mk_path, inplace=True):
+        line = re.sub(r"DOCKER_CLI_VERSION\s*=\s*\S+", f"DOCKER_CLI_VERSION = {DOCKER_CLI_VERSION}", line)
 
-    # Update the DOCKER_CLI_VERSION variable in docker-cli.mk
-    with open(docker_cli_mk_path, "r") as docker_cli_mk_file:
-        docker_cli_mk_content = docker_cli_mk_file.read()
-
-    # Replace the DOCKER_CLI_VERSION variable
-    docker_cli_mk_content = re.sub(r"DOCKER_CLI_VERSION\s*=\s*(\S+)", f"DOCKER_CLI_VERSION = {docker_cli_version}", docker_cli_mk_content)
-
-    # Write the updated content back to docker-cli.mk
-    with open(docker_cli_mk_path, "w") as docker_cli_mk_file:
-        docker_cli_mk_file.write(docker_cli_mk_content)
-
-    print(f"Updated DOCKER_CLI_VERSION to {docker_cli_version} in {docker_cli_mk_path}")
+    print(f"{colors.BOLD}{colors.GREEN}Updated DOCKER CLI VERSION to {DOCKER_CLI_VERSION} {colors.RESET}")
 
 
-
-def update_docker_engine_version(config_path, docker_engine_mk_path):
+def update_docker_engine_version():
     # Construct the path to the Docker CLI build directory
     docker_engine_build_dir = os.path.join(buildroot_path, "output", "build", "docker-engine-*")
 
     # Remove the Docker CLI build directory
     os.system(f"rm -rf {docker_engine_build_dir}")
 
-    # Read the desired version from config.conf
-    with open(config_path, "r") as config_file:
-        config_content = config_file.read()
-        match = re.search(r"DOCKER_ENGINE_VERSION\s*=\s*(\S+)", config_content)
-        if match:
-            docker_engine_version = match.group(1)
-        else:
-            print("DOCKER_ENGINE_VERSION not found in config.conf")
-            return
+    # Use fileinput to modify the file in place
+    for line in fileinput.input(docker_cli_mk_path, inplace=True):
+        line = re.sub(r"DOCKER_ENGINE_VERSION\s*=\s*(\S+", f"DOCKER_ENGINE_VERSION = {DOCKER_ENGINE_VERSION}", line)
 
-    # Update the DOCKER_ENGINE_VERSION variable in docker-engine.mk
-    with open(docker_engine_mk_path, "r") as docker_engine_mk_file:
-        docker_engine_mk_content = docker_engine_mk_file.read()
-
-    # Replace the DOCKER_ENGINE_VERSION variable
-    docker_engine_mk_content = re.sub(r"DOCKER_ENGINE_VERSION\s*=\s*(\S+)", f"DOCKER_ENGINE_VERSION = {docker_engine_version}", docker_engine_mk_content)
-
-    # Write the updated content back to docker-engine.mk
-    with open(docker_engine_mk_path, "w") as docker_engine_mk_file:
-        docker_engine_mk_file.write(docker_engine_mk_content)
-
-    print(f"Updated DOCKER_ENGINE_VERSION to {docker_engine_version} in {docker_engine_mk_path}")
+    print(f"{colors.BOLD}{colors.GREEN}Updated DOCKER ENGINE VERSION to {DOCKER_ENGINE_VERSION} {colors.RESET}\n")
