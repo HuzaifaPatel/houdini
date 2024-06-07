@@ -1,9 +1,12 @@
 import subprocess
 from update_buildroot_packages import *
 from style import colors
+from root import get_root_dir
+import os
+import multiprocessing
 
 def make_buildroot(target=None):
-	command = ['make', '-j', '10']
+	command = ['make', '-j', f'{multiprocessing.cpu_count()}']
 
 	if target:
 		command.append(target)
@@ -34,16 +37,22 @@ def make_olddefconfig():
 		print("Error:")
 		print(result.stderr)
 
-def start_vm(kernel="/buildroot/output/images/bzImage", drive="/buildroot/output/images/rootfs.ext2"):
-	command = ['./start-qemu.sh', get_root_dir(kernel), get_root_dir(drive)]
 
-	directory = get_root_dir("/scripts/")
-
-	# Prepare the gnome-terminal command
-	terminal_command = ['gnome-terminal', '--', 'bash', '-c', f'cd {directory} && {" ".join(command)}; exec bash']
-
-	# Run the command
-	result = subprocess.run(terminal_command)
+def start_vm(kernel=get_root_dir("/buildroot/output/images/bzImage"), drive=get_root_dir("/buildroot/output/images/rootfs.ext2")):
+    qemu_cmd = [
+        "qemu-system-x86_64",
+        "-enable-kvm",
+        "-m", "10000",
+        "-kernel", kernel,
+        "-drive", f"file={drive},if=virtio,format=raw",
+        "-append", "rootwait root=/dev/vda console=tty1 console=ttyS0 quiet loglevel=3",
+        "-serial", "mon:stdio",
+        "-net", "nic,model=virtio",
+        "-net", "user,hostfwd=tcp::5000-:5000",
+        "-cpu", "host",
+        "-nographic"
+    ]
+    subprocess.run(qemu_cmd)
 
 
 #update runc, docker-cli, docker engine
