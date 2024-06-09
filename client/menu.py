@@ -4,17 +4,19 @@ from style import colors
 menu_options = {
 	'1':make_buildroot,
 	'2':start_vm,
-	'3':update_packages,
-	'4':make_olddefconfig,
-	'5':exit_program
+	'3':set_buildroot_pkg,
+	'4':set_kernel_ver,
+	'5':make_olddefconfig,
+	'6':exit_program
 }
 
 def display_menu():
 	print("1. Make Buildroot")
 	print("2. Start VM")
-	print("3. Update Packages")
-	print("4. Make Olddefconfig")
-	print("5. Exit")
+	print("3. Set Buildroot Packages")
+	print("4. Set Kernel Version")
+	print("5. Make Olddefconfig")
+	print("6. Exit")
 
 def get_user_choice():
     choice = input(colors.BOLD + colors.CYAN + "Enter your Choice: " + colors.RESET)

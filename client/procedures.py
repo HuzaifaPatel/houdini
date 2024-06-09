@@ -56,10 +56,15 @@ def start_vm(kernel=get_root_dir("/buildroot/output/images/bzImage"), drive=get_
 
 
 #update runc, docker-cli, docker engine
-def update_packages():
-	update_runc_version()
-	update_docker_cli_version()
-	update_docker_engine_version()
+def set_buildroot_pkg():
+	set_runc_version()
+	set_docker_cli_version()
+	set_docker_engine_version()
+
+def set_kernel_ver():
+	set_br2_linux_kernel_custom_version_value()
+	set_br2_package_host_linux_headers_custom()
+	set_br2_toolchain_headers_at_least()
 
 
 def exit_program():

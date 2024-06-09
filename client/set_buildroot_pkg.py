@@ -5,7 +5,7 @@ from config import *
 from package_paths import *
 from style import colors
 
-def update_runc_version():
+def set_runc_version():
     # Construct the path to the Docker CLI build directory
     runc_build_dir = os.path.join(buildroot_path, "output", "build", "runc*")
 
@@ -18,7 +18,7 @@ def update_runc_version():
 
     print(f"\n{colors.BOLD}{colors.GREEN}Updated RUNC VERSION to {RUNC_VERSION} {colors.RESET}")
 
-def update_docker_cli_version():
+def set_docker_cli_version():
     # Construct the path to the Docker CLI build directory
     docker_cli_build_dir = os.path.join(buildroot_path, "output", "build", "docker-cli-*")
 
@@ -32,7 +32,7 @@ def update_docker_cli_version():
     print(f"{colors.BOLD}{colors.GREEN}Updated DOCKER CLI VERSION to {DOCKER_CLI_VERSION} {colors.RESET}")
 
 
-def update_docker_engine_version():
+def set_docker_engine_version():
     # Construct the path to the Docker CLI build directory
     docker_engine_build_dir = os.path.join(buildroot_path, "output", "build", "docker-engine-*")
 
