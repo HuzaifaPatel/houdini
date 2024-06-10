@@ -16,7 +16,7 @@ def set_runc_version():
     for line in fileinput.input(runc_mk_path, inplace=True):
         line = re.sub(r"RUNC_VERSION\s*=\s*\S+", f"RUNC_VERSION = {RUNC_VERSION}", line)
 
-    print(f"\n{colors.BOLD}{colors.GREEN}Updated RUNC VERSION to {RUNC_VERSION} {colors.RESET}")
+    print(f"\n{colors.BOLD}{colors.GREEN}RUNC VERSION: {RUNC_VERSION} {colors.RESET}")
 
 def set_docker_cli_version():
     # Construct the path to the Docker CLI build directory
@@ -29,7 +29,7 @@ def set_docker_cli_version():
     for line in fileinput.input(docker_cli_mk_path, inplace=True):
         line = re.sub(r"DOCKER_CLI_VERSION\s*=\s*\S+", f"DOCKER_CLI_VERSION = {DOCKER_CLI_VERSION}", line)
 
-    print(f"{colors.BOLD}{colors.GREEN}Updated DOCKER CLI VERSION to {DOCKER_CLI_VERSION} {colors.RESET}")
+    print(f"{colors.BOLD}{colors.GREEN}DOCKER CLI VERSION: {DOCKER_CLI_VERSION} {colors.RESET}")
 
 
 def set_docker_engine_version():
@@ -43,4 +43,4 @@ def set_docker_engine_version():
     for line in fileinput.input(docker_cli_mk_path, inplace=True):
         line = re.sub(r"DOCKER_ENGINE_VERSION\s*=\s*(\S+", f"DOCKER_ENGINE_VERSION = {DOCKER_ENGINE_VERSION}", line)
 
-    print(f"{colors.BOLD}{colors.GREEN}Updated DOCKER ENGINE VERSION to {DOCKER_ENGINE_VERSION} {colors.RESET}\n")
+    print(f"{colors.BOLD}{colors.GREEN}DOCKER ENGINE VERSION: {DOCKER_ENGINE_VERSION} {colors.RESET}\n")

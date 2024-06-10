@@ -4,11 +4,7 @@ from root import get_root_dir
 from config import *
 import re
 import fileinput
-#do not change any other part of .config. run these setter functions instead
 
-buildroot_path = get_root_dir("/buildroot")
-
-# depends on br2_linux_kernel = y, br2_linux_kernel_custom_value = y
 def set_br2_linux_kernel_custom_version_value(kernel_version=KERNEL_VERSION):
 
 	for line in fileinput.input(BUILDROOT_CONFIG_FILE, inplace=True):
@@ -18,49 +14,28 @@ def set_br2_linux_kernel_custom_version_value(kernel_version=KERNEL_VERSION):
 	        line = re.sub(r'BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE=".+?"', f'BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="{kernel_version}"', line)
 	    print(line, end='')
 
-    # Run make olddefconfig to update the configuration
-    # subprocess.run(f"make -C {buildroot_path} olddefconfig", shell=True, check=True)
-
 def set_br2_package_host_linux_headers_custom(kernel_version=KERNEL_VERSION):
-	with open(buildroot_config_file, 'r') as file:
-		lines = file.readlines()
-
 	major_minor_kernel_version = get_major_minor_version(kernel_version)
-	new_lines = []
-	found_custom_kernel_header = False
 
-	for line in lines:
+	for line in fileinput.input(BUILDROOT_CONFIG_FILE, inplace=True):
 		if line.startswith('BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_' + major_minor_kernel_version) or line.startswith('# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_' + major_minor_kernel_version):
-			new_lines.append('BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_' + major_minor_kernel_version + "=y\n")
-			found_custom_kernel_header = True
-			continue
+			print('BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_' + major_minor_kernel_version + "=y")
 		elif line.startswith('BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_'):
-			new_lines.append("# " + line[:-3] + " is not set" + '\n')
+			print("# " + line[:-3] + " is not set" + '')
 		else:
-			new_lines.append(line)
-
-	# Write the modified config file back
-	with open(buildroot_config_file, 'w') as file:
-		file.writelines(new_lines)
+			print(line, end='')
 
 def set_br2_toolchain_headers_at_least(kernel_version=KERNEL_VERSION):
-	with open(buildroot_config_file, 'r') as file:
-		lines = file.readlines()
-
 	major_minor_kernel_version = get_major_minor_version(kernel_version)
-	new_lines = []
-	found_toolchain_headers = False
 
-	for line in lines:
+	for line in fileinput.input(BUILDROOT_CONFIG_FILE, inplace=True):
 		if line.startswith('BR2_TOOLCHAIN_HEADERS_AT_LEAST'):
-			new_lines.append("BR2_TOOLCHAIN_HEADERS_AT_LEAST=" + major_minor_kernel_version)
+			# print("BR2_TOOLCHAIN_HEADERS_AT_LEAST=" + major_minor_kernel_version)
+			continue
 		else:
-			new_lines.append(line)
+			print(line, end='')
 
-	# Write the modified config file back
-	with open(buildroot_config_file, 'w') as file:
-		file.writelines(new_lines)
-
+	generate_headers_list()
 
 def generate_headers_list(kernel_version=KERNEL_VERSION):
 	default_headers = [
@@ -73,42 +48,22 @@ def generate_headers_list(kernel_version=KERNEL_VERSION):
 	    "6_0", "6_1", "6_2", "6_3", "6_4"
 	]
 
-	with open(buildroot_config_file, 'r') as file:
-		lines = file.readlines()
-
-	new_headers = []
-	new_lines = []
-
 	# Convert kernel_version to major and minor parts
 	major_minor_kernel_version = get_major_minor_version(kernel_version)
 	major_minor_kernel_version_decimal = major_minor_kernel_version.replace('_','.')
 
-	for header in default_headers:
-		if compare_versions(header.replace("_", "."), major_minor_kernel_version_decimal):
-			new_headers.append("BR2_TOOLCHAIN_HEADERS_AT_LEAST_" + header + "=y\n")
-		elif header.replace("_", ".") == major_minor_kernel_version_decimal:
-			new_headers.append("BR2_TOOLCHAIN_HEADERS_AT_LEAST_" + header + "=y\n")
-			new_headers.append('BR2_TOOLCHAIN_HEADERS_AT_LEAST="' + major_minor_kernel_version_decimal + '"\n')
-
-	found_headers = False
-
-	for line in lines:
+	for line in fileinput.input(BUILDROOT_CONFIG_FILE, inplace=True):
 		if line.startswith('BR2_TARGET_LDFLAGS='):
-			found_headers = True
-			new_lines.append(line)
-			continue
-		elif found_headers:
-			for header in new_headers:
-				new_lines.append(header)
-			found_headers = False
+			print(line, end='')
+			
+			for header in default_headers:
+				if compare_versions(header.replace("_", "."), major_minor_kernel_version_decimal):
+					print("BR2_TOOLCHAIN_HEADERS_AT_LEAST_" + header + "=y")
+				elif header.replace("_", ".") == major_minor_kernel_version_decimal:
+					print("BR2_TOOLCHAIN_HEADERS_AT_LEAST_" + header + "=y")
+					print('BR2_TOOLCHAIN_HEADERS_AT_LEAST="' + major_minor_kernel_version_decimal)
 		else:
-			new_lines.append(line)
-
-
-	# Write the modified config file back
-	with open(buildroot_config_file, 'w') as file:
-		file.writelines(new_lines)
-
+			print(line, end='')
 
 def get_major_minor_version(kernel_version=KERNEL_VERSION):
     # Split the version string by the dot to separate major, minor, and patch versions

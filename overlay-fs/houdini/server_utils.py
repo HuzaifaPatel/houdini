@@ -1,6 +1,6 @@
 import subprocess
 
-def is_service_running(service_name='houdini'):
+def is_service_running(service_name):
     try:
         subprocess.run(['systemctl', 'is-active', service_name], check=True, stdout=subprocess.PIPE)
         return True
