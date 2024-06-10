@@ -1,7 +1,9 @@
 import os
 import subprocess
 from root import get_root_dir
-import config
+from config import *
+import re
+import fileinput
 #do not change any other part of .config. run these setter functions instead
 
 buildroot_path = get_root_dir("/buildroot")
@@ -14,8 +16,7 @@ def set_br2_linux_kernel_custom_version_value(kernel_version=KERNEL_VERSION):
 	        line = re.sub(r'BR2_LINUX_KERNEL_VERSION=".+?"', f'BR2_LINUX_KERNEL_VERSION="{kernel_version}"', line)
 	    elif line.startswith('BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE='):
 	        line = re.sub(r'BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE=".+?"', f'BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="{kernel_version}"', line)
-	    else:
-	    	print(line, end='')
+	    print(line, end='')
 
     # Run make olddefconfig to update the configuration
     # subprocess.run(f"make -C {buildroot_path} olddefconfig", shell=True, check=True)

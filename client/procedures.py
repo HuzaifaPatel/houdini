@@ -1,9 +1,10 @@
 import subprocess
-from update_buildroot_packages import *
+from set_buildroot_pkg import *
 from style import colors
 from root import get_root_dir
 import os
 import multiprocessing
+from set_kernel_version import *
 
 def make_buildroot(target=None):
 	command = ['make', '-j', f'{multiprocessing.cpu_count()}']
@@ -63,9 +64,11 @@ def set_buildroot_pkg():
 
 def set_kernel_ver():
 	set_br2_linux_kernel_custom_version_value()
-	set_br2_package_host_linux_headers_custom()
-	set_br2_toolchain_headers_at_least()
+	# set_br2_package_host_linux_headers_custom()
+	# set_br2_toolchain_headers_at_least()
 
+def help_():
+	return 1
 
 def exit_program():
 	print(colors.BOLD + colors.GREEN + "\nExiting" + colors.RESET)
