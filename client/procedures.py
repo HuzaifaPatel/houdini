@@ -9,8 +9,10 @@ import importlib
 import config
 
 def make_buildroot(target=None):
-	# command = ['make', '-j', f'{multiprocessing.cpu_count()}']
-	command = ['make']
+	set_buildroot_pkg()
+	set_kernel_ver()
+	command = ['make', '-j', f'{multiprocessing.cpu_count()}']
+	# command = ['make']
 
 	if target:
 		command.append(target)
@@ -18,7 +20,6 @@ def make_buildroot(target=None):
 	# Run the make command
 	result = subprocess.Popen(command, cwd=get_root_dir("/buildroot"), text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True,
     encoding='utf-8', errors='replace')
-
 
 	while True:
 		realtime_output = result.stdout.readline()
@@ -28,10 +29,6 @@ def make_buildroot(target=None):
 
 		if realtime_output:
 		    print(realtime_output.strip(), flush=True)
-
-
-
-
 
 	# Output the results
 	if result.returncode == 0:
@@ -58,26 +55,34 @@ def make_olddefconfig():
 
 
 def start_vm(kernel=get_root_dir("/buildroot/output/images/bzImage"), drive=get_root_dir("/buildroot/output/images/rootfs.ext2")):
-	set_buildroot_pkg()
-	set_kernel_ver()
+    qemu_cmd = [
+        "qemu-system-x86_64",
+        "-enable-kvm",
+        "-m", "10000",
+        "-kernel", kernel,
+        "-drive", f"file={drive},if=virtio,format=raw",
+        "-append", "rootwait root=/dev/vda console=tty1 console=ttyS0 quiet loglevel=3",
+        "-serial", "mon:stdio",
+        "-net", "nic,model=virtio",
+        "-net", "user,hostfwd=tcp::5000-:5000",
+        "-cpu", "host",
+        "-nographic"
+    ]
 
-	qemu_cmd = [
-		"qemu-system-x86_64",
-		"-enable-kvm",
-		"-m", "10000",
-		"-kernel", kernel,
-		"-drive", f"file={drive},if=virtio,format=raw",
-		"-append", "rootwait root=/dev/vda console=tty1 console=ttyS0 quiet loglevel=3",
-		"-serial", "mon:stdio",
-		"-net", "nic,model=virtio",
-		"-net", "user,hostfwd=tcp::5000-:5000",
-		"-cpu", "host",
-		"-nographic"
-	]
+    gnome_cmd = ["gnome-terminal", "--", *qemu_cmd]
 
-	gnome_cmd = ["gnome-terminal", "--", *qemu_cmd]
+    process = subprocess.Popen(gnome_cmd, stderr=subprocess.PIPE)
 
-	subprocess.Popen(gnome_cmd)
+    _, error_output = process.communicate()
+
+    if process.returncode == 0:
+        print("VM started successfully.")
+    else:
+        print("Failed to start VM. Error message:")
+        print(error_output.decode('utf-8').strip())
+
+    return process
+
 
 
 #update runc, docker-cli, docker engine
@@ -101,3 +106,10 @@ def exit_program():
 def reload_config():
 	importlib.reload(config)
 	KERNEL_VERSION = config.KERNEL_VERSION
+
+def get_response(path):
+	requests.get(VM_URL + path)
+
+
+def run_trick():
+	return 0

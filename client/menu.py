@@ -5,15 +5,17 @@ import sys
 menu_options = {
 	'1':make_buildroot,
 	'2':start_vm,
-	'3':help_,
-	'4':exit_program
+	'3':run_trick,
+	'4':help_,
+	'5':exit_program
 }
 
 def display_menu():
 	print("1. Make Buildroot")
 	print("2. Start VM")
-	print("3. Help")
-	print("4. Exit")
+	print("3. Run Trick")
+	print("4. Help")
+	print("5. Exit")
 
 def get_user_choice():
     choice = input(colors.BOLD + colors.CYAN + "Enter your Choice: " + colors.RESET)
