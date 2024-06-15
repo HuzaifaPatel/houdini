@@ -15,7 +15,7 @@ def server_status():
         response_data = str(False)
         response = make_response(response_data, 503)
 
-    response.headers['X-Checksum'] = hashlib.sha512(response_data.encode()).hexdigest()
+    # response.headers['X-Checksum'] = hashlib.sha512(response_data.encode()).hexdigest()
 
     return response
 
@@ -30,9 +30,14 @@ def version_status():
 
     return response
 
+@app.route('/run-trick', methods=['GET'])
+def run_trick():
+    # Assuming your YAML configuration is stored in a file named 'config.yaml'
+    with open('tricks/test.yaml', 'r') as file:
+        config_data = yaml.safe_load(file)
 
-
-
+    results = parse_trick_and_run(config_data)
+    return jsonify(results)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)  # Replace with the VM's IP address
+    app.run(host='0.0.0.0', port=5005, debug=True)  # Replace with the VM's IP address
