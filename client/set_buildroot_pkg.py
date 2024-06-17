@@ -42,6 +42,6 @@ def set_docker_engine_version():
 
     # Use fileinput to modify the file in place
     for line in fileinput.input(docker_cli_mk_path, inplace=True):
-        line = re.sub(r"DOCKER_ENGINE_VERSION\s*=\s*(\S+", f"DOCKER_ENGINE_VERSION = {DOCKER_ENGINE_VERSION}", line)
+        line = re.sub(r"DOCKER_ENGINE_VERSION\s*=\s*\S+", f"DOCKER_ENGINE_VERSION = {DOCKER_ENGINE_VERSION}", line)
         print(line, end='')
     print(f"{colors.BOLD}{colors.GREEN}DOCKER ENGINE VERSION: {DOCKER_ENGINE_VERSION} {colors.RESET}\n")

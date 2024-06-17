@@ -147,13 +147,13 @@ List of Examples
 
 ---------------------------------------------------------------------
 
-Buildroot ${BR2_VERSION%%-git*} manual generated on 2024-05-07
-08:28:22 UTC from git revision 0155095c55
+Buildroot ${BR2_VERSION%%-git*} manual generated on 2024-06-10
+07:38:51 UTC from git revision a73dd8f787
 
 The Buildroot manual is written by the Buildroot developers. It is
 licensed under the GNU General Public License, version 2. Refer to
 the COPYING [http://git.buildroot.org/buildroot/tree/COPYING?id=
-0155095c558e915d6c5261a4d8cb4ec9ee9953a7] file in the Buildroot
+a73dd8f787ae8f303fbfb4791a1f77d6c5280692] file in the Buildroot
 sources for the full text of this license.
 
 Copyright © The Buildroot developers <>
@@ -291,6 +291,9 @@ vary between distributions).
 
       + graphviz to use graph-depends and <pkg>-graph-depends
       + python-matplotlib to use graph-build
+  * Package statistics tools (pkg-stats):
+
+      + python-aiohttp
 
 Chapter 3. Getting Buildroot
 

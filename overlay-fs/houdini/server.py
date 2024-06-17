@@ -1,5 +1,4 @@
 from flask import Flask, jsonify, request, make_response
-import server_utils
 import subprocess
 import hashlib
 from server_utils import *
@@ -40,4 +39,4 @@ def run_trick():
     return jsonify(results)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5005, debug=True)  # Replace with the VM's IP address
+    app.run(host='0.0.0.0', port=5000, debug=True)  # Replace with the VM's IP address

@@ -3,6 +3,7 @@ import yaml
 from config import *
 import docker
 from signal import SIGKILL
+container = None
 
 def is_service_running(service_name):
     try:
@@ -20,24 +21,39 @@ def get_version():
     
     return version_info
 
-# Create a Docker client
-client = docker.from_env()
 
 def parse_trick_and_run(config_data):
+    # Create a Docker client
+    client = docker.from_env()
     results = {}
-    container = None
 
     for step in config_data['steps']:
         if 'spawnContainer' in step:
+
+            container_name = step['spawnContainer']['name']
+
+            # Check if the container with the given name already exists
             try:
+                existing_container = client.containers.get(container_name)
+                print(f"Container {container_name} already exists. Removing it.")
+                if existing_container.status == 'running':
+                    existing_container.kill(signal=SIGKILL)
+                existing_container.remove(force=True)
+            except docker.errors.NotFound:
+                print(f"No existing container named {container_name} found. Proceeding to create a new one.")
+
+
+            try:
+                global container
                 container = client.containers.run(
                     image=step['spawnContainer']['image'],
                     name=step['spawnContainer']['name'],
                     command=step['spawnContainer']['cmd'],
                     working_dir=step['spawnContainer']['working_dir'],
-                    detach=True
+                    detach=True,
+                    tty=True
                 )
-
+                print("CONTAINER STARTED")
                 results['status'] = 'success'
                 results['name'] = step['spawnContainer']['name']
                 # container.wait(timeout=5)  # Wait for the container to finish
@@ -45,21 +61,9 @@ def parse_trick_and_run(config_data):
             except Exception as e:
                 results['status'] = 'failure'
                 results['error'] = str(e)
-            # finally:
-                # if container is not None:
-                    # container.kill(signal=SIGKILL)
-                    # container.remove(force=True) 
+            finally:
+                if container is not None:
+                    container.kill(signal=SIGKILL)
+                    container.remove(force=True) 
+
     return results
-        # elif 'container' in step:
-        #     container = step['container']
-        #     container_name = container['name']
-        #     container_script = container['script'][0]
-        #     bash_command = container_script['command']
-        #     bash_args = container_script['args']
-        #     try:
-        #         # Execute the command inside the container
-        #         exec_command = f'{bash_command} {" ".join(bash_args)}'
-        #         exec_response = client.containers.run(container_name, command=exec_command)
-        #         print(exec_response.decode())
-        #     except Exception as e:
-        #         print(f"Error executing command in container {container_name}: {e}")

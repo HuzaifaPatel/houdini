@@ -1,4 +1,4 @@
-cat << 'EOF' >> "${TARGET_DIR}/root/.bashrc"
+cat << 'EOF' > "${TARGET_DIR}/root/.bashrc"
 # Color definitions
 RED='\033[0;31m'
 GREEN='\033[0;32m'
