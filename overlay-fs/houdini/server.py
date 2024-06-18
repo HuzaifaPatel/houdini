@@ -32,7 +32,7 @@ def version_status():
 @app.route('/run-trick', methods=['GET'])
 def run_trick():
     # Assuming your YAML configuration is stored in a file named 'config.yaml'
-    with open('tricks/test.yaml', 'r') as file:
+    with open('/houdini/tricks/test.yaml', 'r') as file:
         config_data = yaml.safe_load(file)
 
     results = parse_trick_and_run(config_data)

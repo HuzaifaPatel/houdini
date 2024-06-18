@@ -9,8 +9,8 @@ import importlib
 import config
 
 def make_buildroot(target=None):
-	# set_buildroot_pkg()
-	# set_kernel_ver()
+	set_buildroot_pkg()
+	set_kernel_ver()
 	command = ['make', '-j', f'{multiprocessing.cpu_count()}']
 	# command = ['make']
 
