@@ -1,8 +1,7 @@
 #!/bin/sh
 
-# Download CA certificates
-wget https://curl.se/ca/cacert.pem
-
-# Extract and install CA certificates
+# Create the target directory if it doesn't exist
 mkdir -p $TARGET_DIR/etc/ssl/certs
-cp cacert.pem $TARGET_DIR/etc/ssl/certs/ca-certificates.crt
+
+# Download CA certificates directly to the intended folder
+wget https://curl.se/ca/cacert.pem -O $TARGET_DIR/etc/ssl/certs/ca-certificates.crt
