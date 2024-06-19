@@ -58,7 +58,7 @@ def start_vm(kernel=get_root_dir("/buildroot/output/images/bzImage"), drive=get_
     qemu_cmd = [
         "qemu-system-x86_64",
         "-enable-kvm",
-        "-m", "10000",
+        "-m", "5000",
         "-kernel", kernel,
         "-drive", f"file={drive},if=virtio,format=raw",
         "-append", "rootwait root=/dev/vda console=tty1 console=ttyS0 quiet loglevel=3",

