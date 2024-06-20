@@ -5,6 +5,12 @@ from config import *
 from package_paths import *
 from style import colors
 
+"""
+check if folder exists that equals to current version
+if it does, then we don't delete
+else: we delete
+"""
+
 def set_runc_version():
     # Construct the path to the Docker CLI build directory
     runc_build_dir = os.path.join(buildroot_path, "output", "build", "runc*")
