@@ -6,5 +6,5 @@ DOCKER_ENGINE_VERSION = "26.0.0"
 KERNEL_VERSION = "6.5.5"
 PY_CONFIG_FILE = get_root_dir('/client/config.py')
 BUILDROOT_CONFIG_FILE = get_root_dir('/buildroot/.config')
-PORT = 5005
+PORT = 5000
 VM_URL = f'http://127.0.0.1:{PORT}'

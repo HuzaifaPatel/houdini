@@ -7,6 +7,8 @@ import multiprocessing
 from set_kernel_version import *
 import importlib
 import config
+from config import PORT
+from package_paths import *
 
 def make_buildroot(target=None):
 	set_buildroot_pkg()
@@ -64,7 +66,7 @@ def start_vm(kernel=get_root_dir("/buildroot/output/images/bzImage"), drive=get_
         "-append", "rootwait root=/dev/vda console=tty1 console=ttyS0 quiet loglevel=3",
         "-serial", "mon:stdio",
         "-net", "nic,model=virtio",
-        "-net", "user,hostfwd=tcp::5000-:5000",
+        "-net", "user,hostfwd=tcp::{}-:{}".format(PORT, PORT),
         "-cpu", "host",
         "-nographic"
     ]
