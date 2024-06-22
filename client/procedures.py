@@ -1,6 +1,6 @@
 import subprocess
 from set_buildroot_pkg import *
-from style import colors
+from style import Colors
 from set_path import get_absolute_path
 import os
 import multiprocessing

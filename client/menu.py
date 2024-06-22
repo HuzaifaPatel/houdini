@@ -1,5 +1,5 @@
 from procedures import *
-from style import colors
+from style import Colors
 import sys
 import os
 
@@ -17,17 +17,17 @@ class Menu:
 		self.options = options
 
 	def display_menu(self):
-		print(colors.BOLD + colors.CYAN + f"=== {self.title} ===" + colors.RESET)
+		print(Colors.BOLD + Colors.CYAN + f"=== {self.title} ===" + Colors.RESET)
 		for key, (description, _) in self.options.items():
 			print(f"{key}. {description}")
 
 	def get_user_choice(self):
-		choice = input(colors.BOLD + colors.CYAN + "Enter your Choice: " + colors.RESET)
+		choice = input(Colors.BOLD + Colors.CYAN + "Enter your Choice: " + Colors.RESET)
 		return choice.strip()
 
 	def run(self):
 		try:
-			print(colors.BOLD + colors.CYAN + "Welcome to Houdini\n" + colors.RESET)
+			print(Colors.BOLD + Colors.CYAN + "Welcome to Houdini\n" + Colors.RESET)
 			while True:
 				self.display_menu()
 				choice = self.get_user_choice()
@@ -38,5 +38,5 @@ class Menu:
 					print("Invalid choice. Please try again.")
 		except KeyboardInterrupt:
 			print("\b\b  \n")
-			print(colors.BOLD + colors.GREEN + "Exiting" + colors.RESET)
+			print(Colors.BOLD + Colors.GREEN + "Exiting" + Colors.RESET)
 			sys.exit(0)
