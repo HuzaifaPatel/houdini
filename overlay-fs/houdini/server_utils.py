@@ -58,8 +58,8 @@ def parse_trick_and_run(config_data):
                     tty=True
                 )
                 print("CONTAINER STARTED")
-                results['status'] = 'success'
                 results['name'] = step['spawnContainer']['name']
+                results['status'] = 'success'
             except Exception as e:
                 results['name'] = step['spawnContainer']['name']
                 results['status'] = 'failure'

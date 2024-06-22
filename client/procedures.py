@@ -1,14 +1,13 @@
 import subprocess
 from set_buildroot_pkg import *
 from style import colors
-from root import get_root_dir
+from set_path import get_absolute_path
 import os
 import multiprocessing
 from set_kernel_version import *
 import importlib
 import config
 from config import PORT
-from package_paths import *
 
 def make_buildroot(target=None):
 	set_buildroot_pkg()
@@ -19,7 +18,7 @@ def make_buildroot(target=None):
 		command.append(target)
 
 	# Run the make command
-	result = subprocess.Popen(command, cwd=get_root_dir("/buildroot"), text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True,
+	result = subprocess.Popen(command, cwd=BUILDROOT_PATH, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True,
     encoding='utf-8', errors='replace')
 
 	while True:
@@ -44,7 +43,7 @@ def make_olddefconfig():
 	command = ['make', 'olddefconfig', '-j', '20']
 
 	# Run the make command
-	result = subprocess.run(command, cwd=get_root_dir("/buildroot"), stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+	result = subprocess.run(command, cwd=get_absolute_path("/buildroot"), stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
 	# Output the results
 	if result.returncode == 0:
@@ -55,7 +54,7 @@ def make_olddefconfig():
 		print(result.stderr)
 
 
-def start_vm(kernel=get_root_dir("/buildroot/output/images/bzImage"), drive=get_root_dir("/buildroot/output/images/rootfs.ext2")):
+def start_vm(kernel=get_absolute_path("/buildroot/output/images/bzImage"), drive=get_absolute_path("/buildroot/output/images/rootfs.ext2")):
     qemu_cmd = [
         "qemu-system-x86_64",
         "-enable-kvm",
@@ -83,8 +82,6 @@ def start_vm(kernel=get_root_dir("/buildroot/output/images/bzImage"), drive=get_
         print(error_output.decode('utf-8').strip())
 
     return process
-
-
 
 #update runc, docker-cli, docker engine
 def set_buildroot_pkg():

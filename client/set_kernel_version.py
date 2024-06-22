@@ -1,6 +1,6 @@
 import os
 import subprocess
-from root import get_root_dir
+from set_path import *
 from config import *
 import re
 import fileinput
