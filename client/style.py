@@ -1,4 +1,4 @@
-class Colors:
+class Style:
     RESET = '\033[0m'
     RED = '\033[31m'
     GREEN = '\033[32m'
@@ -9,3 +9,8 @@ class Colors:
     WHITE = '\033[37m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+
+    @staticmethod
+    def print_color(text, color):
+        color_code = getattr(Style, color.upper(), Style.RESET)
+        print(f"{Style.BOLD}{color_code}{text}{Style.RESET}")

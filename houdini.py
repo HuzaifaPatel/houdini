@@ -1,8 +1,8 @@
-import set_path
-from menu import *
+from constants_ import path_manager
+from menu import Menu
 
 def main():
-    menu = Menu("Main Menu", menu_options)
+    menu = Menu("Main Menu")
     menu.run()
 
 if __name__ == "__main__":

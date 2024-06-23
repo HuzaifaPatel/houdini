@@ -1,42 +1,56 @@
-from procedures import *
-from style import Colors
+from buildroot_manager import BuildrootManager
+from style import Style
+import importlib
 import sys
 import os
-
-menu_options = {
-    '1': ("Make Buildroot", make_buildroot),
-    '2': ("Start VM", start_vm),
-    '3': ("Run Trick", run_trick),
-    '4': ("Help", help_),
-    '5': ("Exit", exit_program)
-}
+import houdini_config
 
 class Menu:
-	def __init__(self, title, options):
+	def __init__(self, title):
 		self.title = title
-		self.options = options
+		self.brm = BuildrootManager()
+		self.options = {
+		    '1': ("Make Buildroot", self.brm.make_buildroot),
+		    '2': ("Start VM", self.brm.start_vm),
+		    # '3': ("Run Trick", BuildrootManager.run_trick),
+		    '4': ("Help", self.help),
+		    '5': ("Exit", self.exit_program)
+		}
 
 	def display_menu(self):
-		print(Colors.BOLD + Colors.CYAN + f"=== {self.title} ===" + Colors.RESET)
+		Style.print_color(f"=== {self.title} ===", 'cyan')
 		for key, (description, _) in self.options.items():
 			print(f"{key}. {description}")
 
 	def get_user_choice(self):
-		choice = input(Colors.BOLD + Colors.CYAN + "Enter your Choice: " + Colors.RESET)
+		choice = input(Style.BOLD + Style.CYAN + "Enter your Choice: " + Style.RESET)
 		return choice.strip()
+
+	@classmethod
+	def help():
+		return 1
+
+	@classmethod
+	def exit_program():
+		Style.print_color("\nExiting", 'green')
+		exit(0)
+
+	def reload_config(self):
+		importlib.reload(houdini_config)
+		KERNEL_VERSION = houdini_config.KERNEL_VERSION
 
 	def run(self):
 		try:
-			print(Colors.BOLD + Colors.CYAN + "Welcome to Houdini\n" + Colors.RESET)
+			Style.print_color("Welcome to Houdini\n", 'cyan')
 			while True:
 				self.display_menu()
 				choice = self.get_user_choice()
-				reload_config()
+				self.reload_config()
 				if choice in self.options:
 					self.options[choice][1]()
 				else:
 					print("Invalid choice. Please try again.")
 		except KeyboardInterrupt:
 			print("\b\b  \n")
-			print(Colors.BOLD + Colors.GREEN + "Exiting" + Colors.RESET)
+			Style.print_color("Exiting", 'green')
 			sys.exit(0)
