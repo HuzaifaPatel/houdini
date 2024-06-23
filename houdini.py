@@ -1,4 +1,4 @@
-from constants_ import path_manager
+from constants import path_manager
 from menu import Menu
 
 def main():

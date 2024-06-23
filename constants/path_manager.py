@@ -4,8 +4,8 @@ import os
 def get_absolute_path(extra_path = "") -> str:
 	return os.path.abspath("") + extra_path
 
-sys.path.append(get_absolute_path('/constants_'))
-sys.path.append(get_absolute_path('/client'))
+sys.path.append(get_absolute_path('/constants'))
+sys.path.append(get_absolute_path('/utilities'))
 sys.path.append(get_absolute_path('/config'))
 sys.path.append(get_absolute_path('/api'))
 
