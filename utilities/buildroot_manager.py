@@ -7,24 +7,21 @@ import multiprocessing
 from kernel_configurator import *
 import importlib
 from config import PORT
+import shutil
+import time
+
 
 class BuildrootManager:
 	def __init__(self):
-		self.cpu_count = multiprocessing.cpu_count()
+		self.cpu_count = multiprocessing.cpu_count() - 1
 
-	def make_buildroot(self, target=None):
-		self.set_buildroot_pkg()
-		self.set_kernel_ver()
+	def make(self, command, target=None):
 		self.make_olddefconfig()
-
-		command = ['make', '-j', f'{self.cpu_count}']
 
 		if target:
 			command.append(target)
 
-		# Run the make command
-		result = subprocess.Popen(command, cwd=BUILDROOT_PATH, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True,
-	    encoding='utf-8', errors='replace')
+		result = subprocess.Popen(command, cwd=BUILDROOT_PATH, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=False, encoding='utf-8', errors='replace')
 
 		while True:
 			realtime_output = result.stdout.readline()
@@ -41,6 +38,27 @@ class BuildrootManager:
 		else:
 			Style.print_color("\nMake failed\nError:\n", "red")
 			print(result.stderr)
+
+
+	def make_kernel(self):
+		if os.path.isfile(os.path.join(KERNEL_DIR, KERNEL_VERSION, 'build', f'linux-{KERNEL_VERSION}', 'arch', 'x86', 'boot', 'bzImage')):
+			Style.print_color('\nKernels Exists.\n', 'green')
+			return 0
+
+		if not os.path.isdir(os.path.join(KERNEL_DIR, KERNEL_VERSION)):
+			os.makedirs(os.path.join(KERNEL_DIR, KERNEL_VERSION))
+
+		shutil.copy(BUILDROOT_CONFIG_FILE, f"{KERNEL_DIR}/{KERNEL_VERSION}")
+
+		command = ['make', f'O={KERNEL_DIR}/{KERNEL_VERSION}', 'linux-rebuild', '-j', f'{self.cpu_count}']
+		self.set_kernel_ver()
+		self.make(command)
+
+
+	def make_buildroot(self):
+		command = ['make', f'O={FILESYSTEM}', '-j', f'{self.cpu_count}']
+		self.set_buildroot_pkg()
+		self.make(command)
 
 	def make_olddefconfig(self):
 		command = ['make', 'olddefconfig', '-j', f'{self.cpu_count}']
@@ -60,7 +78,7 @@ class BuildrootManager:
 	    qemu_cmd = [
 	        "qemu-system-x86_64",
 	        "-enable-kvm",
-	        "-m", "5000",
+	        "-m", f"{VM_RAM}",
 	        "-kernel", kernel,
 	        "-drive", f"file={drive},if=virtio,format=raw",
 	        "-append", "rootwait root=/dev/vda console=tty1 console=ttyS0 quiet loglevel=3",

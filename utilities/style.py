@@ -11,6 +11,6 @@ class Style:
     UNDERLINE = '\033[4m'
 
     @staticmethod
-    def print_color(text, color):
+    def print_color(text, color, postfix='\n'):
         color_code = getattr(Style, color.upper(), Style.RESET)
-        print(f"{Style.BOLD}{color_code}{text}{Style.RESET}")
+        print(f"{Style.BOLD}{color_code}{text}{Style.RESET}", end=postfix)
