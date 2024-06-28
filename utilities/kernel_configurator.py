@@ -9,17 +9,17 @@ import fileinput
 class KernelConfigurator:
     
     @staticmethod
-    def set_br2_linux_kernel_custom_version_value(kernel_version=KERNEL_VERSION):
+    def set_br2_linux_kernel_custom_version_value():
         for line in fileinput.input(BUILDROOT_CONFIG_FILE, inplace=True):
             if line.startswith('BR2_LINUX_KERNEL_VERSION='):
-                line = re.sub(r'BR2_LINUX_KERNEL_VERSION=".+?"', f'BR2_LINUX_KERNEL_VERSION="{kernel_version}"', line)
+                line = re.sub(r'BR2_LINUX_KERNEL_VERSION=".+?"', f'BR2_LINUX_KERNEL_VERSION="{KERNEL_VERSION}"', line)
             elif line.startswith('BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE='):
-                line = re.sub(r'BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE=".+?"', f'BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="{kernel_version}"', line)
+                line = re.sub(r'BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE=".+?"', f'BR2_LINUX_KERNEL_CUSTOM_VERSION_VALUE="{KERNEL_VERSION}"', line)
             print(line, end='')
 
     @staticmethod
-    def set_br2_package_host_linux_headers_custom(kernel_version=KERNEL_VERSION):
-        major_minor_kernel_version = KernelConfigurator.get_major_minor_version(kernel_version)
+    def set_br2_package_host_linux_headers_custom():
+        major_minor_kernel_version = KernelConfigurator.get_major_minor_version(KERNEL_VERSION)
 
         for line in fileinput.input(BUILDROOT_CONFIG_FILE, inplace=True):
             if line.startswith('BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_' + major_minor_kernel_version) or line.startswith('# BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_' + major_minor_kernel_version):
@@ -30,8 +30,8 @@ class KernelConfigurator:
                 print(line, end='')
 
     @staticmethod
-    def set_br2_toolchain_headers_at_least(kernel_version=KERNEL_VERSION):
-        major_minor_kernel_version = KernelConfigurator.get_major_minor_version(kernel_version)
+    def set_br2_toolchain_headers_at_least():
+        major_minor_kernel_version = KernelConfigurator.get_major_minor_version(KERNEL_VERSION)
 
         for line in fileinput.input(BUILDROOT_CONFIG_FILE, inplace=True):
             if line.startswith('BR2_TOOLCHAIN_HEADERS_AT_LEAST'):
@@ -42,8 +42,16 @@ class KernelConfigurator:
         KernelConfigurator.generate_headers_list()
 
     @staticmethod
-    def generate_headers_list(kernel_version=KERNEL_VERSION):
-        major_minor_kernel_version = KernelConfigurator.get_major_minor_version(kernel_version)
+    def set_BR2_DEFAULT_KERNEL_VERSION():
+        for line in fileinput.input(FILESYSTEM_CONFIG_FILE, inplace=True):
+            if line.startswith('BR2_DEFAULT_KERNEL_VERSION='):
+                print(f'BR2_DEFAULT_KERNEL_VERSION="{KERNEL_VERSION}"')
+            else:
+                print(line, end='')  # end='' prevents print from adding an extra newline
+
+    @staticmethod
+    def generate_headers_list():
+        major_minor_kernel_version = KernelConfigurator.get_major_minor_version(KERNEL_VERSION)
         major_minor_kernel_version_decimal = major_minor_kernel_version.replace('_', '.')
 
         for line in fileinput.input(BUILDROOT_CONFIG_FILE, inplace=True):

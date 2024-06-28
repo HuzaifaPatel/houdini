@@ -19,7 +19,7 @@ class Menu:
 		self.title = title
 		self.brm = BuildrootManager()
 		self.options = {
-		    Options.MAKE_BUILDROOT.value: ("Make Buildroot", self.brm.make_buildroot),
+		    Options.MAKE_BUILDROOT.value: ("Make Filesystem", self.brm.make_filesystem),
 		    Options.MAKE_KERNEL.value: ("Make Kernel", self.brm.make_kernel),
 		    Options.START_VM.value: ("Start VM", self.brm.start_vm),
 		    Options.VIEW_CONFIG.value: ("View Config", houdini_config.print_config),

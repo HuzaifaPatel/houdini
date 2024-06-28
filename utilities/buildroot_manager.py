@@ -6,7 +6,7 @@ import os
 import multiprocessing
 from kernel_configurator import *
 import importlib
-from config import PORT
+from houdini_config import PORT, VM_RAM
 import shutil
 import time
 
@@ -16,11 +16,8 @@ class BuildrootManager:
 		self.cpu_count = multiprocessing.cpu_count() - 1
 
 	def make(self, command, target=None):
-		self.make_olddefconfig()
-
 		if target:
 			command.append(target)
-
 		result = subprocess.Popen(command, cwd=BUILDROOT_PATH, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=False, encoding='utf-8', errors='replace')
 
 		while True:
@@ -41,24 +38,27 @@ class BuildrootManager:
 
 
 	def make_kernel(self):
-		if os.path.isfile(os.path.join(KERNEL_DIR, KERNEL_VERSION, 'build', f'linux-{KERNEL_VERSION}', 'arch', 'x86', 'boot', 'bzImage')):
-			Style.print_color('\nKernels Exists.\n', 'green')
-			return 0
+		# if os.path.isfile(os.path.join(KERNEL_DIR, KERNEL_VERSION, 'build', f'linux-{KERNEL_VERSION}', 'arch', 'x86', 'boot', 'bzImage')):
+		# 	Style.print_color('\nKernels Exists.\n', 'green')
+		# 	return 0
 
 		if not os.path.isdir(os.path.join(KERNEL_DIR, KERNEL_VERSION)):
 			os.makedirs(os.path.join(KERNEL_DIR, KERNEL_VERSION))
 
-		shutil.copy(BUILDROOT_CONFIG_FILE, f"{KERNEL_DIR}/{KERNEL_VERSION}")
-
-		command = ['make', f'O={KERNEL_DIR}/{KERNEL_VERSION}', 'linux-rebuild', '-j', f'{self.cpu_count}']
+		command = ['make', f'O={KERNEL_DIR}/{KERNEL_VERSION}', '-j', f'{self.cpu_count}']
 		self.set_kernel_ver()
-		self.make(command)
+		self.make_olddefconfig()
+		shutil.copy(BUILDROOT_CONFIG_FILE, f'{KERNEL_DIR}/{KERNEL_VERSION}')
+		self.make(command, 'linux-rebuild')
 
 
-	def make_buildroot(self):
-		command = ['make', f'O={FILESYSTEM}', '-j', f'{self.cpu_count}']
+	def make_filesystem(self):
+		command = ['make', f'O={FILESYSTEM_PATH}', '-j', f'{self.cpu_count}']
 		self.set_buildroot_pkg()
-		self.make(command)
+		shutil.copy(BUILDROOT_CONFIG_FILE, FILESYSTEM_PATH)
+		self.make_olddefconfig()
+		# KernelConfigurator.set_BR2_DEFAULT_KERNEL_VERSION() # no longer used
+		self.make(command, 'rootfs-ext2')
 
 	def make_olddefconfig(self):
 		command = ['make', 'olddefconfig', '-j', f'{self.cpu_count}']
@@ -75,33 +75,33 @@ class BuildrootManager:
 			print(result.stderr)
 
 	def start_vm(self, kernel=get_absolute_path("/buildroot/output/images/bzImage"), drive=get_absolute_path("/buildroot/output/images/rootfs.ext2")):
-	    qemu_cmd = [
-	        "qemu-system-x86_64",
-	        "-enable-kvm",
-	        "-m", f"{VM_RAM}",
-	        "-kernel", kernel,
-	        "-drive", f"file={drive},if=virtio,format=raw",
-	        "-append", "rootwait root=/dev/vda console=tty1 console=ttyS0 quiet loglevel=3",
-	        "-serial", "mon:stdio",
-	        "-net", "nic,model=virtio",
-	        "-net", "user,hostfwd=tcp::{}-:{}".format(PORT, PORT),
-	        "-cpu", "host",
-	        "-nographic"
-	    ]
+		qemu_cmd = [
+		    "qemu-system-x86_64",
+		    "-m", "{}".format(VM_RAM),
+		    "-kernel", f"{BUILDROOT_PATH}/output/images/bzImage",
+		    "-drive", f"file={BUILDROOT_PATH}/output/images/rootfs.ext2,if=virtio,format=raw",
+		    "-append", "rootwait root=/dev/vda console=tty1 console=ttyS0",
+		    "-serial", "mon:stdio",
+		    "-net", "nic,model=virtio",
+		    "-net", "user,hostfwd=tcp::{}-:{}".format(PORT, PORT),
+		    "-netdev", "user,id=n1",
+		    "-device", "e1000,netdev=n1",
+		    "-nographic"
+		]
 
-	    gnome_cmd = ["gnome-terminal", "--", *qemu_cmd]
+	    # gnome_cmd = ["gnome-terminal", "--", *qemu_cmd]
 
-	    process = subprocess.Popen(gnome_cmd, stderr=subprocess.PIPE)
+		process = subprocess.Popen(qemu_cmd, stderr=subprocess.PIPE)
 
-	    _, error_output = process.communicate()
+		_, error_output = process.communicate()
 
-	    if process.returncode == 0:
-	        print("VM started successfully.")
-	    else:
-	        print("Failed to start VM. Error message:")
-	        print(error_output.decode('utf-8').strip())
+		if process.returncode == 0:
+		    print("VM started successfully.")
+		else:
+		    print("Failed to start VM. Error message:")
+		    print(error_output.decode('utf-8').strip())
 
-	    return process
+		return process
 
 	def set_buildroot_pkg(self):
 		if os.path.exists(BUILDROOT_OUTPUT_BUILD):

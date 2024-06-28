@@ -1,4 +1,6 @@
 # ./scripts/kconfig/merge_config.sh .config /home/huzi/Documents/houdini/scripts/container_defconfig
+# check src.sh on kernel .config not on buildroot .config
+# kernel config is in build/linux.{version}/.config
 CONFIG_NETDEVICES=y
 CONFIG_NET_CORE=y
 CONFIG_NAMESPACES=y
