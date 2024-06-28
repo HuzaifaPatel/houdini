@@ -12,7 +12,7 @@ To install the required dependencies, run:
 pip install -r requirements.txt
 ```
 
-To enter Python3 VENV, run:
+To enter Python 3 virtual environment, run:
 
 ```bash
 python3 -m venv venv
