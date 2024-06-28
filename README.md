@@ -11,3 +11,10 @@ To install the required dependencies, run:
 ```bash
 pip install -r requirements.txt
 ```
+
+To enter Python3 VENV, run:
+
+```bash
+python3 -m venv venv
+. venv/bin/activate
+```
