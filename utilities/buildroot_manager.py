@@ -6,7 +6,7 @@ import os
 import multiprocessing
 from kernel_configurator import *
 import importlib
-from houdini_config import PORT, VM_RAM
+from houdini_config import PORT, VM_RAM, CPU_CORES
 import shutil
 import time
 
@@ -78,18 +78,16 @@ class BuildrootManager:
 		qemu_cmd = [
 		    "qemu-system-x86_64",
 		    "-m", "{}".format(VM_RAM),
-		    "-kernel", f"{BUILDROOT_PATH}/output/images/bzImage",
-		    "-drive", f"file={BUILDROOT_PATH}/output/images/rootfs.ext2,if=virtio,format=raw",
+		    "-kernel", kernel,
+		    "-drive", "file={},if=virtio,format=raw".format(drive),
 		    "-append", "rootwait root=/dev/vda console=tty1 console=ttyS0",
 		    "-serial", "mon:stdio",
 		    "-net", "nic,model=virtio",
 		    "-net", "user,hostfwd=tcp::{}-:{}".format(PORT, PORT),
-		    "-netdev", "user,id=n1",
-		    "-device", "e1000,netdev=n1",
 		    "-nographic"
 		]
 
-	    # gnome_cmd = ["gnome-terminal", "--", *qemu_cmd]
+		# gnome_cmd = ["gnome-terminal", "--", *qemu_cmd]
 
 		process = subprocess.Popen(qemu_cmd, stderr=subprocess.PIPE)
 
@@ -104,7 +102,7 @@ class BuildrootManager:
 		return process
 
 	def set_buildroot_pkg(self):
-		if os.path.exists(BUILDROOT_OUTPUT_BUILD):
+		if os.path.exists(FILESYSTEM_BUILD):
 			BuildrootPackageManager.set_runc_version()
 			BuildrootPackageManager.set_docker_cli_version()
 			BuildrootPackageManager.set_docker_engine_version()

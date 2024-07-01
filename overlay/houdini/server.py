@@ -39,4 +39,4 @@ def run_trick():
     return jsonify(results)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)  # Replace with the VM's IP address
+    app.run(host='0.0.0.0', port=49153, debug=True)  # Replace with the VM's IP address
