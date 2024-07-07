@@ -10,7 +10,6 @@ from houdini_config import PORT, VM_RAM, CPU_CORES
 import shutil
 import time
 
-
 class BuildrootManager:
 	def __init__(self):
 		self.cpu_count = multiprocessing.cpu_count() - 1
@@ -35,7 +34,6 @@ class BuildrootManager:
 		else:
 			Style.print_color("\nMake failed\nError:\n", "red")
 			print(result.stderr)
-
 
 	def make_kernel(self):
 		# if os.path.isfile(os.path.join(KERNEL_DIR, KERNEL_VERSION, 'build', f'linux-{KERNEL_VERSION}', 'arch', 'x86', 'boot', 'bzImage')):
@@ -74,7 +72,7 @@ class BuildrootManager:
 			Style.print_color("Error:", 'red')
 			print(result.stderr)
 
-	def start_vm(self, kernel=get_absolute_path("/buildroot/output/images/bzImage"), drive=get_absolute_path("/buildroot/output/images/rootfs.ext2")):
+	def start_vm(self, kernel=get_absolute_path("/kernels/6.5.5/images/bzImage"), drive=get_absolute_path("/filesystem/images/rootfs.ext2")):
 		qemu_cmd = [
 		    "qemu-system-x86_64",
 		    "-m", "{}".format(VM_RAM),
@@ -87,9 +85,9 @@ class BuildrootManager:
 		    "-nographic"
 		]
 
-		# gnome_cmd = ["gnome-terminal", "--", *qemu_cmd]
+		gnome_cmd = ["gnome-terminal", "--", *qemu_cmd]
 
-		process = subprocess.Popen(qemu_cmd, stderr=subprocess.PIPE)
+		process = subprocess.Popen(gnome_cmd, stderr=subprocess.PIPE)
 
 		_, error_output = process.communicate()
 

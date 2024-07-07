@@ -7,7 +7,7 @@ app = Flask(__name__)
 # houdini server status
 @app.route('/server-status', methods=['GET'])
 def server_status():
-    if is_service_running('houdini-server'):
+    if is_service_running('/usr/bin/python3 /houdini/server.py'):
         response_data = str(True)
         response = make_response(response_data, 200)
     else:
@@ -32,7 +32,7 @@ def version_status():
 @app.route('/run-trick', methods=['GET'])
 def run_trick():
     # Assuming your YAML configuration is stored in a file named 'config.yaml'
-    with open('/houdini/tricks/test.yaml', 'r') as file:
+    with open('/home/huzi/Documents/houdini/overlay/houdini/tricks/CAP_SYS_ADMIN', 'r') as file:
         config_data = yaml.safe_load(file)
 
     results = parse_trick_and_run(config_data)

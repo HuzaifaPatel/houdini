@@ -1,0 +1,8 @@
+name: CAP_SYS_ADMIN
+steps:
+  - spawnContainer:
+      name: CAP_SYS_ADMIN
+      image: ubuntu:latest
+      cmd: 'echo jello'
+      working_dir: ''
+      volumes: {'/': {'bind': '/host', 'mode': 'rw'}}

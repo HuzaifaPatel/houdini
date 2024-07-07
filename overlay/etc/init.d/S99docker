@@ -1,0 +1,9 @@
+#!/bin/sh
+
+DOCKERD_LOG=/var/log/dockerd.log
+
+# Ensure log directory exists
+mkdir -p $(dirname "$DOCKERD_LOG")
+
+# Start the Docker daemon
+/usr/bin/dockerd -H unix:///var/run/docker.sock > $DOCKERD_LOG 2>&1 &

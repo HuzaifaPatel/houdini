@@ -7,24 +7,24 @@ import os
 import houdini_config
 
 class Options(Enum):
-    MAKE_BUILDROOT = auto()
-    MAKE_KERNEL = auto()
-    START_VM = auto()
-    VIEW_CONFIG = auto()
-    HELP = auto()
-    EXIT = auto()
+	MAKE_BUILDROOT = auto()
+	MAKE_KERNEL = auto()
+	START_VM = auto()
+	VIEW_CONFIG = auto()
+	HELP = auto()
+	EXIT = auto()
 
 class Menu:
 	def __init__(self, title):
 		self.title = title
 		self.brm = BuildrootManager()
 		self.options = {
-		    Options.MAKE_BUILDROOT.value: ("Make Filesystem", self.brm.make_filesystem),
-		    Options.MAKE_KERNEL.value: ("Make Kernel", self.brm.make_kernel),
-		    Options.START_VM.value: ("Start VM", self.brm.start_vm),
-		    Options.VIEW_CONFIG.value: ("View Config", houdini_config.print_config),
-		    Options.HELP.value: ("Help", self.help),
-		    Options.EXIT.value: ("Exit", self.exit_program)
+			Options.MAKE_BUILDROOT.value: ("Make Filesystem", self.brm.make_filesystem),
+			Options.MAKE_KERNEL.value: ("Make Kernel", self.brm.make_kernel),
+			Options.START_VM.value: ("Start VM", self.brm.start_vm),
+			Options.VIEW_CONFIG.value: ("View Config", houdini_config.print_config),
+			Options.HELP.value: ("Help", self.help),
+			Options.EXIT.value: ("Exit", self.exit_program)
 		}
 
 	def display_menu(self):
