@@ -4,4 +4,4 @@ kernels/
 filesystem/
 venv/
 misc/
-overlay/usr/
+overlay/usr/bin/
