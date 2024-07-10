@@ -2,22 +2,19 @@
 
 # Paths to overlayfs/houdini and target/houdini
 overlayfs_dir="../overlay/houdini"
-target_dir="output/target/houdini"
+target_dir="../filesystem/target/houdini"
 
-# Synchronize overlayfs/houdini with target/houdini
-rsync -av --delete "$overlayfs_dir/" "$target_dir/"
 
-echo $PWD
 # List of files to remove with full paths
 files=(
-    ".output/target/usr/bin/containerd"
-    ".output/target/usr/bin/containerd-shim"
-    ".output/target/usr/bin/ctr"
-    ".output/target/usr/bin/docker"
-    ".output/target/usr/bin/dockerd"
-    ".output/target/usr/bin/docker-init"
-    ".output/target/usr/bin/docker-proxy"
-    ".output/target/usr/bin/runc"
+    "../filesystem/target/usr/bin/containerd"
+    "../filesystem/target/usr/bin/containerd-shim"
+    "../filesystem/target/usr/bin/ctr"
+    "../filesystem/target/usr/bin/docker"
+    "../filesystem/target/usr/bin/dockerd"
+    "../filesystem/target/usr/bin/docker-init"
+    "../filesystem/target/usr/bin/docker-proxy"
+    "../filesystem/target/usr/bin/runc"
 )
 
 # Loop through each file and remove it
@@ -29,3 +26,7 @@ for file in "${files[@]}"; do
         echo "File does not exist: $file"
     fi
 done
+
+# Synchronize overlayfs/houdini with target/houdini
+rsync -av --delete "$overlayfs_dir" "$target_dir"
+rsync -av "../overlay/usr/bin/" "../filesystem/target/usr/bin/"

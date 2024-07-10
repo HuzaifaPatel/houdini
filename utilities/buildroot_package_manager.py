@@ -30,11 +30,3 @@ class BuildrootPackageManager:
     @staticmethod
     def set_runc_version():
         BuildrootPackageManager.modify_version('runc', RUNC_MAKEFILE_PATH, "RUNC_VERSION", RUNC_VERSION)
-
-    @staticmethod
-    def set_docker_cli_version():
-        BuildrootPackageManager.modify_version('docker-cli', DOCKER_CLI_MAKEFILE_PATH, "DOCKER_CLI_VERSION", DOCKER_CLI_VERSION)
-
-    @staticmethod
-    def set_docker_engine_version():
-        BuildrootPackageManager.modify_version('docker-engine', DOCKER_ENGINE_MAKEFILE_PATH, "DOCKER_ENGINE_VERSION", DOCKER_ENGINE_VERSION)

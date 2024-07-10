@@ -21,6 +21,10 @@ python3 -m venv venv
 
 ## Tricks
 
-| Trick | Link | Completion Status |
-|----------|----------|----------|
+| Trick          | Link                                            | Completion Status |
+|----------      |----------                                       |----------|
 | CVE-2024-21616 | https://nvd.nist.gov/vuln/detail/CVE-2023-21616 | Complete |
+| CVE-2019-14271 | https://nvd.nist.gov/vuln/detail/CVE-2019-14271 | Complete |
+| CVE-2019-5736  | https://nvd.nist.gov/vuln/detail/CVE-2019-5736  | Docker Version < 18.09.2 doesn't work. Socket doesn't start idk why |
+| CVE-2018-15664 | https://nvd.nist.gov/vuln/detail/cve-2018-15664 | Incomplete |
+| CVE-2022-0492  | https://nvd.nist.gov/vuln/detail/CVE-2022-0492  | Complete |

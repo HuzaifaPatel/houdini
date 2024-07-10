@@ -102,8 +102,6 @@ class BuildrootManager:
 	def set_buildroot_pkg(self):
 		if os.path.exists(FILESYSTEM_BUILD):
 			BuildrootPackageManager.set_runc_version()
-			BuildrootPackageManager.set_docker_cli_version()
-			BuildrootPackageManager.set_docker_engine_version()
 
 	def set_kernel_ver(self):
 		KernelConfigurator.set_br2_linux_kernel_custom_version_value() # this is good
