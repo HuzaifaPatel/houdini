@@ -4,13 +4,19 @@ DOCKER_ENGINE_VERSION = "19.03.14"
 KERNEL_VERSION = "6.5.5"
 PORT = 49153
 VM_URL = f'http://127.0.0.1:{PORT}'
-VM_RAM = 5000
-CPU_CORES = 15
+VM_RAM = 4000
+CPU_CORES = 4
+PRIV_MODE = True
+
+#     enforcing - SELinux security policy is enforced.
+#     permissive - SELinux prints warnings instead of enforcing.
+#     disabled - No SELinux policy is loaded.
+SELINUX = "permissive"
 
 
-def print_config():
-	from style import Style
-	for name, value in globals().items():
-		if name.isupper() and not name.startswith('__') and not callable(value):
-			Style.print_color(name, 'green', ': ')
-			print(value)
+def get_value(variable_name):
+    global_vars = globals()
+    if variable_name in global_vars:
+        return global_vars[variable_name]
+    else:
+        return f"Variable '{variable_name}' not found"

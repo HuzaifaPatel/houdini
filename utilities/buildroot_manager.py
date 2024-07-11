@@ -9,6 +9,7 @@ import importlib
 from houdini_config import PORT, VM_RAM, CPU_CORES
 import shutil
 import time
+import set_selinux_mode
 
 class BuildrootManager:
 	def __init__(self):
@@ -37,7 +38,7 @@ class BuildrootManager:
 
 	def make_kernel(self):
 		# if os.path.isfile(os.path.join(KERNEL_DIR, KERNEL_VERSION, 'build', f'linux-{KERNEL_VERSION}', 'arch', 'x86', 'boot', 'bzImage')):
-		# 	Style.print_color('\nKernels Exists.\n', 'green')
+		# 	Style.print_color('\nKernels exists.\n', 'green')
 		# 	return 0
 
 		if not os.path.isdir(os.path.join(KERNEL_DIR, KERNEL_VERSION)):
@@ -56,6 +57,7 @@ class BuildrootManager:
 		shutil.copy(BUILDROOT_CONFIG_FILE, FILESYSTEM_PATH)
 		self.make_olddefconfig()
 		# KernelConfigurator.set_BR2_DEFAULT_KERNEL_VERSION() # no longer used
+		set_selinux_mode.update_selinux_config()
 		self.make(command, 'rootfs-ext2')
 
 	def make_olddefconfig(self):

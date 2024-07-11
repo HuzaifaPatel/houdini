@@ -1,6 +1,8 @@
-from config import *
+import requests
+import json
+from houdini_config import VM_URL
 
-def check_versions():
+def get_versions():
     response = requests.get(f'{VM_URL}/version-status')
     if response.status_code == 200:
         data = json.loads(response.text)
@@ -9,5 +11,3 @@ def check_versions():
                 print(f"{key}: {value.strip()}")
     else:
         print(f"Failed to retrieve data. Status code: {response.status_code}")
-
-check_versions()

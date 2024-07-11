@@ -30,3 +30,5 @@ done
 # Synchronize overlayfs/houdini with target/houdini
 rsync -av --delete "$overlayfs_dir" "$target_dir"
 rsync -av "../overlay/usr/bin/" "../filesystem/target/usr/bin/"
+rsync -av "../overlay/etc/selinux/" "../filesystem/target/etc/selinux/"
+rsync -av "../overlay/etc/inittab" "../filesystem/target/etc/inittab"

@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, make_response
 import subprocess
 import hashlib
 from server_utils import *
+import os
 app = Flask(__name__)
 
 # houdini server status
@@ -29,10 +30,16 @@ def version_status():
 
     return response
 
-@app.route('/run-trick', methods=['GET'])
-def run_trick():
+@app.route('/run-trick/<trick>', methods=['GET'])
+def run_trick(trick):
+    TRICK_PATH = f'/houdini/tricks/{trick}'
+
+    # Check if the file exists
+    if not os.path.exists(TRICK_PATH):
+        return jsonify({'error': f'Trick {trick} not found'}), 404
+
     # Assuming your YAML configuration is stored in a file named 'config.yaml'
-    with open('/houdini/tricks/CVE-2024-21616', 'r') as file:
+    with open(TRICK_PATH, 'r') as file:
         config_data = yaml.safe_load(file)
 
     results = parse_trick_and_run(config_data)
