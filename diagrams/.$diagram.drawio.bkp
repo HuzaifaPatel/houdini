@@ -1,0 +1,100 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.5 Chrome/126.0.6478.183 Electron/31.3.0 Safari/537.36" version="24.7.5">
+  <diagram name="Page-1" id="ljMSRFoh8FHXyoFqI8uG">
+    <mxGraphModel dx="1434" dy="870" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-1" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;Container Registries&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="120" y="160" width="800" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-2" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;Container Images&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="120" y="220" width="800" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-3" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;Container Runtime&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="120" y="280" width="800" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-4" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;Containers&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="120" y="340" width="400" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-5" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;Container Runtime API&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="520" y="340" width="400" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-6" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;L7 Protocols&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="120" y="400" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-7" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;Files&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="320" y="400" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-8" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;Special Files&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="520" y="400" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-9" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;Processes&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="720" y="400" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-10" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;Cgroups&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="120" y="639" width="400" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-12" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;Network Interface&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="120" y="579" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-13" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;Mounted Filesystem&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="320" y="579" width="400" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-15" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;Linux Security Module&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="720" y="579" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-16" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;Sockets&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="120" y="700" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-17" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;VFS Layer&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="320" y="699" width="400" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-18" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;IPC&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="720" y="699" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-19" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;Namespaces&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="520" y="639" width="400" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-20" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;TCP/IP&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="120" y="759" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-21" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;NIC Driver&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="120" y="820" width="200" height="61" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-22" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;Scheduler&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="720" y="759" width="200" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-23" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;Filesystem&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;font-size: 24px;&quot;&gt;Implementation&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="320" y="759" width="200" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-24" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;Device&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;font-size: 24px;&quot;&gt;Drivers&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="520" y="759" width="200" height="122" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-25" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;Network Card&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="120" y="881" width="200" height="61" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-26" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;Disk&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="320" y="881" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-27" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;Memory&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="520" y="881" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-28" value="&lt;span style=&quot;font-size: 24px;&quot;&gt;CPU / Cache&lt;/span&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="720" y="881" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-29" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;System Calls&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="120" y="460" width="800" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-30" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;Seccomp&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="520" y="519" width="400" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="wcMj2_DLFd2nU6OhQSXC-31" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;eBPF&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="120" y="519" width="400" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="SmrFiCYUnk2DxXW81Xwq-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.498;entryY=-0.028;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="wcMj2_DLFd2nU6OhQSXC-21" target="wcMj2_DLFd2nU6OhQSXC-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -40,9 +40,9 @@ def run_trick(trick):
 
     # Assuming your YAML configuration is stored in a file named 'config.yaml'
     with open(TRICK_PATH, 'r') as file:
-        config_data = yaml.safe_load(file)
+        trick_data = yaml.safe_load(file)
 
-    results = parse_trick_and_run(config_data)
+    results = parse_trick_and_run(trick_data, request.args.get('PRIV_MODE'))
     return jsonify(results)
 
 if __name__ == '__main__':

@@ -3,6 +3,6 @@
 #     enforcing - SELinux security policy is enforced.
 #     permissive - SELinux prints warnings instead of enforcing.
 #     disabled - No SELinux policy is loaded.
-SELINUX=permissive
+SELINUX=disabled
 
 SELINUXTYPE=targeted

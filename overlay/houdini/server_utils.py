@@ -12,8 +12,7 @@ def is_service_running(service_name):
 
     if not result.returncode:
         return True
-    else: 
-        return False
+    return False
 
 
 def get_version():
@@ -25,51 +24,51 @@ def get_version():
     return version_info
 
 
-def parse_trick_and_run(config_data):
+def parse_trick_and_run(trick_data, PRIV_MODE):
     # Create a Docker client
     client = docker.from_env()
-    # Pull the 'ubuntu' image
     client.images.pull('ubuntu')
     results = {}
+    container_name = trick_data.get('name')
+    docker_args = trick_data.get('docker_args', {})
+    cmd_to_execute = trick_data['command_to_execute']['command']
+     
+    # Check if the container with the given name already exists.
+    # if it exists, send SIGKILL to it first.
+    try:
+        existing_container = client.containers.get(container_name)
+        print(f"Container {container_name} already exists. Removing it.")
+        if existing_container.status == 'running':
+            existing_container.kill(signal=SIGKILL)
+        existing_container.remove(force=True)
+    except docker.errors.NotFound:
+        print(f"No existing container named {container_name} found. Proceeding to create a new one.")
 
-    for step in config_data['steps']:
-        if 'spawnContainer' in step:
+    try:
+        global container
+    
+        # if PRIV_MODE:
+            # container_kwargs['privileged'] = True
 
-            container_name = step['spawnContainer']['name']
+        # if APPARMOR:
+            # container_kwargs['security_opt'].append('apparmor=docker-default')
 
-            # Check if the container with the given name already exists
-            try:
-                existing_container = client.containers.get(container_name)
-                print(f"Container {container_name} already exists. Removing it.")
-                if existing_container.status == 'running':
-                    existing_container.kill(signal=SIGKILL)
-                existing_container.remove(force=True)
-            except docker.errors.NotFound:
-                print(f"No existing container named {container_name} found. Proceeding to create a new one.")
+        container = client.containers.run(**docker_args)
 
-            try:
-                global container
-                container = client.containers.run(
-                    image='ubuntu:latest',
-                    command='echo hello',
-                    # working_dir=step['spawnContainer']['working_dir'],
-                    detach=True
-                    # tty=True
-                )
-
-
-                # container_logs = container.logs().decode('utf-8').strip()
-                # print(f"Container logs:\n{container_logs}")
-
-                # results['name'] = container_logs
-                results['status'] = 'success'
-            except Exception as e:
-                print(f"Failed to run container {step['spawnContainer']['name']}: {e}")
-                results['name'] = step['spawnContainer']['name']
-                results['status'] = 'failure'
-            # finally:
-            #     if container is not None:
-            #         container.kill(signal=SIGKILL)
-            #         container.remove(force=True) 
+        # Create and run an exec instance to list files in the root directory
+        exec_id = client.api.exec_create(
+            container.id,
+            cmd=cmd_to_execute,
+            stdout=True,
+            stderr=True
+        )
+        output = client.api.exec_start(exec_id['Id'], detach=False).decode('utf-8')
+        print(output)
+        results['status'] = 'success'
+        results['output'] = output
+    except Exception as e:
+        print(f"Failed to run container {container_name}: {e}")
+        results['name'] = container_name
+        results['status'] = 'failure'
 
     return results

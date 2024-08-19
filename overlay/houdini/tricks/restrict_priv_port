@@ -1,0 +1,10 @@
+name: restrict_priv_port
+docker_args:
+  image: "fedora:latest"
+  command: "sleep infinity"
+  detach: True
+  tty: True 
+  cap_drop: ['NET_BIND_SERVICE']
+  ports: {'80/tcp': 80}
+command_to_execute:
+  command: ["bash", "-c", "curl http://localhost:80"]
