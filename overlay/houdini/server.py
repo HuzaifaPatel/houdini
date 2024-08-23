@@ -4,6 +4,7 @@ import hashlib
 from server_utils import *
 import os
 app = Flask(__name__)
+app.config['DEBUG'] = True  # Enable debug mode
 
 # houdini server status
 @app.route('/server-status', methods=['GET'])
@@ -32,7 +33,9 @@ def version_status():
 
 @app.route('/run-trick/<trick>', methods=['GET'])
 def run_trick(trick):
-    TRICK_PATH = f'/houdini/tricks/{trick}'
+    import os
+    print(os.getcwd())
+    TRICK_PATH = f'tricks/{trick}'
 
     # Check if the file exists
     if not os.path.exists(TRICK_PATH):

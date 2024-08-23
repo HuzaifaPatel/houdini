@@ -1,0 +1,11 @@
+name: host_network_namespace
+docker_args:
+  image: "fedora:latest"
+  command: "sleep infinity"
+  detach: True
+  tty: True 
+  network_mode: 'host'
+command_on_host:
+  command: ['bash', '-c', 'touch /tmp/bc5ac4a37d609be474d3121af546e2177ef9af4f1ad2a0f5ef26d25de1e27b30 && python3 -m http.server 8000 --directory /']
+command_in_container:
+  command: ['bash', '-c', 'dnf update && dnf install -y wget && wget -r -np -nH --cut-dirs=1 -R "index.html*" http://localhost:8000/tmp/bc5ac4a37d609be474d3121af546e2177ef9af4f1ad2a0f5ef26d25de1e27b30']

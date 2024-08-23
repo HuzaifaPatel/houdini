@@ -3,6 +3,7 @@ import yaml
 from config import *
 import docker
 from signal import SIGKILL
+import subprocess
 container = None
 # Create a Docker API client
 client = docker.APIClient(base_url='unix://var/run/docker.sock')
@@ -23,6 +24,32 @@ def get_version():
     
     return version_info
 
+def run_command_in_container(container, cmd):
+    """Run a command in the specified container and return the output."""
+    # Create an exec instance
+    client = docker.from_env()
+
+    exec_id = client.api.exec_create(
+        container.id,
+        cmd,
+        stdout=True,
+        stderr=True
+    )
+    
+    # Start the exec instance
+    output = client.api.exec_start(exec_id, detach=False, tty=False)
+    print(output.decode('utf-8'))
+
+def run_command_in_host(cmd_on_host):
+    # Run the ifconfig command
+    try:
+        result = subprocess.run(cmd_on_host, capture_output=True, text=True, check=True)
+        print("HOST")
+        # Print the output of the command
+        print(result.stdout)
+    except subprocess.CalledProcessError as e:
+        # Print any errors that occur
+        print(f'Error occurred: {e}')
 
 def parse_trick_and_run(trick_data, PRIV_MODE):
     # Create a Docker client
@@ -31,7 +58,8 @@ def parse_trick_and_run(trick_data, PRIV_MODE):
     results = {}
     container_name = trick_data.get('name')
     docker_args = trick_data.get('docker_args', {})
-    cmd_to_execute = trick_data['command_to_execute']['command']
+    cmd_on_host = trick_data['command_on_host']['command']
+    cmd_in_container = trick_data['command_in_container']['command']
      
     # Check if the container with the given name already exists.
     # if it exists, send SIGKILL to it first.
@@ -46,26 +74,12 @@ def parse_trick_and_run(trick_data, PRIV_MODE):
 
     try:
         global container
-    
-        # if PRIV_MODE:
-            # container_kwargs['privileged'] = True
-
-        # if APPARMOR:
-            # container_kwargs['security_opt'].append('apparmor=docker-default')
-
+        run_command_in_host(cmd_on_host)
         container = client.containers.run(**docker_args)
+        run_command_in_container(container, cmd_in_container)
 
-        # Create and run an exec instance to list files in the root directory
-        exec_id = client.api.exec_create(
-            container.id,
-            cmd=cmd_to_execute,
-            stdout=True,
-            stderr=True
-        )
-        output = client.api.exec_start(exec_id['Id'], detach=False).decode('utf-8')
-        print(output)
         results['status'] = 'success'
-        results['output'] = output
+        results['output'] = 'ok'
     except Exception as e:
         print(f"Failed to run container {container_name}: {e}")
         results['name'] = container_name

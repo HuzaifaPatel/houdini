@@ -1,0 +1,8 @@
+name: no_host_mount
+docker_args:
+  image: "ubuntu:latest"
+  command: "sleep infinity"
+  detach: True
+  tty: True
+command_to_execute:
+  command: ["bash", "-c", "ls -l /"]
