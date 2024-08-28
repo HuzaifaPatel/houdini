@@ -41,30 +41,26 @@ Dockerfile: takes a path to a dockerfile
 
 # **Docker Config**
 
-      
-
 ### Network
 
-   **Options:**\
-        - `Bridge`\
-        - `Host`
-
-  
+   **Options:**  
+   &nbsp;&nbsp;&nbsp;&nbsp;- `Bridge`  
+   &nbsp;&nbsp;&nbsp;&nbsp;- `Host`
 
 ### read_only (read only filesystem)
 
-  **Options:**\
-      - `True`\
-      - `False`
+   **Options:**  
+   &nbsp;&nbsp;&nbsp;&nbsp;- `True`  
+   &nbsp;&nbsp;&nbsp;&nbsp;- `False`
 
 ### security_opt
 
-  **Options:**\
-      - `["no-new-privileges"]`\
-      - `[]`
+   **Options:**  
+   &nbsp;&nbsp;&nbsp;&nbsp;- `["no-new-privileges"]`  
+   &nbsp;&nbsp;&nbsp;&nbsp;- `[]`
 
 ### pid_mode
 
-  **Options:**\
-      - `Host`\
-      - `None`
+   **Options:**  
+   &nbsp;&nbsp;&nbsp;&nbsp;- `Host`  
+   &nbsp;&nbsp;&nbsp;&nbsp;- `None`
