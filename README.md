@@ -46,8 +46,8 @@ Dockerfile: takes a path to a dockerfile
 ### Network
 
    **Options:**\
-      - `Bridge`\
-      - `Host`
+        - `Bridge`\
+        - `Host`
 
   
 
