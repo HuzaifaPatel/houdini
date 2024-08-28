@@ -8,5 +8,6 @@ docker_config:
   - network_mode: host
   - read_only: False
   - security_opt: ["no-new-privileges"]
+  - pid_mode: host
 trick:
   - path: /home/huzi/Documents/houdini/overlay/houdini/tricks/HostNetworkNamespace

@@ -38,10 +38,11 @@ def build_docker_image(dockerfile_path, image_name):
         print(f"Error building Docker image: {e}")
 
 
-def run_docker_container(image_name, container_name, network_mode, read_only, security_opt):
+def run_docker_container(image_name, container_name, network_mode, read_only, security_opt, pid_mode):
     try:
         # Run a Docker container from the image
-        container = client.containers.run(image_name, name=container_name, detach=True, network_mode=network_mode, read_only=read_only, security_opt=security_opt)
+        container = client.containers.run(image_name, name=container_name, detach=True, network_mode=network_mode, read_only=read_only, security_opt=security_opt, pid_mode=pid_mode)
+        print(f"Container '{container_name}' started successfully. {check_mark}")
         
         # Wait for the container to complete (if necessary)
         container.wait()
@@ -54,8 +55,6 @@ def run_docker_container(image_name, container_name, network_mode, read_only, se
 
         print(logs_decoded)
 
-
-        print(f"Container '{container_name}' started successfully. {check_mark}")
     except docker.errors.APIError as e:
         print(f"Error running Docker container: {e}")
 
@@ -128,19 +127,6 @@ def parse_trick_and_run(trick_data, args):
     os.chdir(original_directory)
 
 
-    # third param to run_docker_container will always be for network. Waiting to find out what fourth, ..., nth is.
-    run_docker_container(
-                            container_name, 
-                            container_name, 
-                            yaml_data['docker_config'][0]['network_mode'], 
-                            yaml_data['docker_config'][1]['read_only'],
-                            yaml_data['docker_config'][2]['security_opt']
-                        )
-
-    # dockerfile should download python3. This makes sure it did.
-    dependency_check.check_python3_in_container(container_name)
-
-
     if bool(yaml_data['dependencies'][0]['server']):
         # print("true")
         if not dependency_check.check_server():
@@ -150,10 +136,14 @@ def parse_trick_and_run(trick_data, args):
             print("Server is not needed for this trick")
 
 
-    if bool(yaml_data['dependencies'][1]['file']):
-        dependency_check.find_file(yaml_data['dependencies'][1]['file'])
-    else:
-        print("Additional files are not needed for this trick")
+    # third param to run_docker_container will always be for network. Waiting to find out what fourth, ..., nth is.
+    run_docker_container(
+                            container_name, 
+                            container_name, 
+                            yaml_data['docker_config'][0]['network_mode'], 
+                            yaml_data['docker_config'][1]['read_only'],
+                            yaml_data['docker_config'][2]['security_opt']
+                            yaml_data['docker_config'][3]['pid_mode']
+                        )
 
-    run_command_in_container(container_name, f"source /venv/bin/activate && python3 /{yaml_data['trick'][0]['file']}")
-    print("Success")
+    # print("Success")

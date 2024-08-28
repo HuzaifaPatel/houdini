@@ -28,3 +28,38 @@ python3 -m venv venv
 | CVE-2019-5736  | https://nvd.nist.gov/vuln/detail/CVE-2019-5736  | Docker Version < 18.09.2 doesn't work. Socket doesn't start idk why |
 | CVE-2018-15664 | https://nvd.nist.gov/vuln/detail/cve-2018-15664 | Incomplete |
 | CVE-2022-0492  | https://nvd.nist.gov/vuln/detail/CVE-2022-0492  | Complete |
+
+
+# **Houdini Documentation**
+
+Dockerfile: takes a path to a dockerfile
+
+  Dependency : Only two are implemented at the moment
+  -   Server (must be at port 8000)
+  -   File
+   
+# **Docker Config**
+
+### Network
+
+   Options:
+    - `Bridge`
+    - `Host`
+
+### read_only (read only filesystem)
+
+  Options:
+    - True
+    - False
+
+### security_opt
+
+  Options:
+    - ["no-new-privileges"]
+    - []
+
+### pid_mode
+
+  Options:
+    - Host
+    - None

@@ -8,5 +8,6 @@ docker_config:
   - network_mode: bridge
   - read_only: True
   - no-new-privileges: []
+  - pid_mode: host
 trick:
   - file: /home/huzi/Documents/houdini/overlay/houdini/tricks/HostNetworkNamespace/host_network_namespace.py

@@ -14,7 +14,7 @@ def download_file(url='http://localhost:8000/home/huzi/Desktop/85c8de88d28866bf0
         for chunk in response.iter_content(chunk_size=8192):
             file.write(chunk)
     
-    print(f"File {local_filename} downloaded to container")
+    print(f"File {local_filename} downloaded to container", end="")
 
 if __name__ == "__main__":
     print("Starting Trick")
