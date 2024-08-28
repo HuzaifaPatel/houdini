@@ -54,17 +54,17 @@ Dockerfile: takes a path to a dockerfile
 ### read_only (read only filesystem)
 
   Options:\
-    - True\
-    - False\
+    - `True`\
+    - `False`\
 
 ### security_opt
 
   Options:\
-    - ["no-new-privileges"]\
-    - []\
+    - `["no-new-privileges"]`\
+    - `[]`\
 
 ### pid_mode
 
   Options:\
-    - Host\
-    - None
+    - `Host`\
+    - `None`
