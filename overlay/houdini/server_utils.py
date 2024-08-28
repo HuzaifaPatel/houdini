@@ -4,9 +4,13 @@ from config import *
 import docker
 from signal import SIGKILL
 import subprocess
-container = None
-# Create a Docker API client
-client = docker.APIClient(base_url='unix://var/run/docker.sock')
+import io
+import tarfile
+import dependency_check
+import os
+check_mark = '\u2713'
+x_button = "\u2717"
+client = docker.from_env()
 
 def is_service_running(service_name):
     result = subprocess.run(['pgrep', '-f', service_name], check=True, stdout=subprocess.PIPE)
@@ -24,45 +28,76 @@ def get_version():
     
     return version_info
 
-def run_command_in_container(container, cmd):
-    """Run a command in the specified container and return the output."""
-    # Create an exec instance
-    client = docker.from_env()
 
-    exec_id = client.api.exec_create(
-        container.id,
-        cmd,
-        stdout=True,
-        stderr=True
-    )
-    
-    # Start the exec instance
-    output = client.api.exec_start(exec_id, detach=False, tty=False)
-    print(output.decode('utf-8'))
-
-def run_command_in_host(cmd_on_host):
-    # Run the ifconfig command
+def build_docker_image(dockerfile_path, image_name):
     try:
-        result = subprocess.run(cmd_on_host, capture_output=True, text=True, check=True)
-        print("HOST")
-        # Print the output of the command
-        print(result.stdout)
-    except subprocess.CalledProcessError as e:
-        # Print any errors that occur
-        print(f'Error occurred: {e}')
+        # Build the Docker image
+        client.images.build(path='.', dockerfile=dockerfile_path, tag=image_name, rm=True)
+        print(f"Image '{image_name}' built successfully. {check_mark}")
+    except docker.errors.BuildError as e:
+        print(f"Error building Docker image: {e}")
 
-def parse_trick_and_run(trick_data, PRIV_MODE):
-    # Create a Docker client
+
+def run_docker_container(image_name, container_name, network_mode, read_only, security_opt):
+    try:
+        # Run a Docker container from the image
+        container = client.containers.run(image_name, name=container_name, detach=True, network_mode=network_mode, read_only=read_only, security_opt=security_opt)
+        
+        # Wait for the container to complete (if necessary)
+        container.wait()
+
+        # Fetch the logs
+        logs = container.logs()
+
+        # Decode the logs if needed
+        logs_decoded = logs.decode('utf-8')
+
+        print(logs_decoded)
+
+
+        print(f"Container '{container_name}' started successfully. {check_mark}")
+    except docker.errors.APIError as e:
+        print(f"Error running Docker container: {e}")
+
+
+def send_file_to_container(container_name, file_path, target_file_name, target_directory='/'):
     client = docker.from_env()
-    client.images.pull('ubuntu')
-    results = {}
-    container_name = trick_data.get('name')
-    docker_args = trick_data.get('docker_args', {})
-    cmd_on_host = trick_data['command_on_host']['command']
-    cmd_in_container = trick_data['command_in_container']['command']
-     
-    # Check if the container with the given name already exists.
-    # if it exists, send SIGKILL to it first.
+    container = client.containers.get(container_name)
+
+    # Open the file to send
+    with open(file_path, 'rb') as file_data:
+        # Create a tar archive of the file
+        tar_data = io.BytesIO()
+        with tarfile.open(fileobj=tar_data, mode='w') as tar:
+            # Use target_file_name for the file inside the container
+            tar.add(file_path, arcname=target_file_name)
+        
+        tar_data.seek(0)
+        
+        # Upload the file to the container
+        try:
+            container.put_archive(target_directory, tar_data)
+            print(f"File {file_path} successfully uploaded to {target_directory}/{target_file_name} in container {container_name} {check_mark}")
+        except docker.errors.APIError as e:
+            print(f"Error uploading file: {e}")
+
+
+def run_command_in_container(container_name, command):
+    container = client.containers.get(container_name)
+
+    exec_command = f"bash -c '{command}'"
+
+    try:
+        # Execute the command inside the container
+        exec_id = client.api.exec_create(container.id, exec_command, tty=True)
+        output = client.api.exec_start(exec_id)
+        print(output.decode())
+    except docker.errors.APIError as e:
+        print(f"Error executing command in container: {e}")
+
+
+def check_if_container_is_running(container_name):
+    # Check if the container with the given name already exists. If it exists, send SIGKILL to it first.
     try:
         existing_container = client.containers.get(container_name)
         print(f"Container {container_name} already exists. Removing it.")
@@ -72,17 +107,53 @@ def parse_trick_and_run(trick_data, PRIV_MODE):
     except docker.errors.NotFound:
         print(f"No existing container named {container_name} found. Proceeding to create a new one.")
 
-    try:
-        global container
-        run_command_in_host(cmd_on_host)
-        container = client.containers.run(**docker_args)
-        run_command_in_container(container, cmd_in_container)
 
-        results['status'] = 'success'
-        results['output'] = 'ok'
-    except Exception as e:
-        print(f"Failed to run container {container_name}: {e}")
-        results['name'] = container_name
-        results['status'] = 'failure'
+def parse_yaml(trick_name):
+    # Load the YAML file
+    with open(f'tricks/{trick_name}', 'r') as file:
+        yaml_data = yaml.safe_load(file)
 
-    return results
+    return yaml_data
+
+def parse_trick_and_run(trick_data, args):
+    container_name = args.get('container_name')
+    yaml_data = parse_yaml(container_name)
+
+    # next three function calls are generic. They will never be different
+    check_if_container_is_running(container_name)
+
+    original_directory = os.getcwd()
+    os.chdir(yaml_data['trick'][0]['path'])
+    build_docker_image(yaml_data['dockerfile'][0]['path'], container_name)
+    os.chdir(original_directory)
+
+
+    # third param to run_docker_container will always be for network. Waiting to find out what fourth, ..., nth is.
+    run_docker_container(
+                            container_name, 
+                            container_name, 
+                            yaml_data['docker_config'][0]['network_mode'], 
+                            yaml_data['docker_config'][1]['read_only'],
+                            yaml_data['docker_config'][2]['security_opt']
+                        )
+
+    # dockerfile should download python3. This makes sure it did.
+    dependency_check.check_python3_in_container(container_name)
+
+
+    if bool(yaml_data['dependencies'][0]['server']):
+        # print("true")
+        if not dependency_check.check_server():
+            print(f"HTTP not turned on host. {x_button} \nQuitting Trick")
+            return 1
+        else:
+            print("Server is not needed for this trick")
+
+
+    if bool(yaml_data['dependencies'][1]['file']):
+        dependency_check.find_file(yaml_data['dependencies'][1]['file'])
+    else:
+        print("Additional files are not needed for this trick")
+
+    run_command_in_container(container_name, f"source /venv/bin/activate && python3 /{yaml_data['trick'][0]['file']}")
+    print("Success")

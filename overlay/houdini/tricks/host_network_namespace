@@ -1,11 +1,12 @@
 name: host_network_namespace
-docker_args:
-  image: "fedora:latest"
-  command: "sleep infinity"
-  detach: True
-  tty: True 
-  network_mode: 'host'
-command_on_host:
-  command: ['bash', '-c', 'touch /tmp/bc5ac4a37d609be474d3121af546e2177ef9af4f1ad2a0f5ef26d25de1e27b30 && python3 -m http.server 8000 --directory /']
-command_in_container:
-  command: ['bash', '-c', 'dnf update && dnf install -y wget && wget -r -np -nH --cut-dirs=1 -R "index.html*" http://localhost:8000/tmp/bc5ac4a37d609be474d3121af546e2177ef9af4f1ad2a0f5ef26d25de1e27b30']
+dockerfile:
+  - path: /home/huzi/Documents/houdini/overlay/houdini/tricks/HostNetworkNamespace/Dockerfile
+dependencies:
+  - server: True
+  - file: 85c8de88d28866bf0868090b3961162bf82392f690d9e4730910f4af7c6ab3ee.txt
+docker_config: 
+  - network_mode: host
+  - read_only: False
+  - security_opt: ["no-new-privileges"]
+trick:
+  - path: /home/huzi/Documents/houdini/overlay/houdini/tricks/HostNetworkNamespace

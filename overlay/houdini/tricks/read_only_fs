@@ -1,9 +1,0 @@
-name: read_only_fs
-docker_args:
-  image: "ubuntu:latest"
-  command: "sleep infinity"
-  detach: True
-  tty: True 
-  read_only: True
-command_to_execute:
-  command: ["bash", "-c", "touch /testfile"]
