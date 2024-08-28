@@ -55,13 +55,13 @@ Dockerfile: takes a path to a dockerfile
 
   Options:\
     - `True`\
-    - `False`\
+    - `False`
 
 ### security_opt
 
   Options:\
     - `["no-new-privileges"]`\
-    - `[]`\
+    - `[]`
 
 ### pid_mode
 
