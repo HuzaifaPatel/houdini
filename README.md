@@ -38,13 +38,18 @@ Dockerfile: takes a path to a dockerfile
   -   Server (must be at port 8000)
   -   File
    
+
 # **Docker Config**
+
+      
 
 ### Network
 
    Options:
     - `Bridge`
     - `Host`
+
+  
 
 ### read_only (read only filesystem)
 
