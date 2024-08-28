@@ -39,7 +39,7 @@ Dockerfile: takes a path to a dockerfile
   -   File
    
 
-# **Docker Config**
+# **YAML Documentation**
 
 ### Network
 
