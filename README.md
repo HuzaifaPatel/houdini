@@ -44,11 +44,8 @@ Dockerfile: takes a path to a dockerfile
 ### Network
 
    &nbsp;&nbsp;&nbsp;&nbsp;**options:**
-    ```  
     - `Bridge`  
-    
-    - `Host`
-    ```
+    - `Host`   
 ### read_only (read only filesystem)
 
     &nbsp;&nbsp;&nbsp;&nbsp;**options:**  
