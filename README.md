@@ -45,7 +45,7 @@ Dockerfile: takes a path to a dockerfile
 
 ### Network
 
-   Options:\
+   **Options:**\
     - `Bridge`\
     - `Host`
 
@@ -53,18 +53,18 @@ Dockerfile: takes a path to a dockerfile
 
 ### read_only (read only filesystem)
 
-  Options:\
+  **Options:**\
     - `True`\
     - `False`
 
 ### security_opt
 
-  Options:\
+  **Options:**\
     - `["no-new-privileges"]`\
     - `[]`
 
 ### pid_mode
 
-  Options:\
+  **Options:**\
     - `Host`\
     - `None`
