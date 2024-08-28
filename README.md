@@ -43,24 +43,24 @@ Dockerfile: takes a path to a dockerfile
 
 ### Network
 
-   **options:**  
-   &nbsp;&nbsp;&nbsp;&nbsp;- `Bridge`  
-   &nbsp;&nbsp;&nbsp;&nbsp;- `Host`
+   &nbsp;&nbsp;&nbsp;&nbsp;**options:**  
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `Bridge`  
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `Host`
 
 ### read_only (read only filesystem)
 
-   **options:**  
-   &nbsp;&nbsp;&nbsp;&nbsp;- `True`  
-   &nbsp;&nbsp;&nbsp;&nbsp;- `False`
+   &nbsp;&nbsp;&nbsp;&nbsp;**options:**  
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `True`  
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `False`
 
 ### security_opt
 
-   **options:**  
-   &nbsp;&nbsp;&nbsp;&nbsp;- `["no-new-privileges"]`  
-   &nbsp;&nbsp;&nbsp;&nbsp;- `[]`
+   &nbsp;&nbsp;&nbsp;&nbsp;**options:**  
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `["no-new-privileges"]`  
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `[]`
 
 ### pid_mode
 
-   **options:**  
-   &nbsp;&nbsp;&nbsp;&nbsp;- `Host`  
-   &nbsp;&nbsp;&nbsp;&nbsp;- `None`
+   &nbsp;&nbsp;&nbsp;&nbsp;**options:**  
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `Host`  
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `None`
