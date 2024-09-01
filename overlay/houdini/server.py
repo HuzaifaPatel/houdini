@@ -36,7 +36,6 @@ def version_status():
 @app.route('/run-trick/<trick>', methods=['GET'])
 def run_trick(trick):
     TRICK_PATH = f'tricks/{trick}'
-    
     # Check if the file exists
     if not os.path.exists(TRICK_PATH):
         return jsonify({'error': f'Trick {trick} not found'}), 404

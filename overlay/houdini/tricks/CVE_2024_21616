@@ -1,0 +1,14 @@
+name: CVE-2024-21616
+dockerfile:
+  - path: /home/huzi/Documents/houdini/overlay/houdini/tricks/CVE202421616/Dockerfile
+dependencies:
+  - server: True
+  - file: 85c8de88d28866bf0868090b3961162bf82392f690d9e4730910f4af7c6ab3ee.txt
+docker_config: 
+  - network_mode: bridge
+  - read_only: False
+  - security_opt: ["no-new-privileges"]
+  - pid_mode: None
+  - cpu_shares: 512
+trick:
+  - path: /home/huzi/Documents/houdini/overlay/houdini/tricks/CVE_2024_21616

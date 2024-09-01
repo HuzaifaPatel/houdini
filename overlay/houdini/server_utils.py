@@ -38,10 +38,10 @@ def build_docker_image(dockerfile_path, image_name):
         print(f"Error building Docker image: {e}")
 
 
-def run_docker_container(image_name, container_name, network_mode, read_only, security_opt, pid_mode):
+def run_docker_container(image_name, container_name, network_mode, read_only, security_opt, pid_mode, cpu_shares):
     try:
         # Run a Docker container from the image
-        container = client.containers.run(image_name, name=container_name, detach=True, network_mode=network_mode, read_only=read_only, security_opt=security_opt, pid_mode=pid_mode)
+        container = client.containers.run(image_name, name=container_name, detach=True, network_mode=network_mode, read_only=read_only, security_opt=security_opt, pid_mode=pid_mode, cpu_shares=cpu_shares)
         print(f"Container '{container_name}' started successfully. {check_mark}")
         
         # Wait for the container to complete (if necessary)
@@ -142,8 +142,7 @@ def parse_trick_and_run(trick_data, args):
                             container_name, 
                             yaml_data['docker_config'][0]['network_mode'], 
                             yaml_data['docker_config'][1]['read_only'],
-                            yaml_data['docker_config'][2]['security_opt']
-                            yaml_data['docker_config'][3]['pid_mode']
+                            yaml_data['docker_config'][2]['security_opt'],
+                            yaml_data['docker_config'][3]['pid_mode'],
+                            yaml_data['docker_config'][4]['cpu_shares']
                         )
-
-    # print("Success")

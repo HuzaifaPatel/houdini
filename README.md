@@ -65,3 +65,9 @@ Dockerfile: takes a path to a dockerfile
   &nbsp;&nbsp;&nbsp;&nbsp;**options:**  
    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `Host`  
    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `None`
+
+### cpu_shares
+
+  &nbsp;&nbsp;&nbsp;&nbsp;**options:**  
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- '512'  
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `any value`
