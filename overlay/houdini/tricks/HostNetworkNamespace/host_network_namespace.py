@@ -1,5 +1,16 @@
 import requests
 import os
+import socket
+
+def server_running(host='localhost', port=8000):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.settimeout(5)  # Set a timeout for the connection attempt
+        try:
+            s.connect((host, port))
+            return True
+        except (socket.timeout, ConnectionRefusedError):
+            return False
+
 
 def download_file(url='http://localhost:8000/home/huzi/Desktop/85c8de88d28866bf0868090b3961162bf82392f690d9e4730910f4af7c6ab3ee.txt', local_filename="85c8de88d28866bf0868090b3961162bf82392f690d9e4730910f4af7c6ab3ee.txt"):
     try:
@@ -27,4 +38,8 @@ def download_file(url='http://localhost:8000/home/huzi/Desktop/85c8de88d28866bf0
         print(f"An unexpected error occurred: {e}")
 
 if __name__ == "__main__":
-    download_file()
+    if server_running():
+        print("Server is Running")
+        download_file()
+    else:
+        print("NOT")

@@ -34,9 +34,10 @@ def version_status():
 
     return response
 
-@app.route('/run-trick/<trick>', methods=['GET'])
-def run_trick(trick):
-    TRICK_PATH = f'tricks/{trick}'
+@app.route('/run-trick/<trick_folder>/<trick>', methods=['GET'])
+def run_trick(trick_folder, trick):
+
+    TRICK_PATH = f'tricks/{trick_folder}/{trick}'
     # Check if the file exists
 
     if not os.path.exists(TRICK_PATH):

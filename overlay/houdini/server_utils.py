@@ -6,7 +6,6 @@ from signal import SIGKILL
 import subprocess
 import io
 import tarfile
-import dependency_check
 import os
 import codecs
 import sys
@@ -139,25 +138,15 @@ def parse_trick_and_run(trick_data, args):
     build_docker_image(trick_data['dockerfile'][0]['path'], container_name)
     os.chdir(original_directory)
 
-
-
-    # we should check for server and file existance in the docker container building
-    # if bool(trick_data['dependencies'][0]['server']):
-    #     # print("true")
-    #     if not dependency_check.check_server():
-    #         print(f"HTTP not turned on host. {x_button} \nQuitting Trick")
-    #         return 1
-
-
     # third param to run_docker_container will always be for network. Waiting to find out what fourth, ..., nth is.
     run_docker_container(
-                            container_name, 
-                            container_name, 
-                            str(trick_data['docker_config'][0]['network_mode']), 
-                            trick_data['docker_config'][1]['read_only'],
-                            trick_data['docker_config'][2]['security_opt'],
-                            trick_data['docker_config'][3]['pid_mode'],
-                            trick_data['docker_config'][4]['cpu_shares'],
-                            trick_data['docker_config'][5]['volumes'],
-                            trick_data['docker_config'][6]['mem_limit']
+        container_name, 
+        container_name, 
+        str(trick_data['docker_config'][0]['network_mode']), 
+        trick_data['docker_config'][1]['read_only'],
+        trick_data['docker_config'][2]['security_opt'],
+        trick_data['docker_config'][3]['pid_mode'],
+        trick_data['docker_config'][4]['cpu_shares'],
+        trick_data['docker_config'][5]['volumes'],
+        trick_data['docker_config'][6]['mem_limit']
                         )

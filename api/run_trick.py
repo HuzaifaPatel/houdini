@@ -1,3 +1,12 @@
+def convert_to_camel_case(snake_str):
+    # Split the string by underscores
+    components = snake_str.split('_')
+    
+    # Capitalize the first letter of each component and join them together
+    camel_case_str = ''.join(x.capitalize() for x in components)
+    
+    return camel_case_str
+
 def run_trick(trick):
     import requests
     import json
@@ -12,6 +21,7 @@ def run_trick(trick):
 
     print(data)
 
+
 def for_host_debug():
     import requests
     import json
@@ -24,7 +34,7 @@ def for_host_debug():
         'file': "85c8de88d28866bf0868090b3961162bf82392f690d9e4730910f4af7c6ab3ee.txt",
     }
 
-    response = requests.get(f'{VM_URL}/run-trick/{trick}', params=params)
+    response = requests.get(f'{VM_URL}/run-trick/{convert_to_camel_case(trick)}/{trick}', params=params)
     data = str(response.text)
     
     print(data)
