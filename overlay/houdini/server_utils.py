@@ -140,11 +140,13 @@ def parse_trick_and_run(trick_data, args):
     os.chdir(original_directory)
 
 
-    if bool(trick_data['dependencies'][0]['server']):
-        # print("true")
-        if not dependency_check.check_server():
-            print(f"HTTP not turned on host. {x_button} \nQuitting Trick")
-            return 1
+
+    # we should check for server and file existance in the docker container building
+    # if bool(trick_data['dependencies'][0]['server']):
+    #     # print("true")
+    #     if not dependency_check.check_server():
+    #         print(f"HTTP not turned on host. {x_button} \nQuitting Trick")
+    #         return 1
 
 
     # third param to run_docker_container will always be for network. Waiting to find out what fourth, ..., nth is.

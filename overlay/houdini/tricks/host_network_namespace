@@ -10,5 +10,7 @@ docker_config:
   - security_opt: ["no-new-privileges"]
   - pid_mode: host
   - cpu_shares: 512
+  - volumes: null
+  - mem_limit: null
 trick:
   - path: /home/huzi/Documents/houdini/overlay/houdini/tricks/HostNetworkNamespace
