@@ -5,6 +5,7 @@ from server_utils import *
 import io
 import sys
 import os
+import contextlib
 app = Flask(__name__)
 app.config['DEBUG'] = True  # Enable debug mode
 
@@ -37,6 +38,7 @@ def version_status():
 def run_trick(trick):
     TRICK_PATH = f'tricks/{trick}'
     # Check if the file exists
+
     if not os.path.exists(TRICK_PATH):
         return jsonify({'error': f'Trick {trick} not found'}), 404
 
@@ -45,11 +47,11 @@ def run_trick(trick):
         trick_data = yaml.safe_load(file)
 
     output = io.StringIO()
-    sys.stdout = output
-    results = parse_trick_and_run(trick_data, request.args)
-    sys.stdout = sys.__stdout__
-    print_content = output.getvalue()
-    return Response(print_content, mimetype='text/plain')
+
+    with contextlib.redirect_stdout(output):
+        results = parse_trick_and_run(trick_data, request.args)
+
+    return Response(output.getvalue())
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=49153, debug=True)  # Replace with the VM's IP address

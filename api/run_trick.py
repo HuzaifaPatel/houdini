@@ -2,12 +2,12 @@ def run_trick(trick):
     import requests
     import json
     from houdini_config import VM_URL, get_value
-    metadata = {
-        'PRIV_MODE': get_value('PRIV_MODE'),
-        'APPARMOR': get_value('APPARMOR')
+    params = {
+        'container_name': trick,
+        'file': "85c8de88d28866bf0868090b3961162bf82392f690d9e4730910f4af7c6ab3ee.txt",
     }
 
-    response = requests.get(f'{VM_URL}/run-trick/{trick}', params=metadata)
+    response = requests.get(f'{VM_URL}/run-trick/{trick}', params=params)
     data = response.text
 
     print(data)
@@ -17,7 +17,7 @@ def for_host_debug():
     import json
     PORT = 49153
     VM_URL = f'http://127.0.0.1:{PORT}'
-    trick = "host_networknamespace" # this will be the container name too
+    trick = "read_only_filesystem" # this will be the container name too
 
     params = {
         'container_name': trick,
@@ -25,8 +25,10 @@ def for_host_debug():
     }
 
     response = requests.get(f'{VM_URL}/run-trick/{trick}', params=params)
-    data = response.text
+    data = str(response.text)
+    
     print(data)
+
 
 for_host_debug()
 

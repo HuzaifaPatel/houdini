@@ -8,6 +8,8 @@ import io
 import tarfile
 import dependency_check
 import os
+import codecs
+import sys
 check_mark = '\u2713'
 x_button = "\u2717"
 client = docker.from_env()
@@ -38,22 +40,27 @@ def build_docker_image(dockerfile_path, image_name):
         print(f"Error building Docker image: {e}")
 
 
-def run_docker_container(image_name, container_name, network_mode, read_only, security_opt, pid_mode, cpu_shares):
+def run_docker_container(image_name, container_name, network_mode, read_only, security_opt, pid_mode, cpu_shares, volumes, mem_limit):
     try:
-        # Run a Docker container from the image
-        container = client.containers.run(image_name, name=container_name, detach=True, network_mode=network_mode, read_only=read_only, security_opt=security_opt, pid_mode=pid_mode, cpu_shares=cpu_shares)
-        print(f"Container '{container_name}' started successfully. {check_mark}")
-        
-        # Wait for the container to complete (if necessary)
-        container.wait()
 
-        # Fetch the logs
-        logs = container.logs()
+        container = client.containers.run(
+            image_name, 
+            name=container_name, 
+            detach=True, 
+            network_mode=network_mode, 
+            read_only=read_only, 
+            security_opt=security_opt, 
+            pid_mode=pid_mode, 
+            cpu_shares=cpu_shares,
+            volumes=volumes,
+            mem_limit=mem_limit
+        )
 
-        # Decode the logs if needed
-        logs_decoded = logs.decode('utf-8')
+        print(f"Container '{container_name}' started successfully.")
 
-        print(logs_decoded)
+        # Attach to the container's logs
+        for chunk in codecs.iterdecode(container.attach(stdout=True, stderr=True, stream=True, logs=True), "utf8"):
+            sys.stdout.write(chunk)
 
     except docker.errors.APIError as e:
         print(f"Error running Docker container: {e}")
@@ -90,7 +97,6 @@ def run_command_in_container(container_name, command):
         # Execute the command inside the container
         exec_id = client.api.exec_create(container.id, exec_command, tty=True)
         output = client.api.exec_start(exec_id)
-        print(output.decode())
     except docker.errors.APIError as e:
         print(f"Error executing command in container: {e}")
 
@@ -107,42 +113,49 @@ def check_if_container_is_running(container_name):
         print(f"No existing container named {container_name} found. Proceeding to create a new one.")
 
 
-def parse_yaml(trick_name):
-    # Load the YAML file
-    with open(f'tricks/{trick_name}', 'r') as file:
-        yaml_data = yaml.safe_load(file)
 
-    return yaml_data
+def delete_docker_image(image_identifier):
+    try:
+        # Get the image
+        image = client.images.get(image_identifier)
+        
+        # Remove the image
+        client.images.remove(image.id)
+        print(f"Successfully removed image: {image.id}")
+    except docker.errors.ImageNotFound:
+        print(f"Image '{image_identifier}' not found.")
+    except docker.errors.APIError as e:
+        print(f"Error occurred: {e}")
 
 def parse_trick_and_run(trick_data, args):
     container_name = args.get('container_name')
-    yaml_data = parse_yaml(container_name)
+    # delete_docker_image(container_name)
 
     # next three function calls are generic. They will never be different
     check_if_container_is_running(container_name)
 
     original_directory = os.getcwd()
-    os.chdir(yaml_data['trick'][0]['path'])
-    build_docker_image(yaml_data['dockerfile'][0]['path'], container_name)
+    os.chdir(trick_data['trick'][0]['path'])
+    build_docker_image(trick_data['dockerfile'][0]['path'], container_name)
     os.chdir(original_directory)
 
 
-    if bool(yaml_data['dependencies'][0]['server']):
+    if bool(trick_data['dependencies'][0]['server']):
         # print("true")
         if not dependency_check.check_server():
             print(f"HTTP not turned on host. {x_button} \nQuitting Trick")
             return 1
-        else:
-            print("Server is not needed for this trick")
 
 
     # third param to run_docker_container will always be for network. Waiting to find out what fourth, ..., nth is.
     run_docker_container(
                             container_name, 
                             container_name, 
-                            yaml_data['docker_config'][0]['network_mode'], 
-                            yaml_data['docker_config'][1]['read_only'],
-                            yaml_data['docker_config'][2]['security_opt'],
-                            yaml_data['docker_config'][3]['pid_mode'],
-                            yaml_data['docker_config'][4]['cpu_shares']
+                            str(trick_data['docker_config'][0]['network_mode']), 
+                            trick_data['docker_config'][1]['read_only'],
+                            trick_data['docker_config'][2]['security_opt'],
+                            trick_data['docker_config'][3]['pid_mode'],
+                            trick_data['docker_config'][4]['cpu_shares'],
+                            trick_data['docker_config'][5]['volumes'],
+                            trick_data['docker_config'][6]['mem_limit']
                         )

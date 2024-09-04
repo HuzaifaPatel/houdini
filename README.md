@@ -44,7 +44,7 @@ Dockerfile: takes a path to a dockerfile
 ### Network
 
   &nbsp;&nbsp;&nbsp;&nbsp;**options:**  
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `Bridge`  
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `bridge`  
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `Host`
 
 ### read_only (read only filesystem)
@@ -64,10 +64,17 @@ Dockerfile: takes a path to a dockerfile
 
   &nbsp;&nbsp;&nbsp;&nbsp;**options:**  
    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `Host`  
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `None`
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `null`
 
 ### cpu_shares
 
   &nbsp;&nbsp;&nbsp;&nbsp;**options:**  
    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- '512'  
    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `any value`
+
+
+### mem_limit
+
+  &nbsp;&nbsp;&nbsp;&nbsp;**options:**  
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- '512 * 1024 * 1024'  
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `null`
