@@ -14,7 +14,7 @@ RUN python3 -m venv venv && \
     venv/bin/pip install requests psutil
 
 # Copy the Python script into the container
-COPY cpu_shares.py /cpu_shares.py
+COPY privileged_ports.py /privileged_ports.py
 
 # Specify the default command (you can override this when running the container)
-CMD ["venv/bin/python", "/cpu_shares.py"]
+CMD ["venv/bin/python", "/privileged_ports.py"]

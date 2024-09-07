@@ -15,8 +15,8 @@ def run_trick(trick):
         'container_name': trick,
         'file': "85c8de88d28866bf0868090b3961162bf82392f690d9e4730910f4af7c6ab3ee.txt",
     }
-
-    response = requests.get(f'{VM_URL}/run-trick/{trick}', params=params)
+    print(f'{VM_URL}/run-trick/{convert_to_camel_case(trick)}/{trick}')
+    response = requests.get(f'{VM_URL}/run-trick/{convert_to_camel_case(trick)}/{trick}', params=params)
     data = response.text
 
     print(data)
@@ -27,7 +27,7 @@ def for_host_debug():
     import json
     PORT = 49153
     VM_URL = f'http://127.0.0.1:{PORT}'
-    trick = "host_network_namespace" # this will be the container name too
+    trick = "privileged_ports" # this will be the container name too
 
     params = {
         'container_name': trick,
@@ -40,7 +40,7 @@ def for_host_debug():
     print(data)
 
 
-for_host_debug()
+# for_host_debug()
 
 # routine is a collection of tricks
 

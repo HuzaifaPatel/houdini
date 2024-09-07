@@ -11,5 +11,8 @@ docker_config:
   - cpu_shares: null
   - volumes: null
   - mem_limit: null
+  - cpuset_cpus: null
+  - cpu_quota: null
+  - cpu_period: null
 trick:
   - path: /home/huzi/Documents/houdini/overlay/houdini/tricks/ReadOnlyFilesystem

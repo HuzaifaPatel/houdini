@@ -28,7 +28,7 @@ python3 -m venv venv
 | CVE-2019-5736  | https://nvd.nist.gov/vuln/detail/CVE-2019-5736  | Docker Version < 18.09.2 doesn't work. Socket doesn't start idk why |
 | CVE-2018-15664 | https://nvd.nist.gov/vuln/detail/cve-2018-15664 | Incomplete |
 | CVE-2022-0492  | https://nvd.nist.gov/vuln/detail/CVE-2022-0492  | Incomplete |
-| CPUShares | | Complete
+| Cpu Shares | | Complete
 | Host Network Namespace | | Complete
 | Process Namespace | | Complete
 | Read Only Filesystem | | Complete
@@ -81,4 +81,11 @@ Dockerfile: takes a path to a dockerfile
 
   &nbsp;&nbsp;&nbsp;&nbsp;**options:**  
    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- '512 * 1024 * 1024'  
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `null`
+
+
+### cpuset_cpus
+
+  &nbsp;&nbsp;&nbsp;&nbsp;**options:**  
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- "0,1...,num_cores"  
    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- `null`
