@@ -56,7 +56,6 @@ class BuildrootManager:
 		self.set_buildroot_pkg()
 		shutil.copy(BUILDROOT_CONFIG_FILE, FILESYSTEM_PATH)
 		self.make_olddefconfig()
-		# KernelConfigurator.set_BR2_DEFAULT_KERNEL_VERSION() # no longer used
 		set_selinux_mode.update_selinux_config()
 		self.make(command, 'rootfs-ext2')
 
@@ -77,10 +76,11 @@ class BuildrootManager:
 	def start_vm(self, kernel=get_absolute_path("/kernels/6.5.5/images/bzImage"), drive=get_absolute_path("/filesystem/images/rootfs.ext2")):
 		qemu_cmd = [
 		    "qemu-system-x86_64",
+		    "-smp", str(CPU_CORES),
 		    "-m", "{}".format(VM_RAM),
 		    "-kernel", kernel,
 		    "-drive", "file={},if=virtio,format=raw".format(drive),
-		    "-append", "rootwait root=/dev/vda console=tty1 console=ttyS0",
+		    "-append", "rootwait root=/dev/vda console=tty1 console=ttyS0 quiet",
 		    "-serial", "mon:stdio",
 		    "-net", "nic,model=virtio",
 		    "-net", "user,hostfwd=tcp::{}-:{}".format(PORT, PORT),

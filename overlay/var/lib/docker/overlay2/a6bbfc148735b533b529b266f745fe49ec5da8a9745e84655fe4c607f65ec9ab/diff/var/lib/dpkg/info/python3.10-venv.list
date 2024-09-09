@@ -1,0 +1,14 @@
+/.
+/usr
+/usr/lib
+/usr/lib/python3.10
+/usr/lib/python3.10/ensurepip
+/usr/lib/python3.10/ensurepip/__init__.py
+/usr/lib/python3.10/ensurepip/__main__.py
+/usr/lib/python3.10/ensurepip/_uninstall.py
+/usr/share
+/usr/share/doc
+/usr/share/lintian
+/usr/share/lintian/overrides
+/usr/share/lintian/overrides/python3.10-venv
+/usr/share/doc/python3.10-venv

@@ -1,6 +1,6 @@
 name: host_network_namespace
 dockerfile:
-  - path: /home/huzi/Documents/houdini/overlay/houdini/tricks/ProcessNamespace/Dockerfile
+  - path: Dockerfile
 dependencies:
   - server: True
   - file: 85c8de88d28866bf0868090b3961162bf82392f690d9e4730910f4af7c6ab3ee.txt
@@ -15,5 +15,7 @@ docker_config:
   - cpuset_cpus: null
   - cpu_quota: null
   - cpu_period: null
+  - cap_add: []
+  - cap_drop: []
 trick:
-  - path: /home/huzi/Documents/houdini/overlay/houdini/tricks/ProcessNamespace
+  - path: /houdini/tricks/ProcessNamespace

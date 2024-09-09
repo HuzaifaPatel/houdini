@@ -15,6 +15,7 @@ docker_config:
   - cpuset_cpus: null
   - cpu_quota: null
   - cpu_period: null
-  - cap_add: ["NET_BIND_SERVICE"]
+  - cap_add: []
+  - cap_drop: ["NET_BIND_SERVICE"]
 trick:
   - path: /houdini/tricks/PrivilegedPorts
