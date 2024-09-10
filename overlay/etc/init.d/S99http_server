@@ -1,0 +1,70 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          python-http-server
+# Required-Start:    $network $local_fs $remote_fs
+# Required-Stop:     $network $local_fs $remote_fs
+# Default-Start:     3 4 5
+# Default-Stop:      0 1 2 6
+# Short-Description: Start Python HTTP server
+### END INIT INFO
+
+# Path to Python executable
+PYTHON_BIN=/usr/bin/python
+
+# Port for the server
+PORT=8000
+
+# Directory to serve
+SERVER_DIR=/
+
+# PID file location
+PID_FILE=/var/run/python-http-server.pid
+
+start() {
+    echo "Starting Python HTTP server on port $PORT..."
+    # Start the server in the background and save the PID
+    $PYTHON_BIN -m http.server $PORT --directory $SERVER_DIR &
+    echo $! > $PID_FILE
+}
+
+stop() {
+    echo "Stopping Python HTTP server..."
+    if [ -f $PID_FILE ]; then
+        # Kill the process using the saved PID
+        kill $(cat $PID_FILE)
+        rm -f $PID_FILE
+    else
+        echo "PID file not found. The server might not be running."
+    fi
+}
+
+status() {
+    if [ -f $PID_FILE ]; then
+        echo "Python HTTP server is running with PID $(cat $PID_FILE)."
+    else
+        echo "Python HTTP server is not running."
+    fi
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    status)
+        status
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 1
+        ;;
+esac
+
+exit 0

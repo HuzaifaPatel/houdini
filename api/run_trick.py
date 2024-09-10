@@ -39,7 +39,7 @@ def for_host_debug():
     print(data)
 
 
-# for_host_debug()
+for_host_debug()
 
 # routine is a collection of tricks
 

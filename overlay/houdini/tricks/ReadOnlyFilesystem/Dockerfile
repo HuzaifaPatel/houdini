@@ -10,8 +10,7 @@ WORKDIR /
 
 # Create a virtual environment and install packages
 RUN python3 -m venv venv && \
-    venv/bin/pip install --upgrade pip && \
-    venv/bin/pip install requests
+    venv/bin/pip install --upgrade pip
 
 # Copy the Python script into the container
 COPY read_only_filesystem.py /read_only_filesystem.py

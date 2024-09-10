@@ -17,5 +17,6 @@ docker_config:
   - cpu_period: null
   - cap_add: []
   - cap_drop: []
+  - privileged: False
 trick:
   - path: /houdini/tricks/HostMount

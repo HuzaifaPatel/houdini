@@ -1,6 +1,6 @@
 name: read_only_filesystem
 dockerfile:
-  - path: /home/huzi/Documents/houdini/overlay/houdini/tricks/ReadOnlyFilesystem/Dockerfile
+  - path: Dockerfile
 dependencies:
   - server: False
 docker_config: 
@@ -14,5 +14,8 @@ docker_config:
   - cpuset_cpus: null
   - cpu_quota: null
   - cpu_period: null
+  - cap_add: []
+  - cap_drop: []
+  - privileged: False
 trick:
-  - path: /home/huzi/Documents/houdini/overlay/houdini/tricks/ReadOnlyFilesystem
+  - path: /houdini/tricks/ReadOnlyFilesystem

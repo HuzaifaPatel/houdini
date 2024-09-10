@@ -12,7 +12,7 @@ def server_running(host='localhost', port=8000):
             return False
 
 
-def download_file(url='http://localhost:8000/home/huzi/Desktop/85c8de88d28866bf0868090b3961162bf82392f690d9e4730910f4af7c6ab3ee.txt', local_filename="85c8de88d28866bf0868090b3961162bf82392f690d9e4730910f4af7c6ab3ee.txt"):
+def download_file(url='http://localhost:8000/houdini/tricks/HostNetworkNamespace/85c8de88d28866bf0868090b3961162bf82392f690d9e4730910f4af7c6ab3ee.txt', local_filename="85c8de88d28866bf0868090b3961162bf82392f690d9e4730910f4af7c6ab3ee.txt"):
     try:
         # Send a GET request to the URL
         response = requests.get(url, stream=True)

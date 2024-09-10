@@ -13,9 +13,10 @@ docker_config:
   - volumes : {"/proc": {"bind": "/host_proc", "mode": "ro"}}
   - mem_limit: null
   - cpuset_cpus: "1,2"
-  - cpu_quota: null
-  - cpu_period: null
+  - cpu_quota: 50000
+  - cpu_period: 100000
   - cap_add: []
   - cap_drop: []
+  - privileged: False
 trick:
   - path: /houdini/tricks/CpuShares

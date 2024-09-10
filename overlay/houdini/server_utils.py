@@ -39,7 +39,8 @@ def build_docker_image(dockerfile_path, image_name):
         print(f"Error building Docker image: {e}")
 
 
-def run_docker_container(image_name, container_name, network_mode, read_only, security_opt, pid_mode, cpu_shares, volumes, mem_limit, cpuset_cpus, cpu_quota, cpu_period, cap_add, cap_drop):
+
+def run_docker_container(image_name, container_name, network_mode, read_only, security_opt, pid_mode, cpu_shares, volumes, mem_limit, cpuset_cpus, cpu_quota, cpu_period, cap_add, cap_drop, privileged):
     try:
 
         container = client.containers.run(
@@ -48,7 +49,7 @@ def run_docker_container(image_name, container_name, network_mode, read_only, se
             detach=True, 
             network_mode=network_mode, 
             read_only=read_only, 
-            security_opt=security_opt, 
+            security_opt=security_opt,
             pid_mode=pid_mode, 
             cpu_shares=cpu_shares,
             volumes=volumes,
@@ -57,7 +58,8 @@ def run_docker_container(image_name, container_name, network_mode, read_only, se
             cpu_quota=cpu_quota,
             cpu_period=cpu_period,
             cap_add=cap_add,
-            cap_drop=cap_drop
+            cap_drop=cap_drop,
+            privileged=privileged
         )
 
         print(f"Container '{container_name}' started successfully.")
@@ -149,7 +151,7 @@ def parse_trick_and_run(trick_data, args):
         container_name, 
         str(trick_data['docker_config'][0]['network_mode']), 
         trick_data['docker_config'][1]['read_only'],
-        trick_data['docker_config'][2]['security_opt'],
+        list(trick_data['docker_config'][2]['security_opt']),
         trick_data['docker_config'][3]['pid_mode'],
         trick_data['docker_config'][4]['cpu_shares'],
         trick_data['docker_config'][5]['volumes'],
@@ -158,5 +160,6 @@ def parse_trick_and_run(trick_data, args):
         trick_data['docker_config'][8]['cpu_quota'],
         trick_data['docker_config'][9]['cpu_period'],
         trick_data['docker_config'][10]['cap_add'],
-        trick_data['docker_config'][11]['cap_drop']
+        trick_data['docker_config'][11]['cap_drop'],
+        trick_data['docker_config'][12]['privileged']
                         )
