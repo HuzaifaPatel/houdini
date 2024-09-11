@@ -10,7 +10,7 @@ docker_config:
   - security_opt: ["no-new-privileges"]
   - pid_mode: null
   - cpu_shares: 512
-  - volumes: null
+  - volumes: {'/proc': {'bind': '/proc', 'mode': 'rw'}
   - mem_limit: null
   - cpuset_cpus: null
   - cpu_quota: null
@@ -19,4 +19,4 @@ docker_config:
   - cap_drop: []
   - privileged: False
 trick:
-  - path: /houdini/tricks/HostMount
+  - path: /houdini/tricks/HostMount`

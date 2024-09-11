@@ -1,7 +1,7 @@
 import http.server
 import socketserver
 
-PORT = 22  # Privileged port
+PORT = 23  # Privileged port
 
 Handler = http.server.SimpleHTTPRequestHandler
 

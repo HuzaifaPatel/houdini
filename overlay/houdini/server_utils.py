@@ -40,7 +40,7 @@ def build_docker_image(dockerfile_path, image_name):
 
 
 
-def run_docker_container(image_name, container_name, network_mode, read_only, security_opt, pid_mode, cpu_shares, volumes, mem_limit, cpuset_cpus, cpu_quota, cpu_period, cap_add, cap_drop, privileged):
+def run_docker_container(image_name, container_name, network_mode, read_only, security_opt, pid_mode, cpu_shares, volumes, mem_limit, cpuset_cpus, cpu_quota, cpu_period, cap_add, cap_drop, privileged, user, pids_limit):
     try:
 
         container = client.containers.run(
@@ -59,14 +59,32 @@ def run_docker_container(image_name, container_name, network_mode, read_only, se
             cpu_period=cpu_period,
             cap_add=cap_add,
             cap_drop=cap_drop,
-            privileged=privileged
+            privileged=privileged,
+            user=user,
+            pids_limit=pids_limit
         )
+
+
 
         print(f"Container '{container_name}' started successfully.")
 
         # Attach to the container's logs
         for chunk in codecs.iterdecode(container.attach(stdout=True, stderr=True, stream=True, logs=True), "utf8"):
             sys.stdout.write(chunk)
+
+        # Wait for the container to finish
+        exit_status = container.wait()
+        
+        # Get the exit code
+        exit_code = exit_status['StatusCode']
+        print(f"Container exited with code: {exit_code}")
+        
+
+        # Check if the container exited properly
+        if exit_code == 0:
+            print("Container exited successfully.")
+        else:
+            print("Container exited with errors.")
 
     except docker.errors.APIError as e:
         print(f"Error running Docker container: {e}")
@@ -161,5 +179,8 @@ def parse_trick_and_run(trick_data, args):
         trick_data['docker_config'][9]['cpu_period'],
         trick_data['docker_config'][10]['cap_add'],
         trick_data['docker_config'][11]['cap_drop'],
-        trick_data['docker_config'][12]['privileged']
-                        )
+        trick_data['docker_config'][12]['privileged'],
+        trick_data['docker_config'][13]['user'],
+        trick_data['docker_config'][14]['pids_limit']   
+
+        )

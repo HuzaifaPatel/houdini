@@ -1,0 +1,24 @@
+name: memory_limit
+dockerfile:
+  - path: Dockerfile
+dependencies:
+  - server: False
+  - security_opt: ["seccomp={\"defaultAction\":\"SCMP_ACT_ALLOW\",\"syscalls\":[{\"name\":\"bind\",\"action\":\"SCMP_ACT_ERRNO\"}]}"]
+docker_config: 
+  - network_mode: bridge
+  - read_only: True
+  - security_opt: []
+  - pid_mode: null
+  - cpu_shares: 512
+  - volumes : {"/proc": {"bind": "/host_proc", "mode": "ro"}}
+  - mem_limit: ""
+  - cpuset_cpus: null
+  - cpu_quota: null
+  - cpu_period: null
+  - cap_add: ["SYS_RESOURCE"]
+  - cap_drop: []
+  - privileged: False
+  - user: root
+  - pids_limit: null
+trick:
+  - path: /home/huzi/Documents/houdini/overlay/houdini/tricks/MemoryLimit

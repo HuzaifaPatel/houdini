@@ -1,0 +1,23 @@
+name: cpu_shares
+dockerfile:
+  - path: Dockerfile
+dependencies:
+  - server: False
+docker_config: 
+  - network_mode: bridge
+  - read_only: True
+  - security_opt: []
+  - pid_mode: null
+  - cpu_shares: null
+  - volumes : {"/proc": {"bind": "/host_proc", "mode": "ro"}}
+  - mem_limit: ""
+  - cpuset_cpus: null
+  - cpu_quota: null
+  - cpu_period: null
+  - cap_add: []
+  - cap_drop: []
+  - privileged: False
+  - user: root
+  - pids_limit: null
+trick:
+  - path: /home/huzi/Documents/houdini/overlay/houdini/tricks/PidLimit

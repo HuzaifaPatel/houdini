@@ -17,5 +17,8 @@ docker_config:
   - cpu_period: null
   - cap_add: []
   - cap_drop: []
+  - privileged: False
+  - user: root
+  - pids_limit: null
 trick:
-  - path: /houdini/tricks/ProcessNamespace
+  - path: /home/huzi/Documents/houdini/overlay/houdini/tricks/ProcessNamespace

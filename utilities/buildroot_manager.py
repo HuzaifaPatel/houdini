@@ -80,7 +80,7 @@ class BuildrootManager:
 		    "-m", "{}".format(VM_RAM),
 		    "-kernel", kernel,
 		    "-drive", "file={},if=virtio,format=raw".format(drive),
-		    "-append", "rootwait root=/dev/vda console=tty1 console=ttyS0 quiet",
+		    "-append", "rootwait root=/dev/vda console=tty1 console=ttyS0 quiet loglevel=0",
 		    "-serial", "mon:stdio",
 		    "-net", "nic,model=virtio",
 		    "-net", "user,hostfwd=tcp::{}-:{}".format(PORT, PORT),
