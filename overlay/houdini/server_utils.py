@@ -9,6 +9,7 @@ import tarfile
 import os
 import codecs
 import sys
+from docker.types import Ulimit
 check_mark = '\u2713'
 x_button = "\u2717"
 client = docker.from_env()
@@ -26,7 +27,6 @@ def get_version():
     for key, value in versions.items():
         result = subprocess.run(value, check=True, stdout=subprocess.PIPE)
         version_info[key] = result.stdout.decode('utf-8').strip()
-    
     return version_info
 
 
@@ -40,7 +40,7 @@ def build_docker_image(dockerfile_path, image_name):
 
 
 
-def run_docker_container(image_name, container_name, network_mode, read_only, security_opt, pid_mode, cpu_shares, volumes, mem_limit, cpuset_cpus, cpu_quota, cpu_period, cap_add, cap_drop, privileged, user, pids_limit):
+def run_docker_container(image_name, container_name, network_mode, read_only, security_opt, pid_mode, cpu_shares, volumes, mem_limit, cpuset_cpus, cpu_quota, cpu_period, cap_add, cap_drop, privileged, user, pids_limit, ipc_mode):
     try:
 
         container = client.containers.run(
@@ -61,7 +61,8 @@ def run_docker_container(image_name, container_name, network_mode, read_only, se
             cap_drop=cap_drop,
             privileged=privileged,
             user=user,
-            pids_limit=pids_limit
+            pids_limit=pids_limit,
+            ipc_mode=ipc_mode
         )
 
 
@@ -136,8 +137,6 @@ def check_if_container_is_running(container_name):
     except docker.errors.NotFound:
         print(f"No existing container named {container_name} found. Proceeding to create a new one.")
 
-
-
 def delete_docker_image(image_identifier):
     try:
         # Get the image
@@ -151,9 +150,9 @@ def delete_docker_image(image_identifier):
     except docker.errors.APIError as e:
         print(f"Error occurred: {e}")
 
+
 def parse_trick_and_run(trick_data, args):
     container_name = args.get('container_name')
-    # delete_docker_image(container_name)
 
     # next three function calls are generic. They will never be different
     check_if_container_is_running(container_name)
@@ -181,6 +180,6 @@ def parse_trick_and_run(trick_data, args):
         trick_data['docker_config'][11]['cap_drop'],
         trick_data['docker_config'][12]['privileged'],
         trick_data['docker_config'][13]['user'],
-        trick_data['docker_config'][14]['pids_limit']   
-
+        trick_data['docker_config'][14]['pids_limit'],
+        trick_data['docker_config'][15]['ipc_mode']
         )

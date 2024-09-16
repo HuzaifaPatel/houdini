@@ -3,7 +3,6 @@ dockerfile:
   - path: Dockerfile
 dependencies:
   - server: False
-  - file: 85c8de88d28866bf0868090b3961162bf82392f690d9e4730910f4af7c6ab3ee.txt
 docker_config: 
   - network_mode: bridge
   - read_only: False
@@ -12,11 +11,13 @@ docker_config:
   - cpu_shares: 512
   - volumes : {"/proc": {"bind": "/host_proc", "mode": "ro"}}
   - mem_limit: null
-  - cpuset_cpus: "1,2"
+  - cpuset_cpus: null
   - cpu_quota: 50000
   - cpu_period: 100000
   - cap_add: []
   - cap_drop: []
   - privileged: False
+  - user: root
+  - pids_limit: null
 trick:
   - path: /houdini/tricks/CpuShares

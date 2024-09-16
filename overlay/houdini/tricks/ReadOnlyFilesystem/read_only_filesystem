@@ -17,5 +17,7 @@ docker_config:
   - cap_add: []
   - cap_drop: []
   - privileged: False
+  - user: root
+  - pids_limit: null
 trick:
   - path: /houdini/tricks/ReadOnlyFilesystem

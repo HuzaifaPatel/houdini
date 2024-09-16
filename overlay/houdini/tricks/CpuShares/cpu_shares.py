@@ -39,7 +39,10 @@ if __name__ == "__main__":
         while time.time() < end_time:
             if not queue.empty():
                 usage = queue.get()
-                print(f"Host CPU Usage per core: {usage}%")
+                timestamp = time.strftime('%Y-%m-%d %H:%M:%S')
+                avg_usage = sum(usage) / len(usage)
+                print(f"[{timestamp}] Host CPU Usage per core: {usage}%")
+                print(f"[{timestamp}] Average CPU Usage: {avg_usage:.2f}%")
             time.sleep(1)
     except KeyboardInterrupt:
         print("Terminating stress test")

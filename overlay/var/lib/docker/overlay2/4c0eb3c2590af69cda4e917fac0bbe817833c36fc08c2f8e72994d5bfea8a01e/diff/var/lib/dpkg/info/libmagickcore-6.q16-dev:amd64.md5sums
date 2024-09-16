@@ -1,0 +1,9 @@
+ea73afec53c163cd1a31cab11fba71ae  usr/lib/x86_64-linux-gnu/ImageMagick-6.9.11/bin-q16/Magick-config
+7ac6c6540e0bf474e435bab9fdd1f11b  usr/lib/x86_64-linux-gnu/ImageMagick-6.9.11/bin-q16/MagickCore-config
+b331e5c37768c1cb03290df5d0d2b230  usr/lib/x86_64-linux-gnu/libMagickCore-6.Q16.a
+75a04da607b16805932cdde5532fbb5f  usr/lib/x86_64-linux-gnu/libMagickCore-6.Q16.la
+b7d8bad29a8b8a8c0eaccf7fd3b51be8  usr/lib/x86_64-linux-gnu/pkgconfig/ImageMagick-im6.q16.pc
+972446e38ca51befc47854c1eb233325  usr/share/doc/libmagickcore-6.q16-dev/NEWS.Debian.gz
+7204e31933243c97f10c2587d05830ed  usr/share/doc/libmagickcore-6.q16-dev/changelog.Debian.gz
+1c91f57dca38cc840dd35b8d4dc2ce3b  usr/share/doc/libmagickcore-6.q16-dev/changelog.gz
+c604c03305ce296f61706a0421604971  usr/share/doc/libmagickcore-6.q16-dev/copyright

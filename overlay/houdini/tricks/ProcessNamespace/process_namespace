@@ -21,4 +21,4 @@ docker_config:
   - user: root
   - pids_limit: null
 trick:
-  - path: /home/huzi/Documents/houdini/overlay/houdini/tricks/ProcessNamespace
+  - path: /houdini/tricks/ProcessNamespace

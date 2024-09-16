@@ -26,7 +26,7 @@ def for_host_debug():
     import json
     PORT = 49153
     VM_URL = f'http://127.0.0.1:{PORT}'
-    trick = "process_namespace" # this will be the container name too
+    trick = "ipc_namespace" # this will be the container name too
 
     params = {
         'container_name': trick,

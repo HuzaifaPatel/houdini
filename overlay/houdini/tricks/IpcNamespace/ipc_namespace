@@ -1,0 +1,25 @@
+name: 
+  - ipc_namespace
+dockerfile:
+  - path: Dockerfile
+dependencies:
+  - server: False
+docker_config: 
+  - network_mode: bridge
+  - read_only: False
+  - security_opt: ["no-new-privileges"]
+  - pid_mode: null
+  - cpu_shares: 512
+  - volumes : {"/proc": {"bind": "/host_proc", "mode": "ro"}}
+  - mem_limit: null
+  - cpuset_cpus: null
+  - cpu_quota: null
+  - cpu_period: null
+  - cap_add: []
+  - cap_drop: []
+  - privileged: False
+  - user: root
+  - pids_limit: null
+  - ipc_mode: host
+trick:
+  - path: /houdini/tricks/IpcNamespace

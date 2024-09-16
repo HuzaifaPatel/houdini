@@ -1,11 +1,11 @@
-# Use the official GCC image as the base
-FROM ubuntu:latest
+# Use the official Python slim image
+FROM python:3.9-slim
 
-# Set the working directory
+# Set up the working directory
 WORKDIR /
 
-# Copy the precompiled binary into the container
-COPY test /test
+# Copy the Python script into the container
+COPY memory_limit.py /memory_limit.py
 
-# Specify the default command to run the binary
-CMD ["./test"]
+# Specify the default command
+CMD ["python", "/memory_limit.py"]
