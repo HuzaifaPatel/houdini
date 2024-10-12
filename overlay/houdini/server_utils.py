@@ -45,7 +45,7 @@ def run_docker_container(image_name, container_name, network_mode, read_only, se
 
         container = client.containers.run(
             image_name, 
-            name=container_name, 
+            name=container_name,
             detach=True, 
             network_mode=network_mode, 
             read_only=read_only, 
@@ -70,7 +70,10 @@ def run_docker_container(image_name, container_name, network_mode, read_only, se
         print(f"Container '{container_name}' started successfully.")
 
         # Attach to the container's logs
-        for chunk in codecs.iterdecode(container.attach(stdout=True, stderr=True, stream=True, logs=True), "utf8"):
+        # Decode output, ignoring decoding errors
+
+        # Attach to the container's stdout
+        for chunk in codecs.iterdecode(container.attach(stdout=False, stderr=False, stream=False, logs=False), "utf-8"):
             sys.stdout.write(chunk)
 
         # Wait for the container to finish
@@ -163,9 +166,10 @@ def parse_trick_and_run(trick_data, args):
     os.chdir(original_directory)
 
     # third param to run_docker_container will always be for network. Waiting to find out what fourth, ..., nth is.
+    
     run_docker_container(
         container_name, 
-        container_name, 
+        container_name,
         str(trick_data['docker_config'][0]['network_mode']), 
         trick_data['docker_config'][1]['read_only'],
         list(trick_data['docker_config'][2]['security_opt']),
@@ -182,4 +186,4 @@ def parse_trick_and_run(trick_data, args):
         trick_data['docker_config'][13]['user'],
         trick_data['docker_config'][14]['pids_limit'],
         trick_data['docker_config'][15]['ipc_mode']
-        )
+    )

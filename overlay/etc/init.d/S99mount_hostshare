@@ -1,0 +1,18 @@
+#!/bin/sh
+# Start-up script to mount hostshare using 9p
+
+case "$1" in
+  start)
+    echo "Mounting hostshare..."
+    mount -t 9p -o trans=virtio hostshare /mnt
+    ;;
+  stop)
+    echo "Unmounting hostshare..."
+    umount /mnt
+    ;;
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+esac
+exit 0

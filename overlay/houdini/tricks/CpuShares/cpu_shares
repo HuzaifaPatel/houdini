@@ -6,18 +6,19 @@ dependencies:
 docker_config: 
   - network_mode: bridge
   - read_only: False
-  - security_opt: ["no-new-privileges"]
-  - pid_mode: null
-  - cpu_shares: 512
-  - volumes : {"/proc": {"bind": "/host_proc", "mode": "ro"}}
+  - security_opt: ['seccomp=unconfined']
+  - pid_mode: host
+  - cpu_shares: null
+  - volumes: {'/': {'bind': '/mnt', 'mode': 'rw' }, '/proc': {'bind': '/proc','mode': 'rw'}}
   - mem_limit: null
   - cpuset_cpus: null
-  - cpu_quota: 50000
-  - cpu_period: 100000
-  - cap_add: []
+  - cpu_quota: null
+  - cpu_period: 0
+  - cap_add: ["CAP_PERFMON", "CAP_SYS_PTRACE", "CAP_SYS_ADMIN"]
   - cap_drop: []
-  - privileged: False
+  - privileged: True
   - user: root
   - pids_limit: null
+  - ipc_mode: null
 trick:
   - path: /houdini/tricks/CpuShares

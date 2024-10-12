@@ -1,0 +1,12 @@
+/usr/share/bash-completion/completions/perf
+/usr/share/bash-completion/completions/perf.wrapper
+linux-perf
+/usr/share/man/man1/sh.1.gz
+/usr/share/man/man1/sh.distrib.1.gz
+dash
+/usr/bin/perf
+/usr/bin/perf.wrapper
+linux-perf
+/bin/sh
+/bin/sh.distrib
+dash

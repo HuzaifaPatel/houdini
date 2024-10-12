@@ -1,8 +1,11 @@
-# Dockerfile
 FROM python:3.9-slim
 
-# Copy the container script to the image
+RUN groupadd -r myuser && useradd -r -g myuser myuser
+
 COPY ipc_namespace.py /ipc_namespace.py
 
-# Entry point to run the script
+RUN chown myuser:myuser /ipc_namespace.py
+
+USER myuser
+
 CMD ["python", "/ipc_namespace.py"]

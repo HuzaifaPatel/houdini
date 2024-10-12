@@ -1,0 +1,11 @@
+/.
+/usr
+/usr/share
+/usr/share/doc
+/usr/share/doc/python3-pip-whl
+/usr/share/doc/python3-pip-whl/NEWS.Debian.gz
+/usr/share/doc/python3-pip-whl/changelog.Debian.gz
+/usr/share/doc/python3-pip-whl/changelog.gz
+/usr/share/doc/python3-pip-whl/copyright
+/usr/share/python-wheels
+/usr/share/python-wheels/pip-23.0.1-py3-none-any.whl

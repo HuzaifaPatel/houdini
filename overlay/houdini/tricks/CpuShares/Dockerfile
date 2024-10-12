@@ -1,14 +1,26 @@
-# Use the official Python slim image
-FROM python:3.9-slim
+# Use the official full Debian image
+FROM debian:bookworm
 
 # Set up the working directory
 WORKDIR /
 
-# Install Python packages directly
-RUN pip install --no-cache-dir requests psutil
+# Create a writable temporary directory and set TMPDIR
+RUN mkdir -p /var/tmp && \
+    export TMPDIR=/var/tmp && \
+    apt-get update && \
+    # Install sudo, perf, stress, bc, python3-venv, and other required system packages
+    apt-get install -y sudo linux-perf procps python3 python3-pip python3-venv stress bc \
+    # Install dependencies for matplotlib
+    libfreetype6-dev libpng-dev libjpeg-dev libopenjp2-7 libtiff5-dev \
+    gcc g++ libffi-dev libssl-dev python3-dev && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Copy the Python script into the container
-COPY cpu_shares.py /cpu_shares.py
 
-# Specify the default command
-CMD ["python", "/cpu_shares.py"]
+# Copy the CPU shares shell script into the container
+COPY cpu_shares.sh /cpu_shares.sh
+
+# Make the shell script executable
+RUN chmod +x /cpu_shares.sh
+
+# Step 3: Specify the command to activate the virtual environment and run the shell script
+CMD ["/bin/bash", "-c", "/cpu_shares.sh"]

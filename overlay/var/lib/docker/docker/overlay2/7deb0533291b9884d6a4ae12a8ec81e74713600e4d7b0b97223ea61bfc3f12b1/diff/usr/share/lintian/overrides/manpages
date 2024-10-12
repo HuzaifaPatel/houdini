@@ -1,0 +1,8 @@
+# /var/catman/ only described as alternate path
+manpages: FSSTND-dir-in-manual-page /var/catman/ [usr/share/man/man7/hier.7.gz:508]
+
+# /usr/man/ only described as alternate path
+manpages: FSSTND-dir-in-manual-page /usr/man/ [usr/share/man/man7/man.7.gz:415]
+
+# /usr/doc/ only described as alternate path
+manpages: FSSTND-dir-in-manual-page /usr/doc/ [usr/share/man/man7/uri.7.gz:664]

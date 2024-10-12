@@ -1,0 +1,14 @@
+/.
+/usr
+/usr/lib
+/usr/lib/python3.11
+/usr/lib/python3.11/ensurepip
+/usr/lib/python3.11/ensurepip/__init__.py
+/usr/lib/python3.11/ensurepip/__main__.py
+/usr/lib/python3.11/ensurepip/_uninstall.py
+/usr/share
+/usr/share/doc
+/usr/share/lintian
+/usr/share/lintian/overrides
+/usr/share/lintian/overrides/python3.11-venv
+/usr/share/doc/python3.11-venv

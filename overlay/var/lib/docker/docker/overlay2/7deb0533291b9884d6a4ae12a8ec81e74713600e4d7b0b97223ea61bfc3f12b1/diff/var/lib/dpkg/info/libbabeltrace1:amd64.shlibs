@@ -1,0 +1,6 @@
+libbabeltrace-ctf-metadata 1 libbabeltrace1 (>= 1.5.3-2~)
+libbabeltrace-ctf-text 1 libbabeltrace1 (>= 1.5.3-2~)
+libbabeltrace-ctf 1 libbabeltrace1 (>= 1.5.3-2~)
+libbabeltrace-dummy 1 libbabeltrace1 (>= 1.5.3-2~)
+libbabeltrace-lttng-live 1 libbabeltrace1 (>= 1.5.3-2~)
+libbabeltrace 1 libbabeltrace1 (>= 1.5.3-2~)

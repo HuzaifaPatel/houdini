@@ -18,7 +18,7 @@ docker_config:
   - cap_add: []
   - cap_drop: []
   - privileged: False
-  - user: root
+  - user: myuser
   - pids_limit: null
   - ipc_mode: host
 trick:

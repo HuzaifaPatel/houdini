@@ -1,0 +1,5 @@
+{"log":"Starting CPU stress test with 4 CPU workers for 60 seconds...\n","stream":"stdout","time":"2024-10-07T04:05:25.64372524Z"}
+{"log":"stress: info: [8] dispatching hogs: 20 cpu, 0 io, 0 vm, 0 hdd\n","stream":"stdout","time":"2024-10-07T04:05:25.67409502Z"}
+{"log":"Matplotlib is building the font cache; this may take a moment.\n","stream":"stderr","time":"2024-10-07T04:05:48.51593369Z"}
+{"log":"stress: info: [8] successful run completed in 60s\n","stream":"stdout","time":"2024-10-07T04:06:25.70069696Z"}
+{"log":"CPU usage chart saved as cpu_usage_chart.png\n","stream":"stdout","time":"2024-10-07T04:07:13.56246871Z"}

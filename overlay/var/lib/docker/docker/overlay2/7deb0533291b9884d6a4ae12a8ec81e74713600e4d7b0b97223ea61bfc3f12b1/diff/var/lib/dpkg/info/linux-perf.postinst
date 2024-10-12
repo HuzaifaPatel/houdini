@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -e
+
+old_version_suffix="$(echo "$2" | sed -rn 's/^([0-9]+\.[0-9]+).*/\1/p')"
+if [ "$old_version_suffix" ]; then
+    dpkg-maintscript-helper symlink_to_dir \
+	/usr/share/doc/linux-perf "linux-perf-${old_version_suffix}" 5.16\~rc8-1\~exp1 linux-perf -- "$@"
+fi
+
+
+# Automatically added by dh_python3
+if command -v py3compile >/dev/null 2>&1; then
+	py3compile -p linux-perf:amd64 /usr/lib/perf-core/scripts/python/Perf-Trace-Util/lib
+fi
+if command -v pypy3compile >/dev/null 2>&1; then
+	pypy3compile -p linux-perf:amd64 /usr/lib/perf-core/scripts/python/Perf-Trace-Util/lib || true
+fi
+
+# End automatically added section
+

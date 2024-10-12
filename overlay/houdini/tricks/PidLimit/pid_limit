@@ -18,6 +18,7 @@ docker_config:
   - cap_drop: []
   - privileged: False
   - user: root
-  - pids_limit: null
+  - pids_limit: 10
+  - ipc_mode: null
 trick:
-  - path: /home/huzi/Documents/houdini/overlay/houdini/tricks/PidLimit
+  - path: /houdini/tricks/PidLimit

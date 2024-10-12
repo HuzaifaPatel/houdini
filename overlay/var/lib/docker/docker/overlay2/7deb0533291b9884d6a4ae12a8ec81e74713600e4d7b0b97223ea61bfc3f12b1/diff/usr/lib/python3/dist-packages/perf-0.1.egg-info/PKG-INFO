@@ -1,0 +1,8 @@
+Metadata-Version: 2.1
+Name: perf
+Version: 0.1
+Summary: Interface with the Linux profiling infrastructure
+Home-page: http://perf.wiki.kernel.org
+Author: Arnaldo Carvalho de Melo
+Author-email: acme@redhat.com
+License: GPLv2

@@ -1,0 +1,7 @@
+#! /bin/sh
+set -e
+
+if [ "$1" = rtupdate ]; then
+	py3clean -p linux-perf /usr/lib/perf-core/scripts/python/Perf-Trace-Util/lib
+	py3compile -p linux-perf  /usr/lib/perf-core/scripts/python/Perf-Trace-Util/lib
+fi

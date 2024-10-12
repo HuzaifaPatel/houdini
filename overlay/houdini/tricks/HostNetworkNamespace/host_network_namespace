@@ -18,5 +18,8 @@ docker_config:
   - cap_add: []
   - cap_drop: []
   - privileged: False
+  - user: root
+  - pids_limit: null
+  - ipc_mode: null
 trick:
   - path: /houdini/tricks/HostNetworkNamespace

@@ -1,7 +1,6 @@
 # container_ipc.py (Container side)
 import mmap
 
-# Path to the shared memory file
 shm_file = "/dev/shm/shared_memory"
 
 # Read data from shared memory

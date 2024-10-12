@@ -1,7 +1,0 @@
-5514bf8a7e983aed404df597465b721a  usr/include/blkid/blkid.h
-5f6d7c0225d6c1c3243b7bc20e5d1d78  usr/lib/x86_64-linux-gnu/libblkid.a
-50c8ab82495d9931c49e22ec35e3e584  usr/lib/x86_64-linux-gnu/pkgconfig/blkid.pc
-874f7f4cc72b1b0792cc4e0e819a05a8  usr/share/doc/libblkid-dev/changelog.Debian.gz
-0bb7fd1ae3732779966184f543b8a91e  usr/share/doc/libblkid-dev/changelog.gz
-353888f385cfb82eb97a693e78f3cc9b  usr/share/doc/libblkid-dev/copyright
-6f63bba57da6fe31d226075c67676939  usr/share/man/man3/libblkid.3.gz
