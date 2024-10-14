@@ -9,6 +9,7 @@ import tarfile
 import os
 import codecs
 import sys
+import threading
 from docker.types import Ulimit
 check_mark = '\u2713'
 x_button = "\u2717"
@@ -40,7 +41,7 @@ def build_docker_image(dockerfile_path, image_name):
 
 
 
-def run_docker_container(image_name, container_name, network_mode, read_only, security_opt, pid_mode, cpu_shares, volumes, mem_limit, cpuset_cpus, cpu_quota, cpu_period, cap_add, cap_drop, privileged, user, pids_limit, ipc_mode):
+def run_docker_container(image_name, container_name, network_mode, read_only, security_opt, pid_mode, cpu_shares, volumes, mem_limit, cpuset_cpus, cpu_quota, cpu_period, cap_add, cap_drop, privileged, user, pids_limit, ipc_mode, path):
     try:
 
         container = client.containers.run(
@@ -66,8 +67,10 @@ def run_docker_container(image_name, container_name, network_mode, read_only, se
         )
 
 
-
         print(f"Container '{container_name}' started successfully.")
+
+        if image_name == "cpu_shares":
+            run_program_on_vm(path)
 
         # Attach to the container's logs
         # Decode output, ignoring decoding errors
@@ -154,6 +157,19 @@ def delete_docker_image(image_identifier):
         print(f"Error occurred: {e}")
 
 
+
+# for cpu_shares trick. We need to run perf on the VM.
+def run_program_on_vm(path):
+    original_directory = os.getcwd()
+    os.chdir(path)
+
+    # Run the bash script using subprocess
+    result = subprocess.run(f"bash /houdini/tricks/CpuShares/cpu_shares_host.sh", shell=True)
+    print(result)
+    os.chdir(original_directory)
+
+
+
 def parse_trick_and_run(trick_data, args):
     container_name = args.get('container_name')
 
@@ -185,5 +201,6 @@ def parse_trick_and_run(trick_data, args):
         trick_data['docker_config'][12]['privileged'],
         trick_data['docker_config'][13]['user'],
         trick_data['docker_config'][14]['pids_limit'],
-        trick_data['docker_config'][15]['ipc_mode']
+        trick_data['docker_config'][15]['ipc_mode'],
+        trick_data['trick'][0]['path']
     )

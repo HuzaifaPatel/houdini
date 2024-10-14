@@ -37,9 +37,9 @@ class BuildrootManager:
 			print(result.stderr)
 
 	def make_kernel(self):
-		# if os.path.isfile(os.path.join(KERNEL_DIR, KERNEL_VERSION, 'build', f'linux-{KERNEL_VERSION}', 'arch', 'x86', 'boot', 'bzImage')):
-		# 	Style.print_color('\nKernels exists.\n', 'green')
-		# 	return 0
+		if os.path.isfile(os.path.join(KERNEL_DIR, KERNEL_VERSION, 'build', f'linux-{KERNEL_VERSION}', 'arch', 'x86', 'boot', 'bzImage')):
+			Style.print_color('\nKernels exists.\n', 'green')
+			return 0
 
 		if not os.path.isdir(os.path.join(KERNEL_DIR, KERNEL_VERSION)):
 			os.makedirs(os.path.join(KERNEL_DIR, KERNEL_VERSION))

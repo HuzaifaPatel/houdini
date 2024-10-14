@@ -15,7 +15,7 @@ def run_trick(trick):
         'container_name': trick,
         'file': "85c8de88d28866bf0868090b3961162bf82392f690d9e4730910f4af7c6ab3ee.txt",
     }
-    
+    # response = requests.get(f'{VM_URL}/run-trick/{convert_to_camel_case(trick)}/{trick}', params=params)
     response = requests.get(f'{VM_URL}/run-trick/{convert_to_camel_case(trick)}/{trick}', params=params)
     data = response.text
     print(data)

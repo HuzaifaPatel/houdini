@@ -22,5 +22,7 @@ COPY cpu_shares.sh /cpu_shares.sh
 # Make the shell script executable
 RUN chmod +x /cpu_shares.sh
 
+HEALTHCHECK CMD pgrep stress || exit 1
+
 # Step 3: Specify the command to activate the virtual environment and run the shell script
 CMD ["/bin/bash", "-c", "/cpu_shares.sh"]
