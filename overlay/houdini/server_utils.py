@@ -72,11 +72,8 @@ def run_docker_container(image_name, container_name, network_mode, read_only, se
         if image_name == "cpu_shares":
             run_program_on_vm(path)
 
-        # Attach to the container's logs
-        # Decode output, ignoring decoding errors
-
         # Attach to the container's stdout
-        for chunk in codecs.iterdecode(container.attach(stdout=False, stderr=False, stream=False, logs=False), "utf-8"):
+        for chunk in codecs.iterdecode(container.attach(stdout=True, stderr=False, stream=True, logs=False), "utf-8"):
             sys.stdout.write(chunk)
 
         # Wait for the container to finish
@@ -176,10 +173,10 @@ def parse_trick_and_run(trick_data, args):
     # next three function calls are generic. They will never be different
     check_if_container_is_running(container_name)
 
-    original_directory = os.getcwd()
-    os.chdir(trick_data['trick'][0]['path'])
-    build_docker_image(trick_data['dockerfile'][0]['path'], container_name)
-    os.chdir(original_directory)
+    # original_directory = os.getcwd()
+    # os.chdir(trick_data['trick'][0]['path'])
+    # build_docker_image(trick_data['dockerfile'][0]['path'], container_name)
+    # os.chdir(original_directory)
 
     # third param to run_docker_container will always be for network. Waiting to find out what fourth, ..., nth is.
     

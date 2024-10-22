@@ -13,7 +13,7 @@ docker_config:
   - mem_limit: null
   - cpuset_cpus: null
   - cpu_quota: null
-  - cpu_period: 0
+  - cpu_period: null
   - cap_add: ["CAP_PERFMON", "CAP_SYS_PTRACE", "CAP_SYS_ADMIN"]
   - cap_drop: []
   - privileged: True

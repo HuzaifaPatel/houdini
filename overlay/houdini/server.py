@@ -39,8 +39,6 @@ def run_trick(trick_folder, trick):
 
     # version_status()
     # TRICK_PATH = f'tricks/{trick_folder}/{trick}'
-    
-
 
     TRICK_PATH = f'/houdini/tricks/{trick_folder}/{trick}'
     # Check if the file exists

@@ -10,7 +10,7 @@ if [ ! -d "./FlameGraph" ]; then
 fi
 
 # Set default duration (30 seconds if not specified)
-DURATION=${1:-60}  # Default duration is 30 seconds if not provided
+DURATION=${1:-10}  # Default duration is 30 seconds if not provided
 
 # Generate a timestamp-based filename for the output SVG
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")

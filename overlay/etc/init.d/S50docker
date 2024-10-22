@@ -7,3 +7,16 @@ mkdir -p $(dirname "$DOCKERD_LOG")
 
 # Start the Docker daemon
 /usr/bin/dockerd -H unix:///var/run/docker.sock > $DOCKERD_LOG 2>&1 &
+
+CACHE_DIR="/docker-cache"
+
+
+# Load all tar files from /docker-cache
+for IMAGE in "$CACHE_DIR"/*.tar; do
+  if [ -f "$IMAGE" ]; then
+    echo "Loading Docker image: $IMAGE"
+    docker load -i "$IMAGE"
+  else
+    echo "No Docker images found in $CACHE_DIR"
+  fi
+done

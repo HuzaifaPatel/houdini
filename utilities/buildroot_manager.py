@@ -73,14 +73,14 @@ class BuildrootManager:
 			Style.print_color("Error:", 'red')
 			print(result.stderr)
 
-	def start_vm(self, kernel=get_absolute_path("/kernels/6.5.5/images/bzImage"), drive=get_absolute_path("/filesystem/images/rootfs.ext2")):
+	def start_vm(self, kernel=get_absolute_path(f"/kernels/{KERNEL_VERSION}/images/bzImage"), drive=get_absolute_path("/filesystem/images/rootfs.ext2")):
 		qemu_cmd = [
 		    "qemu-system-x86_64",
 		    "-smp", str(CPU_CORES),
 		    "-m", "{}".format(VM_RAM),
 		    "-kernel", kernel,
 		    "-drive", "file={},if=virtio,format=raw".format(drive),
-		    "-append", "rootwait root=/dev/vda console=tty1 console=ttyS0 loglevel=8",
+		    "-append", "rootwait root=/dev/vda console=tty1 console=ttyS0 loglevel=8 systemd.unified_cgroup_hierarchy=1",
 		    "-serial", "mon:stdio",
 		    "-net", "nic,model=virtio",
 		    "-net", "user,hostfwd=tcp::{}-:{}".format(PORT, PORT),
