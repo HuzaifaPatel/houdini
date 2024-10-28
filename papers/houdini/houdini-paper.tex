@@ -1,0 +1,58 @@
+\documentclass[letterpaper,twocolumn,10pt]{article}
+\usepackage{../usenix-2020-09}
+\usepackage{../findlay}
+\usepackage{enumitem}
+
+% Silence annoying warning about nonfrench spacing
+\microtypecontext{spacing=nonfrench}
+
+% Enum with custom labels for design Goals
+\newlist{dgenum}{enumerate}{1}
+\setlist[dgenum]{label=\arabic*., ref=\arabic*}
+\crefname{design goal}{Design Goal}{Design Goals}
+\crefalias{dgenumi}{design goal}
+
+%-------------------------------------------------------------------------------
+\begin{document}
+%-------------------------------------------------------------------------------
+
+%don't want date printed
+%\date{}
+
+% make title bold and 14 pt font (Latex default is non-bold, 16 pt)
+\title{\Large \bf Houdini: Security Benchmarking of Container Confinement}
+%for single author (just remove % characters)
+% TODO: Authors hidden for anonymous submission
+% \author{
+% {\rm William P\@. Findlay}\\
+% Carleton University
+% \and
+% {\rm Kevin Guy}\\
+% Carleton University
+% \and
+% {\rm David Barrera}\\
+% Carleton University
+% \and
+% {\rm Anil Somayaji}\\
+% Carleton University
+% } % end author
+
+\maketitle
+
+\begin{abstract}
+  While container-based workloads are now a standard part of our cloud infrastructure, container security remains a challenging problem.  Container confinement is a particularly pressing problem, as without it a single vulnerable application can be used to compromise entire clusters of containers.  While we have many technologies that can be used to secure containers, currently there is no easy way to determine whether a given configuration provides even a basic level of protection.  Here we present \houdini, a security benchmark for container confinement.  Much as network scanning tools can help catch misconfigured firewalls, \houdini can check whether a given container configuration properly enforces confinement.  While it can be used to test deployable containers, \houdini is optimised for testing and comparing container confinement technologies.  Here we present the motivation, design, implementation, and initial results on running \houdini on a set of privileged and unprivileged container configurations.  By providing a benchmark framework by which container confinement technologies can be evaluated, we believe \houdini can help foster the development of next-generation container confinement technologies.
+\end{abstract}
+
+\input{sections/intro}
+\input{sections/confinement-problem}
+\input{sections/design-and-implementation}
+\input{sections/testing-confinement}
+\input{sections/evaluation}
+\input{sections/related}
+\input{sections/discussion}
+\input{sections/conclusion}
+
+\bibliographystyle{plain}
+\bibliography{../refs.bib}
+
+\end{document}

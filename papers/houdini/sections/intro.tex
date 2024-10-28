@@ -1,0 +1,41 @@
+\section{Introduction}
+
+Container-based workloads are now a standard part of our cloud infrastructure.  Unlike hardware virtual machines, containers are extremely lightweight, incurring essentially no overhead versus just running multiple applications on the same host.  Containers, however, allow workloads to be precisely replicated by including all userspace dependencies of an application in one unified image.  While containers help solve many development and deployment problems, they also create a new problem of container confinement.
+
+Linux cgroups, namespaces and separate mountpoints create the illusion of separation under normal conditions.  Yet there are numerous ways for this separation to fail, and when this happens, attackers can disrupt the operation of other containers or even take control of the host.  In principle, containers can be secured using a variety of technologies including SELinux, AppArmor, and seccomp.  These technologies are complex, however, and the confinement problem is subtle.  Best practices for securing containers [CITES] can help; a guide, however, provides no assurance that the resultant configuration prevents container escapes.  Container confinement is considered so problematic that the cloud industry has now developed multiple technologies for running containers within specially secured virtual machines [CITE gVisor, kata containers].  But would such solutions be necessary if we could check to see whether we were properly confining containers?
+
+Test suites are regularly used to verify that systems meet various requirements.  Performance benchmarks are used to compare the performance of hardware and software.  [LIST COMMON BENCHMARKS LIKE SPEC?]  In software development, tests are used to verify that important functionality has not been broken by code changes.  In many organizations, it is not possible to check in code without it first passing a battery of tests.  Test suites are also used to verify the functionality of production systems, for example with uptime monitors that verify that services are performing their designated functions.  While used less frequently, functional test suites are also used to check for security issues in deployed systems.  Network scanners, in particular, are often used to proactively find accidentally enabled services, firewall issues, and insecure software versions.
+
+Here we present the Houdini, the first test suite for verifying container confinement.  Given a docker container description (including both kernel version and specification of userspace filesystem), Houdini will instantiate the container in a standalone QEMU-based virtual machine and perform multiple tests (tricks, in our parlance) to see whether the configuration is vulnerable to known container escape methods.  Houdini is written in Rust and is easily extensible, providing an extension language for writing tricks.  While it can be used to check general host security, Houdini is specialized to the specific requirements of container confinement.
+
+[I WANT TO LIST CONTRIBUTIONS BUT I'M NOT SURE WHAT TO WRITE]
+
+In this paper we describe Houdini's motivation, design, and implementation.  We also present the results of case studies showing how Houdini can be used to detect misconfigured containers that allow for privilege escalation attacks on the host system.  Our hope with Houdini is that it will help with the deployment of better confined containers and will support the development of new technologies to more reliably confine containers.
+
+The rest of this paper proceeds as follows.  In Section~\ref{sec:confinement}, we explain the container confinement problem and associated technologies.  We describe Houdini's design and implementation in Section~\ref{sec:design}. Section~\ref{sec:testing-confinement} explains the tricks Houdini currently implements and their associated vulnerabilities.  In Section~\ref{sec:evaluation} we present case studies showing how Houdini can detect basic misconfigurations.  Section~\ref{sec:related} describes related work, Section~\ref{sec:discussion} discusses the contributions, limitations, and our plans for future work.  Section~\ref{sec:conclusion} concludes.
+
+
+%% While containers are widely used, despite their name they don't currently offer strong confinement guarantees. Numerous ways for procesess inside a container to "escape".  While originally containers were designed for administration and software distribution purposes, there is increasing interest in improving container confinement.
+
+%% Variety of solutions:
+%% \begin{itemize}
+%% \item host-based security mechanisms applied to enforce confinement on processes inside containers (SELinux, AppArmor, system call filters)
+%% \item hardware virtualization applied to container confinement (gVisor, kata containers - also known as microVMs, )
+%% \item new kernel-level security abstractions, often implemented in eBPF (bpfbox, bpfcontain on archive)
+%% \end{itemize}
+
+%% Our question: how effective are these container confinement solutions?
+
+%% Needed: a standard methodology for assessing container confinement
+%% \begin{itemize}
+%% \item formal approach not feasible, systems are too complex and vulnerabilities are in the details
+%% \item empirical approach is possible.  Will never be comprehensive, but that is not the goal.  Instead, we want a baseline set of tests (that can be improved over time) that demonstrates effective container confinement.
+%% \end{itemize}
+
+%% Contribution: Houdini, first tool for automated testing of container confinement
+%% \begin{itemize}
+%% \item series of tests for well-known container vulnerabilities
+%% \item designed to facilitate repeatable experiments using qemu-based virtual machines
+%% \item easily extensible to allow for new tests to be added, making Houdini more comprehensive over time
+%% \end{itemize}
+%% (NOTE: we should specify how to "version" Houdini so we can talk about both older and newer versions of Houdini.  So we don't just want a Houdini score, it should be a versioned Houdini score.)

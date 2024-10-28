@@ -1,0 +1,15 @@
+William
+
+- Design + Implementation
+
+Anil
+
+- Introduction + Abstract
+
+David
+
+- Related work + Working with Kevin on CVE writeups
+
+Kevin
+
+- Testing / Exploiting
