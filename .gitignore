@@ -5,4 +5,4 @@ filesystem/
 venv/
 misc/
 overlay/usr/bin/
-overlay/docker-cache/
+overlay/docker-cache/cpu_shares.tar
