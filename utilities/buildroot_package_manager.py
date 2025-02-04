@@ -27,6 +27,7 @@ class BuildrootPackageManager:
                 os.system(f"rm -rf {os.path.join(FILESYSTEM_BUILD, pkg_folder)}")
         return False
 
+    # this is probably not needed because we get the docker and runc version from scripts/get_docker.sh
     @staticmethod
     def set_runc_version():
         BuildrootPackageManager.modify_version('runc', RUNC_MAKEFILE_PATH, "RUNC_VERSION", RUNC_VERSION)

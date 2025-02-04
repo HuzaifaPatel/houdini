@@ -1,0 +1,299 @@
+Performing Curl Test HAVE_FSETXATTR_6 failed with the following output:
+Change Dir: '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Bootstrap.cmk/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_fe43c/fast
+gmake[2]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake  -f CMakeFiles/cmTC_fe43c.dir/build.make CMakeFiles/cmTC_fe43c.dir/build
+gmake[3]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_fe43c.dir/CurlTests.c.o
+/usr/bin/gcc   -O2 -w -DHAVE_FSETXATTR_6  -DHAVE_INTTYPES_H -DHAVE_SYS_WAIT_H -DHAVE_SYS_IOCTL_H -DHAVE_SYS_PARAM_H -DHAVE_SYS_POLL_H -DHAVE_SYS_RESOURCE_H -DHAVE_SYS_SELECT_H -DHAVE_SYS_SOCKET_H -DHAVE_SYS_STAT_H -DHAVE_SYS_TIME_H -DHAVE_SYS_TYPES_H -DHAVE_SYS_UN_H -DHAVE_SYS_XATTR_H -DHAVE_ARPA_INET_H -DHAVE_FCNTL_H -DHAVE_IFADDRS_H -DHAVE_LIBGEN_H -DHAVE_LOCALE_H -DHAVE_NET_IF_H -DHAVE_NETDB_H -DHAVE_NETINET_IN_H -DHAVE_NETINET_TCP_H -DHAVE_NETINET_UDP_H -DHAVE_POLL_H -DHAVE_PWD_H -DHAVE_STDBOOL_H -DHAVE_STDINT_H -DHAVE_STRINGS_H -DHAVE_TERMIO_H -DHAVE_TERMIOS_H -DHAVE_UNISTD_H -DHAVE_UTIME_H -std=gnu11 -o CMakeFiles/cmTC_fe43c.dir/CurlTests.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c: In function ‘main’:
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:406:3: error: too many arguments to function ‘fsetxattr’
+  406 |   fsetxattr(0, 0, 0, 0, 0, 0);
+      |   ^~~~~~~~~
+In file included from /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:403:
+/usr/include/x86_64-linux-gnu/sys/xattr.h:54:12: note: declared here
+   54 | extern int fsetxattr (int __fd, const char *__name, const void *__value,
+      |            ^~~~~~~~~
+gmake[3]: *** [CMakeFiles/cmTC_fe43c.dir/build.make:78: CMakeFiles/cmTC_fe43c.dir/CurlTests.c.o] Error 1
+gmake[3]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake[2]: *** [Makefile:127: cmTC_fe43c/fast] Error 2
+gmake[2]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+
+Performing Curl Test HAVE_IOCTLSOCKET failed with the following output:
+Change Dir: '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Bootstrap.cmk/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_36f47/fast
+gmake[2]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake  -f CMakeFiles/cmTC_36f47.dir/build.make CMakeFiles/cmTC_36f47.dir/build
+gmake[3]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_36f47.dir/CurlTests.c.o
+/usr/bin/gcc   -O2 -w -DHAVE_IOCTLSOCKET  -DHAVE_INTTYPES_H -DHAVE_SYS_WAIT_H -DHAVE_SYS_IOCTL_H -DHAVE_SYS_PARAM_H -DHAVE_SYS_POLL_H -DHAVE_SYS_RESOURCE_H -DHAVE_SYS_SELECT_H -DHAVE_SYS_SOCKET_H -DHAVE_SYS_STAT_H -DHAVE_SYS_TIME_H -DHAVE_SYS_TYPES_H -DHAVE_SYS_UN_H -DHAVE_SYS_XATTR_H -DHAVE_ARPA_INET_H -DHAVE_FCNTL_H -DHAVE_IFADDRS_H -DHAVE_LIBGEN_H -DHAVE_LOCALE_H -DHAVE_NET_IF_H -DHAVE_NETDB_H -DHAVE_NETINET_IN_H -DHAVE_NETINET_TCP_H -DHAVE_NETINET_UDP_H -DHAVE_POLL_H -DHAVE_PWD_H -DHAVE_STDBOOL_H -DHAVE_STDINT_H -DHAVE_STRINGS_H -DHAVE_TERMIO_H -DHAVE_TERMIOS_H -DHAVE_UNISTD_H -DHAVE_UTIME_H -std=gnu11 -o CMakeFiles/cmTC_36f47.dir/CurlTests.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c: In function ‘main’:
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:204:44: error: ‘FIONBIO’ undeclared (first use in this function)
+  204 |  unsigned long flags = ioctlsocket(socket, FIONBIO, &flags);
+      |                                            ^~~~~~~
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:204:44: note: each undeclared identifier is reported only once for each function it appears in
+gmake[3]: *** [CMakeFiles/cmTC_36f47.dir/build.make:78: CMakeFiles/cmTC_36f47.dir/CurlTests.c.o] Error 1
+gmake[3]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake[2]: *** [Makefile:127: cmTC_36f47/fast] Error 2
+gmake[2]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+
+Performing Curl Test HAVE_IOCTLSOCKET_CAMEL failed with the following output:
+Change Dir: '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Bootstrap.cmk/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_ac24b/fast
+gmake[2]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake  -f CMakeFiles/cmTC_ac24b.dir/build.make CMakeFiles/cmTC_ac24b.dir/build
+gmake[3]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ac24b.dir/CurlTests.c.o
+/usr/bin/gcc   -O2 -w -DHAVE_IOCTLSOCKET_CAMEL  -DHAVE_INTTYPES_H -DHAVE_SYS_WAIT_H -DHAVE_SYS_IOCTL_H -DHAVE_SYS_PARAM_H -DHAVE_SYS_POLL_H -DHAVE_SYS_RESOURCE_H -DHAVE_SYS_SELECT_H -DHAVE_SYS_SOCKET_H -DHAVE_SYS_STAT_H -DHAVE_SYS_TIME_H -DHAVE_SYS_TYPES_H -DHAVE_SYS_UN_H -DHAVE_SYS_XATTR_H -DHAVE_ARPA_INET_H -DHAVE_FCNTL_H -DHAVE_IFADDRS_H -DHAVE_LIBGEN_H -DHAVE_LOCALE_H -DHAVE_NET_IF_H -DHAVE_NETDB_H -DHAVE_NETINET_IN_H -DHAVE_NETINET_TCP_H -DHAVE_NETINET_UDP_H -DHAVE_POLL_H -DHAVE_PWD_H -DHAVE_STDBOOL_H -DHAVE_STDINT_H -DHAVE_STRINGS_H -DHAVE_TERMIO_H -DHAVE_TERMIOS_H -DHAVE_UNISTD_H -DHAVE_UTIME_H -std=gnu11 -o CMakeFiles/cmTC_ac24b.dir/CurlTests.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c
+Linking C executable cmTC_ac24b
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Bootstrap.cmk/cmake -E cmake_link_script CMakeFiles/cmTC_ac24b.dir/link.txt --verbose=1
+/usr/bin/gcc -O2 -w -DHAVE_IOCTLSOCKET_CAMEL  -DHAVE_INTTYPES_H -DHAVE_SYS_WAIT_H -DHAVE_SYS_IOCTL_H -DHAVE_SYS_PARAM_H -DHAVE_SYS_POLL_H -DHAVE_SYS_RESOURCE_H -DHAVE_SYS_SELECT_H -DHAVE_SYS_SOCKET_H -DHAVE_SYS_STAT_H -DHAVE_SYS_TIME_H -DHAVE_SYS_TYPES_H -DHAVE_SYS_UN_H -DHAVE_SYS_XATTR_H -DHAVE_ARPA_INET_H -DHAVE_FCNTL_H -DHAVE_IFADDRS_H -DHAVE_LIBGEN_H -DHAVE_LOCALE_H -DHAVE_NET_IF_H -DHAVE_NETDB_H -DHAVE_NETINET_IN_H -DHAVE_NETINET_TCP_H -DHAVE_NETINET_UDP_H -DHAVE_POLL_H -DHAVE_PWD_H -DHAVE_STDBOOL_H -DHAVE_STDINT_H -DHAVE_STRINGS_H -DHAVE_TERMIO_H -DHAVE_TERMIOS_H -DHAVE_UNISTD_H -DHAVE_UTIME_H -L/home/huzi/Documents/houdini/buildroot/host/lib -Wl,-rpath,/home/huzi/Documents/houdini/buildroot/host/lib  CMakeFiles/cmTC_ac24b.dir/CurlTests.c.o -o cmTC_ac24b 
+/usr/bin/ld: CMakeFiles/cmTC_ac24b.dir/CurlTests.c.o: in function `main':
+CurlTests.c:(.text.startup+0x11): undefined reference to `IoctlSocket'
+collect2: error: ld returned 1 exit status
+gmake[3]: *** [CMakeFiles/cmTC_ac24b.dir/build.make:99: cmTC_ac24b] Error 1
+gmake[3]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake[2]: *** [Makefile:127: cmTC_ac24b/fast] Error 2
+gmake[2]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+
+Performing Curl Test HAVE_IOCTLSOCKET_CAMEL_FIONBIO failed with the following output:
+Change Dir: '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Bootstrap.cmk/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_49f73/fast
+gmake[2]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake  -f CMakeFiles/cmTC_49f73.dir/build.make CMakeFiles/cmTC_49f73.dir/build
+gmake[3]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_49f73.dir/CurlTests.c.o
+/usr/bin/gcc   -O2 -w -DHAVE_IOCTLSOCKET_CAMEL_FIONBIO  -DHAVE_INTTYPES_H -DHAVE_SYS_WAIT_H -DHAVE_SYS_IOCTL_H -DHAVE_SYS_PARAM_H -DHAVE_SYS_POLL_H -DHAVE_SYS_RESOURCE_H -DHAVE_SYS_SELECT_H -DHAVE_SYS_SOCKET_H -DHAVE_SYS_STAT_H -DHAVE_SYS_TIME_H -DHAVE_SYS_TYPES_H -DHAVE_SYS_UN_H -DHAVE_SYS_XATTR_H -DHAVE_ARPA_INET_H -DHAVE_FCNTL_H -DHAVE_IFADDRS_H -DHAVE_LIBGEN_H -DHAVE_LOCALE_H -DHAVE_NET_IF_H -DHAVE_NETDB_H -DHAVE_NETINET_IN_H -DHAVE_NETINET_TCP_H -DHAVE_NETINET_UDP_H -DHAVE_POLL_H -DHAVE_PWD_H -DHAVE_STDBOOL_H -DHAVE_STDINT_H -DHAVE_STRINGS_H -DHAVE_TERMIO_H -DHAVE_TERMIOS_H -DHAVE_UNISTD_H -DHAVE_UTIME_H -std=gnu11 -o CMakeFiles/cmTC_49f73.dir/CurlTests.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c: In function ‘main’:
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:252:32: error: ‘FIONBIO’ undeclared (first use in this function)
+  252 |         if(0 != IoctlSocket(0, FIONBIO, &flags))
+      |                                ^~~~~~~
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:252:32: note: each undeclared identifier is reported only once for each function it appears in
+gmake[3]: *** [CMakeFiles/cmTC_49f73.dir/build.make:78: CMakeFiles/cmTC_49f73.dir/CurlTests.c.o] Error 1
+gmake[3]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake[2]: *** [Makefile:127: cmTC_49f73/fast] Error 2
+gmake[2]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+
+Performing Curl Test HAVE_IOCTLSOCKET_FIONBIO failed with the following output:
+Change Dir: '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Bootstrap.cmk/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_fe79e/fast
+gmake[2]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake  -f CMakeFiles/cmTC_fe79e.dir/build.make CMakeFiles/cmTC_fe79e.dir/build
+gmake[3]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_fe79e.dir/CurlTests.c.o
+/usr/bin/gcc   -O2 -w -DHAVE_IOCTLSOCKET_FIONBIO  -DHAVE_INTTYPES_H -DHAVE_SYS_WAIT_H -DHAVE_SYS_IOCTL_H -DHAVE_SYS_PARAM_H -DHAVE_SYS_POLL_H -DHAVE_SYS_RESOURCE_H -DHAVE_SYS_SELECT_H -DHAVE_SYS_SOCKET_H -DHAVE_SYS_STAT_H -DHAVE_SYS_TIME_H -DHAVE_SYS_TYPES_H -DHAVE_SYS_UN_H -DHAVE_SYS_XATTR_H -DHAVE_ARPA_INET_H -DHAVE_FCNTL_H -DHAVE_IFADDRS_H -DHAVE_LIBGEN_H -DHAVE_LOCALE_H -DHAVE_NET_IF_H -DHAVE_NETDB_H -DHAVE_NETINET_IN_H -DHAVE_NETINET_TCP_H -DHAVE_NETINET_UDP_H -DHAVE_POLL_H -DHAVE_PWD_H -DHAVE_STDBOOL_H -DHAVE_STDINT_H -DHAVE_STRINGS_H -DHAVE_TERMIO_H -DHAVE_TERMIOS_H -DHAVE_UNISTD_H -DHAVE_UTIME_H -std=gnu11 -o CMakeFiles/cmTC_fe79e.dir/CurlTests.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c: In function ‘main’:
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:275:32: error: ‘FIONBIO’ undeclared (first use in this function)
+  275 |         if(0 != ioctlsocket(0, FIONBIO, &flags))
+      |                                ^~~~~~~
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:275:32: note: each undeclared identifier is reported only once for each function it appears in
+gmake[3]: *** [CMakeFiles/cmTC_fe79e.dir/build.make:78: CMakeFiles/cmTC_fe79e.dir/CurlTests.c.o] Error 1
+gmake[3]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake[2]: *** [Makefile:127: cmTC_fe79e/fast] Error 2
+gmake[2]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+
+Performing Curl Test HAVE_SETSOCKOPT_SO_NONBLOCK failed with the following output:
+Change Dir: '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Bootstrap.cmk/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f5508/fast
+gmake[2]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake  -f CMakeFiles/cmTC_f5508.dir/build.make CMakeFiles/cmTC_f5508.dir/build
+gmake[3]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_f5508.dir/CurlTests.c.o
+/usr/bin/gcc   -O2 -w -DHAVE_SETSOCKOPT_SO_NONBLOCK  -DHAVE_INTTYPES_H -DHAVE_SYS_WAIT_H -DHAVE_SYS_IOCTL_H -DHAVE_SYS_PARAM_H -DHAVE_SYS_POLL_H -DHAVE_SYS_RESOURCE_H -DHAVE_SYS_SELECT_H -DHAVE_SYS_SOCKET_H -DHAVE_SYS_STAT_H -DHAVE_SYS_TIME_H -DHAVE_SYS_TYPES_H -DHAVE_SYS_UN_H -DHAVE_SYS_XATTR_H -DHAVE_ARPA_INET_H -DHAVE_FCNTL_H -DHAVE_IFADDRS_H -DHAVE_LIBGEN_H -DHAVE_LOCALE_H -DHAVE_NET_IF_H -DHAVE_NETDB_H -DHAVE_NETINET_IN_H -DHAVE_NETINET_TCP_H -DHAVE_NETINET_UDP_H -DHAVE_POLL_H -DHAVE_PWD_H -DHAVE_STDBOOL_H -DHAVE_STDINT_H -DHAVE_STRINGS_H -DHAVE_TERMIO_H -DHAVE_TERMIOS_H -DHAVE_UNISTD_H -DHAVE_UTIME_H -std=gnu11 -o CMakeFiles/cmTC_f5508.dir/CurlTests.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c: In function ‘main’:
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:367:43: error: ‘SO_NONBLOCK’ undeclared (first use in this function); did you mean ‘SOCK_NONBLOCK’?
+  367 |         if(0 != setsockopt(0, SOL_SOCKET, SO_NONBLOCK, 0, 0))
+      |                                           ^~~~~~~~~~~
+      |                                           SOCK_NONBLOCK
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:367:43: note: each undeclared identifier is reported only once for each function it appears in
+gmake[3]: *** [CMakeFiles/cmTC_f5508.dir/build.make:78: CMakeFiles/cmTC_f5508.dir/CurlTests.c.o] Error 1
+gmake[3]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake[2]: *** [Makefile:127: cmTC_f5508/fast] Error 2
+gmake[2]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+
+Performing Curl Test HAVE_O_NONBLOCK failed with the following output:
+Change Dir: '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Bootstrap.cmk/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_bcc76/fast
+gmake[2]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake  -f CMakeFiles/cmTC_bcc76.dir/build.make CMakeFiles/cmTC_bcc76.dir/build
+gmake[3]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_bcc76.dir/CurlTests.c.o
+/usr/bin/gcc   -O2 -w -DHAVE_O_NONBLOCK  -DHAVE_INTTYPES_H -DHAVE_SYS_WAIT_H -DHAVE_SYS_IOCTL_H -DHAVE_SYS_PARAM_H -DHAVE_SYS_POLL_H -DHAVE_SYS_RESOURCE_H -DHAVE_SYS_SELECT_H -DHAVE_SYS_SOCKET_H -DHAVE_SYS_STAT_H -DHAVE_SYS_TIME_H -DHAVE_SYS_TYPES_H -DHAVE_SYS_UN_H -DHAVE_SYS_XATTR_H -DHAVE_ARPA_INET_H -DHAVE_FCNTL_H -DHAVE_IFADDRS_H -DHAVE_LIBGEN_H -DHAVE_LOCALE_H -DHAVE_NET_IF_H -DHAVE_NETDB_H -DHAVE_NETINET_IN_H -DHAVE_NETINET_TCP_H -DHAVE_NETINET_UDP_H -DHAVE_POLL_H -DHAVE_PWD_H -DHAVE_STDBOOL_H -DHAVE_STDINT_H -DHAVE_STRINGS_H -DHAVE_TERMIO_H -DHAVE_TERMIOS_H -DHAVE_UNISTD_H -DHAVE_UTIME_H -std=gnu11 -o CMakeFiles/cmTC_bcc76.dir/CurlTests.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c
+Linking C executable cmTC_bcc76
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Bootstrap.cmk/cmake -E cmake_link_script CMakeFiles/cmTC_bcc76.dir/link.txt --verbose=1
+/usr/bin/gcc -O2 -w -DHAVE_O_NONBLOCK  -DHAVE_INTTYPES_H -DHAVE_SYS_WAIT_H -DHAVE_SYS_IOCTL_H -DHAVE_SYS_PARAM_H -DHAVE_SYS_POLL_H -DHAVE_SYS_RESOURCE_H -DHAVE_SYS_SELECT_H -DHAVE_SYS_SOCKET_H -DHAVE_SYS_STAT_H -DHAVE_SYS_TIME_H -DHAVE_SYS_TYPES_H -DHAVE_SYS_UN_H -DHAVE_SYS_XATTR_H -DHAVE_ARPA_INET_H -DHAVE_FCNTL_H -DHAVE_IFADDRS_H -DHAVE_LIBGEN_H -DHAVE_LOCALE_H -DHAVE_NET_IF_H -DHAVE_NETDB_H -DHAVE_NETINET_IN_H -DHAVE_NETINET_TCP_H -DHAVE_NETINET_UDP_H -DHAVE_POLL_H -DHAVE_PWD_H -DHAVE_STDBOOL_H -DHAVE_STDINT_H -DHAVE_STRINGS_H -DHAVE_TERMIO_H -DHAVE_TERMIOS_H -DHAVE_UNISTD_H -DHAVE_UTIME_H -L/home/huzi/Documents/houdini/buildroot/host/lib -Wl,-rpath,/home/huzi/Documents/houdini/buildroot/host/lib  CMakeFiles/cmTC_bcc76.dir/CurlTests.c.o -o cmTC_bcc76 
+/usr/bin/ld: /usr/lib/gcc/x86_64-linux-gnu/13/../../../x86_64-linux-gnu/Scrt1.o: in function `_start':
+(.text+0x1b): undefined reference to `main'
+collect2: error: ld returned 1 exit status
+gmake[3]: *** [CMakeFiles/cmTC_bcc76.dir/build.make:99: cmTC_bcc76] Error 1
+gmake[3]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake[2]: *** [Makefile:127: cmTC_bcc76/fast] Error 2
+gmake[2]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+
+Performing Curl Test HAVE_GETHOSTBYNAME_R_3 failed with the following output:
+Change Dir: '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Bootstrap.cmk/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_9e3f6/fast
+gmake[2]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake  -f CMakeFiles/cmTC_9e3f6.dir/build.make CMakeFiles/cmTC_9e3f6.dir/build
+gmake[3]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_9e3f6.dir/CurlTests.c.o
+/usr/bin/gcc   -O2 -w -DHAVE_GETHOSTBYNAME_R_3  -DHAVE_INTTYPES_H -DHAVE_SYS_WAIT_H -DHAVE_SYS_IOCTL_H -DHAVE_SYS_PARAM_H -DHAVE_SYS_POLL_H -DHAVE_SYS_RESOURCE_H -DHAVE_SYS_SELECT_H -DHAVE_SYS_SOCKET_H -DHAVE_SYS_STAT_H -DHAVE_SYS_TIME_H -DHAVE_SYS_TYPES_H -DHAVE_SYS_UN_H -DHAVE_SYS_XATTR_H -DHAVE_ARPA_INET_H -DHAVE_FCNTL_H -DHAVE_IFADDRS_H -DHAVE_LIBGEN_H -DHAVE_LOCALE_H -DHAVE_NET_IF_H -DHAVE_NETDB_H -DHAVE_NETINET_IN_H -DHAVE_NETINET_TCP_H -DHAVE_NETINET_UDP_H -DHAVE_POLL_H -DHAVE_PWD_H -DHAVE_STDBOOL_H -DHAVE_STDINT_H -DHAVE_STRINGS_H -DHAVE_TERMIO_H -DHAVE_TERMIOS_H -DHAVE_UNISTD_H -DHAVE_UTIME_H -std=gnu11 -o CMakeFiles/cmTC_9e3f6.dir/CurlTests.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c: In function ‘main’:
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:82:23: error: storage size of ‘hdata’ isn’t known
+   82 |   struct hostent_data hdata;
+      |                       ^~~~~
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:94:8: error: too few arguments to function ‘gethostbyname_r’
+   94 |   rc = gethostbyname_r(address, &h, &hdata);
+      |        ^~~~~~~~~~~~~~~
+In file included from /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:72:
+/usr/include/netdb.h:177:12: note: declared here
+  177 | extern int gethostbyname_r (const char *__restrict __name,
+      |            ^~~~~~~~~~~~~~~
+gmake[3]: *** [CMakeFiles/cmTC_9e3f6.dir/build.make:78: CMakeFiles/cmTC_9e3f6.dir/CurlTests.c.o] Error 1
+gmake[3]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake[2]: *** [Makefile:127: cmTC_9e3f6/fast] Error 2
+gmake[2]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+
+Performing Curl Test HAVE_GETHOSTBYNAME_R_5 failed with the following output:
+Change Dir: '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Bootstrap.cmk/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4fbe3/fast
+gmake[2]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake  -f CMakeFiles/cmTC_4fbe3.dir/build.make CMakeFiles/cmTC_4fbe3.dir/build
+gmake[3]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_4fbe3.dir/CurlTests.c.o
+/usr/bin/gcc   -O2 -w -DHAVE_GETHOSTBYNAME_R_5  -DHAVE_INTTYPES_H -DHAVE_SYS_WAIT_H -DHAVE_SYS_IOCTL_H -DHAVE_SYS_PARAM_H -DHAVE_SYS_POLL_H -DHAVE_SYS_RESOURCE_H -DHAVE_SYS_SELECT_H -DHAVE_SYS_SOCKET_H -DHAVE_SYS_STAT_H -DHAVE_SYS_TIME_H -DHAVE_SYS_TYPES_H -DHAVE_SYS_UN_H -DHAVE_SYS_XATTR_H -DHAVE_ARPA_INET_H -DHAVE_FCNTL_H -DHAVE_IFADDRS_H -DHAVE_LIBGEN_H -DHAVE_LOCALE_H -DHAVE_NET_IF_H -DHAVE_NETDB_H -DHAVE_NETINET_IN_H -DHAVE_NETINET_TCP_H -DHAVE_NETINET_UDP_H -DHAVE_POLL_H -DHAVE_PWD_H -DHAVE_STDBOOL_H -DHAVE_STDINT_H -DHAVE_STRINGS_H -DHAVE_TERMIO_H -DHAVE_TERMIOS_H -DHAVE_UNISTD_H -DHAVE_UTIME_H -std=gnu11 -o CMakeFiles/cmTC_4fbe3.dir/CurlTests.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c: In function ‘main’:
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:97:8: error: too few arguments to function ‘gethostbyname_r’
+   97 |   rc = gethostbyname_r(address, &h, buffer, 8192, &h_errnop);
+      |        ^~~~~~~~~~~~~~~
+In file included from /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:72:
+/usr/include/netdb.h:177:12: note: declared here
+  177 | extern int gethostbyname_r (const char *__restrict __name,
+      |            ^~~~~~~~~~~~~~~
+gmake[3]: *** [CMakeFiles/cmTC_4fbe3.dir/build.make:78: CMakeFiles/cmTC_4fbe3.dir/CurlTests.c.o] Error 1
+gmake[3]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake[2]: *** [Makefile:127: cmTC_4fbe3/fast] Error 2
+gmake[2]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+
+Performing Curl Test HAVE_GETHOSTBYNAME_R_3_REENTRANT failed with the following output:
+Change Dir: '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Bootstrap.cmk/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_92752/fast
+gmake[2]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake  -f CMakeFiles/cmTC_92752.dir/build.make CMakeFiles/cmTC_92752.dir/build
+gmake[3]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_92752.dir/CurlTests.c.o
+/usr/bin/gcc   -O2 -w -DHAVE_GETHOSTBYNAME_R_3_REENTRANT  -DHAVE_INTTYPES_H -DHAVE_SYS_WAIT_H -DHAVE_SYS_IOCTL_H -DHAVE_SYS_PARAM_H -DHAVE_SYS_POLL_H -DHAVE_SYS_RESOURCE_H -DHAVE_SYS_SELECT_H -DHAVE_SYS_SOCKET_H -DHAVE_SYS_STAT_H -DHAVE_SYS_TIME_H -DHAVE_SYS_TYPES_H -DHAVE_SYS_UN_H -DHAVE_SYS_XATTR_H -DHAVE_ARPA_INET_H -DHAVE_FCNTL_H -DHAVE_IFADDRS_H -DHAVE_LIBGEN_H -DHAVE_LOCALE_H -DHAVE_NET_IF_H -DHAVE_NETDB_H -DHAVE_NETINET_IN_H -DHAVE_NETINET_TCP_H -DHAVE_NETINET_UDP_H -DHAVE_POLL_H -DHAVE_PWD_H -DHAVE_STDBOOL_H -DHAVE_STDINT_H -DHAVE_STRINGS_H -DHAVE_TERMIO_H -DHAVE_TERMIOS_H -DHAVE_UNISTD_H -DHAVE_UTIME_H -std=gnu11 -o CMakeFiles/cmTC_92752.dir/CurlTests.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c: In function ‘main’:
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:82:23: error: storage size of ‘hdata’ isn’t known
+   82 |   struct hostent_data hdata;
+      |                       ^~~~~
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:94:8: error: too few arguments to function ‘gethostbyname_r’
+   94 |   rc = gethostbyname_r(address, &h, &hdata);
+      |        ^~~~~~~~~~~~~~~
+In file included from /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:72:
+/usr/include/netdb.h:177:12: note: declared here
+  177 | extern int gethostbyname_r (const char *__restrict __name,
+      |            ^~~~~~~~~~~~~~~
+gmake[3]: *** [CMakeFiles/cmTC_92752.dir/build.make:78: CMakeFiles/cmTC_92752.dir/CurlTests.c.o] Error 1
+gmake[3]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake[2]: *** [Makefile:127: cmTC_92752/fast] Error 2
+gmake[2]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+
+Performing Curl Test HAVE_GETHOSTBYNAME_R_5_REENTRANT failed with the following output:
+Change Dir: '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Bootstrap.cmk/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_97864/fast
+gmake[2]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake  -f CMakeFiles/cmTC_97864.dir/build.make CMakeFiles/cmTC_97864.dir/build
+gmake[3]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_97864.dir/CurlTests.c.o
+/usr/bin/gcc   -O2 -w -DHAVE_GETHOSTBYNAME_R_5_REENTRANT  -DHAVE_INTTYPES_H -DHAVE_SYS_WAIT_H -DHAVE_SYS_IOCTL_H -DHAVE_SYS_PARAM_H -DHAVE_SYS_POLL_H -DHAVE_SYS_RESOURCE_H -DHAVE_SYS_SELECT_H -DHAVE_SYS_SOCKET_H -DHAVE_SYS_STAT_H -DHAVE_SYS_TIME_H -DHAVE_SYS_TYPES_H -DHAVE_SYS_UN_H -DHAVE_SYS_XATTR_H -DHAVE_ARPA_INET_H -DHAVE_FCNTL_H -DHAVE_IFADDRS_H -DHAVE_LIBGEN_H -DHAVE_LOCALE_H -DHAVE_NET_IF_H -DHAVE_NETDB_H -DHAVE_NETINET_IN_H -DHAVE_NETINET_TCP_H -DHAVE_NETINET_UDP_H -DHAVE_POLL_H -DHAVE_PWD_H -DHAVE_STDBOOL_H -DHAVE_STDINT_H -DHAVE_STRINGS_H -DHAVE_TERMIO_H -DHAVE_TERMIOS_H -DHAVE_UNISTD_H -DHAVE_UTIME_H -std=gnu11 -o CMakeFiles/cmTC_97864.dir/CurlTests.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c: In function ‘main’:
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:97:8: error: too few arguments to function ‘gethostbyname_r’
+   97 |   rc = gethostbyname_r(address, &h, buffer, 8192, &h_errnop);
+      |        ^~~~~~~~~~~~~~~
+In file included from /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:72:
+/usr/include/netdb.h:177:12: note: declared here
+  177 | extern int gethostbyname_r (const char *__restrict __name,
+      |            ^~~~~~~~~~~~~~~
+gmake[3]: *** [CMakeFiles/cmTC_97864.dir/build.make:78: CMakeFiles/cmTC_97864.dir/CurlTests.c.o] Error 1
+gmake[3]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake[2]: *** [Makefile:127: cmTC_97864/fast] Error 2
+gmake[2]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+
+Performing Curl Test HAVE_GLIBC_STRERROR_R failed with the following output:
+Change Dir: '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Bootstrap.cmk/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f0f07/fast
+gmake[2]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake  -f CMakeFiles/cmTC_f0f07.dir/build.make CMakeFiles/cmTC_f0f07.dir/build
+gmake[3]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_f0f07.dir/CurlTests.c.o
+/usr/bin/gcc   -O2 -w -DHAVE_GLIBC_STRERROR_R  -DHAVE_INTTYPES_H -DHAVE_SYS_WAIT_H -DHAVE_SYS_IOCTL_H -DHAVE_SYS_PARAM_H -DHAVE_SYS_POLL_H -DHAVE_SYS_RESOURCE_H -DHAVE_SYS_SELECT_H -DHAVE_SYS_SOCKET_H -DHAVE_SYS_STAT_H -DHAVE_SYS_TIME_H -DHAVE_SYS_TYPES_H -DHAVE_SYS_UN_H -DHAVE_SYS_XATTR_H -DHAVE_ARPA_INET_H -DHAVE_FCNTL_H -DHAVE_IFADDRS_H -DHAVE_LIBGEN_H -DHAVE_LOCALE_H -DHAVE_NET_IF_H -DHAVE_NETDB_H -DHAVE_NETINET_IN_H -DHAVE_NETINET_TCP_H -DHAVE_NETINET_UDP_H -DHAVE_POLL_H -DHAVE_PWD_H -DHAVE_STDBOOL_H -DHAVE_STDINT_H -DHAVE_STRINGS_H -DHAVE_TERMIO_H -DHAVE_TERMIOS_H -DHAVE_UNISTD_H -DHAVE_UTIME_H -std=gnu11 -o CMakeFiles/cmTC_f0f07.dir/CurlTests.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c: In function ‘main’:
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:383:51: error: subscripted value is neither array nor pointer nor vector
+  383 |   check(strerror_r(EACCES, buffer, sizeof(buffer))[0]);
+      |                                                   ^
+gmake[3]: *** [CMakeFiles/cmTC_f0f07.dir/build.make:78: CMakeFiles/cmTC_f0f07.dir/CurlTests.c.o] Error 1
+gmake[3]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake[2]: *** [Makefile:127: cmTC_f0f07/fast] Error 2
+gmake[2]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+
+Performing Curl Test HAVE_BUILTIN_AVAILABLE failed with the following output:
+Change Dir: '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+Run Build Command(s): /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Bootstrap.cmk/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_15d30/fast
+gmake[2]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake  -f CMakeFiles/cmTC_15d30.dir/build.make CMakeFiles/cmTC_15d30.dir/build
+gmake[3]: Entering directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_15d30.dir/CurlTests.c.o
+/usr/bin/gcc   -O2 -w -DHAVE_BUILTIN_AVAILABLE  -DHAVE_INTTYPES_H -DHAVE_SYS_WAIT_H -DHAVE_SYS_IOCTL_H -DHAVE_SYS_PARAM_H -DHAVE_SYS_POLL_H -DHAVE_SYS_RESOURCE_H -DHAVE_SYS_SELECT_H -DHAVE_SYS_SOCKET_H -DHAVE_SYS_STAT_H -DHAVE_SYS_TIME_H -DHAVE_SYS_TYPES_H -DHAVE_SYS_UN_H -DHAVE_SYS_XATTR_H -DHAVE_ARPA_INET_H -DHAVE_FCNTL_H -DHAVE_IFADDRS_H -DHAVE_LIBGEN_H -DHAVE_LOCALE_H -DHAVE_NET_IF_H -DHAVE_NETDB_H -DHAVE_NETINET_IN_H -DHAVE_NETINET_TCP_H -DHAVE_NETINET_UDP_H -DHAVE_POLL_H -DHAVE_PWD_H -DHAVE_STDBOOL_H -DHAVE_STDINT_H -DHAVE_STRINGS_H -DHAVE_TERMIO_H -DHAVE_TERMIOS_H -DHAVE_UNISTD_H -DHAVE_UTIME_H -std=gnu11 -o CMakeFiles/cmTC_15d30.dir/CurlTests.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c: In function ‘main’:
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:430:26: error: ‘macOS’ undeclared (first use in this function)
+  430 |   if(__builtin_available(macOS 10.12, *)) {}
+      |                          ^~~~~
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:430:26: note: each undeclared identifier is reported only once for each function it appears in
+/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/Utilities/cmcurl/CMake/CurlTests.c:430:31: error: expected ‘)’ before numeric constant
+  430 |   if(__builtin_available(macOS 10.12, *)) {}
+      |                         ~     ^~~~~~
+      |                               )
+gmake[3]: *** [CMakeFiles/cmTC_15d30.dir/build.make:78: CMakeFiles/cmTC_15d30.dir/CurlTests.c.o] Error 1
+gmake[3]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+gmake[2]: *** [Makefile:127: cmTC_15d30/fast] Error 2
+gmake[2]: Leaving directory '/home/huzi/Documents/houdini/buildroot/build/host-cmake-3.28.3/CMakeFiles/CMakeTmp'
+
+
+Looking for a Fortran compiler failed with the following output:
+-- The Fortran compiler identification is unknown
+CMake Error at CMakeLists.txt:2 (project):
+  No CMAKE_Fortran_COMPILER could be found.
+
+  Tell CMake where to find the compiler by setting either the environment
+  variable "FC" or the CMake cache entry CMAKE_Fortran_COMPILER to the full
+  path to the compiler, or to the compiler name if it is in the PATH.
+
+
+-- Configuring incomplete, errors occurred!
+

@@ -2,83 +2,88 @@
 \providecommand\hyper@newdestlabel[2]{}
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{CIS}
 \@LN@col{1}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
 \@LN@col{2}
 \@LN@col{1}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Container Confinement Problem}{2}{section.2}\protected@file@percent }
-\newlabel{sec:confinement}{{2}{2}{Container Confinement Problem}{section.2}{}}
-\newlabel{sec:confinement@cref}{{[section][2][]2}{[1][2][]2}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Design and Implementation}{2}{section.3}\protected@file@percent }
-\newlabel{sec:design}{{3}{2}{Design and Implementation}{section.3}{}}
-\newlabel{sec:design@cref}{{[section][3][]3}{[1][2][]2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Design Goals}{2}{subsection.3.1}\protected@file@percent }
-\newlabel{dg:repro}{{{1}}{2}{Design Goals}{Item.1}{}}
-\newlabel{dg:repro@cref}{{[design goal][1][]{1}}{[1][2][]2}}
-\newlabel{dg:platform}{{{2}}{2}{Design Goals}{Item.2}{}}
-\newlabel{dg:platform@cref}{{[design goal][2][]{2}}{[1][2][]2}}
 \@LN@col{2}
-\newlabel{dg:container}{{{3}}{2}{Design Goals}{Item.3}{}}
-\newlabel{dg:container@cref}{{[design goal][3][]{3}}{[1][2][]2}}
-\newlabel{dg:flex}{{{4}}{2}{Design Goals}{Item.4}{}}
-\newlabel{dg:flex@cref}{{[design goal][4][]{4}}{[1][2][]2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Houdini Tricks}{2}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{2}{section.2}\protected@file@percent }
+\newlabel{sec:related}{{2}{2}{Related Work}{section.2}{}}
+\newlabel{sec:related@cref}{{[section][2][]2}{[1][2][]2}}
+\citation{shu2017study}
+\citation{CIS}
+\citation{CIS}
 \@LN@col{1}
-\newlabel{fig:state-machine}{{\caption@xref {fig:state-machine}{ on input line 142}}{3}{Reproducible Tricks}{figure.caption.2}{}}
-\newlabel{fig:state-machine@cref}{{[subsection][3][3]3.3}{[1][3][]3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces A state machine diagram of Houdini running a Trick. Note that aside from the \enquote {Undecided} status, all other statuses are considered final. That is, a step reporting such a status terminates execution of the Trick.}}{3}{figure.caption.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Reproducible Tricks}{3}{subsection.3.3}\protected@file@percent }
-\@writefile{lol}{\contentsline {listing}{\numberline {1}{\ignorespaces A YAML definition of a Houdini trick with three steps. The first step spawns a container from the \enquote {bash} Docker image, downloading it if necessary. As part of the exploit setup, we mount \texttt  {/var/run/docker.sock} from the host into the container. The second step installs curl into the bash container. Finally, the third step attempts to abuse the mounted Docker socket to make API requests to Docker. Note the status codes on success and failure for each step in the Trick.}}{3}{listing.caption.1}\protected@file@percent }
+\@LN@col{2}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Container Confinement Problem}{3}{section.3}\protected@file@percent }
+\newlabel{sec:confinement}{{3}{3}{Container Confinement Problem}{section.3}{}}
+\newlabel{sec:confinement@cref}{{[section][3][]3}{[1][3][]3}}
+\@LN@col{1}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Linux Confinement Mechanisms}{4}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Design}{4}{section.5}\protected@file@percent }
+\newlabel{sec:design}{{5}{4}{Design}{section.5}{}}
+\newlabel{sec:design@cref}{{[section][5][]5}{[1][4][]4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Design Goals}{4}{subsection.5.1}\protected@file@percent }
+\@LN@col{2}
+\newlabel{dg:repro}{{{1}}{4}{Design Goals}{Item.1}{}}
+\newlabel{dg:repro@cref}{{[design goal][1][]{1}}{[1][4][]4}}
+\@LN@col{1}
+\newlabel{dg:container}{{{2}}{5}{Design Goals}{Item.2}{}}
+\newlabel{dg:container@cref}{{[design goal][2][]{2}}{[1][5][]5}}
+\newlabel{dg:test}{{{3}}{5}{Design Goals}{Item.3}{}}
+\newlabel{dg:test@cref}{{[design goal][3][]{3}}{[1][5][]5}}
+\newlabel{dg:failures}{{{4}}{5}{Design Goals}{Item.4}{}}
+\newlabel{dg:failures@cref}{{[design goal][4][]{4}}{[1][5][]5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Security of the Testing Environment}{5}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Design of Tricks}{5}{subsection.5.3}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{lst:mounted-docker-socket}{{1}{3}{A YAML definition of a Houdini trick with three steps. The first step spawns a container from the \enquote {bash} Docker image, downloading it if necessary. As part of the exploit setup, we mount \texttt {/var/run/docker.sock} from the host into the container. The second step installs curl into the bash container. Finally, the third step attempts to abuse the mounted Docker socket to make API requests to Docker. Note the status codes on success and failure for each step in the Trick}{listing.caption.1}{}}
-\newlabel{lst:mounted-docker-socket@cref}{{[listing][1][]1}{[1][3][]3}}
-\citation{addtheref}
+\newlabel{fig:state-machine}{{\caption@xref {fig:state-machine}{ on input line 35}}{5}{Design of Tricks}{figure.caption.1}{}}
+\newlabel{fig:state-machine@cref}{{[subsection][3][5]5.3}{[1][5][]5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces A state machine diagram of Houdini running a Trick.}}{5}{figure.caption.1}\protected@file@percent }
+\newlabel{fig:architecture}{{\caption@xref {fig:architecture}{ on input line 43}}{5}{Design of Tricks}{figure.caption.2}{}}
+\newlabel{fig:architecture@cref}{{[subsection][3][5]5.3}{[1][5][]5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces An architectural diagram of a container deployment environment depicting the attack surface created by its various components.}}{5}{figure.caption.2}\protected@file@percent }
 \@LN@col{1}
-\newlabel{fig:architecture}{{\caption@xref {fig:architecture}{ on input line 159}}{4}{Reproducible Tricks}{figure.caption.3}{}}
-\newlabel{fig:architecture@cref}{{[subsection][3][3]3.3}{[1][4][]4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces An architectural diagram of a container deployment environment depicting the attack surface created by its various components. Components are organized hierarchically with lower level subsystems toward the bottom, including data structures and abstractions that reside in kernel memory and the hardware itself.}}{4}{figure.caption.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}Testing Confinement}{4}{section.4}\protected@file@percent }
-\newlabel{sec:testing-confinement}{{4}{4}{Testing Confinement}{section.4}{}}
-\newlabel{sec:testing-confinement@cref}{{[section][4][]4}{[1][4][]4}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Implementation of Houdini Tricks}{6}{section.6}\protected@file@percent }
+\newlabel{sec:implementation}{{6}{6}{Implementation of Houdini Tricks}{section.6}{}}
+\newlabel{sec:implementation@cref}{{[section][6][]6}{[1][6][]6}}
+\@writefile{lol}{\contentsline {listing}{\numberline {1}{\ignorespaces Configuration file for CVE-2024-21616.}}{6}{listing.caption.3}\protected@file@percent }
+\newlabel{lst:configuration-file}{{1}{6}{Configuration file for CVE-2024-21616}{listing.caption.3}{}}
+\newlabel{lst:configuration-file@cref}{{[listing][1][]1}{[1][6][]6}}
 \@LN@col{2}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces {\bfseries  \color  {red}[TODO: table caption]}}}{5}{table.caption.4}\protected@file@percent }
-\newlabel{tab:classification}{{1}{5}{\todo {table caption}}{table.caption.4}{}}
-\newlabel{tab:classification@cref}{{[table][1][]1}{[1][4][]5}}
+\@writefile{lol}{\contentsline {listing}{\numberline {2}{\ignorespaces \relax }}{6}{listing.caption.4}\protected@file@percent }
+\newlabel{lst:pythonfile}{{2}{6}{\relax }{listing.caption.4}{}}
+\newlabel{lst:pythonfile@cref}{{[listing][2][]2}{[1][6][]6}}
+\@writefile{lol}{\contentsline {listing}{\numberline {3}{\ignorespaces \relax }}{6}{listing.caption.5}\protected@file@percent }
+\newlabel{lst:dockerfile}{{3}{6}{\relax }{listing.caption.5}{}}
+\newlabel{lst:dockerfile@cref}{{[listing][3][]3}{[1][6][]6}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Evaluation}{6}{section.7}\protected@file@percent }
+\newlabel{sec:evaluation}{{7}{6}{Evaluation}{section.7}{}}
+\newlabel{sec:evaluation@cref}{{[section][7][]7}{[1][6][]6}}
 \@LN@col{1}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Effect of Different Security Configurations in Docker versions < 20.03}}{7}{table.caption.6}\protected@file@percent }
+\newlabel{tab:docker-security}{{1}{7}{Effect of Different Security Configurations in Docker versions < 20.03}{table.caption.6}{}}
+\newlabel{tab:docker-security@cref}{{[table][1][]1}{[1][7][]7}}
 \@LN@col{2}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces {\bfseries  \color  {red}[TODO: table caption, replace success/failure text with glyphs. re-order, grouping unprivileged rows and privileged rows. ]}}}{6}{table.caption.5}\protected@file@percent }
-\newlabel{tab:results}{{2}{6}{\todo {table caption, replace success/failure text with glyphs. re-order, grouping unprivileged rows and privileged rows. }}{table.caption.5}{}}
-\newlabel{tab:results@cref}{{[table][2][]2}{[1][5][]6}}
-\@LN@col{1}
-\@LN@col{2}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Evaluation}{6}{section.5}\protected@file@percent }
-\newlabel{sec:evaluation}{{5}{6}{Evaluation}{section.5}{}}
-\newlabel{sec:evaluation@cref}{{[section][5][]5}{[1][6][]6}}
-\citation{dashevskyi_testrex_2014}
-\citation{shu_study_2017}
-\citation{lin_measurement_2018}
-\citation{javed_evaluation_2021}
-\citation{us_national_security_agency_kubernetes_2022}
-\citation{segura_dockerfile_2021}
-\citation{owasp_docker_nodate}
-\citation{segura_dockerfile_2021}
-\citation{owasp_docker_nodate}
-\@LN@col{1}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Related Work}{7}{section.6}\protected@file@percent }
-\newlabel{sec:related}{{6}{7}{Related Work}{section.6}{}}
-\newlabel{sec:related@cref}{{[section][6][]6}{[1][6][]7}}
-\@LN@col{2}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Discussion}{7}{section.7}\protected@file@percent }
-\newlabel{sec:discussion}{{7}{7}{Discussion}{section.7}{}}
-\newlabel{sec:discussion@cref}{{[section][7][]7}{[1][7][]7}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Effect of Different Security Configurations in Docker versions $\geq $ 20.03}}{7}{table.caption.7}\protected@file@percent }
+\newlabel{tab:docker-security}{{2}{7}{Effect of Different Security Configurations in Docker versions $\geq $ 20.03}{table.caption.7}{}}
+\newlabel{tab:docker-security@cref}{{[table][2][]2}{[1][7][]7}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Summary of Usecases}{7}{section.8}\protected@file@percent }
+\newlabel{sec:usecases}{{8}{7}{Summary of Usecases}{section.8}{}}
+\newlabel{sec:usecases@cref}{{[section][8][]8}{[1][7][]7}}
 \bibstyle{plain}
-\bibdata{../refs.bib}
+\bibdata{refs}
+\bibcite{CIS}{1}
+\bibcite{shu2017study}{2}
 \gdef\minted@oldcachelist{,
   default.pygstyle,
-  389B81E1FA7328CF61B572EA1C6E232C855020DB8640648752FD71EF5B5CDFC1.pygtex}
+  841EB67868E2F89E9E7A67ECC40723EE855020DB8640648752FD71EF5B5CDFC1.pygtex,
+  96B6B9D82569508D4933B80189C355FF855020DB8640648752FD71EF5B5CDFC1.pygtex,
+  25D04486D2113FB46FDA3A3E068E1A96855020DB8640648752FD71EF5B5CDFC1.pygtex}
 \@LN@col{1}
-\@writefile{toc}{\contentsline {section}{\numberline {8}Conclusion}{8}{section.8}\protected@file@percent }
-\newlabel{sec:conclusion}{{8}{8}{Conclusion}{section.8}{}}
-\newlabel{sec:conclusion@cref}{{[section][8][]8}{[1][8][]8}}
+\@writefile{toc}{\contentsline {section}{\numberline {9}Conclusion}{8}{section.9}\protected@file@percent }
+\newlabel{sec:conclusion}{{9}{8}{Conclusion}{section.9}{}}
+\newlabel{sec:conclusion@cref}{{[section][9][]9}{[1][8][]8}}
 \@LN@col{2}
 \gdef \@abspage@last{8}

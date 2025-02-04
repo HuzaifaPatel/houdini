@@ -34,7 +34,7 @@ def get_version():
 def build_docker_image(dockerfile_path, image_name):
     try:
         # Build the Docker image
-        client.images.build(path='.', dockerfile=dockerfile_path, tag=image_name, rm=True)
+        client.images.build(path=".", tag=image_name, rm=True)
         print(f"Image '{image_name}' built successfully. {check_mark}")
     except docker.errors.BuildError as e:
         print(f"Error building Docker image: {e}")
@@ -67,7 +67,7 @@ def run_docker_container(image_name, container_name, network_mode, read_only, se
         )
 
 
-        print(f"Container '{container_name}' started successfully.")
+        print(f"Container '{container_name}' started successfully. {check_mark}")
 
         if image_name == "cpu_shares":
             run_program_on_vm(path)
@@ -154,7 +154,6 @@ def delete_docker_image(image_identifier):
         print(f"Error occurred: {e}")
 
 
-
 # for cpu_shares trick. We need to run perf on the VM.
 def run_program_on_vm(path):
     original_directory = os.getcwd()
@@ -166,20 +165,17 @@ def run_program_on_vm(path):
     os.chdir(original_directory)
 
 
-
 def parse_trick_and_run(trick_data, args):
     container_name = args.get('container_name')
 
     # next three function calls are generic. They will never be different
     check_if_container_is_running(container_name)
 
-    # original_directory = os.getcwd()
-    # os.chdir(trick_data['trick'][0]['path'])
-    # build_docker_image(trick_data['dockerfile'][0]['path'], container_name)
-    # os.chdir(original_directory)
+    original_directory = os.getcwd()
+    os.chdir(trick_data['trick'][0]['path'])
+    build_docker_image(trick_data['trick'][0]['path'], container_name)
+    os.chdir(original_directory)
 
-    # third param to run_docker_container will always be for network. Waiting to find out what fourth, ..., nth is.
-    
     run_docker_container(
         container_name, 
         container_name,
@@ -201,3 +197,5 @@ def parse_trick_and_run(trick_data, args):
         trick_data['docker_config'][15]['ipc_mode'],
         trick_data['trick'][0]['path']
     )
+
+    

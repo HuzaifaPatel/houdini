@@ -1,0 +1,9 @@
+/home/huzi/Documents/houdini/buildroot/build/host-hiredis-1.2.0/CMakeFiles/hiredis.dir
+/home/huzi/Documents/houdini/buildroot/build/host-hiredis-1.2.0/CMakeFiles/package.dir
+/home/huzi/Documents/houdini/buildroot/build/host-hiredis-1.2.0/CMakeFiles/package_source.dir
+/home/huzi/Documents/houdini/buildroot/build/host-hiredis-1.2.0/CMakeFiles/edit_cache.dir
+/home/huzi/Documents/houdini/buildroot/build/host-hiredis-1.2.0/CMakeFiles/rebuild_cache.dir
+/home/huzi/Documents/houdini/buildroot/build/host-hiredis-1.2.0/CMakeFiles/list_install_components.dir
+/home/huzi/Documents/houdini/buildroot/build/host-hiredis-1.2.0/CMakeFiles/install.dir
+/home/huzi/Documents/houdini/buildroot/build/host-hiredis-1.2.0/CMakeFiles/install/local.dir
+/home/huzi/Documents/houdini/buildroot/build/host-hiredis-1.2.0/CMakeFiles/install/strip.dir

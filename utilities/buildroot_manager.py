@@ -54,7 +54,7 @@ class BuildrootManager:
 	def make_filesystem(self):
 		command = ['make', f'O={FILESYSTEM_PATH}', '-j', f'{self.cpu_count}']
 		self.set_buildroot_pkg()
-		shutil.copy(BUILDROOT_CONFIG_FILE, FILESYSTEM_PATH)
+		# shutil.copy(BUILDROOT_CONFIG_FILE, FILESYSTEM_PATH)
 		self.make_olddefconfig()
 		set_selinux_mode.update_selinux_config()
 		self.make(command, 'rootfs-ext2')
@@ -73,21 +73,20 @@ class BuildrootManager:
 			Style.print_color("Error:", 'red')
 			print(result.stderr)
 
-	def start_vm(self, kernel=get_absolute_path(f"/kernels/{KERNEL_VERSION}/images/bzImage"), drive=get_absolute_path("/filesystem/images/rootfs.ext2")):
+	def start_vm(self, kernel=get_absolute_path(f"/kernels/{KERNEL_VERSION}/images/bzImage"), drive=get_absolute_path("/buildroot/output/images/rootfs.ext2")):
 		qemu_cmd = [
 		    "qemu-system-x86_64",
 		    "-smp", str(CPU_CORES),
 		    "-m", "{}".format(VM_RAM),
 		    "-kernel", kernel,
 		    "-drive", "file={},if=virtio,format=raw".format(drive),
-		    "-append", "rootwait root=/dev/vda console=tty1 console=ttyS0 loglevel=8 systemd.unified_cgroup_hierarchy=1",
+		    "-append", "rootwait root=/dev/vda console=tty1 console=ttyS0 loglevel=8 cgroup_enable=cpuset cgroup_enable=memory",
 		    "-serial", "mon:stdio",
 		    "-net", "nic,model=virtio",
 		    "-net", "user,hostfwd=tcp::{}-:{}".format(PORT, PORT),
 		    "-nographic",
 		    "-virtfs", "local,path=/home/huzi/Desktop,mount_tag=hostshare,security_model=mapped-file,id=hostshare"
 		]
-
 
 		gnome_cmd = ["gnome-terminal", "--", *qemu_cmd]
 

@@ -1,8 +1,5 @@
-*.o
 __pycache__/
 kernels/
-filesystem/
 venv/
 misc/
 overlay/usr/bin/
-overlay/docker-cache/cpu_shares.tar

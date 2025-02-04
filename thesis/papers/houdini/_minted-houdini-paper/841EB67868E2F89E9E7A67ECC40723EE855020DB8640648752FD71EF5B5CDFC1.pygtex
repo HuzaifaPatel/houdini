@@ -1,0 +1,26 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{  }\PYG{n+nt}{name}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{CVE\PYGZhy{}21616}
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{name}\PYG{p+pIndicator}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{CVE\PYGZhy{}21616}
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{dockerfile}\PYG{p+pIndicator}{:}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{path}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{Dockerfile}
+\PYG{+w}{  }\PYG{+w+wError}{  }\PYG{n+nt}{dependencies}\PYG{p}{:}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{server}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{False}
+\PYG{+w}{    }\PYG{n+nt}{docker\PYGZus{}config}\PYG{p}{:}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{network\PYGZus{}mode}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{bridge}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{read\PYGZus{}only}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{False}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{security\PYGZus{}opt}\PYG{p}{:}\PYG{+w}{ }\PYG{p+pIndicator}{[}\PYG{l+s}{\PYGZdq{}no\PYGZhy{}new\PYGZhy{}privileges\PYGZdq{}}\PYG{p+pIndicator}{]}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{pid\PYGZus{}mode}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{null}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{cpu\PYGZus{}shares}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{null}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{volumes }\PYG{p}{:}\PYG{+w}{ }\PYG{p+pIndicator}{\PYGZob{}}\PYG{l+s}{\PYGZdq{}/proc\PYGZdq{}}\PYG{p+pIndicator}{:}\PYG{+w}{ }\PYG{p+pIndicator}{\PYGZob{}}\PYG{l+s}{\PYGZdq{}bind\PYGZdq{}}\PYG{p+pIndicator}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}/host\PYGZus{}proc\PYGZdq{}}\PYG{p+pIndicator}{,}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}mode\PYGZdq{}}\PYG{p+pIndicator}{:}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}ro\PYGZdq{}}\PYG{p+pIndicator}{\PYGZcb{}\PYGZcb{}}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{mem\PYGZus{}limit}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{null}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{cpuset\PYGZus{}cpus}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{null}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{cpu\PYGZus{}quota}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{null}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{cpu\PYGZus{}period}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{null}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{cap\PYGZus{}add}\PYG{p}{:}\PYG{+w}{ }\PYG{p+pIndicator}{[]}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{cap\PYGZus{}drop}\PYG{p}{:}\PYG{+w}{ }\PYG{p+pIndicator}{[]}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{privileged}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{False}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{user}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{root}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{pids\PYGZus{}limit}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{null}
+\PYG{+w}{    }\PYG{n+nt}{trick}\PYG{p}{:}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{path}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{/houdini/tricks/HostMount}
+\end{Verbatim}

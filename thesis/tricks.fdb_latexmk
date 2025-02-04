@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1729516825.7474 "tricks.tex" "tricks.pdf" "tricks" 1729516826.34374 0
+["pdflatex"] 1730407482.43261 "tricks.tex" "tricks.pdf" "tricks" 1730407482.71327 0
   "/etc/texmf/web2c/texmf.cnf" 1721062194.05335 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1136768653 1324 c910af8c371558dc20f2d7822f66fe64 ""
@@ -47,17 +47,11 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1726605535.92556 128028 f533b797fba58d231669ea19e894e23e ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1726605548 6800786 3799458cd2bab451d820defea025d12d ""
-  "cpu_tricks/6.1.0/V1/flamegraph_20241021_080829.png" 1729515921 37382 163a47f4c06f6abb278579c9c4b1bb8c ""
-  "cpu_tricks/6.1.0/V1/flamegraph_20241021_083704.png" 1729515924 24847 941d5d26c1eb1dcd74ad200436c1b317 ""
-  "cpu_tricks/6.1.0/V1/flamegraph_20241021_083758.png" 1729515925 58510 d3e88e132e334cd7b33c1f3dc76fc0ee ""
-  "cpu_tricks/6.1.0/V2/flamegraph_20241021_100156.png" 1729516636 35649 31cce021177cf9fcd82053092aa2fe4e ""
-  "cpu_tricks/6.1.0/V2/flamegraph_20241021_101227.png" 1729516638 35092 f8f8de65e4523322c3faccd0d4bd08b4 ""
-  "cpu_tricks/6.1.0/V2/flamegraph_20241021_102607.png" 1729516640 40385 a0617a135c27424d64846170c9ca3ae7 ""
   "cpu_tricks/6.5.5/V1/flamegraph_20241017_092801.png" 1729430936.13339 33777 8374df57233483013edeca20521c4df9 ""
-  "cpu_tricks/6.5.5/V1/flamegraph_20241017_092923.png" 1729432785.24344 54643 cee3193801a6b0a8a9cadbe40ccff0be ""
   "cpu_tricks/6.5.5/V1/flamegraph_20241017_112413.png" 1729495016.86974 56039 85379291598331c18385560c87732011 ""
-  "tricks.aux" 1729516826.32068 2954 69dd9a51edad1c5c182ca88671e55c70 "pdflatex"
-  "tricks.tex" 1729516823.38767 8448 47d8947962671a96babc5cad890614af ""
+  "cpu_tricks/6.5.5/V1/flamegraph_20241022_175446.png" 1730406967 21513 34ad712562e6b9e78e513e9863a5d372 ""
+  "tricks.aux" 1730407482.69309 851 736094a8d3a1a64726d6db8ce064e88c "pdflatex"
+  "tricks.tex" 1730407479.87508 5637 87556ec7541fadca6bfe332399919a98 ""
   (generated)
   "tricks.aux"
   "tricks.log"

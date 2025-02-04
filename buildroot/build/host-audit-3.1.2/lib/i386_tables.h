@@ -1,0 +1,205 @@
+/* This is a generated file, see Makefile.am for its inputs. */
+static const char i386_syscall_strings[] = "_llseek\0_newselect\0_sysctl\0accept4\0access\0acct\0add_key\0adjtimex\0afs_syscall\0alarm\0"
+	"arch_prctl\0bdflush\0bind\0bpf\0break\0brk\0cachestat\0capget\0capset\0chdir\0"
+	"chmod\0chown\0chown32\0chroot\0clock_adjtime\0clock_adjtime64\0clock_getres\0clock_getres_time64\0clock_gettime\0clock_gettime64\0"
+	"clock_nanosleep\0clock_nanosleep_time64\0clock_settime\0clock_settime64\0clone\0clone3\0close\0close_range\0connect\0copy_file_range\0"
+	"creat\0create_module\0delete_module\0dup\0dup2\0dup3\0epoll_create\0epoll_create1\0epoll_ctl\0epoll_pwait\0"
+	"epoll_pwait2\0epoll_wait\0eventfd\0eventfd2\0execve\0execveat\0exit\0exit_group\0faccessat\0faccessat2\0"
+	"fadvise64\0fadvise64_64\0fallocate\0fanotify_init\0fanotify_mark\0fchdir\0fchmod\0fchmodat\0fchown\0fchown32\0"
+	"fchownat\0fcntl\0fcntl64\0fdatasync\0fgetxattr\0finit_module\0flistxattr\0flock\0fork\0fremovexattr\0"
+	"fsconfig\0fsetxattr\0fsmount\0fsopen\0fspick\0fstat\0fstat64\0fstatat64\0fstatfs\0fstatfs64\0"
+	"fsync\0ftime\0ftruncate\0ftruncate64\0futex\0futex_time64\0futex_waitv\0futimesat\0get_kernel_syms\0get_mempolicy\0"
+	"get_robust_list\0get_thread_area\0getcpu\0getcwd\0getdents\0getdents64\0getegid\0getegid32\0geteuid\0geteuid32\0"
+	"getgid\0getgid32\0getgroups\0getgroups32\0getitimer\0getpeername\0getpgid\0getpgrp\0getpid\0getpmsg\0"
+	"getppid\0getpriority\0getrandom\0getresgid\0getresgid32\0getresuid\0getresuid32\0getrlimit\0getrusage\0getsid\0"
+	"getsockname\0getsockopt\0gettid\0gettimeofday\0getuid\0getuid32\0getxattr\0gtty\0idle\0init_module\0"
+	"inotify_add_watch\0inotify_init\0inotify_init1\0inotify_rm_watch\0io_cancel\0io_destroy\0io_getevents\0io_pgetevents\0io_pgetevents_time64\0io_setup\0"
+	"io_submit\0io_uring_enter\0io_uring_register\0io_uring_setup\0ioctl\0ioperm\0iopl\0ioprio_get\0ioprio_set\0ipc\0"
+	"kcmp\0keyctl\0kill\0landlock_add_rule\0landlock_create_ruleset\0landlock_restrict_self\0lchown\0lchown32\0lgetxattr\0link\0"
+	"linkat\0listen\0listxattr\0llistxattr\0lock\0lookup_dcookie\0lremovexattr\0lseek\0lsetxattr\0lstat\0"
+	"lstat64\0madvise\0madvise1\0mbind\0membarrier\0memfd_create\0memfd_secret\0migrate_pages\0mincore\0mkdir\0"
+	"mkdirat\0mknod\0mknodat\0mlock\0mlock2\0mlockall\0mmap\0mmap2\0modify_ldt\0mount\0"
+	"mount_setattr\0move_mount\0move_pages\0mprotect\0mpx\0mq_getsetattr\0mq_notify\0mq_open\0mq_timedreceive\0mq_timedreceive_time64\0"
+	"mq_timedsend\0mq_timedsend_time64\0mq_unlink\0mremap\0msgctl\0msgget\0msgrcv\0msgsnd\0msync\0munlock\0"
+	"munlockall\0munmap\0name_to_handle_at\0nanosleep\0nfsservctl\0nice\0oldfstat\0oldlstat\0oldolduname\0oldstat\0"
+	"olduname\0open\0open_by_handle_at\0open_tree\0openat\0openat2\0pause\0perf_event_open\0personality\0pidfd_getfd\0"
+	"pidfd_open\0pidfd_send_signal\0pipe\0pipe2\0pivot_root\0pkey_alloc\0pkey_free\0pkey_mprotect\0poll\0ppoll\0"
+	"ppoll_time64\0prctl\0pread64\0preadv\0preadv2\0prlimit64\0process_madvise\0process_mrelease\0process_vm_readv\0process_vm_writev\0"
+	"prof\0profil\0pselect6\0pselect6_time64\0ptrace\0putpmsg\0pwrite64\0pwritev\0pwritev2\0query_module\0"
+	"quotactl\0quotactl_fd\0read\0readahead\0readdir\0readlink\0readlinkat\0readv\0reboot\0recvfrom\0"
+	"recvmmsg\0recvmmsg_time64\0recvmsg\0remap_file_pages\0removexattr\0rename\0renameat\0renameat2\0request_key\0restart_syscall\0"
+	"rmdir\0rseq\0rt_sigaction\0rt_sigpending\0rt_sigprocmask\0rt_sigqueueinfo\0rt_sigreturn\0rt_sigsuspend\0rt_sigtimedwait\0rt_sigtimedwait_time64\0"
+	"rt_tgsigqueueinfo\0sched_get_priority_max\0sched_get_priority_min\0sched_getaffinity\0sched_getattr\0sched_getparam\0sched_getscheduler\0sched_rr_get_interval\0sched_rr_get_interval64\0sched_setaffinity\0"
+	"sched_setattr\0sched_setparam\0sched_setscheduler\0sched_yield\0seccomp\0select\0semctl\0semget\0semtimedop_time64\0sendfile\0"
+	"sendfile64\0sendmmsg\0sendmsg\0sendto\0set_mempolicy\0set_mempolicy_home_node\0set_robust_list\0set_thread_area\0set_tid_address\0setdomainname\0"
+	"setfsgid\0setfsgid32\0setfsuid\0setfsuid32\0setgid\0setgid32\0setgroups\0setgroups32\0sethostname\0setitimer\0"
+	"setns\0setpgid\0setpriority\0setregid\0setregid32\0setresgid\0setresgid32\0setresuid\0setresuid32\0setreuid\0"
+	"setreuid32\0setrlimit\0setsid\0setsockopt\0settimeofday\0setuid\0setuid32\0setxattr\0sgetmask\0shmat\0"
+	"shmctl\0shmdt\0shmget\0shutdown\0sigaction\0sigaltstack\0signal\0signalfd\0signalfd4\0sigpending\0"
+	"sigprocmask\0sigreturn\0sigsuspend\0socket\0socketcall\0socketpair\0splice\0ssetmask\0stat\0stat64\0"
+	"statfs\0statfs64\0statx\0stime\0stty\0swapoff\0swapon\0symlink\0symlinkat\0sync\0"
+	"sync_file_range\0syncfs\0sys_kexec_load\0sysfs\0sysinfo\0syslog\0tee\0tgkill\0time\0timer_create\0"
+	"timer_delete\0timer_getoverrun\0timer_gettime\0timer_gettime64\0timer_settime\0timer_settime64\0timerfd_create\0timerfd_gettime\0timerfd_gettime64\0timerfd_settime\0"
+	"timerfd_settime64\0times\0tkill\0truncate\0truncate64\0ugetrlimit\0ulimit\0umask\0umount\0umount2\0"
+	"uname\0unlink\0unlinkat\0unshare\0uselib\0userfaultfd\0ustat\0utime\0utimensat\0utimensat_time64\0"
+	"utimes\0vfork\0vhangup\0vm86\0vm86old\0vmsplice\0vserver\0wait4\0waitid\0waitpid\0"
+	"write\0writev";
+static const unsigned i386_syscall_s2i_s[] = {
+	0,8,19,27,35,42,47,55,64,76,
+	82,93,101,106,110,116,120,130,137,144,
+	150,156,162,170,177,191,207,220,240,254,
+	270,286,309,323,339,345,352,358,370,378,
+	394,400,414,428,432,437,442,455,469,479,
+	491,504,515,523,532,539,548,553,564,574,
+	585,595,608,618,632,646,653,660,669,676,
+	685,694,700,708,718,728,741,752,758,763,
+	776,785,795,803,810,817,823,831,841,849,
+	859,865,871,881,893,899,912,924,934,950,
+	964,980,996,1003,1010,1019,1030,1038,1048,1056,
+	1066,1073,1082,1092,1104,1114,1126,1134,1142,1149,
+	1157,1165,1177,1187,1197,1209,1219,1231,1241,1251,
+	1258,1270,1281,1288,1301,1308,1317,1326,1331,1336,
+	1348,1366,1379,1393,1410,1420,1431,1444,1458,1479,
+	1488,1498,1513,1531,1546,1552,1559,1564,1575,1586,
+	1590,1595,1602,1607,1625,1649,1672,1679,1688,1698,
+	1703,1710,1717,1727,1738,1743,1758,1771,1777,1787,
+	1793,1801,1809,1818,1824,1835,1848,1861,1875,1883,
+	1889,1897,1903,1911,1917,1924,1933,1938,1944,1955,
+	1961,1975,1986,1997,2006,2010,2024,2034,2042,2058,
+	2081,2094,2114,2124,2131,2138,2145,2152,2159,2165,
+	2173,2184,2191,2209,2219,2230,2235,2244,2253,2265,
+	2273,2282,2287,2305,2315,2322,2330,2336,2352,2364,
+	2376,2387,2405,2410,2416,2427,2438,2448,2462,2467,
+	2473,2486,2492,2500,2507,2515,2525,2541,2558,2575,
+	2593,2598,2605,2614,2630,2637,2645,2654,2662,2671,
+	2684,2693,2705,2710,2720,2728,2737,2748,2754,2761,
+	2770,2779,2795,2803,2820,2832,2839,2848,2858,2870,
+	2886,2892,2897,2910,2924,2939,2955,2968,2982,2998,
+	3021,3039,3062,3085,3103,3117,3132,3151,3173,3197,
+	3215,3229,3244,3263,3275,3283,3290,3297,3304,3322,
+	3331,3342,3351,3359,3366,3380,3404,3420,3436,3452,
+	3466,3475,3486,3495,3506,3513,3522,3532,3544,3556,
+	3566,3572,3580,3592,3601,3612,3622,3634,3644,3656,
+	3665,3676,3686,3693,3704,3717,3724,3733,3742,3751,
+	3757,3764,3770,3777,3786,3796,3808,3815,3824,3834,
+	3845,3857,3867,3878,3885,3896,3907,3914,3923,3928,
+	3935,3942,3951,3957,3963,3968,3976,3983,3991,4001,
+	4006,4022,4029,4044,4050,4058,4065,4069,4076,4081,
+	4094,4107,4124,4138,4154,4168,4184,4199,4215,4233,
+	4249,4267,4273,4279,4288,4299,4310,4317,4323,4330,
+	4338,4344,4351,4360,4368,4375,4387,4393,4399,4409,
+	4426,4433,4439,4447,4452,4460,4469,4477,4483,4490,
+	4498,4504,
+};
+static const int i386_syscall_s2i_i[] = {
+	140,142,149,364,33,51,286,124,137,27,
+	384,134,361,357,17,45,451,184,185,12,
+	15,182,212,61,343,405,266,406,265,403,
+	267,407,264,404,120,435,6,436,362,377,
+	8,127,129,41,63,330,254,329,255,319,
+	441,256,323,328,11,358,1,252,307,439,
+	250,272,324,338,339,133,94,306,95,207,
+	298,55,221,148,231,350,234,143,2,237,
+	431,228,432,430,433,108,197,300,100,269,
+	118,35,93,194,240,422,449,299,130,275,
+	312,244,318,183,141,220,50,202,49,201,
+	47,200,80,205,105,368,132,65,20,188,
+	64,96,355,171,211,165,209,76,77,147,
+	367,365,224,78,24,199,229,32,112,128,
+	292,291,332,293,249,246,247,385,416,245,
+	248,426,427,425,54,101,110,290,289,117,
+	349,288,37,445,444,446,16,198,230,9,
+	303,363,232,233,53,253,236,19,227,107,
+	196,219,219,274,375,356,447,294,218,39,
+	296,14,297,150,376,152,90,192,123,21,
+	442,429,317,125,56,282,281,277,280,419,
+	279,418,278,163,402,399,401,400,144,151,
+	153,91,341,162,169,34,28,84,59,18,
+	109,5,342,428,295,437,29,336,136,438,
+	434,424,42,331,217,381,382,380,168,309,
+	414,172,180,333,378,340,440,448,347,348,
+	44,98,308,413,26,189,181,334,379,167,
+	131,443,3,225,89,85,305,145,88,371,
+	337,417,372,257,235,38,302,353,287,0,
+	40,386,174,176,175,178,173,179,177,421,
+	335,159,160,242,352,155,157,161,423,241,
+	351,154,156,158,354,82,394,393,420,187,
+	239,345,370,369,276,450,311,243,258,121,
+	139,216,138,215,46,214,81,206,74,104,
+	346,57,97,71,204,170,210,164,208,70,
+	203,75,66,366,79,23,213,226,68,397,
+	396,398,395,373,67,186,48,321,327,73,
+	126,119,72,359,102,360,313,69,106,195,
+	99,268,383,25,31,115,87,83,304,36,
+	314,344,283,135,116,103,315,270,13,259,
+	263,262,261,408,260,409,322,326,410,325,
+	411,43,238,92,193,191,58,60,22,52,
+	122,10,301,310,86,374,62,30,320,412,
+	271,190,111,166,113,316,273,114,284,7,
+	4,146,
+};
+static int i386_syscall_s2i(const char *s, int *value) {
+	size_t len, i;
+	 if (s == NULL || value == NULL)
+		return 0;
+	len = strlen(s);
+	{ char copy[len + 1];
+	for (i = 0; i < len; i++) {
+		char c = s[i];
+		copy[i] = GT_ISUPPER(c) ? c - 'A' + 'a' : c;
+	}
+	copy[i] = 0;
+	return s2i__(i386_syscall_strings, i386_syscall_s2i_s, i386_syscall_s2i_i, 442, copy, value);
+	}
+}
+static const unsigned i386_syscall_i2s_direct[] = {
+	2870,548,758,2705,4498,2282,352,4490,394,1698,
+	4344,532,144,4076,1897,150,1672,110,2265,1771,
+	1142,1955,4323,3717,1301,3957,2630,76,2235,2330,
+	4393,3963,1326,35,2230,865,4001,1602,2832,1883,
+	2886,428,2405,4267,2593,116,3506,1066,3808,1048,
+	1030,42,4330,1738,1546,694,2006,3572,4310,2253,
+	4317,170,4387,432,1157,1134,3686,3786,3742,3914,
+	3656,3592,3867,3834,3544,3676,1231,1241,1288,3704,
+	1082,3522,3283,3983,2244,2728,4368,3976,2754,2720,
+	1933,2184,4279,871,653,669,1165,3580,2598,3935,
+	841,1552,3885,4058,3556,1104,3923,1787,817,2273,
+	1559,4439,1331,4452,4477,3968,4050,1586,859,3857,
+	339,3452,4338,1944,55,1997,3845,400,1336,414,
+	934,2684,1126,646,93,4044,2352,64,3486,3466,
+	0,1010,8,752,2159,2748,4504,1251,708,19,
+	1911,2165,1924,2173,3229,3117,3244,3132,3263,3039,
+	3062,3151,2209,2124,3634,1209,4447,2671,2462,2219,
+	3612,1187,2486,2955,2897,2924,2910,2982,2939,2968,
+	2492,2645,156,1003,130,137,3796,3322,1149,2637,
+	4433,4299,1938,4288,881,3928,1793,823,1679,1308,
+	1073,1056,1038,3665,3601,1092,3532,676,3644,1219,
+	3622,1197,162,3724,3513,3495,3475,2416,1875,1801,
+	1019,700,-1u,-1u,1281,2710,3733,1777,785,1317,
+	1688,718,1717,1727,741,2820,1758,763,4273,3331,
+	893,3197,3085,3420,980,1479,1420,1431,1488,1410,
+	585,-1u,553,1743,442,469,504,2803,3436,4081,
+	4154,4124,4107,4094,309,240,207,270,3942,849,
+	4069,4426,595,4469,1818,950,3366,2034,2114,2081,
+	2042,2024,2010,4029,4483,-1u,47,2858,1595,1575,
+	1564,1366,1348,1393,1861,2315,1889,1903,685,924,
+	831,4351,2839,1703,3991,2737,660,564,2605,2467,
+	4360,3404,964,3907,4006,4065,4460,1986,996,479,
+	4399,3815,4184,515,608,4233,4199,3824,523,455,
+	437,2410,1379,2500,2654,3021,2336,2770,618,632,
+	2515,2191,2287,177,4022,3342,3566,2558,2575,1590,
+	728,3215,3103,2848,3275,1177,1835,106,539,3878,
+	3896,101,370,1710,27,1270,3693,1258,1114,3359,
+	3351,2761,2795,3777,4375,1824,1917,378,2507,2662,
+	2448,2427,2438,3951,82,1444,2892,-1u,-1u,-1u,
+	-1u,-1u,-1u,3297,3290,3770,3757,3751,3764,2138,
+	2152,2145,2131,254,323,191,220,286,4138,4168,
+	4215,4249,4409,2614,2473,-1u,1458,2779,2094,2058,
+	3304,2998,899,3173,2387,1531,1498,1513,2305,1975,
+	803,776,795,810,2376,345,358,2322,2364,574,
+	2525,491,1961,2693,1625,1607,1649,1848,2541,912,
+	3380,120,
+};
+static const char *i386_syscall_i2s(int v) {
+	return i2s_direct__(i386_syscall_strings, i386_syscall_i2s_direct, 0, 451, v);
+}

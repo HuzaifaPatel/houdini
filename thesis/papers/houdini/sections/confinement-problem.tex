@@ -2,9 +2,20 @@
 \label{sec:confinement}
 % why is this a hard problem
 
+
 % what are the approaches that are used today to confine containers
-\begin{itemize}
-   \item explain what a container actually is
-   \item what you get with namespaces \& cgroups
-   \item define containers and the game of escaping containers
-\end{itemize}
+% \begin{itemize}
+
+A container is a lightweight, portable unit of software that encapsulates an application and all its dependencies, such as libraries, configurations, and binaries, which ensures consistent behavior across various environments. Unlike virtual machines, containers do not require a full operating system to run; instead, they share the host operating system’s kernel, which makes them highly efficient in terms of resource usage and startup time. Containers achieve isolation using Linux mechanisms such as namespaces, which provide separate views of system resources (e.g., process IDs, filesystems, and network interfaces) to each container, and control groups (cgroups), which limit and prioritize resource usage (like CPU, memory, and I/O). This design allows containers to run independently in isolated environments while sharing the same underlying operating system. This approach makes containers much more lightweight and faster than hypervisor-based virtual machines, with significantly lower overhead. As a result, containers have become an essential tool for modern cloud-native applications, microservices architectures, and continuous integration/continuous deployment (CI/CD) pipelines.
+
+Confining containers is essential for maintaining both system security and stability by limiting the potential damage they can cause if compromised. Several mechanisms are employed to isolate containers and restrict their interaction with the host system. Linux namespaces are the foundation of container isolation. It creates separate environments for processes, network interfaces, and filesystems that ensures containers cannot interfere with each other or the host system. Control groups (cgroups) complement namespaces by limiting resource usage, such as CPU, memory, and disk I/O, by preventing a single container from starving the system or other containers of essential resources. Mandatory access control (MAC) systems like SELinux and AppArmor further restrict containers by defining and enforcing strict security policies on what resources they can access, such as files, devices, and network resources. Seccomp (Secure Computing Mode) adds another layer of security by filtering and controlling the system calls that containers can make, thus preventing unauthorized or dangerous operations that could lead to exploits. Linux capabilities are another mechanism, which is used to grant containers only the specific privileges they need, which reduces the attack surface by limiting elevated privileges. Container runtimes like Docker and containerd provide additional hardening by supporting image signing, vulnerability scanning, and enforcing container runtime security policies. Despite these defenses, unintentional vulnerabilities can still emerge, especially when misconfigurations occur.
+
+Container confinement is complicated by the numerous and sometimes overlapping Linux mechanisms used to protect Docker containers. These mechanisms, such as namespaces, control groups (cgroups), SELinux, AppArmor, seccomp, and capabilities, each contribute to the isolation and security of containers. However, while these mechanisms are designed to work together to restrict access and resource consumption, the interaction between them is complex and not always fully understood, especially when misconfigurations or edge cases arise. For instance, while namespaces ensure process and filesystem isolation, cgroups manage resource limits, and security policies like SELinux enforce mandatory access controls. Yet, the way these layers of security interact is not always transparent, and subtle vulnerabilities may exist in the integration of these components. Moreover, as Docker and other container runtimes continue to evolve, new features and mechanisms are added, further complicating the security landscape. Even seasoned security experts sometimes struggle to keep track of how these protections interrelate or to predict how they will behave in certain scenarios. This lack of complete understanding introduces the possibility of security gaps, as attackers can exploit unintended interactions between these mechanisms. Consequently, the very complexity that makes containers so powerful and efficient also makes securing them a challenging and ongoing problem.
+
+
+   % \item explain what a container actually is. DONE
+   % \item what are the approaches that are used today to confine containers. DONE
+   % \item why is this a hard problem to solve DONE
+   % \item what you get with namespaces \& cgroups DONE IN OTHER PARAGRAPHS
+   % \item define containers and the game of escaping containers NOT REALLY NEEDED ANYMORE.
+% \end{itemize}

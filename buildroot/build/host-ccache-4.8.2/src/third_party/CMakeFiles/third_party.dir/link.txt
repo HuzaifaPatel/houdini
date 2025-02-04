@@ -1,0 +1,2 @@
+/usr/bin/ar qc libthird_party.a CMakeFiles/third_party.dir/base32hex.c.o CMakeFiles/third_party.dir/format.cpp.o CMakeFiles/third_party.dir/httplib.cpp.o CMakeFiles/third_party.dir/url.cpp.o CMakeFiles/third_party.dir/xxhash.c.o CMakeFiles/third_party.dir/getopt_long.c.o CMakeFiles/third_party.dir/xxh_x86dispatch.c.o
+/usr/bin/ranlib libthird_party.a

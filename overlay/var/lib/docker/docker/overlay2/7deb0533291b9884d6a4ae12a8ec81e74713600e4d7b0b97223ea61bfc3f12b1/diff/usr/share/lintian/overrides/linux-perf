@@ -1,3 +1,0 @@
-linux-perf: binary-from-other-architecture *usr/lib/perf-core/perf-read-vdsox32*
-linux-perf: shared-library-lacks-prerequisites *usr/lib/traceevent/plugins/plugin_*.so*
-linux-perf: maintainer-script-should-not-use-dpkg-maintscript-helper "dpkg-maintscript-helper" *

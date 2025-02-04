@@ -1,11 +1,66 @@
+
 \section{Evaluation}
 \label{sec:evaluation}
 
-Houdini on:
-\begin{itemize}
-\item default docker container unpriv
-\item default docker container priv
-\item same as above, but with AppArmor
-\item find "how to secure a container" policies?
-\item make sure to pick apart standard docker policies, try to see which pieces contribute what protection
-\end{itemize}
+To assess the aforementioned security mechanisms, in this section, we evaluate the performance of a series of tricks, such as resource starvation, unauthorized access attempts, and container escapes.
+
+\noindent\textbf{Evaluating DOS Prevention Mechanisms.}
+
+With our first trick, we investigate the resilience of Docker containers against fork bomb attacks, a common form of denial-of-service (DoS) attack, where a process continuously replicates itself, and quickly exhaustes system resources. A fork bomb is designed to overwhelm the process table and exhaust available CPU and memory resources. If a container's resource management policies are inadequate, it would render the system unresponsive in the event of such an attack. Docker is able to leverage various Linux kernel mechanisms, most notably control groups (cgroups), to impose limits on process creation. Therefore, we define the success of this trick if the docker security mechanism that is used can prevent or disallow resource exhaustion. 
+
+In our evaluation of the trick, we applied a value of 10 to the pid\_limit mechanism, which sets a maximum cap on the number of processes that can be created within a container. This configuration was successful in preventing a future fork bomb because the container would not be able to create enough processes to exhaust resources.
+
+\noindent\textbf{Assessing Docker Port Forwarding Restrictions}
+
+For this trick, we will run an HTTP server and bind it to port 23, which is a privileged port. Our objective is to identify which Docker confinement mechanism and versions permit binding port 23 to a process running an HTTP server.
+
+It turns out that Docker made a change starting with version 20.03. They redefined unprivileged ports to start at 0 instead of 1024, which means that the `NET\_BIND\_SERVICE` capability is no longer required to bind to a privlidged port. Thus, we will test one version of docker that is less than 20.03, and one greater than or equal to 20.03.
+
+Starting with the docker version less than 20.03, the results of the tests reveal that binding to a privileged port (port 23) is influenced by several Docker confinement mechanisms. First of all, success was achieved when the `NET\_BIND\_SERVICE` capability was enabled and the user was root. If the NET\_BIND\_SERVICE was activated, but the user was not root, the trick would fail. Other ways the trick could fail is if a custom SECCOMP profile was used to deny the bind system call. This indicates that the ability to bind to privileged ports is primarily dependent on the presence of the `NET\_BIND\_SERVICE` capability and root user privilege. The table below describes these occurences.
+
+\begin{table}
+    \centering
+    \caption{Effect of Different Security Configurations in Docker versions < 20.03}
+    \label{tab:docker-security}
+    \small
+    \begin{tabular}{|p{6cm}|c|}  % Adjusted second column width
+        \hline
+        \textbf{Configuration} & \textbf{Result} \\ \hline
+        +NET\_BIND\_SERVICE | root & \textcolor{green}{\ding{51}} \\ \hline  % ✅ Success
+        -NET\_BIND\_SERVICE | root & \textcolor{red}{\ding{55}} \\ \hline  % ❌ Failure
+        +NET\_BIND\_SERVICE | Custom Seccomp (deny bind syscall) + root & \textcolor{red}{\ding{55}} \\ \hline
+        -NET\_BIND\_SERVICE | root & \textcolor{red}{\ding{55}} \\ \hline
+        +NET\_BIND\_SERVICE | non\_root & \textcolor{red}{\ding{55}} \\ \hline
+    \end{tabular}
+\end{table}
+
+
+In Docker versions prior to 20.03, NET\_BIND\_SERVICE had an effect as explained earlier. However, in Docker versions 20.03 and later, NET\_BIND\_SERVICE no longer has any impact. However, root user is still needed to bind the HTTP server to a port, and not nessearily a privlidged port. If the user is a non-root, then the trick will not work. Also, if a custom seccomp profile is used to deny the bind syscall, the trick will not work. All of this is described in the table below.
+
+\begin{table}
+    \centering
+    \caption{Effect of Different Security Configurations in Docker versions $\geq$ 20.03}
+    \label{tab:docker-security}
+    \small
+    \begin{tabular}{|p{6cm}|c|}  % Adjusted second column width
+        \hline
+        \textbf{Configuration} & \textbf{Result} \\ \hline
+        +NET\_BIND\_SERVICE | root & \textcolor{green}{\ding{51}} \\ \hline  % ✅ Success
+        -NET\_BIND\_SERVICE | root & \textcolor{green}{\ding{51}} \\ \hline  % ✅ Success
+        +NET\_BIND\_SERVICE | Custom Seccomp (deny bind syscall) + root & \textcolor{red}{\ding{55}} \\ \hline  % ❌ Failure
+        +NET\_BIND\_SERVICE | non\_root & \textcolor{red}{\ding{55}} \\ \hline  % ❌ Failure
+    \end{tabular}
+\end{table}
+
+\noindent\textbf{CVE 2024-21616: the Docker Container Escape Exploit}
+
+
+The CVE-2024-21626 vulnerability exists within Docker and runc and allows malicious containers to escape their isolation layer, enabling attackers to take control of the host machine. This poses a significant security risk for enterprises relying on containerization, as once the vulnerability is exploited, attackers could breach security boundaries to access sensitive data and system resources. 
+
+Specifically, the cause of CVE-2024-21626 involves improper setting of the container’s working directory. Under certain conditions, if a container's working directory is set to a special file descriptor path, such as /proc/self/fd/<fd> (where <fd> typically points to the /sys/fs/cgroup directory), it may allow for container escape. The affected versions of runc range from v1.0.0-rc93 to 1.1.11.
+
+To evaluate the practical impact of CVE-2024-21616, we leveraged Houdini to systematically assess the effectiveness of Docker’s confinement mechanisms in preventing container escapes. By integrating CVE-2024-21616 as a Houdini trick, we were able to analyze under what conditions the vulnerability could be exploited and determine the effectiveness of different security configurations in mitigating the risk.
+
+The experiment was structured to evaluate the default security posture of Docker as well as the impact of applying additional confinement measures. The Houdini trick for CVE-2024-21616 was designed using a combination of a configuration file, which defined the container’s security settings, a Dockerfile, which set up the containerized environment, and an exploit script, which attempted to break out of the container and execute arbitrary commands on the host. These files can be seen in section 6.
+
+Our findings revealed that Docker’s default security settings were insufficient to prevent exploitation. The only way to prevent it is to use a runc version greater than 1.1.11. This is because the vulnerability lies inside of runc, the container runtime responsible for managing process execution inside containers. Since the flaw is in the runtime itself, Docker’s built-in security mechanisms, such as namespaces, cgroups, and seccomp, do not inherently prevent exploitation. As a result, even well-configured containers remain vulnerable if they are running on an affected version of runc.

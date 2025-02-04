@@ -1,0 +1,5 @@
+host-m4,./bin/m4
+host-m4,./share/man/man1/m4.1
+host-m4,./share/info/m4.info
+host-m4,./share/info/m4.info-1
+host-m4,./share/info/m4.info-2

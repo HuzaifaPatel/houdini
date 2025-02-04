@@ -38,12 +38,12 @@ def version_status():
 def run_trick(trick_folder, trick):
 
     # version_status()
-    # TRICK_PATH = f'tricks/{trick_folder}/{trick}'
+    # TRICK_PATH = f'tricks/{trick_folder}/{trick}' # for host
 
     TRICK_PATH = f'/houdini/tricks/{trick_folder}/{trick}'
     # Check if the file exists
     if not os.path.exists(TRICK_PATH):
-        return jsonify({'error': f'Trick {trick} not found'}), 404
+        return jsonify({'error': f'Trick {trick} not found. PATH = {TRICK_PATH}'}), 404
 
     # Assuming your YAML configuration is stored in a file named 'config.yaml'
     with open(TRICK_PATH, 'r') as file:

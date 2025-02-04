@@ -1,0 +1,2 @@
+/usr/bin/ar qc libblake3.a CMakeFiles/blake3.dir/blake3.c.o CMakeFiles/blake3.dir/blake3_dispatch_ccache.c.o CMakeFiles/blake3.dir/blake3_portable.c.o CMakeFiles/blake3.dir/blake3_sse2.c.o CMakeFiles/blake3.dir/blake3_sse41.c.o CMakeFiles/blake3.dir/blake3_avx2.c.o CMakeFiles/blake3.dir/blake3_avx512.c.o
+/usr/bin/ranlib libblake3.a

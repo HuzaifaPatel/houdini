@@ -59,7 +59,7 @@ The first trick is about setting cpu\_quota and cpu\_period to its default state
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{cpu_tricks/6.5.5/V1/flamegraph_20241017_092923.png}
+    \includegraphics[width=\textwidth]{cpu_tricks/6.5.5/V1/flamegraph_20241022_175446.png}
     \caption{Flamegraph illustrating cpu\_quota and cpu\_period at 50,000 and 100,000, respectively}
     \label{fig:flamegraph}
 \end{figure}
@@ -76,95 +76,5 @@ The first trick is about setting cpu\_quota and cpu\_period to its default state
     \label{fig:flamegraph}
 \end{figure}
 
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{|c|c|c|}
-\hline
-Confinment & Result \\ \hline
-cpu\_quota \& cpu\_period at default & Baseline Success \\ \hline
-cpu\_quota at 50,000 \& cpu\_period at 100,000 & Baseline Success \\ \hline
-cpuset\_cpus set to CPU 0 & Baseline Success \\ \hline
-\end{tabular}
-\caption{Baseline for CPU tricks. All results are successful}
-\end{table}
-
-
-\subsection{Trick results for Linux kernel 6.1 Cgroup V1}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.2]{cpu_tricks/6.1.0/V1/flamegraph_20241021_083704.png}
-    \caption{Flamegraph illustrating cpu\_quota and cpu\_period at its default state.}
-    \label{fig:flamegraph}
-\end{figure}
-
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.2]{cpu_tricks/6.1.0/V1/flamegraph_20241021_083758.png}
-    \caption{Flamegraph illustrating cpu\_quota and cpu\_period at 50,000 and 100,000, respectively}
-    \label{fig:flamegraph}
-\end{figure}
-
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.2]{cpu_tricks/6.1.0/V1/flamegraph_20241021_080829.png}
-    \caption{Flamegraph illustrating cpuset\_cpus set to CPU 0, and perf instrumenting the rest of the CPUs}
-    \label{fig:flamegraph}
-\end{figure}
-
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{|c|c|c|}
-\hline
-Confinment & Result \\ \hline
-cpu\_quota \& cpu\_period at default & Success \\ \hline
-cpu\_quota at 50,000 \& cpu\_period at 100,000 & Success \\ \hline
-cpuset\_cpus set to CPU 0 & Success \\ \hline
-\end{tabular}
-\caption{Baseline for CPU tricks. All results are successful}
-\end{table}
-
-
-\subsection{Trick results for Linux kernel 6.1 Cgroup V2}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.2]{cpu_tricks/6.1.0/V2/flamegraph_20241021_101227.png}
-    \caption{Flamegraph illustrating cpu\_quota and cpu\_period at its default state.}
-    \label{fig:flamegraph}
-\end{figure}
-
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.2]{cpu_tricks/6.1.0/V2/flamegraph_20241021_100156.png}
-    \caption{Flamegraph illustrating cpu\_quota and cpu\_period at 50,000 and 100,000, respectively}
-    \label{fig:flamegraph}
-\end{figure}
-
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale=0.2]{cpu_tricks/6.1.0/V2/flamegraph_20241021_102607.png}
-    \caption{Flamegraph illustrating cpuset\_cpus set to CPU 0, and perf instrumenting the rest of the CPUs}
-    \label{fig:flamegraph}
-\end{figure}
-
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{|c|c|c|}
-\hline
-Confinment & Result \\ \hline
-cpu\_quota \& cpu\_period at default & Success \\ \hline
-cpu\_quota at 50,000 \& cpu\_period at 100,000 & Success \\ \hline
-cpuset\_cpus set to CPU 0 & Success \\ \hline
-\end{tabular}
-\caption{Baseline for CPU tricks. All results are successful}
-\end{table}
 
 \end{document}  % End of the document

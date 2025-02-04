@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.9.17)  21 OCT 2024 09:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.9.17)  31 OCT 2024 16:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -171,24 +171,6 @@ LaTeX Warning: Label `fig:flamegraph' multiply defined.
 
 LaTeX Warning: Label `fig:flamegraph' multiply defined.
 
-
-LaTeX Warning: Label `fig:flamegraph' multiply defined.
-
-
-LaTeX Warning: Label `fig:flamegraph' multiply defined.
-
-
-LaTeX Warning: Label `fig:flamegraph' multiply defined.
-
-
-LaTeX Warning: Label `fig:flamegraph' multiply defined.
-
-
-LaTeX Warning: Label `fig:flamegraph' multiply defined.
-
-
-LaTeX Warning: Label `fig:flamegraph' multiply defined.
-
 )
 \openout1 = `tricks.aux'.
 
@@ -283,14 +265,14 @@ Package pdftex.def Info: cpu_tricks/6.5.5/V1/flamegraph_20241017_092801.png  us
 ed on input line 46.
 (pdftex.def)             Requested size: 443.57848pt x 333.42519pt.
  [1]
-<cpu_tricks/6.5.5/V1/flamegraph_20241017_092923.png, id=15, 903.375pt x 679.036
-88pt>
-File: cpu_tricks/6.5.5/V1/flamegraph_20241017_092923.png Graphic file (type png
+<cpu_tricks/6.5.5/V1/flamegraph_20241022_175446.png, id=15, 1204.5pt x 311.1625
+pt>
+File: cpu_tricks/6.5.5/V1/flamegraph_20241022_175446.png Graphic file (type png
 )
-<use cpu_tricks/6.5.5/V1/flamegraph_20241017_092923.png>
-Package pdftex.def Info: cpu_tricks/6.5.5/V1/flamegraph_20241017_092923.png  us
+<use cpu_tricks/6.5.5/V1/flamegraph_20241022_175446.png>
+Package pdftex.def Info: cpu_tricks/6.5.5/V1/flamegraph_20241022_175446.png  us
 ed on input line 62.
-(pdftex.def)             Requested size: 443.57848pt x 333.42519pt.
+(pdftex.def)             Requested size: 443.57848pt x 114.5918pt.
  [2 <./cpu_tricks/6.5.5/V1/flamegraph_20241017_092801.png>]
 <cpu_tricks/6.5.5/V1/flamegraph_20241017_112413.png, id=20, 903.375pt x 1606.50
 188pt>
@@ -300,68 +282,9 @@ File: cpu_tricks/6.5.5/V1/flamegraph_20241017_112413.png Graphic file (type png
 Package pdftex.def Info: cpu_tricks/6.5.5/V1/flamegraph_20241017_112413.png  us
 ed on input line 74.
 (pdftex.def)             Requested size: 180.6718pt x 321.29468pt.
- [3 <./cpu_tricks/6.5.5/V1/flamegraph_20241017_092923.png>]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 82.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 82.
-<cpu_tricks/6.1.0/V1/flamegraph_20241021_083704.png, id=25, 1204.5pt x 1162.342
-5pt>
-File: cpu_tricks/6.1.0/V1/flamegraph_20241021_083704.png Graphic file (type png
-)
-<use cpu_tricks/6.1.0/V1/flamegraph_20241021_083704.png>
-Package pdftex.def Info: cpu_tricks/6.1.0/V1/flamegraph_20241021_083704.png  us
-ed on input line 97.
-(pdftex.def)             Requested size: 240.89574pt x 232.46439pt.
- [4 <./cpu_tricks/6.5.5/V1/flamegraph_20241017_112413.png>]
-<cpu_tricks/6.1.0/V1/flamegraph_20241021_083758.png, id=30, 1204.5pt x 2142.002
-5pt>
-File: cpu_tricks/6.1.0/V1/flamegraph_20241021_083758.png Graphic file (type png
-)
-<use cpu_tricks/6.1.0/V1/flamegraph_20241021_083758.png>
-Package pdftex.def Info: cpu_tricks/6.1.0/V1/flamegraph_20241021_083758.png  us
-ed on input line 105.
-(pdftex.def)             Requested size: 240.89574pt x 428.39291pt.
-
-[5 <./cpu_tricks/6.1.0/V1/flamegraph_20241021_083704.png>]
-<cpu_tricks/6.1.0/V1/flamegraph_20241021_080829.png, id=34, 1204.5pt x 2142.002
-5pt>
-File: cpu_tricks/6.1.0/V1/flamegraph_20241021_080829.png Graphic file (type png
-)
-<use cpu_tricks/6.1.0/V1/flamegraph_20241021_080829.png>
-Package pdftex.def Info: cpu_tricks/6.1.0/V1/flamegraph_20241021_080829.png  us
-ed on input line 113.
-(pdftex.def)             Requested size: 240.89574pt x 428.39291pt.
- [6 <./cpu_tricks/6.1.0/V1/flamegraph_20241021_083758.png>]
-<cpu_tricks/6.1.0/V2/flamegraph_20241021_101227.png, id=39, 1204.5pt x 2142.002
-5pt>
-File: cpu_tricks/6.1.0/V2/flamegraph_20241021_101227.png Graphic file (type png
-)
-<use cpu_tricks/6.1.0/V2/flamegraph_20241021_101227.png>
-Package pdftex.def Info: cpu_tricks/6.1.0/V2/flamegraph_20241021_101227.png  us
-ed on input line 136.
-(pdftex.def)             Requested size: 240.89574pt x 428.39291pt.
- [7 <./cpu_tricks/6.1.0/V1/flamegraph_20241021_080829.png>]
-<cpu_tricks/6.1.0/V2/flamegraph_20241021_100156.png, id=43, 1204.5pt x 776.9025
-pt>
-File: cpu_tricks/6.1.0/V2/flamegraph_20241021_100156.png Graphic file (type png
-)
-<use cpu_tricks/6.1.0/V2/flamegraph_20241021_100156.png>
-Package pdftex.def Info: cpu_tricks/6.1.0/V2/flamegraph_20241021_100156.png  us
-ed on input line 144.
-(pdftex.def)             Requested size: 240.89574pt x 155.37775pt.
- [8 <./cpu_tricks/6.1.0/V2/flamegraph_20241021_101227.png>]
-<cpu_tricks/6.1.0/V2/flamegraph_20241021_102607.png, id=47, 1204.5pt x 2142.002
-5pt>
-File: cpu_tricks/6.1.0/V2/flamegraph_20241021_102607.png Graphic file (type png
-)
-<use cpu_tricks/6.1.0/V2/flamegraph_20241021_102607.png>
-Package pdftex.def Info: cpu_tricks/6.1.0/V2/flamegraph_20241021_102607.png  us
-ed on input line 152.
-(pdftex.def)             Requested size: 240.89574pt x 428.39291pt.
-
-[9 <./cpu_tricks/6.1.0/V2/flamegraph_20241021_100156.png>] [10 <./cpu_tricks/6.
-1.0/V2/flamegraph_20241021_102607.png>] (./tricks.aux)
+ [3 <./cpu_tricks/6.5.5/V1/flamegraph_20241022_175446.png>] [4 <./cpu_tricks/6.
+5.5/V1/flamegraph_20241017_112413.png>]
+(./tricks.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -372,21 +295,21 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4389 strings out of 476182
- 69892 string characters out of 5795595
+ 4341 strings out of 476182
+ 67393 string characters out of 5795595
  1928975 words of memory out of 5000000
- 26379 multiletter control sequences out of 15000+600000
- 562016 words of font info for 49 fonts, out of 8000000 for 9000
+ 26331 multiletter control sequences out of 15000+600000
+ 561709 words of font info for 48 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 57i,9n,65p,616b,265s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,7n,65p,610b,265s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-Output written on tricks.pdf (11 pages, 415089 bytes).
+Output written on tricks.pdf (5 pages, 161027 bytes).
 PDF statistics:
- 73 PDF objects out of 1000 (max. 8388607)
- 39 compressed objects within 1 object stream
+ 46 PDF objects out of 1000 (max. 8388607)
+ 25 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 46 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

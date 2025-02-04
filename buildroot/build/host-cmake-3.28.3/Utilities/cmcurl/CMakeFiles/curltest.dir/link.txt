@@ -1,0 +1,1 @@
+/usr/bin/gcc -O2 -w -O3 -DNDEBUG -L/home/huzi/Documents/houdini/buildroot/host/lib -Wl,-rpath,/home/huzi/Documents/houdini/buildroot/host/lib CMakeFiles/curltest.dir/curltest.c.o -o curltest  lib/libcmcurl.a ../cmzlib/libcmzlib.a ../cmnghttp2/libcmnghttp2.a 

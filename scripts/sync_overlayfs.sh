@@ -2,19 +2,19 @@
 
 # Paths to overlayfs/houdini and target/houdini
 overlayfs_dir="../overlay/houdini"
-target_dir="../filesystem/target"
+target_dir="../buildroot/output/target"
 
 
 # List of files to remove with full paths
 files=(
-    "../filesystem/target/usr/bin/containerd"
-    "../filesystem/target/usr/bin/containerd-shim"
-    "../filesystem/target/usr/bin/ctr"
-    "../filesystem/target/usr/bin/docker"
-    "../filesystem/target/usr/bin/dockerd"
-    "../filesystem/target/usr/bin/docker-init"
-    "../filesystem/target/usr/bin/docker-proxy"
-    "../filesystem/target/usr/bin/runc"
+    "$target_dir/usr/bin/containerd"
+    "$target_dir/usr/bin/containerd-shim"
+    "$target_dir/usr/bin/ctr"
+    "$target_dir/usr/bin/docker"
+    "$target_dir/usr/bin/dockerd"
+    "$target_dir/usr/bin/docker-init"
+    "$target_dir/usr/bin/docker-proxy"
+    "$target_dir/usr/bin/runc"
 )
 
 # Loop through each file and remove it
@@ -30,6 +30,6 @@ done
 
 # Synchronize overlayfs/houdini with target/houdini
 rsync -av --delete "$overlayfs_dir" "$target_dir"
-rsync -av "../overlay/usr/bin/" "../filesystem/target/usr/bin/"
-rsync -av "../overlay/etc/selinux/" "../filesystem/target/etc/selinux/"
-rsync -av --delete "../overlay/etc/inittab" "../filesystem/target/etc/inittab"
+rsync -av "../overlay/usr/bin/" "$target_dir/usr/bin/"
+rsync -av "../overlay/etc/selinux/" "$target_dir/etc/selinux/"
+rsync -av --delete "../overlay/etc/inittab" "$target_dir/etc/inittab"

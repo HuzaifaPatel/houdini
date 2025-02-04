@@ -1,0 +1,8 @@
+host-libzlib,./lib/libz.a
+host-libzlib,./lib/libz.so.1.3.1
+host-libzlib,./lib/libz.so
+host-libzlib,./lib/libz.so.1
+host-libzlib,./share/man/man3/zlib.3
+host-libzlib,./lib/pkgconfig/zlib.pc
+host-libzlib,./include/zlib.h
+host-libzlib,./include/zconf.h

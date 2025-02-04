@@ -1,0 +1,2 @@
+/home/huzi/Documents/houdini/buildroot/package/tar/0001-lib-getrandom.c-fix-build-with-uclibc-1.0.35.patch
+/home/huzi/Documents/houdini/buildroot/package/tar/0002-Fix-boundary-checking-in-base-256-decoder.patch

@@ -1,0 +1,13 @@
+\begin{thebibliography}{1}
+
+\bibitem{CIS}
+Cis docker benchmark.
+\newblock In {\em CIS Docker Benchmark}, 2024.
+
+\bibitem{shu2017study}
+Rui Shu, Xiaohui Gu, and William Enck.
+\newblock A study of security vulnerabilities on docker hub.
+\newblock In {\em Proceedings of the Seventh ACM on Conference on Data and
+  Application Security and Privacy}, pages 269--280, 2017.
+
+\end{thebibliography}

@@ -1,0 +1,1 @@
+/usr/bin/gcc -O2 -O3 -DNDEBUG -L/home/huzi/Documents/houdini/buildroot/host/lib -Wl,-rpath,/home/huzi/Documents/houdini/buildroot/host/lib CMakeFiles/pseudonl_purify.dir/ret0.c.o -o purify 

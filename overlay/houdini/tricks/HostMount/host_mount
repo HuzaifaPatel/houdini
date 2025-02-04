@@ -1,8 +1,9 @@
-name: cpu_shares
+name: host_mount
 dockerfile:
   - path: Dockerfile
 dependencies:
   - server: False
+  - security_opt: null
 docker_config: 
   - network_mode: bridge
   - read_only: False
@@ -19,5 +20,6 @@ docker_config:
   - privileged: False
   - user: root
   - pids_limit: null
+  - ipc_mode: null
 trick:
   - path: /houdini/tricks/HostMount

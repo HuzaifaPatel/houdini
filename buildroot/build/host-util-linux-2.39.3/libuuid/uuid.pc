@@ -1,0 +1,11 @@
+prefix=/home/huzi/Documents/houdini/buildroot/host
+exec_prefix=/home/huzi/Documents/houdini/buildroot/host
+libdir=/home/huzi/Documents/houdini/buildroot/host/lib
+includedir=/home/huzi/Documents/houdini/buildroot/host/include
+
+Name: uuid
+Description: Universally unique id library
+Version: 2.39.3
+Requires:
+Cflags: -I${includedir}/uuid
+Libs: -L${libdir} -luuid

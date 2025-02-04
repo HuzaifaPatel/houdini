@@ -1,0 +1,422 @@
+[
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache.dir/src/main.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/main.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/main.cpp",
+  "output": "CMakeFiles/ccache.dir/src/main.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/Args.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/Args.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/Args.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/Args.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/AtomicFile.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/AtomicFile.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/AtomicFile.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/AtomicFile.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/Config.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/Config.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/Config.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/Config.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/Context.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/Context.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/Context.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/Context.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/Depfile.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/Depfile.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/Depfile.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/Depfile.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/Fd.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/Fd.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/Fd.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/Fd.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/Hash.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/Hash.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/Hash.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/Hash.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/Logging.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/Logging.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/Logging.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/Logging.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/ProgressBar.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/ProgressBar.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/ProgressBar.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/ProgressBar.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/Stat.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/Stat.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/Stat.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/Stat.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/TemporaryFile.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/TemporaryFile.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/TemporaryFile.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/TemporaryFile.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/ThreadPool.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/ThreadPool.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/ThreadPool.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/ThreadPool.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/Util.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/Util.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/Util.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/Util.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/argprocessing.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/argprocessing.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/argprocessing.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/argprocessing.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/assertions.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/assertions.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/assertions.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/assertions.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/ccache.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/ccache.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/ccache.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/ccache.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/compopt.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/compopt.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/compopt.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/compopt.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/execute.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/execute.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/execute.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/execute.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/hashutil.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/hashutil.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/hashutil.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/hashutil.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/language.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/language.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/language.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/language.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/version.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/version.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/version.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/version.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/InodeCache.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/InodeCache.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/InodeCache.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/InodeCache.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/SignalHandler.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/SignalHandler.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/SignalHandler.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/SignalHandler.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/core/CacheEntry.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/CacheEntry.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/CacheEntry.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/core/CacheEntry.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/core/FileRecompressor.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/FileRecompressor.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/FileRecompressor.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/core/FileRecompressor.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/core/Manifest.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/Manifest.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/Manifest.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/core/Manifest.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/core/MsvcShowIncludesOutput.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/MsvcShowIncludesOutput.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/MsvcShowIncludesOutput.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/core/MsvcShowIncludesOutput.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/core/Result.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/Result.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/Result.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/core/Result.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/core/ResultExtractor.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/ResultExtractor.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/ResultExtractor.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/core/ResultExtractor.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/core/ResultInspector.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/ResultInspector.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/ResultInspector.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/core/ResultInspector.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/core/ResultRetriever.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/ResultRetriever.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/ResultRetriever.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/core/ResultRetriever.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/core/Statistics.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/Statistics.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/Statistics.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/core/Statistics.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/core/StatisticsCounters.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/StatisticsCounters.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/StatisticsCounters.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/core/StatisticsCounters.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/core/StatsLog.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/StatsLog.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/StatsLog.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/core/StatsLog.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/core/mainoptions.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/mainoptions.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/mainoptions.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/core/mainoptions.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/core/types.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/types.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/core/types.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/core/types.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/storage/local/LocalStorage.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/storage/local/LocalStorage.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/storage/local/LocalStorage.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/storage/local/LocalStorage.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/storage/local/StatsFile.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/storage/local/StatsFile.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/storage/local/StatsFile.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/storage/local/StatsFile.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/storage/local/util.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/storage/local/util.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/storage/local/util.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/storage/local/util.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/storage/remote/FileStorage.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/storage/remote/FileStorage.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/storage/remote/FileStorage.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/storage/remote/FileStorage.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/storage/remote/HttpStorage.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/storage/remote/HttpStorage.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/storage/remote/HttpStorage.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/storage/remote/HttpStorage.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/storage/remote/RemoteStorage.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/storage/remote/RemoteStorage.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/storage/remote/RemoteStorage.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/storage/remote/RemoteStorage.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/storage/remote/RedisStorage.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/storage/remote/RedisStorage.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/storage/remote/RedisStorage.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/storage/remote/RedisStorage.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/storage/Storage.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/storage/Storage.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/storage/Storage.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/storage/Storage.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/util/Bytes.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/Bytes.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/Bytes.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/util/Bytes.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/util/LockFile.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/LockFile.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/LockFile.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/util/LockFile.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/util/LongLivedLockFileManager.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/LongLivedLockFileManager.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/LongLivedLockFileManager.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/util/LongLivedLockFileManager.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/util/TextTable.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/TextTable.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/TextTable.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/util/TextTable.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/util/TimePoint.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/TimePoint.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/TimePoint.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/util/TimePoint.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/util/Tokenizer.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/Tokenizer.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/Tokenizer.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/util/Tokenizer.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/util/file.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/file.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/file.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/util/file.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/util/path.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/path.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/path.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/util/path.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/util/string.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/string.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/string.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/util/string.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/ccache_framework.dir/util/zstd.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/zstd.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/util/zstd.cpp",
+  "output": "src/CMakeFiles/ccache_framework.dir/util/zstd.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src",
+  "command": "/usr/bin/g++ -DHAVE_REDIS_STORAGE_BACKEND -DUSE_XXH_DISPATCH -DXXH_STATIC_LINKING_ONLY -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -Wall -D_FILE_OFFSET_BITS=64 -o CMakeFiles/test-lockfile.dir/test_lockfile.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/test_lockfile.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/test_lockfile.cpp",
+  "output": "src/CMakeFiles/test-lockfile.dir/test_lockfile.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party",
+  "command": "/usr/bin/gcc  -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/SYSTEM -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c99 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -o CMakeFiles/third_party.dir/base32hex.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/base32hex.c",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/base32hex.c",
+  "output": "src/third_party/CMakeFiles/third_party.dir/base32hex.c.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party",
+  "command": "/usr/bin/g++  -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/SYSTEM -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -o CMakeFiles/third_party.dir/format.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/format.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/format.cpp",
+  "output": "src/third_party/CMakeFiles/third_party.dir/format.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party",
+  "command": "/usr/bin/g++  -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/SYSTEM -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -o CMakeFiles/third_party.dir/httplib.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/httplib.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/httplib.cpp",
+  "output": "src/third_party/CMakeFiles/third_party.dir/httplib.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party",
+  "command": "/usr/bin/g++  -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/SYSTEM -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c++17 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -o CMakeFiles/third_party.dir/url.cpp.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/url.cpp",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/url.cpp",
+  "output": "src/third_party/CMakeFiles/third_party.dir/url.cpp.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party",
+  "command": "/usr/bin/gcc  -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/SYSTEM -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c99 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -o CMakeFiles/third_party.dir/xxhash.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/xxhash.c",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/xxhash.c",
+  "output": "src/third_party/CMakeFiles/third_party.dir/xxhash.c.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party",
+  "command": "/usr/bin/gcc  -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/SYSTEM -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c99 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -o CMakeFiles/third_party.dir/getopt_long.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/getopt_long.c",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/getopt_long.c",
+  "output": "src/third_party/CMakeFiles/third_party.dir/getopt_long.c.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party",
+  "command": "/usr/bin/gcc  -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2 -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party -I/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/SYSTEM -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c99 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -o CMakeFiles/third_party.dir/xxh_x86dispatch.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/xxh_x86dispatch.c",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/xxh_x86dispatch.c",
+  "output": "src/third_party/CMakeFiles/third_party.dir/xxh_x86dispatch.c.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3",
+  "command": "/usr/bin/gcc   -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c99 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -o CMakeFiles/blake3.dir/blake3.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3/blake3.c",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3/blake3.c",
+  "output": "src/third_party/blake3/CMakeFiles/blake3.dir/blake3.c.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3",
+  "command": "/usr/bin/gcc   -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c99 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -o CMakeFiles/blake3.dir/blake3_dispatch_ccache.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3/blake3_dispatch_ccache.c",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3/blake3_dispatch_ccache.c",
+  "output": "src/third_party/blake3/CMakeFiles/blake3.dir/blake3_dispatch_ccache.c.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3",
+  "command": "/usr/bin/gcc   -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c99 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -o CMakeFiles/blake3.dir/blake3_portable.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3/blake3_portable.c",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3/blake3_portable.c",
+  "output": "src/third_party/blake3/CMakeFiles/blake3.dir/blake3_portable.c.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3",
+  "command": "/usr/bin/gcc   -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c99 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -msse2 -o CMakeFiles/blake3.dir/blake3_sse2.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3/blake3_sse2.c",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3/blake3_sse2.c",
+  "output": "src/third_party/blake3/CMakeFiles/blake3.dir/blake3_sse2.c.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3",
+  "command": "/usr/bin/gcc   -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c99 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -msse4.1 -o CMakeFiles/blake3.dir/blake3_sse41.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3/blake3_sse41.c",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3/blake3_sse41.c",
+  "output": "src/third_party/blake3/CMakeFiles/blake3.dir/blake3_sse41.c.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3",
+  "command": "/usr/bin/gcc   -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c99 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -mavx2 -o CMakeFiles/blake3.dir/blake3_avx2.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3/blake3_avx2.c",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3/blake3_avx2.c",
+  "output": "src/third_party/blake3/CMakeFiles/blake3.dir/blake3_avx2.c.o"
+},
+{
+  "directory": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3",
+  "command": "/usr/bin/gcc   -O2 -I/home/huzi/Documents/houdini/buildroot/host/include -O3 -DNDEBUG -std=c99 -include /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/config.h -mavx512f -mavx512vl -o CMakeFiles/blake3.dir/blake3_avx512.c.o -c /home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3/blake3_avx512.c",
+  "file": "/home/huzi/Documents/houdini/buildroot/build/host-ccache-4.8.2/src/third_party/blake3/blake3_avx512.c",
+  "output": "src/third_party/blake3/CMakeFiles/blake3.dir/blake3_avx512.c.o"
+}
+]

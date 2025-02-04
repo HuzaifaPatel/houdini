@@ -1,0 +1,11 @@
+prefix=/home/huzi/Documents/houdini/buildroot/host
+exec_prefix=/home/huzi/Documents/houdini/buildroot/host
+libdir=/home/huzi/Documents/houdini/buildroot/host/lib
+includedir=/home/huzi/Documents/houdini/buildroot/host/include
+
+Name: fdisk
+Description: fdisk library
+Version: 2.39.3
+Requires.private: uuid blkid
+Cflags: -I${includedir}/libfdisk
+Libs: -L${libdir} -lfdisk

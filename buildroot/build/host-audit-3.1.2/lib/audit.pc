@@ -1,0 +1,12 @@
+prefix=/home/huzi/Documents/houdini/buildroot/host
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libaudit
+Description: Libraries needed for apps that use the kernel audit framework
+Version: 3.1.2
+Libs: -L${libdir} -laudit
+Libs.private: 
+Cflags: -I${includedir}
+Requires.private: 

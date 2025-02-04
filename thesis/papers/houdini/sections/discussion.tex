@@ -1,18 +1,16 @@
-\section{Discussion}
-\label{sec:discussion}
+\section{Summary of Usecases}
+\label{sec:usecases}
 
-Discussion points
-\begin{itemize}
-\item talk about how similar all confinement solutions are: methods for restricting what happens in response to an upcall (system call).  (Address space confinement is a standard part of the process model.)
-\item can vary with whether a hypervisor, kernel, or both are called. Note here that many concurrent security tools can be used (mandatory access control, system call filtering, capabilities, etc.)
-\item can switch back to userspace as part of servicing upcall (user mode drivers)
-\item whether to allow the upcall or not is made by the hypervisor and/or kernel.
-\item Heart of problem: virtualization of resources does not guarantee separation of confinement.  Policy is defined, it is just whether it is implicit or explicit.  If we have explicit rules, we can test to see whether the rules are being respected; if they are implicit, we may not even be sure what the rules are.
-\item Houdini helps keep us honest, lets us talk about the security properties that are actually being preserved rather than the ones that *should* be preserved.
-\item rather than use hypervisors to implicitly define rules that are then bypassed with guest additions/hypervisor modifications, we should explicitly define rules using the least amount of code as possible (to make it efficient and more easily verifiable)
-\item why don't things like \houdini exist for other problems in security\,---\,why aren't we doing this more in security?
-\item experimental apparatus vs\@. big data sets
-\item what about fuzzers? well how do we know the fuzzers are fuzzing properly (correctness)? where is the reproducibility?
-\item \houdini opens the door to implementing a policy fuzzer (permute issues / bugs in the security policy, then test it with houdini) N.B\@. this might be interesting for Kevin's thesis
-\end{itemize}
+\noindent\textbf{Bridging the Gap Between Theoretical and Practical Container Security.}
 
+Houdini provides an objective and practical way to measure container security by testing the actual security properties being enforced, rather than relying on assumptions or theoretical guarantees about what should be enforced.
+
+Many security mechanisms, such as namespaces, cgroups, seccomp, and capabilities are designed to isolate and restrict containers. However, their effectiveness depends on proper implementation and configuration. In many cases, security policies may appear to be correctly applied but fail under real-world attack scenarios.
+
+Houdini ensures that security claims are backed by empirical testing rather than assumptions. It allows researchers and practitioners to:
+
+\begin{dgenum}
+\item Verify whether security mechanisms are truly working as expected.
+\item Identify gaps between intended confinement policies and actual enforcement.
+\item Challenge misleading security assumptions, ensuring that claims about container security are based on real, measurable behavior rather than theoretical models.
+\end{dgenum}

@@ -1,0 +1,1 @@
+/usr/bin/g++ -O2 -O3 -DNDEBUG -L/home/huzi/Documents/houdini/buildroot/host/lib -Wl,-rpath,/home/huzi/Documents/houdini/buildroot/host/lib CMakeFiles/testEncoding.dir/testEncoding.cxx.o -o testEncoding  ../../Source/kwsys/libcmsys.a -ldl 

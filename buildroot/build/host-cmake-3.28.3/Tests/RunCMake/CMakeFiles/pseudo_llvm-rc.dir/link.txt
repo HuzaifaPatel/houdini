@@ -1,0 +1,1 @@
+/usr/bin/gcc -O2 -O3 -DNDEBUG -L/home/huzi/Documents/houdini/buildroot/host/lib -Wl,-rpath,/home/huzi/Documents/houdini/buildroot/host/lib "CMakeFiles/pseudo_llvm-rc.dir/pseudo_llvm-rc.c.o" -o pseudo_llvm-rc 
