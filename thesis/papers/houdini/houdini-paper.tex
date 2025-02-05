@@ -45,12 +45,12 @@ Carleton University
 \maketitle
 
 \begin{abstract}
-  While container-based workloads are now a standard part of our cloud infrastructure, container security remains a challenging problem. Container confinement is a particularly pressing problem, as without it, a single vulnerable application can be used to compromise entire clusters of containers. While we have many technologies that can be used to secure containers, currently there is no easy way to determine whether a given configuration provides even a basic level of protection. Here we present \houdini, a security benchmark for container confinement. Much as network scanning tools can help catch misconfigured firewalls, \houdini can check whether a given container configuration properly enforces confinement. While it can be used to test deployable containers, \houdini is optimised for testing and comparing container confinement technologies. Here we present the motivation, design, implementation, and initial results on running \houdini on a set of different container configurations. By providing a benchmark framework by which container confinement technologies can be evaluated, we believe \houdini can help foster the development of next-generation container confinement technologies.
+  While container-based workloads are now a standard part of our cloud infrastructure, container security remains a challenging problem. Container confinement is a particularly pressing problem, as without it, a single vulnerable application can be used to compromise entire clusters of containers. While we have many technologies that can be used to secure containers, currently there is no easy way to determine whether a given Docker configuration provides even a basic level of protection. Here we present \houdini, a security benchmark for container confinement. Much as network scanning tools can help catch misconfigured firewalls, \houdini can check whether a given Docker container configuration properly enforces confinement. While it can be used to test deployable containers, \houdini is optimised for testing and comparing container confinement technologies. Here we present the motivation, design, implementation, and initial results on running \houdini on a set of different container configurations. By providing a benchmark framework by which container confinement technologies can be evaluated, we believe \houdini can help foster the development of next-generation container confinement technologies.
 \end{abstract}
 
 \input{sections/intro}
-\input{sections/related}
 \input{sections/confinement-problem}
+\input{sections/related}
 \input{sections/linux-confinement-mechanisms}
 \input{sections/design}
 \input{sections/implementation}

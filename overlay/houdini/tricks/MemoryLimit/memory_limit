@@ -20,5 +20,6 @@ docker_config:
   - privileged: False
   - user: root
   - pids_limit: null
+  - ipc_mode: null
 trick:
   - path: /houdini/tricks/MemoryLimit

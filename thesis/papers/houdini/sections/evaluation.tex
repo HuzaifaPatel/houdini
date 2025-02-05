@@ -64,3 +64,30 @@ To evaluate the practical impact of CVE-2024-21616, we leveraged Houdini to syst
 The experiment was structured to evaluate the default security posture of Docker as well as the impact of applying additional confinement measures. The Houdini trick for CVE-2024-21616 was designed using a combination of a configuration file, which defined the container’s security settings, a Dockerfile, which set up the containerized environment, and an exploit script, which attempted to break out of the container and execute arbitrary commands on the host. These files can be seen in section 6.
 
 Our findings revealed that Docker’s default security settings were insufficient to prevent exploitation. The only way to prevent it is to use a runc version greater than 1.1.11. This is because the vulnerability lies inside of runc, the container runtime responsible for managing process execution inside containers. Since the flaw is in the runtime itself, Docker’s built-in security mechanisms, such as namespaces, cgroups, and seccomp, do not inherently prevent exploitation. As a result, even well-configured containers remain vulnerable if they are running on an affected version of runc.
+
+
+\noindent\textbf{Killing Host Processes using Process Namespace}
+
+By default, Docker containers operate in their own isolated process namespace, meaning each container has its own set of processes that it can see and manage. This isolation is one of the fundamental aspects of Docker's security model, preventing containers from interfering with the host system or other containers. Each container runs as if it's a completely separate environment, with its own process tree and PID (process identifier) space.
+
+When you configure a container to run with pid\_mode = host, you effectively remove the process isolation between the container and the host system. In this configuration, the container shares the same process namespace as the host, which means the container can see all processes running on the host, just as a process running natively on the host would. This feature, while useful in some scenarios, also exposes the container to the host's processes, providing the ability to monitor or interact with them.
+
+By leveraging the pid\_mode = host setting, a container can gain access to the host’s process identifiers (PIDs), enabling advanced use cases such as debugging or monitoring processes on the host from within the container. This is a powerful capability, but it also introduces potential risks. With root privileges, we found that a container can use typical Linux commands, like kill or killall, to target and terminate host processes. For instance, if a process x is running on the host with a specific PID of 343, the container can send a termination signal to process x, effectively killing it from within the container. If the pid\_mode does not map to the host, then we are not able to kill a host process from the container.
+
+However, this trick does not work with non-root privileges, as the kill command requires elevated permissions to target processes owned by other users or system processes. Without root access, the container can still see the host's processes but will lack the necessary permissions to terminate them.
+
+
+\begin{table}
+    \centering
+    \caption{Effect of Different Security Configurations in Docker versions $\geq$ 20.03}
+    \label{tab:docker-security}
+    \small
+    \begin{tabular}{|p{4cm}|p{1cm}|}  % Adjusted second column width
+        \hline
+        \textbf{Configuration} & \textbf{Result} \\ \hline
+        pid\_mode=host | root & \textcolor{green}{\ding{51}} \\ \hline  % ✅ Success
+        pid\_mode=host | non-root & \textcolor{red}{\ding{55}} \\ \hline  % ✅ Success
+        pid\_mode=null & \textcolor{red}{\ding{55}} \\ \hline  % ❌ Failure
+    \end{tabular}
+\end{table}
+

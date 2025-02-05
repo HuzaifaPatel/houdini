@@ -9,4 +9,4 @@ WORKDIR /
 COPY pid_limit.py /pid_limit.py
 
 # Specify the default command (you can override this when running the container)
-CMD ["python", "/pid_limit.py"]
+CMD ["sh", "-c", "python /pid_limit.py && tail -f /dev/null"]

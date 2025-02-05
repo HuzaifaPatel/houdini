@@ -42,13 +42,13 @@ def get_stack_size():
 
 if __name__ == "__main__":
     # Set the stack size limits (e.g., 8 MB soft limit and 16 MB hard limit)
-    # set_stack_size(16, 16)
+    set_stack_size(16, 16)
     
     # Get and print the stack size limits
-    # get_stack_size()
+    get_stack_size()
     
     # Test stack size with recursion
-    # test_stack_size()
+    test_stack_size()
     
     # Uncomment the line below to run the fork bomb (use with caution!)
-    fork_bomb()
+    # fork_bomb()

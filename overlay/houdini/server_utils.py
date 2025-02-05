@@ -23,17 +23,10 @@ def is_service_running(service_name):
     return False
 
 
-def get_version():
-    version_info = {}
-    for key, value in versions.items():
-        result = subprocess.run(value, check=True, stdout=subprocess.PIPE)
-        version_info[key] = result.stdout.decode('utf-8').strip()
-    return version_info
-
-
 def build_docker_image(dockerfile_path, image_name):
     try:
         # Build the Docker image
+        print("Creating Docker Image")
         client.images.build(path=".", tag=image_name, rm=True)
         print(f"Image '{image_name}' built successfully. {check_mark}")
     except docker.errors.BuildError as e:
@@ -45,7 +38,7 @@ def run_docker_container(image_name, container_name, network_mode, read_only, se
     try:
 
         container = client.containers.run(
-            image_name, 
+            image_name,
             name=container_name,
             detach=True, 
             network_mode=network_mode, 
@@ -90,6 +83,7 @@ def run_docker_container(image_name, container_name, network_mode, read_only, se
         else:
             print("Container exited with errors.")
 
+        return container
     except docker.errors.APIError as e:
         print(f"Error running Docker container: {e}")
 
@@ -116,15 +110,13 @@ def send_file_to_container(container_name, file_path, target_file_name, target_d
             print(f"Error uploading file: {e}")
 
 
-def run_command_in_container(container_name, command):
-    container = client.containers.get(container_name)
-
+def run_command_in_container(container, command):
     exec_command = f"bash -c '{command}'"
 
     try:
         # Execute the command inside the container
-        exec_id = client.api.exec_create(container.id, exec_command, tty=True)
-        output = client.api.exec_start(exec_id)
+        result = container.exec_run(exec_command, stdout=True)
+        print(result.output.decode())
     except docker.errors.APIError as e:
         print(f"Error executing command in container: {e}")
 
@@ -153,18 +145,6 @@ def delete_docker_image(image_identifier):
     except docker.errors.APIError as e:
         print(f"Error occurred: {e}")
 
-
-# for cpu_shares trick. We need to run perf on the VM.
-def run_program_on_vm(path):
-    original_directory = os.getcwd()
-    os.chdir(path)
-
-    # Run the bash script using subprocess
-    result = subprocess.run(f"bash /houdini/tricks/CpuShares/cpu_shares_host.sh", shell=True)
-    print(result)
-    os.chdir(original_directory)
-
-
 def parse_trick_and_run(trick_data, args):
     container_name = args.get('container_name')
 
@@ -176,7 +156,7 @@ def parse_trick_and_run(trick_data, args):
     build_docker_image(trick_data['trick'][0]['path'], container_name)
     os.chdir(original_directory)
 
-    run_docker_container(
+    container = run_docker_container(
         container_name, 
         container_name,
         str(trick_data['docker_config'][0]['network_mode']), 
@@ -198,4 +178,4 @@ def parse_trick_and_run(trick_data, args):
         trick_data['trick'][0]['path']
     )
 
-    
+    # run_command_in_container(container, "ls")
