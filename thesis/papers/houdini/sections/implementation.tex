@@ -1,7 +1,7 @@
-\section{Implementation of Houdini Tricks}
+\section{Implementation}
 \label{sec:implementation}
 
-Exploits that Houdini can test are divided into three separate files: a configuration file, a Python file, and a Dockerfile. Each Houdini trick begins with a configuration file (see Listing 1), which contains the Docker container's settings and environment configuration. The configuration file defines various Docker-specific parameters that are directly fed to the Docker API to start a container with the desired settings. Once the configuration is parsed, Houdini communicates these settings to the Docker API, using Docker's docker run command to initiate the container with these parameters. This ensures that the container is launched with the exact environment specified, allowing for consistent testing of vulnerabilities such as CVE-21616.
+Exploits that \houdini can test are divided into three separate files: a configuration file, a Python file, and a Dockerfile. Each \houdini trick begins with a configuration file (see Listing 1), which contains the Docker container's settings and environment configuration. The configuration file defines various Docker-specific parameters that are directly fed to the Docker API to start a container with the desired settings. Once the configuration is parsed, \houdini communicates these settings to the Docker API, using Docker's docker run command to initiate the container with these parameters. This ensures that the container is launched with the exact environment specified, allowing for consistent testing of vulnerabilities such as CVE-21616.
 
 
 \begin{listing}[h]
@@ -63,7 +63,7 @@ The second component is a Python file that contains the actual exploit for the t
 \end{listing}
 
 
-Finally, the Dockerfile is used to configure and set up the container's environment. It specifies how the container should be built, including copying necessary files (like the Python file) into the container and installing required dependencies. The Dockerfile also configures the container with the settings defined in the configuration file, ensuring the container is set up correctly to run the exploit.
+Finally, the Dockerfile is used to configure and set up the container's environment. It specifies how the container should be built, including copying necessary files into the container and installing required dependencies. The Dockerfile also configures the container with the settings defined in the configuration file, ensuring the container is set up correctly to run the exploit.
 
 \begin{listing}[H]
   \caption{}

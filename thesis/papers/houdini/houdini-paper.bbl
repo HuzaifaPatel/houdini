@@ -1,13 +1,108 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{CIS}
 Cis docker benchmark.
 \newblock In {\em CIS Docker Benchmark}, 2024.
+
+\bibitem{sultan2019container}
+Sari Sultan, Imtiaz Ahmad, and Tassos Dimitriou.
+\newblock Container security: Issues, challenges, and the road ahead.
+\newblock {\em IEEE access}, 7:52976--52996, 2019.
+
+\bibitem{henning2000spec}
+John~L Henning.
+\newblock Spec cpu2000: Measuring cpu performance in the new millennium.
+\newblock {\em Computer}, 33(7):28--35, 2000.
+
+\bibitem{10.1007/978-3-642-18206-8_1}
+Raghunath Nambiar, Nicholas Wakou, Forrest Carman, and Michael Majdalany.
+\newblock Transaction processing performance council (tpc): State of the
+  council 2010.
+\newblock In Raghunath Nambiar and Meikel Poess, editors, {\em Performance
+  Evaluation, Measurement and Characterization of Complex Systems}, pages 1--9,
+  Berlin, Heidelberg, 2011. Springer Berlin Heidelberg.
+
+\bibitem{zboril2025performance}
+Martin Zboril and Vlasta Svat{\'a}.
+\newblock Performance comparison of cloud virtual machines.
+\newblock {\em Journal of Systems and Information Technology}, 2025.
 
 \bibitem{shu2017study}
 Rui Shu, Xiaohui Gu, and William Enck.
 \newblock A study of security vulnerabilities on docker hub.
 \newblock In {\em Proceedings of the Seventh ACM on Conference on Data and
   Application Security and Privacy}, pages 269--280, 2017.
+
+\bibitem{abdoul2018novel}
+Cheick Abdoul-Kader and Shih-Hao Chang.
+\newblock A novel venom attack identification mechanism in cloud virtualization
+  environment.
+\newblock {\em Communications of the CCISA}, 24(1):61--72, 2018.
+
+\bibitem{vmware2018escape}
+VMware~Security Team.
+\newblock Vmware virtual machine escape vulnerabilities: Cve-2018-6981 and
+  cve-2018-6982.
+\newblock 2018.
+\newblock Accessed on: March 3, 2025.
+
+\bibitem{virtualbox2017bugs}
+Google~Project Zero.
+\newblock 10 new vm escape vulnerabilities discovered in virtualbox.
+\newblock 2017.
+\newblock Accessed on: March 3, 2025.
+
+\bibitem{mds2019attack}
+Stefan Lipp, Michael Schwarz, and Daniel~Gruss et~al.
+\newblock Mds: Microarchitectural data sampling.
+\newblock {\em IEEE Symposium on Security and Privacy}, 2019.
+\newblock Accessed on: March 3, 2025.
+
+\bibitem{severed2018}
+Felix Dörre and Florian Piessens.
+\newblock Severed: Subverting amd’s virtual machine encryption.
+\newblock {\em 27th USENIX Security Symposium}, 2018.
+\newblock Accessed on: March 3, 2025.
+
+\bibitem{heckler2024}
+Amit M. and Thomas Eisenbarth.
+\newblock Heckler attack: Breaking amd sev-snp and intel tdx with non-timer
+  interrupts.
+\newblock {\em arXiv preprint arXiv:2404.03387}, 2024.
+\newblock Accessed on: March 3, 2025.
+
+\bibitem{chromezeroday}
+Philippe Laulheret.
+\newblock Analysis of a chrome zero day: Cve-2019-5786.
+\newblock 2019.
+\newblock Accessed on: March 3, 2025.
+
+\bibitem{macossandboxescape}
+Jonathan~Bar Or.
+\newblock Uncovering a macos app sandbox escape vulnerability: A deep dive into
+  cve-2022-26706, 2022.
+\newblock Accessed on: March 3, 2025.
+
+\bibitem{chromiumsandboxescape}
+James Forshaw.
+\newblock Escaping the sandbox: A bug that speaks for itself, 2023.
+\newblock Accessed on: March 3, 2025.
+
+\bibitem{crushftpsandboxescape}
+Satnam Narang.
+\newblock Cve-2024-4040: Crushftp virtual file system (vfs) sandbox escape
+  vulnerability exploited, 2024.
+\newblock Accessed on: March 3, 2025.
+
+\bibitem{judge0sandboxescape}
+Ravie Lakshmanan.
+\newblock Sandbox escape vulnerabilities in judge0 expose systems to complete
+  takeover, 2024.
+\newblock Accessed on: March 3, 2025.
+
+\bibitem{vm2sandboxescape}
+FortiGuard Labs.
+\newblock Vm2 sandbox escape vulnerability | outbreak alert, 2023.
+\newblock Accessed on: March 3, 2025.
 
 \end{thebibliography}

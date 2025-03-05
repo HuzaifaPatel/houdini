@@ -1,3 +1,16 @@
+\section{Container Attack Surface Analysis}
+\label{sec:container-attack-surface-analysis}
+
+In containerized environments, security challenges often arise from vulnerabilities within specific components of the architecture. As such, understanding the relationships between the different components, such as container registries, images, runtime, namespaces, cgroups, and various security modules like eBPF, seccomp, and Linux capabilities is crucial for identifying potential attack surfaces. This is where a comprehensive architecture diagram comes into play.
+
+\begin{figure}[t]
+  \label{fig:architecture}
+  \includegraphics[width=1\linewidth]{figs/exploit-coverage.pdf}
+  \caption{An architectural diagram of a container deployment environment depicting the attack surface created by its various components.}
+\end{figure}
+
+Figure 2 outlines the key components of a containerized system, highlighting the critical paths and interactions that security tests should focus on. Security testing should aim to cover these components extensively to ensure that vulnerabilities in any of these layers are adequately addressed. However, some components, like network interfaces, system calls, and cgroups, are more frequently targeted in real-world attacks and thus warrant more attention in testing. The diagram will guide our understanding of which components to prioritize during testing, ensuring that our coverage is both thorough and effective.
+
 
 \section{Evaluation}
 \label{sec:evaluation}
@@ -8,7 +21,13 @@ To assess the aforementioned security mechanisms, in this section, we evaluate t
 
 With our first trick, we investigate the resilience of Docker containers against fork bomb attacks, a common form of denial-of-service (DoS) attack, where a process continuously replicates itself, and quickly exhaustes system resources. A fork bomb is designed to overwhelm the process table and exhaust available CPU and memory resources. If a container's resource management policies are inadequate, it would render the system unresponsive in the event of such an attack. Docker is able to leverage various Linux kernel mechanisms, most notably control groups (cgroups), to impose limits on process creation. Therefore, we define the success of this trick if the docker security mechanism that is used can prevent or disallow resource exhaustion. 
 
-In our evaluation of the trick, we applied a value of 10 to the pid\_limit mechanism, which sets a maximum cap on the number of processes that can be created within a container. This configuration was successful in preventing a future fork bomb because the container would not be able to create enough processes to exhaust resources.
+In our evaluation of the trick, we applied a value of 10 to the pid\_limit mechanism, which sets a maximum cap on the number of processes that can be created within a container. This configuration was successful in preventing a fork bomb because the container would not be able to create enough processes to exhaust resources.
+
+Cpuset\_cpus, a Docker resource management option, was also tested in this trick to determine its impact on mitigating a fork bomb attack. This setting allows containers to be restricted to specific CPU cores, preventing them from consuming CPU resources system-wide. In our experiment, we set cpuset\_cpus to (1,2), meaning the container was limited to running only on CPU cores 1 and 2.
+
+Even without enforcing a pid\_limit, this configuration effectively contained the fork bomb within the assigned CPU cores, preventing it from overwhelming the system as a whole. The restriction ensured that other cores remained available for critical system processes, reducing the risk of a full system denial-of-service (DoS). This suggests that cpuset\_cpus can serve as an additional mitigation strategy against resource exhaustion attacks by confining CPU-intensive processes to a limited number of cores. However, unlike pid\_limit, which directly limits the number of processes a container can create, cpuset\_cpus does not prevent the fork bomb from executing, it only reduces its impact by isolating it to specific CPU resources.
+
+When no security mechanisms were applied, the fork bomb affected the host OS, the VM guest as well as the container.
 
 \noindent\textbf{Assessing Docker Port Forwarding Restrictions}
 
@@ -52,7 +71,7 @@ In Docker versions prior to 20.03, NET\_BIND\_SERVICE had an effect as explained
     \end{tabular}
 \end{table}
 
-\noindent\textbf{CVE 2024-21616: the Docker Container Escape Exploit}
+\noindent\textbf{CVE 2024-21616}
 
 
 The CVE-2024-21626 vulnerability exists within Docker and runc and allows malicious containers to escape their isolation layer, enabling attackers to take control of the host machine. This poses a significant security risk for enterprises relying on containerization, as once the vulnerability is exploited, attackers could breach security boundaries to access sensitive data and system resources. 
@@ -66,7 +85,7 @@ The experiment was structured to evaluate the default security posture of Docker
 Our findings revealed that Docker’s default security settings were insufficient to prevent exploitation. The only way to prevent it is to use a runc version greater than 1.1.11. This is because the vulnerability lies inside of runc, the container runtime responsible for managing process execution inside containers. Since the flaw is in the runtime itself, Docker’s built-in security mechanisms, such as namespaces, cgroups, and seccomp, do not inherently prevent exploitation. As a result, even well-configured containers remain vulnerable if they are running on an affected version of runc.
 
 
-\noindent\textbf{Killing Host Processes using Process Namespace}
+\noindent\textbf{Killing Host Processes}
 
 By default, Docker containers operate in their own isolated process namespace, meaning each container has its own set of processes that it can see and manage. This isolation is one of the fundamental aspects of Docker's security model, preventing containers from interfering with the host system or other containers. Each container runs as if it's a completely separate environment, with its own process tree and PID (process identifier) space.
 
@@ -91,3 +110,18 @@ However, this trick does not work with non-root privileges, as the kill command 
     \end{tabular}
 \end{table}
 
+
+\begin{table}
+  \caption{\todo{table caption}}
+  \label{tab:classification}
+  \begin{tabular}{lllll}
+    \toprule
+    \bfseries Trick \normalfont{(See \Cref{fig:architecture})} & Trick Vector \\
+    \midrule
+    Evaluating DOS Prevention Mechanisms            & V, R, I \\
+    Assessing Docker Port Forwarding Restrictions   & M, P \\
+    CVE 2024-21616 & C, G, H \\
+    Killing Host Processes  & V, I,   \\
+    \bottomrule
+  \end{tabular}
+\end{table}

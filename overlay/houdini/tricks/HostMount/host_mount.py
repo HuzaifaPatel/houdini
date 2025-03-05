@@ -1,3 +1,7 @@
+# RUNC_VERSION = "1.1.11"
+# DOCKER_CLI_VERSION = "24.0.0"
+# DOCKER_ENGINE_VERSION = "24.0.0"
+
 import os
 
 # Define the relative path
