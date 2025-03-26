@@ -1,0 +1,20 @@
+#!/bin/sh
+# S99host_ipc - Start the host IPC Python script
+
+case "$1" in
+    start)
+        echo "Starting host_ipc.py"
+        python3 /houdini/shm.py &
+        ;;
+    stop)
+        echo "Stopping host_ipc.py"
+        # Use kill to terminate the script if needed
+        killall /houdini/shm.py
+        ;;
+    *)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+        ;;
+esac
+
+exit 0

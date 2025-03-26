@@ -1,0 +1,17 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+    \PYG{k+kn}{import} \PYG{n+nn}{os}
+
+    \PYG{c+c1}{\PYGZsh{} Define the relative path}
+    \PYG{n}{relative\PYGZus{}path} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}../../../../../\PYGZsq{}}
+
+    \PYG{c+c1}{\PYGZsh{} Change the current working directory}
+    \PYG{k}{try}\PYG{p}{:}
+        \PYG{n}{os}\PYG{o}{.}\PYG{n}{chdir}\PYG{p}{(}\PYG{n}{relative\PYGZus{}path}\PYG{p}{)}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Successfully changed directory to: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{os}\PYG{o}{.}\PYG{n}{getcwd}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{except} \PYG{n+ne}{FileNotFoundError} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Error: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{except} \PYG{n+ne}{PermissionError} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Error: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{except} \PYG{n+ne}{Exception} \PYG{k}{as} \PYG{n}{e}\PYG{p}{:}
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Unexpected error: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

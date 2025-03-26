@@ -1,0 +1,6 @@
+__pycache__/
+kernels/
+venv/
+misc/
+overlay/usr/bin/
+buildroot/

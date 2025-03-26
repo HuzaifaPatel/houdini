@@ -1,0 +1,41 @@
+\fontsize{12pt}{14pt} \selectfont
+\begin{doublespace}
+\chapter{Background}
+
+% \section{Overview of Hypervisors}
+
+
+
+The existance of cloud computing can be attributed to virtualization, which is a technology that makes it possible for multiple different operating systems (OSs) to run concurrently, and in an isolated environment on the same hardware. How does virtualization achieve this? It makes use of a machines hardware to support the software that creates and manages virtual machines (VMs). A \gls{vm} is a virtual environment that provides the functionality of a physical computer by using its own virtual central processing unit (VCPU), memory, network interface, and storage. The software that creates and manages \glspl{vm} is formally called a hypervisor or virtual machine monitor (VMM). The virtualization marketplace is comprised of four notable hypervisors, which are: (1) VMWare, (2) Xen, (3) Kernel-based Virtual Machine (KVM), and (4) Hyper-V. The operating system running a hypervisor is called the host OS, while the VM that uses the hypervisor is called the guest OS. To maintain consistency within this proposal, we will use the word "hypervisor" when referring to virtualization software. Hypervisors can be divided into two types, depending on where they are located on the machine: (1) type 1 and (2) type 2.
+
+\subsection{Type 1 Hypervisor}
+
+Type 1 hypervisors run directly on physical hardware to create, control, and manage VMs, and do not require support from the host OS. Type 1 hypervisors are also called native or bare-metal hypervisors. The first hypervisors, which IBM developed in the 1960s were type 1 hypervisors ~\cite{meier2008ibm}. Examples of type 1 hypervisors include, but are not limited to Xen, KVM, VMware ESX, and Microsoft Hyper-V ~\cite{bauman2015survey}.
+
+
+\subsection{Type 2 Hypervisor}
+
+Type 2 hypervisors (also called hosted hypervisors) are installed on the OS (Windows, Linux, MacOS), similar to how computer programs are installed onto an OS. In other words, a type 2 hypervisor runs as a process on the host OS. Type 2 hypervisors abstract guest OSs from the host OS by introducing a third software layer above the hardware, as shown in figure 2.1. Examples of type 2 hypervisors include but are not limited to VMware Workstation, VirtualBox, and QEMU ~\cite{bauman2015survey}.
+
+
+% \begin{figure}[ht]
+%     \definecolor{purp}{HTML}{D8B5E5}
+%     \tikzfig{figures/hypervisortype}
+%     \caption{Mental Model of Type 1 \& Type 2 Hypervisor}
+% \end{figure}
+
+
+\subsection{Problems With Type 1 \& Type 2 Hypervisor Classifications}
+
+Although the definitions of type 1 and type 2 hypervisors are widely accepted, there are gray areas where the distinction between the two remain unclear. For instance, according to its creator RedHat, KVM is implemented and deployed using two Linux kernel modules that effectively convert the host Linux OS into a type-1 hypervisor ~\cite{graziano2011performance}. At the same time, KVM can be categorized as a type 2 hypervisor because KVM VM's are standard Linux processes that are competing with other Linux processes for CPU time given by the Linux kernel's native CPU scheduler ~\cite{kvmcpuschedule}. Due to disagreements and vagueness in the definitions of type 1 and type 2 hypervisors, two new classifications were defined: (1) native hypervisors and (2) emulation hypervisors ~\cite{10.1145/2775111}.
+
+
+
+\subsection{Native Hypervisor}
+
+Native hypervisors are hypervisors that push VM guest instructions directly to the physical machines CPU, by using virtualization extensions like Intel VT-x. ~\cite{10.1145/2775111}. Examples of Native hypervisors include but are not limited to Xen, KVM, VMware ESX, and Microsoft HyperV.
+
+
+\subsection{Emulation Hypervisor}
+Emulation hypervisors are hypervisors that emulate every VM guest instruction using software virtualization ~\cite{10.1145/2775111}. Emulated guest instructions are very easy to trace because all guest VM instructions are trapped to the hypervisor. Examples of emulation hypervisors include but are not limited to QEMU, Bochs, early versions of VMware-Workstation, and VirtualBox ~\cite{10.1145/2775111}.
+\end{doublespace}

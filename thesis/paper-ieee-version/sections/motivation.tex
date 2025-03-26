@@ -1,0 +1,34 @@
+\section{Motivation}
+\label{sec:motivation}
+
+Houdini is designed to provide a systematic and reproducible approach to testing container confinement mechanisms. One of its primary goals is to evaluate whether container security features, such as namespaces, cgroups, seccomp, and Linux capabilities are effectively enforcing isolation. Many security tools rely on theoretical guarantees or static analysis, but Houdini focuses on empirical validation by executing controlled security tests that verify the correct enforcement of security mechanisms. By doing so, Houdini ensures that container security mechanisms are correctly configured.
+
+One of the goals of Houdini is not only for testing container isolation but also as a means to optimize container configurations. By systematically simulating various tasks within different Docker containers, Houdini can help determine the minimal set of privileges required for a container to perform its intended function. For example, administrators can start with a container configured with broad privileges and then incrementally reduce permissions, such as Linux capabilities, seccomp filters, or resource limits, while monitoring task success. Houdini’s testing framework will identify the point at which functionality is maintained while unnecessary privileges are removed, thereby pinpointing the least privilege configuration that still allows the container to operate effectively. This approach is highly beneficial because it adheres to the principle of least privilege. Minimizing the privileges granted to a container reduces its attack surface, making it significantly harder for an attacker to exploit vulnerabilities.
+
+Although runtime monitoring and anomaly detection, such as with eBPF-based tracing can provide immediate insights into container behavior, our goal isn't to implement an exhaustive, continuous surveillance system. Instead, we aim to focus on auditing and validating the underlying isolation mechanisms to ensure they are correctly configured and consistently enforced.
+
+The following are additional goals of Houdini:
+
+\textbf{Identifying Gaps Between Intended Confinement Policies and Actual Enforcement:}
+There is often a discrepancy between security policies that administrators configure and what is actually enforced at runtime. For example, a security policy may specify that a container should not have network access, but due to a misconfigured Docker setting, the container may still be able to establish outbound connections. Similarly, a container may be configured with resource constraints (e.g., CPU and memory limits via cgroups), but in practice, those constraints may be ineffective or bypassable. Houdini is able to systematically test these security policies against real execution environments to uncover where enforcement fails. By detecting these discrepancies, organizations can adjust their configurations and improve security postures, ensuring that containers remain properly confined under expected conditions.
+
+
+\textbf{Challenging Misleading Security Assumptions with Empirical Testing:}
+Container security is often discussed in terms of theoretical guarantees, with many security best practices based on assumptions rather than direct testing. For instance, documentation may state that a container running in unprivileged mode cannot escalate to root, but Houdini actively tests whether that is actually the case under different container configurations. By running real-world security validation instead of relying solely on security claims, Houdini helps challenge misleading assumptions and exposes where security mechanisms fail in practice. This is particularly important as container escapes and privilege escalation exploits continue to emerge, demonstrating that security controls do not always work as expected. By grounding security claims in measurable results rather than theory, Houdini helps researchers and practitioners develop more robust container security strategies.
+
+
+In order to achieve the aforementioned goals, we designed Houdini with the following in mind:
+
+\begin{enumerate}
+  \item \label{dg:repro}\textit{Reproducible Results.} A key goal of Houdini is to ensure that tests yield consistent and repeatable results. By controlling system variables and maintaining a structured testing environment, Houdini allows researchers and practitioners to compare results across different system configurations and security policies.
+
+  \item \label{dg:container}\textit{Separation from the Host.} Houdini is designed to run tests inside a controlled containerized environment within a virtual machine (VM), ensuring that even if a trick triggers a security vulnerability, it does not compromise the host system running the tests. This design choice enhances the safety of security evaluations, preventing unintended side effects on the underlying infrastructure.
+
+  \item \label{dg:test}\textit{Test Case Expressiveness.} Houdini tricks should be maximally expressive, such that some combination of steps can be used to achieve and test any desired result. It should be possible to define a new Houdini trick and modify existing tricks without modifying the Houdini binary. Moreover, it should be clear from reading a defined trick precisely what steps are involved, the consequences of each step passing or failing, and the overall nature of the exploit being tested.
+
+  \item \label{dg:failures}\textit{Focus on Observing Failures, Not Preventing Them.} Houdini is built to identify security weaknesses rather than defend against attacks.
+\end{enumerate}
+
+\section{Security of the Testing Environment}
+
+If Houdini were compromised during testing, it would not necessarily pose a threat to the host system due to the design of the testing environment. Houdini is intentionally designed to operate within a controlled, containerized environment inside a VM. This means that even if a trick were to exploit a vulnerability within the containerized environment, the impact would be contained within the VM, isolated from the host system and other containers. The VM itself serves as an additional layer of security, providing a buffer that prevents the compromise from reaching the host infrastructure.

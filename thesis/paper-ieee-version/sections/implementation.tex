@@ -1,0 +1,77 @@
+\section{Implementation}
+\label{sec:implementation}
+
+Tricks are divided into three separate files: a configuration file, a Python file, and a Dockerfile. Each \houdini trick begins with a configuration file (see \Cref{lst:configuration-file}), which contains the Docker container's settings and environment configuration. The configuration file defines various Docker-specific parameters that are directly fed to the Docker API to start a container with the desired settings. Once the configuration is parsed, \houdini communicates these settings to the Docker API, using Docker's docker run command to initiate the container with these parameters. This ensures that the container is launched with the exact environment specified. This automation ensures the container is started exactly as specified, and that parameters such as network mode, mounts, security options, and user privileges are all controlled from a single file. This makes it easier to test, replicate, and share container environments.
+
+
+\begin{listing}[h]
+  \caption{Configuration file for a default Docker out-of-the-box security settings applied when a container is launched.}
+  \label{lst:configuration-file}
+  \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
+    name: out-of-the-box docker configuration
+    dockerfile:
+      - path: Dockerfile
+    dependencies:
+      - server: False
+    docker_config: 
+      - network_mode: bridge
+      - read_only: False
+      - security_opt: []
+      - pid_mode: null
+      - cpu_shares: 1024
+      - volumes : []
+      - mem_limit: null
+      - cpuset_cpus: null
+      - cpu_quota: null
+      - cpu_period: null
+      - cap_add: []
+      - cap_drop: []
+      - privileged: False
+      - user: root
+      - pids_limit: null
+      - ipc_mode: private
+    trick:
+      - path: /houdini/tricks/HostMount
+  \end{minted}
+\end{listing}
+
+
+
+The second component is a Python file that contains the trick implementation. This Python file is executed inside the container and is responsible for carrying out the trick scenario.
+
+
+\begin{listing}[h]
+  \caption{Exploit for CVE-2024-21616}
+\label{lst:pythonfile}
+  \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
+    import os
+
+    relative_path = '../../../../../'
+
+    try:
+        os.chdir(relative_path)
+        print(f"Successfully changed directory to: {os.getcwd()}")
+    except FileNotFoundError as e:
+        print(f"Error: {e}")
+    except PermissionError as e:
+        print(f"Error: {e}")
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+  \end{minted}
+\end{listing}
+
+
+Finally, the Dockerfile is used to configure and set up the container's environment. It specifies how the container should be built, including copying necessary files into the container and installing required dependencies. The Dockerfile also configures the container with the settings defined in the configuration file, ensuring the container is set up correctly to run the trick.
+
+\begin{listing}[H]
+  \caption{}
+\label{lst:dockerfile}
+  \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
+    FROM ubuntu:20.04
+    RUN apt-get update -y
+    WORKDIR /proc/self/fd/9
+    CMD ["bash", "-c", "ls ../../../../../houdini/tricks/HostMount"]
+  \end{minted}
+\end{listing}
+
+This modular design, comprising of the configuration file, Python script, and Dockerfile provides flexibility to define and test various container escapes and vulnerabilities. It also allows users to easily customize or extend existing tricks by modifying any of the three components to suit their needs.

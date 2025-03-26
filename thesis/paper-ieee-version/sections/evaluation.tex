@@ -1,0 +1,372 @@
+\section{Evaluation}
+\label{sec:evaluation}
+
+To assess the effectiveness of container confinement mechanisms, we conducted a series of controlled experiments to evaluate whether common security policies successfully prevent resource starvation, unauthorized access attempts, and container escapes. Our evaluation focuses on testing various isolation features, including namespaces, cgroups, seccomp, and Linux capabilities, under different configurations and attack scenarios. These are done in the form of three case studies.
+
+\subsection{Case Study 1 - Evaluating Host Process Manipulation via PID Namespace Escape}
+
+In this evaluation, we investigate whether a Docker container running with \texttt{--pid=host} can interact with and manipulate host processes. The PID namespace is responsible for process isolation, ensuring that containerized processes remain separate from host processes. However, when \texttt{--pid=host} is enabled, the container shares the host's PID namespace, making all host processes visible inside the container. We assess the security implications of this setting by evaluating the following:
+
+\begin{itemize}
+    \item Whether a container with \texttt{--pid=host} can list host processes.
+    \item Whether the container can send signals \texttt{SIGKILL}, \texttt{SIG\-TERM} to host processes.
+    \item Whether enabling \texttt{CAP\-\_SYS\_ADMIN} allows process tracing of host processes.
+    \item Whether a container can read host process memory via \texttt{/proc/\$PID/mem}.
+    \item Whether a container with \texttt{--pid=host} can manipulate processes running inside another container that also has \texttt{--pid=host}.
+\end{itemize}
+
+The system specifications were as follows:
+
+\begin{table}[h!]
+\caption{Testing Environment}
+\centering
+\scriptsize % Reduces font size more
+\begin{tabular}{|l|l|} 
+\hline
+\textbf{Component} & \textbf{Specification} \\
+\hline
+Host Machine & 20 Core CPU, 16GB RAM, Ubuntu 24.04 \\
+\hline
+Virtual Machine & QEMU, 4 Core CPU, 12GB RAM, No Distribution \\
+\hline
+Docker Version & 27.0.3 \\
+\hline
+Kernel Version & 6.1 \\
+\hline
+Container Runtime & \texttt{runc} 1.1.11 \\
+\hline
+\end{tabular}
+\end{table}
+
+The container was started with various security configurations:
+
+\begin{itemize}
+    \item Default Docker container configuration (separate PID namespace)
+    \item Docker container with \texttt{--pid=host}
+    \item Docker container with \texttt{--pid=host} and additional capabilities \texttt{CAP\_KILL}, \texttt{CAP\_SYS\_PTRACE}
+    \item Privileged Docker container with \texttt{--pid=host}
+    \item Two separate containers, both with \texttt{--pid=host}, to evaluate cross-container process manipulation.
+\end{itemize}
+
+For each security configuration, different methods were tested to determine whether a process inside the container could interact with host processes or another container’s processes.
+
+The evaluation began by assessing whether a container with \texttt{--pid=host} could list host processes using \texttt{ps aux}. As expected, the container displayed all host processes, confirming that sharing the host PID namespace fully exposes the host process table. 
+
+Following this, we tested whether the container could send termination signals (\texttt{SIGKILL}, \texttt{SIGTERM}) to host processes using \texttt{kill -9 <PID>}. Without the \texttt{CAP\_KILL} capability, the operation was not permitted. However, enabling \texttt{CAP\_KILL}  process termination within the namespace's limits, and granting \texttt{--privileged} access enabled the container to kill any host process. 
+
+Next, we investigated whether the container could attach a debugger to host processes via \texttt{strace -p <PID>}. Without \texttt{CAP\_SYS\_PTRACE}, the operation was denied, but enabling this capability  successful attachment to a host process, raising concerns about potential leakage of sensitive data through system call tracing. 
+
+We then examined whether the container could read host process memory by attempting to access \texttt{/proc/<host\_pid>/mem}. With Docker’s default restrictions, the operation was denied, but when running the container with \texttt{--privileged}, the process memory could be read using \texttt{cat /proc/<host\_pid>/mem}. 
+
+Finally, we tested cross-container process manipulation by launching two containers with \texttt{--pid=host}. A process running in Container A (e.g., \texttt{sleep 1000}) was visible to Container B, which was able to list and terminate it, proving that containers sharing the host PID namespace are not isolated from each other and can manipulate each other's processes.
+
+The result was that the process inside Container A was visible to Container B, and it could be terminated using \texttt{kill -9 <PID>}, proving that containers with \texttt{--pid=host} share the same namespace and are not isolated from each other.
+
+The effectiveness of different configurations in preventing host and cross-container process manipulation is also illutrated in Table~\ref{tab:pid-namespace-security}.
+
+\FloatBarrier
+\begin{table*}[h]  
+    \centering
+    \footnotesize  
+    \setlength{\tabcolsep}{4pt}  
+    \renewcommand{\arraystretch}{1.1}  
+    \caption{Effectiveness of Docker Security Mechanisms Against Host Process Manipulation}  
+    \label{tab:pid-namespace-security}  
+    \begin{adjustbox}{max width=\textwidth}  
+    \begin{tabular}{|l|c|c|c|c|c|}
+        \hline
+        \textbf{Security Configuration} & \textbf{List Host Processes} & \textbf{Send Signals} & \textbf{Attach Debugger} & \textbf{Read Memory} & \textbf{Cross-Container Manipulation} \\ \hline
+        Default Docker (PID namespace isolation) & \xmark & \xmark & \xmark & \xmark & \xmark \\ \hline
+        \texttt{--pid=host} (no extra caps) & \cmark & \xmark & \xmark & \xmark & \cmark \\ \hline
+        \texttt{--pid=host} + \texttt{CAP\_KILL} & \cmark & \cmark & \xmark & \xmark & \cmark \\ \hline
+        \texttt{--pid=host} + \texttt{CAP\_SYS\_PTRACE} & \cmark & \xmark & \cmark & \xmark & \cmark \\ \hline
+        Privileged Container (\texttt{--pid=host} + \texttt{--privileged}) & \cmark & \cmark & \cmark & \cmark & \cmark \\ \hline
+    \end{tabular}  
+    \end{adjustbox}  
+\end{table*}
+
+
+
+This case study illustrate an example scenario where the security policies administrators intend to implement are not properly enforced when the container is running. For example, an administrator may want to use the host's process namespace for tracing host processes but restrict the container from manipulating those processes. To achieve this, the administrator configures the container to share the PID namespace (`--pid=host`), allowing the container to trace processes but preventing any other interactions. Houdini validates this configuration by performing controlled tests to ensure the container can only trace processes and cannot send signals, attach debuggers, or read process memory. If Houdini detects that the container can perform any of these unauthorized actions, it reveals a gap between the intended policy and its actual enforcement. Houdini’s tests provide actionable insights that help administrators adjust configurations to enforce proper isolation while allowing the container to trace processes. By systematically testing various configurations, Houdini helps administrators identify the minimal privileges necessary for the container to perform its intended tasks without compromising security.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Case Study 2 - Evaluating Docker Privileged Port Forwarding Restrictions}
+
+In this case study, we evaluate Docker’s network isolation mechanisms to determine how well they enforce privileged port binding restrictions. Starting with Docker version 20.03, a significant change was introduced to Docker. They redefined unprivileged ports to start at 0 instead of 1024, effectively removing the need for root to bind to privileged ports. Table ~\ref{tab:port-binding-pre-20.03} presents the results.
+
+\begin{table*}[h]
+    \centering
+    \caption{Effectiveness of Docker Security Mechanisms in Privilege Port Binding}
+    \label{tab:port-binding-pre-20.03}
+    \scriptsize
+    \begin{tabular}{|p{2.5cm}|c|c|c|c|c|}
+        \hline
+        \texttt{Docker Version} & \texttt{NET\_BIND\_SERVICE + root} & \texttt{NET\_BIND\_SERVICE + root-less} & \texttt{root} & \texttt{root-less} & \texttt{Default Container (Bridge Mode)} \\ \hline
+        19.03.9                & \cmark                         & \xmark                               & \xmark      & \xmark           & \xmark                                      \\ \hline
+        19.03.0                & \cmark                         & \xmark                               & \xmark      & \xmark           & \xmark                                      \\ \hline
+        20.10.0                & \cmark                         & \xmark                              & \xmark      & \xmark           & \xmark                                      \\ \hline
+        20.10.3                & \cmark                         & \xmark                              & \xmark      & \xmark           & \xmark                                      \\ \hline
+        23.0.0                 & \cmark                         & \cmark                              & \cmark      & \xmark           & \xmark                                      \\ \hline
+        25.0.0                 & \cmark                         & \cmark                              & \cmark      & \xmark           & \xmark                                      \\ \hline
+        27.0.1                 & \cmark                         & \cmark                              & \cmark      & \xmark           & \xmark                                      \\ \hline
+    \end{tabular}
+\end{table*}
+
+This case study highlights how discrepancies between Docker versions in handling privileged port binding can create gaps between administrators' intended confinement policies and actual enforcement. A change in Docker's handling of binding to privileged ports, such as the removal of the NET\_BIND\_SERVICE requirement starting from Docker 20.03, may allow containers to bypass restrictions even when policies are set to prevent it. 
+
+For example, administrators might configure a container to be restricted from binding to privileged ports, but if Docker is running a version where the NET\_BIND\_SERVICE capability is no longer required for root containers (like in Docker 20.03 and beyond), the container could still bind to these ports despite the policy specifying otherwise. This creates a mismatch between the intended policy (restricting privileged port binding) and the actual enforcement (where containers can still bind to those ports in certain Docker versions).
+
+Houdini helps identify these gaps by systematically testing container configurations across different Docker versions. By simulating different Docker versions and security policies, Houdini verifies whether containers are correctly enforcing the intended restrictions on privileged port binding. For instance, Houdini could test whether containers configured to prevent binding to privileged ports are still able to bind to those ports in Docker versions 20.03 or later, where the security model has changed. If a container running with Docker 20.03 or newer can bind to privileged ports despite the configuration specifying otherwise, Houdini will detect this discrepancy and highlight the gap between the intended policy and actual enforcement.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Case Study 3: Evaluating CVE-2024-21616}
+
+CVE-2024-21616 is a critical vulnerability affecting Docker and runc that allows malicious containers to escape their isolation and execute arbitrary commands on the host system. This poses a significant risk to enterprises relying on containerization, as attackers could gain unauthorized access to sensitive data and system resources. 
+
+The root cause of this vulnerability is the improper handling of a container’s working directory when set to a special file descriptor path such as \texttt{/proc/self/fd/<fd>}, where \texttt{<fd>} typically points to \texttt{/sys/fs/cgroup}. If exploited, this flaw allows a containerized process to break out of its confined environment, effectively compromising the host machine. The vulnerability affects runc versions from \texttt{v1.0.0-rc93} to \texttt{1.1.11}.
+
+To test the exploitability of CVE-2024-21616, we designed a Houdini trick that executes the following steps:
+\begin{enumerate}
+    \item Launch a container with a vulnerable version of runc.
+    \item Set the working directory to \texttt{/proc/self/fd/<fd>}, pointing to a controlled file descriptor.
+    \item Attempt to break out of the container by leveraging the misconfigured working directory.
+    \item Validate whether commands can be executed on the host system.
+\end{enumerate}
+
+As this vulnerability is due to the runtime itself and not related to the configuration of a particular container, We conducted tests across only various runc versions. This is shown in Table ~\ref{tab:cve201616}.
+
+\begin{table}[H]
+    \centering
+    \label{tab:cve201616}
+    \caption{Runc Versions Against CVE-2024-21616}
+    \begin{tabular}{|l|c|}
+        \hline
+        \textbf{Runc Version} & \textbf{Exploit Success} \\
+        \hline
+        runc 1.1.7 & \cmark \\
+        runc 1.1.8 & \cmark \\
+        runc 1.1.9 & \cmark \\
+        runc 1.1.10 & \cmark \\
+        runc 1.1.11 & \cmark \\
+        runc 1.1.12 & \xmark \\
+        runc 1.1.13 & \xmark \\
+        runc 1.1.14 & \xmark \\
+        \hline
+    \end{tabular}
+    \label{tab:cve_results}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% \subsection{Case Study - Evaluating Host Interaction via IPC Namespace Escape}
+
+% The IPC (Inter-Process Communication) namespace is designed to isolate shared memory, message queues, semaphores, and pipes between containers and the host system. This prevents unauthorized processes inside a container from interacting with host processes via IPC mechanisms. However, Docker allows the use of \texttt{--ipc=host}, which removes IPC isolation, exposing the host’s IPC objects to the container.
+
+% In this evaluation, we investigate whether a container configured with \texttt{--ipc=host} can do any of the following:
+% \begin{itemize}
+%     \item Read or write to shared memory segments created by host processes.
+%     \item Send messages to a message queue owned by a host process.
+%     \item Interact with host semaphores or manipulate them.
+%     \item Access POSIX shared memory files in \texttt{/dev/shm}.
+%     \item Read or write to named pipes (FIFOs) shared by host processes.
+%     \item Intercept data from anonymous (unnamed) pipes used by host applications.
+% \end{itemize}
+
+% \begin{table}[h!]
+% \caption{Testing Environment}
+% \centering
+% \scriptsize % Reduces font size more
+% \begin{tabular}{|l|l|} 
+% \hline
+% \textbf{Component} & \textbf{Specification} \\
+% \hline
+% Host Machine & 20 Core CPU, 16GB RAM, Ubuntu 24.04 \\
+% \hline
+% Virtual Machine & QEMU, 4 Core CPU, 12GB RAM, No Distribution \\
+% \hline
+% Docker Version & 27.0.3 \\
+% \hline
+% Kernel Version & Linux 6.1 \\
+% \hline
+% Container Runtime & \texttt{runc} 1.1.11 \\
+% \hline
+% \end{tabular}
+% \end{table}
+
+% The container was tested under different security configurations:
+
+% \begin{itemize}
+%     \item Default Docker settings (\texttt{--ipc=private}).
+%     \item Docker container with \texttt{--ipc=host}.
+%     \item Docker container with \texttt{--ipc=host} and additional privileges (\texttt{--privileged}).
+% \end{itemize}
+
+% To conduct these tests, we created IPC objects from the host and then tested whether a process inside the container could access or manipulate them.
+
+% \paragraph{Attack Scenarios}
+% To determine the extent of IPC namespace exposure, the following attack scenarios were conducted:
+
+% \begin{itemize}
+%     \item \textbf{Shared Memory Access:} The host created a shared memory segment using \texttt{ipcmk -M 1024}, and the container attempted to list and modify it.
+%     \item \textbf{Message Queue Manipulation:} A message queue was created using \texttt{ipcmk -Q}, and the container attempted to send and receive messages.
+%     \item \textbf{Semaphore Interaction:} A host semaphore was created with \texttt{ipcmk -S}, and the container attempted to manipulate it.
+%     \item \textbf{Access to POSIX Shared Memory Files:} A shared memory file was created in \texttt{/dev/shm}, and the container attempted to read it.
+%     \item \textbf{Named Pipe (FIFO) Access:} A named pipe was created using \texttt{mkfifo /tmp/secure\_pipe}, and the container attempted to read from and write to it.
+%     \item \textbf{Intercepting Unnamed Pipes:} A host process used an anonymous pipe for IPC, and the container attempted to access its data.
+% \end{itemize}
+
+% \FloatBarrier
+% \begin{table*}[h]  
+%     \centering
+%     \footnotesize  
+%     \setlength{\tabcolsep}{4pt} 
+%     \renewcommand{\arraystretch}{1.1} 
+%     \caption{Effectiveness of Docker Security Mechanisms in Preventing Host IPC Access}
+%     \label{tab:ipc-security}
+%     \begin{adjustbox}{max width=\textwidth}  
+%     \begin{tabular}{|p{3.5cm}|p{4.5cm}|p{7.5cm}|}
+%         \hline
+%         \textbf{Attack Scenario} & \textbf{Default Docker (\texttt{--ipc=private})} & \textbf{Docker with \texttt{--ipc=host}} \\ \hline
+%         Shared Memory Access & \textcolor{red}{\ding{55} } No access to host memory & \textcolor{green}{\ding{51} } Container could read and modify host shared memory \\ \hline
+%         Message Queue Manipulation & \textcolor{red}{\ding{55} } Message queues isolated & \textcolor{green}{\ding{51} } Container could send and receive messages in the host’s queue \\ \hline
+%         Semaphore Interaction & \textcolor{red}{\ding{55} } Semaphores isolated & \textcolor{green}{\ding{51} } Container could list and manipulate host semaphores \\ \hline
+%         Access to POSIX \texttt{/dev/shm} & \textcolor{red}{\ding{55} } No visibility of \texttt{/dev/shm} files & \textcolor{green}{\ding{51} } Container could read and modify shared memory files \\ \hline
+%         Named Pipe (FIFO) Access & \textcolor{red}{\ding{55} } Named pipe not accessible & \textcolor{green}{\ding{51} } Container could read and write to host FIFO \\ \hline
+%         Intercepting Unnamed Pipes & \textcolor{red}{\ding{55} } Process-specific pipes isolated & \textcolor{green}{\ding{51} } Container could intercept unnamed pipe data from host \\ \hline
+%     \end{tabular}
+%     \end{adjustbox}
+% \end{table*}
+
+
+
+
+% \subsection{Case Study - Evaluating Network Confinement via Network Namespace Escape}
+
+% \subsubsection{Introduction to the Evaluation}
+
+% The network namespace in Linux provides network isolation between containers and the host system. Each container typically runs in its own network namespace, preventing unauthorized access to host networking resources. Docker’s default configuration assigns a container to a bridge network, where it gets a virtual network interface and an isolated stack. However, using \texttt{--network=host} removes this isolation, allowing the container to share the host’s network stack directly.
+
+% In this evaluation, we assess the security implications of sharing the host’s network namespace by testing whether a container running with \texttt{--network=host} can:
+% \begin{itemize}
+%     \item Capture host network traffic (e.g., sniffing unencrypted packets).
+%     \item List active network connections from the host.
+%     \item Access and manipulate firewall rules (iptables).
+%     \item Interfere with other containers’ network traffic.
+%     \item Modify network interfaces and routes.
+% \end{itemize}
+
+% \subsubsection{Experimental Setup}
+
+% \begin{itemize}
+%     \item \textbf{Host Machine:} 8-core CPU, 16GB RAM, Ubuntu 22.04
+%     \item \textbf{Docker Version:} 24.0.2
+%     \item \textbf{Kernel Version:} Linux 5.15.0
+%     \item \textbf{Container Runtime:} \texttt{runc} 1.1.7
+% \end{itemize}
+
+% The container was tested under different security configurations:
+
+% \begin{itemize}
+%     \item Default Docker network settings (\texttt{--network=bridge}).
+%     \item Container with host networking enabled (\texttt{--network=host}).
+%     \item Privileged container with \texttt{--network=host} and additional capabilities.
+% \end{itemize}
+
+% To conduct these tests, we deployed a victim service on the host (e.g., a local web server) and monitored whether a container running with \texttt{--network=host} could access, modify, or intercept network traffic.
+
+% \subsubsection{Security Testing}
+
+% \paragraph{Attack Scenarios}
+% To determine the impact of sharing a network namespace, we performed the following attack scenarios:
+
+% \begin{itemize}
+%     \item Packet Sniffing: A container with \texttt{--network=host} ran \texttt{tcpdump} to capture network traffic from the host.
+%     \item Listing Active Connections: The container executed \texttt{netstat -tunapl} to enumerate host network connections.
+%     \item Firewall Rule Manipulation: The container modified iptables rules to disrupt host networking.
+%     \item Cross-Container Traffic Interference: The container attempted to reroute or block network traffic to another container.
+%     \item Modifying Network Interfaces: The container used \texttt{ip link set eth0 down} to disable the host’s primary network interface.
+% \end{itemize}
+
+% \subsubsection{Results and Findings}
+
+% \FloatBarrier
+% \begin{table*}[h]
+% \centering \footnotesize
+% \setlength{\tabcolsep}{4pt} \renewcommand{\arraystretch}{1.1} \caption{Effectiveness of Docker Security Mechanisms in Preventing Host Network Access} \label{tab:network-security}
+% \begin{adjustbox}{max width=\textwidth}
+% \begin{tabular}{|p{6cm}|p{4cm}|p{4cm}|p{4cm}|}
+%     \hline
+%     \textbf{Attack Scenario} & \textbf{Default Docker (\texttt{--network=bridge})} & \textbf{Docker with \texttt{--network=host}} & \textbf{Privileged Container (\texttt{--privileged})} \\
+%     \hline
+%     Packet Sniffing (tcpdump) & \textcolor{red}{\ding{55} Blocked} - Container cannot capture external traffic & \textcolor{green}{\ding{51} Allowed} - Full visibility into host network traffic & \textcolor{green}{\ding{51} Allowed} - Full visibility into host network traffic \\
+%     \hline
+%     Listing Active Connections (netstat) & \textcolor{red}{\ding{55} Blocked} - Container can only see its own traffic & \textcolor{green}{\ding{51} Allowed} - Container can enumerate all host connections & \textcolor{green}{\ding{51} Allowed} - Full visibility of all host connections \\
+%     \hline
+%     Firewall Rule Manipulation (iptables) & \textcolor{red}{\ding{55} Blocked} - Container has no access to host firewall & \textcolor{green}{\ding{51} Allowed} - Container can modify host firewall rules & \textcolor{green}{\ding{51} Allowed} - Full control over host firewall rules \\
+%     \hline
+%     Cross-Container Traffic Interference & \textcolor{red}{\ding{55} Blocked} - Containers are isolated & \textcolor{green}{\ding{51} Allowed} - Traffic can be rerouted or blocked & \textcolor{green}{\ding{51} Allowed} - Full control over traffic between containers \\
+%     \hline
+%     Modifying Network Interfaces (ip link) & \textcolor{red}{\ding{55} Blocked} - Container cannot modify host interfaces & \textcolor{green}{\ding{51} Allowed} - Container can disable host network & \textcolor{green}{\ding{51} Allowed} - Full control over host network interfaces \\
+%     \hline
+%     Privileged Container (\texttt{--privileged}) & \textcolor{red}{\ding{55} Blocked} - No access to host network resources & \textcolor{green}{\ding{51} Allowed} - Full control over network interfaces and firewall & \textcolor{green}{\ding{51} Allowed} - Full access to host network resources \\
+%     \hline
+%     Adding Capabilities (\texttt{--cap-add}) & \textcolor{red}{\ding{55} Blocked} - Container cannot change network settings without appropriate capabilities & \textcolor{green}{\ding{51} Allowed} - Ability to modify network configurations when specific capabilities are added & \textcolor{green}{\ding{51} Allowed} - Full control when additional capabilities are added \\
+%     \hline
+%     User Namespace Remapping (\texttt{--userns-remap}) & \textcolor{green}{\ding{51} Allowed} - Strong isolation between containers and host & \textcolor{red}{\ding{55} Blocked} - Limited access to the host network due to user namespace isolation & \textcolor{green}{\ding{51} Allowed} - Strong isolation, limiting network access \\
+%     \hline
+% \end{tabular}
+% \end{adjustbox}
+% \end{table*}
+% s
+
+% \subsubsection{Key Takeaways}
+
+% \begin{itemize}
+%     \item Enabling \texttt{--network=host} removes network isolation, exposing host network traffic, firewall configurations, and interfaces to the container.
+%     \item A privileged container with \texttt{--network=host} has full network control, allowing it to modify firewall rules, disable interfaces, and interfere with other containers.
+%     \item Docker’s default network namespace provides strong isolation, preventing unauthorized host-network interactions.
+%     \item Cross-container traffic interference becomes possible with \texttt{--network=host}, allowing one container to affect another’s network operations.
+% \end{itemize}

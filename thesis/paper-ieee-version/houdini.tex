@@ -1,0 +1,62 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+%Template version as of 6/27/2024
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{textcomp}
+\usepackage{url}
+\usepackage{huzaifa}
+\usepackage{placeins}
+\usepackage{adjustbox}
+\usepackage{pifont}
+\usepackage{array}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+\newcommand{\cmark}{\textcolor{green}{\ding{51}}}  % ✅ Define checkmark
+\newcommand{\xmark}{\textcolor{red}{\ding{55}}}    % ❌ Define cross mark
+\title{Houdini: Security Benchmarking of Container Confinement}
+
+\author{\IEEEauthorblockN{1\textsuperscript{st}}
+\IEEEauthorblockA{\textit{Carleton University} \\
+Ottawa, Canada \\
+}
+\and
+\IEEEauthorblockN{2\textsuperscript{nd}}
+\IEEEauthorblockA{\textit{Carleton University} \\
+Ottawa, Canada \\
+}
+\and
+\IEEEauthorblockN{3\textsuperscript{rd}}
+\IEEEauthorblockA{\textit{Carleton University} \\
+Ottawa, Canada \\
+}
+}
+
+\maketitle
+
+\begin{abstract}
+  While container-based workloads are now a standard part of our cloud infrastructure, container security remains a challenging problem. Container confinement is a particularly pressing problem, as without it, a single vulnerable application can be used to compromise entire clusters of containers. While we have many technologies that can be used to secure containers, currently there is no easy way to determine whether a given Docker configuration provides even a basic level of protection. Here we present Houdini, a security test suite for container confinement. Much as network scanning tools can help catch misconfigured firewalls, Houdini can check whether a given Docker container configuration properly enforces confinement. While it can be used to test deployable containers, Houdini is optimised for testing and comparing container confinement technologies. Here we present the motivation, design, implementation, and initial results on running Houdini on a set of different container configurations. By providing a benchmark framework by which container confinement technologies can be evaluated, we believe Houdini can help foster the development of next-generation container confinement technologies.
+\end{abstract}
+
+\begin{IEEEkeywords}
+
+\end{IEEEkeywords}
+
+\input{sections/intro}
+\input{sections/confinement-problem}
+\input{sections/motivation}
+\input{sections/design}
+\input{sections/implementation}
+\input{sections/evaluation}
+\input{sections/related}
+\input{sections/conclusion}
+
+
+\bibliographystyle{unsrt}
+\bibliography{refs}
+\end{document}

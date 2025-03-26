@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+    ipcmk \PYGZhy{}M \PYG{l+m}{1024}
+    ipcs \PYGZhy{}m
+\end{Verbatim}

@@ -1,0 +1,19 @@
+\usepackage[dvipsnames]{xcolor}
+
+\usepackage{graphicx}
+% N.B. must install pygmentize and run pdflatex with --shell-escape
+\usepackage[newfloat]{minted}
+\usepackage{caption}
+\usepackage{cleveref}
+\usepackage{booktabs}
+\usepackage{xspace}
+
+\usepackage{csquotes}
+
+\providecommand{\todo}[1]{{\bfseries\color{red}[TODO: #1]}}
+\providecommand{\etal}{{\textit{et al\@.}}}
+
+\providecommand{\houdini}{\texttt{Houdini}\xspace}
+
+\newenvironment{code}{\captionsetup{type=listing}}{}
+\SetupFloatingEnvironment{listing}{name=Listing}

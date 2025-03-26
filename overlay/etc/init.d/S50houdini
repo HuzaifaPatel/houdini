@@ -1,0 +1,31 @@
+#!/bin/sh
+# Description: Example service script
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
+DAEMON=/usr/bin/python3
+DAEMON_ARGS="/houdini/server.py"
+PIDFILE=/var/run/houdini-server.pid
+LOGFILE=/var/log/houdini-server.log
+
+case "$1" in
+    start)
+        echo "Starting my service..."
+        $DAEMON $DAEMON_ARGS >> $LOGFILE 2>&1 &
+        ;;
+    stop)
+        echo "Stopping houdini-server..."
+        kill $(cat $PIDFILE)
+        ;;
+    restart)
+        echo "Restarting houdini-server..."
+        $0 stop
+        sleep 1
+        $0 start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+        ;;
+esac
+
+exit 0

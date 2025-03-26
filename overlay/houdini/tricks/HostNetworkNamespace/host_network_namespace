@@ -1,0 +1,25 @@
+name: host_network_namespace
+dockerfile:
+  - path: Dockerfile
+dependencies:
+  - server: True
+  - file: 85c8de88d28866bf0868090b3961162bf82392f690d9e4730910f4af7c6ab3ee.txt
+docker_config: 
+  - network_mode: host
+  - read_only: False
+  - security_opt: ["no-new-privileges"]
+  - pid_mode: host
+  - cpu_shares: 512
+  - volumes: null
+  - mem_limit: null
+  - cpuset_cpus: null
+  - cpu_quota: null
+  - cpu_period: null
+  - cap_add: []
+  - cap_drop: []
+  - privileged: False
+  - user: root
+  - pids_limit: null
+  - ipc_mode: null
+trick:
+  - path: /houdini/tricks/HostNetworkNamespace
