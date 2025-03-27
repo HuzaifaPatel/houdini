@@ -1,9 +1,14 @@
 #!/bin/sh
 
 DOCKERD_LOG=/var/log/dockerd.log
+MARKER_FILE=/tmp/S50docker_was_here
+
+echo ">>> S50docker started at $(date)" > "$MARKER_FILE"
 
 # Ensure log directory exists
-mkdir -p $(dirname "$DOCKERD_LOG")
+mkdir -p "$(dirname "$DOCKERD_LOG")"
 
 # Start the Docker daemon
-/usr/bin/dockerd -H unix:///var/run/docker.sock > $DOCKERD_LOG 2>&1 &
+/usr/bin/dockerd -H unix:///var/run/docker.sock > "$DOCKERD_LOG" 2>&1 &
+
+echo ">>> dockerd launched (PID $!)" >> "$MARKER_FILE"

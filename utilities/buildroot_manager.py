@@ -6,7 +6,7 @@ import os
 import multiprocessing
 from kernel_configurator import *
 import importlib
-from houdini_config import PORT, VM_RAM, CPU_CORES
+from houdini_config import PORT, VM_RAM, CPU_CORES, KERNEL_VERSION
 import shutil
 import time
 import set_selinux_mode
@@ -73,7 +73,8 @@ class BuildrootManager:
 			Style.print_color("Error:", 'red')
 			print(result.stderr)
 
-	def start_vm(self, kernel=get_absolute_path(f"/buildroot/output/images/bzImage"), drive=get_absolute_path("/buildroot/output/images/rootfs.ext2")):
+	def start_vm(self, kernel=get_absolute_path(f"/kernels/{KERNEL_VERSION}/arch/x86/boot/bzImage"), drive=get_absolute_path("/buildroot/output/images/rootfs.ext2")):
+		print(KERNEL_VERSION)
 		qemu_cmd = [
 		    "qemu-system-x86_64",
 		    "-smp", str(CPU_CORES),
@@ -94,19 +95,13 @@ class BuildrootManager:
 
 		_, error_output = process.communicate()
 
-		if process.returncode == 0:
-		    print("VM started successfully.")
-		else:
-		    print("Failed to start VM. Error message:")
-		    print(error_output.decode('utf-8').strip())
-
 		return process
 
 	def set_buildroot_pkg(self):
 		if os.path.exists(FILESYSTEM_BUILD):
 			BuildrootPackageManager.set_runc_version()
 			BuildrootPackageManager.update_docker_engine_version()
-			BuildrootPackageManager.update_docker_cli_version()
+			# BuildrootPackageManager.update_docker_cli_version()
 
 	def set_kernel_ver(self):
 		KernelConfigurator.set_br2_linux_kernel_custom_version_value() # this is good
