@@ -36,6 +36,18 @@ class BuildrootManager:
 			Style.print_color("\nMake failed\nError:\n", "red")
 			print(result.stderr)
 
+	# this updates overlay with the docker version of the user's choice
+	def run_get_docker(self):
+	    # Run the shell script first
+	    result = subprocess.run(['bash', 'get_docker.sh'], cwd=SCRIPTS)
+
+	    if result.returncode != 0:
+	        print("get_docker.sh failed!")
+	        return
+	    else:
+	    	print("Moved Docker files to overlay")
+
+
 	def make_kernel(self):
 		if os.path.isfile(os.path.join(KERNEL_DIR, KERNEL_VERSION, 'build', f'linux-{KERNEL_VERSION}', 'arch', 'x86', 'boot', 'bzImage')):
 			Style.print_color('\nKernels exists.\n', 'green')
@@ -52,6 +64,7 @@ class BuildrootManager:
 
 
 	def make_filesystem(self):
+		self.run_get_docker()
 		command = ['make', f'O={FILESYSTEM_PATH}', '-j', f'{self.cpu_count}']
 		self.set_buildroot_pkg()
 		# shutil.copy(BUILDROOT_CONFIG_FILE, FILESYSTEM_PATH)
@@ -81,7 +94,7 @@ class BuildrootManager:
 		    "-m", "{}".format(VM_RAM),
 		    "-kernel", kernel,
 		    "-drive", "file={},if=virtio,format=raw".format(drive),
-		    "-append", "rootwait root=/dev/vda console=tty1 console=ttyS0 loglevel=8 cgroup_enable=cpuset cgroup_enable=memory",
+		    "-append", "rootwait root=/dev/vda console=tty1 console=ttyS0 loglevel=0 cgroup_enable=cpuset cgroup_enable=memory",
 		    "-serial", "mon:stdio",
 		    "-net", "nic,model=virtio",
 		    "-net", "user,hostfwd=tcp::{}-:{}".format(PORT, PORT),
@@ -89,9 +102,7 @@ class BuildrootManager:
 		    "-virtfs", "local,path=/home/huzi/Desktop,mount_tag=hostshare,security_model=mapped-file,id=hostshare"
 		]
 
-		gnome_cmd = ["gnome-terminal", "--", *qemu_cmd]
-
-		process = subprocess.Popen(gnome_cmd, stderr=subprocess.PIPE)
+		process = subprocess.Popen(qemu_cmd, stderr=subprocess.PIPE)
 
 		_, error_output = process.communicate()
 

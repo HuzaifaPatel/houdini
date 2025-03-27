@@ -1,8 +1,8 @@
 import os
 import re
 import fileinput
-from houdini_config import RUNC_VERSION, DOCKER_ENGINE_VERSION, DOCKER_CLI_VERSION
-from path_manager import RUNC_MAKEFILE_PATH, DOCKER_ENGINE_MAKEFILE_PATH, FILESYSTEM_BUILD, DOCKER_CLI_MAKEFILE_PATH
+from houdini_config import RUNC_VERSION, DOCKER_ENGINE_VERSION
+from path_manager import RUNC_MAKEFILE_PATH, DOCKER_ENGINE_MAKEFILE_PATH, FILESYSTEM_BUILD
 from style import Style
 from pathlib import Path
 import sys

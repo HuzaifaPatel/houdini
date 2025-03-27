@@ -1,0 +1,37 @@
+c[?7l[2J[0mSeaBIOS (version 1.16.3-debian-1.16.3-2)
+
+
+iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+BEFCAD60+BEF0AD60 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from ROM...
+c[?7l[2JSaving 256 bits of non-creditable seed for next boot
+Starting syslogd: OK
+Starting klogd: OK
+Running sysctl: OK
+Mounting cgroupfs hierarchy: OK
+Starting iptables: OK
+Starting network: udhcpc: started, v1.37.0
+udhcpc: broadcasting discover
+udhcpc: broadcasting select for 10.0.2.15, server 10.0.2.2
+udhcpc: lease of 10.0.2.15 obtained from 10.0.2.2, lease time 86400
+deleting routers
+adding dns 10.0.2.3
+OK
+Starting crond: OK
+Starting my service...
+Starting host_ipc.py
+Starting Python HTTP server on port 8000...
+Mounting hostshare...
+# Data written to shared memory: /dev/shm/shared_memory
+Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
+No existing container named process_namespace found. Proceeding to create a new one.
+Creating Docker Image
+Image 'process_namespace' built successfully. ✓
+Container 'process_namespace' started successfully. ✓
+[1] Searching for process: python3 /houdini/server.py
+❌ Target process not found.
+Container exited with code: 1
+Container exited with errors.
+

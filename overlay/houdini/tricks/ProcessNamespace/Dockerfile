@@ -1,5 +1,5 @@
 # Use the official Ubuntu image
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
 # Install Python 3 and necessary packages
 RUN apt-get update && \
