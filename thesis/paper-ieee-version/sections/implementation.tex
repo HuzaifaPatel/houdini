@@ -1,7 +1,7 @@
 \section{Implementation}
 \label{sec:implementation}
 
-Tricks are divided into three separate files: a configuration file, a Python file, and a Dockerfile. Each \houdini trick begins with a configuration file (see \Cref{lst:configuration-file}), which contains the Docker container's settings and environment configuration. The configuration file defines various Docker-specific parameters that are directly fed to the Docker API to start a container with the desired settings. Once the configuration is parsed, \houdini communicates these settings to the Docker API, using Docker's docker run command to initiate the container with these parameters. This ensures that the container is launched with the exact environment specified. This automation ensures the container is started exactly as specified, and that parameters such as network mode, mounts, security options, and user privileges are all controlled from a single file. This makes it easier to test, replicate, and share container environments.
+Tricks are divided into three separate files: a configuration file, a Python file, and a Dockerfile. Each \houdini trick begins with a configuration file (see \Cref{lst:configuration-file}), which contains the Docker container's settings and environment configuration. The configuration file defines various Docker-specific parameters that are directly fed to the Docker API to start a container with the desired settings. Once the configuration is parsed, \houdini communicates these settings to the Docker API, using Docker's docker run command to initiate the container with these parameters. This ensures that the container is launched with the exact environment specified. This automation ensures the container is started exactly as specified, and that parameters such as network mode, mounts, security options, and user privileges are all controlled from a single file. This makes it easier to test, replicate environments.
 
 
 \begin{listing}[h]
@@ -31,13 +31,13 @@ Tricks are divided into three separate files: a configuration file, a Python fil
       - pids_limit: null
       - ipc_mode: private
     trick:
-      - path: /houdini/tricks/HostMount
+      - path: /houdini/tricks/OutOfTheBoxExample
   \end{minted}
 \end{listing}
 
 
 
-The second component is a Python file that contains the trick implementation. This Python file is executed inside the container and is responsible for carrying out the trick scenario.
+The second component is the trick implementation, which can be written in any programming language and is executed inside the container. This file is responsible for carrying out the actual trick scenario. Currently, each trick implementation uses a print-based method to indicate whether the trick passed or failed. That is, after executing its logic, the script prints a human-readable message such as "Trick passed" or "Trick failed" to standard output. This message is then captured by the system and used to determine the result of the test. The definition of what constitutes a pass or fail is entirely controlled by the logic within the trick implementation itself. This allows the test writer to tailor the evaluation criteria based on the context of the trick.
 
 
 \begin{listing}[h]
@@ -46,32 +46,43 @@ The second component is a Python file that contains the trick implementation. Th
   \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
     import os
 
-    relative_path = '../../../../../'
+    def check_shadow_access():
+        path = "/etc/shadow"
+        if os.path.exists(path):
+            try:
+                with open(path, 'r') as f:
+                    print("Able to read /etc/shadow:")
+                    print("Trick passed")
+            except PermissionError:
+                print("Permission denied to read /etc/shadow.")
+                print("Trick failed")
+            except Exception as e:
+                print(f"Unexpected error: {e}")
+                print("Trick failed")
+        else:
+            print("/etc/shadow does not exist.")
+            print("Trick failed")
 
-    try:
-        os.chdir(relative_path)
-        print(f"Successfully changed directory to: {os.getcwd()}")
-    except FileNotFoundError as e:
-        print(f"Error: {e}")
-    except PermissionError as e:
-        print(f"Error: {e}")
-    except Exception as e:
-        print(f"Unexpected error: {e}")
+    check_shadow_access()
   \end{minted}
 \end{listing}
 
 
-Finally, the Dockerfile is used to configure and set up the container's environment. It specifies how the container should be built, including copying necessary files into the container and installing required dependencies. The Dockerfile also configures the container with the settings defined in the configuration file, ensuring the container is set up correctly to run the trick.
+Finally, the Dockerfile is used to configure and set up the container's environment. It specifies how the container should be built, including copying necessary files into the container and installing required dependencies. The Dockerfile also configures the container with the settings defined in the configuration file (see \Cref{lst:configuration-file}), ensuring the container is set up correctly to run the trick.
 
 \begin{listing}[H]
   \caption{}
 \label{lst:dockerfile}
   \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
-    FROM ubuntu:20.04
-    RUN apt-get update -y
-    WORKDIR /proc/self/fd/9
-    CMD ["bash", "-c", "ls ../../../../../houdini/tricks/HostMount"]
+      FROM python:3.10-slim
+      WORKDIR /
+      COPY Out_Of_The_Box_Example.py .
+      CMD ["python3", "Out_Of_The_Box_Example.py"]
   \end{minted}
 \end{listing}
 
-This modular design, comprising of the configuration file, Python script, and Dockerfile provides flexibility to define and test various container escapes and vulnerabilities. It also allows users to easily customize or extend existing tricks by modifying any of the three components to suit their needs.
+This modular design, comprising of the configuration file, a trick implementation file, and Dockerfile provides flexibility to define and test various container escapes and vulnerabilities. It also allows users to easily customize or extend existing tricks by modifying any of the three components to suit their needs.
+
+To illustrate how \houdini operates, a simple example trick is provided. This introductory trick attempts to read the /etc/shadow file inside the container. While not an actual exploit, this scenario serves as a baseline check for container isolation: under normal configurations, containers should not have permission to access this file. The purpose of this example is to demonstrate the structure of a trick using \houdini’s modular design, without relying on any specific vulnerability. Actual tricks and exploits are discussed in detail in the Evaluation section.
+
+The Dockerfile defines the container’s build environment, installing any necessary packages and copying the trick script into the container. In this example, the container is based on a minimal Python image, and the trick script is executed upon container startup (see \Cref{lst:dockerfile-example}). The trick implementation itself is a Python script (see \Cref{lst:trick-impl-example}) that attempts to open /etc/shadow. If the file is accessible and readable, it prints a partial contents and reports “Trick passed.” Otherwise, it reports “Trick failed.” This simple logic is sufficient to demonstrate Houdini’s end-to-end flow from configuration to result interpretation.

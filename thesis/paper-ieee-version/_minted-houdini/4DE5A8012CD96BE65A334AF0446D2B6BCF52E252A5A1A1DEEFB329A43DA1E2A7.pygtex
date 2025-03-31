@@ -1,0 +1,58 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{    }\PYG{c+c1}{\PYGZsh{}!/bin/bash}
+
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{TARGET\PYGZus{}CMD=\PYGZdq{}python3 /houdini/server.py\PYGZdq{}}
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{PID=\PYGZdq{}\PYGZdq{}}
+
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{find\PYGZus{}target\PYGZus{}process() \PYGZob{}}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{echo \PYGZdq{}[1] Searching for process}\PYG{p+pIndicator}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{\PYGZdl{}TARGET\PYGZus{}CMD\PYGZdq{}}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{PID=\PYGZdl{}(ps aux | grep \PYGZsq{}[p]ython3 /houdini/server.py\PYGZsq{} | awk \PYGZsq{}\PYGZob{}print \PYGZdl{}2\PYGZcb{}\PYGZsq{} | head \PYGZhy{}n 1)}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{if [[ \PYGZhy{}n \PYGZdq{}\PYGZdl{}PID\PYGZdq{} ]]; then}
+\PYG{+w}{            }\PYG{l+lScalar+lScalarPlain}{echo \PYGZdq{}✅ Found}\PYG{p+pIndicator}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{PID=\PYGZdl{}PID\PYGZdq{}}
+\PYG{+w}{            }\PYG{l+lScalar+lScalarPlain}{return 0}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{else}
+\PYG{+w}{            }\PYG{l+lScalar+lScalarPlain}{echo \PYGZdq{}❌ Target process not found.\PYGZdq{}}
+\PYG{+w}{            }\PYG{l+lScalar+lScalarPlain}{return 1}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{fi}
+\PYG{+w}{    }\PYG{err}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{send\PYGZus{}signal() \PYGZob{}}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{echo \PYGZdq{}[2] Sending SIGCONT to PID \PYGZdl{}PID\PYGZdq{}}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{if kill \PYGZhy{}CONT \PYGZdq{}\PYGZdl{}PID\PYGZdq{} 2\PYGZgt{}/dev/null; then}
+\PYG{+w}{            }\PYG{l+lScalar+lScalarPlain}{echo \PYGZdq{}✅ Signal sent successfully\PYGZdq{}}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{else}
+\PYG{+w}{            }\PYG{l+lScalar+lScalarPlain}{echo \PYGZdq{}❌ Failed to send signal\PYGZdq{}}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{fi}
+\PYG{+w}{    }\PYG{err}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{attach\PYGZus{}debugger() \PYGZob{}}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{echo \PYGZdq{}[3] Attaching debugger with ptrace to PID \PYGZdl{}PID\PYGZdq{}}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{if strace \PYGZhy{}p \PYGZdq{}\PYGZdl{}PID\PYGZdq{} \PYGZhy{}e trace=none \PYGZhy{}o /dev/null \PYGZhy{}t \PYGZhy{}qq \PYGZam{}\PYGZgt{}/dev/null \PYGZam{} sleep 1; then}
+\PYG{+w}{            }\PYG{l+lScalar+lScalarPlain}{echo \PYGZdq{}✅ Able to attach (via strace)\PYGZdq{}}
+\PYG{+w}{            }\PYG{l+lScalar+lScalarPlain}{pkill \PYGZhy{}P \PYGZdl{}\PYGZdl{} strace 2\PYGZgt{}/dev/null}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{else}
+\PYG{+w}{            }\PYG{l+lScalar+lScalarPlain}{echo \PYGZdq{}❌ Failed to attach debugger\PYGZdq{}}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{fi}
+\PYG{+w}{    }\PYG{err}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{read\PYGZus{}memory() \PYGZob{}}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{echo \PYGZdq{}[4] Trying to read memory from /proc/\PYGZdl{}PID/mem\PYGZdq{}}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{if dd if=\PYGZdq{}/proc/\PYGZdl{}PID/mem\PYGZdq{} bs=1 count=4 skip=0 2\PYGZgt{}/dev/null | hexdump; then}
+\PYG{+w}{            }\PYG{l+lScalar+lScalarPlain}{echo \PYGZdq{}✅ Read memory succeeded\PYGZdq{}}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{else}
+\PYG{+w}{            }\PYG{l+lScalar+lScalarPlain}{echo \PYGZdq{}❌ Failed to read memory\PYGZdq{}}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{fi}
+\PYG{+w}{    }\PYG{err}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{main() \PYGZob{}}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{find\PYGZus{}target\PYGZus{}process || exit 1}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{echo}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{send\PYGZus{}signal}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{echo}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{attach\PYGZus{}debugger}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{echo}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{read\PYGZus{}memory}
+\PYG{+w}{    }\PYG{err}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{main}
+\end{Verbatim}

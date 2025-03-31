@@ -1,0 +1,18 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{FROM ubuntu:20.04}
+
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{RUN apt\PYGZhy{}get update \PYGZam{}\PYGZam{} \PYGZbs{}}
+\PYG{+w}{        }\PYG{l+lScalar+lScalarPlain}{apt\PYGZhy{}get install \PYGZhy{}y python3}
+
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{WORKDIR /}
+
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{RUN useradd \PYGZhy{}m myuser}
+
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{COPY process\PYGZus{}namespace.sh /process\PYGZus{}namespace.sh}
+
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{RUN chmod +x /process\PYGZus{}namespace.sh}
+
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{USER myuser}
+
+\PYG{+w}{    }\PYG{l+lScalar+lScalarPlain}{CMD [\PYGZdq{}/bin/bash\PYGZdq{}, \PYGZdq{}/process\PYGZus{}namespace.sh\PYGZdq{}]}
+\end{Verbatim}

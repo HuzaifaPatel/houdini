@@ -15,8 +15,6 @@ In this evaluation, we investigate whether a Docker container running with \text
     \item Whether a container with \texttt{--pid=host} can manipulate processes running inside another container that also has \texttt{--pid=host}.
 \end{itemize}
 
-The system specifications were as follows:
-
 \begin{table}[h!]
 \caption{Testing Environment}
 \centering
@@ -45,24 +43,33 @@ The container was started with various security configurations:
     \item Docker container with \texttt{--pid=host}
     \item Docker container with \texttt{--pid=host} and additional capabilities \texttt{CAP\_KILL}, \texttt{CAP\_SYS\_PTRACE}
     \item Privileged Docker container with \texttt{--pid=host}
-    \item Two separate containers, both with \texttt{--pid=host}, to evaluate cross-container process manipulation.
 \end{itemize}
 
-For each security configuration, different methods were tested to determine whether a process inside the container could interact with host processes or another container’s processes.
+For each security configuration, different methods were tested to determine whether a process inside the container could interact and/or manipulate host processes.
 
-The evaluation began by assessing whether a container with \texttt{--pid=host} could list host processes using \texttt{ps aux}. As expected, the container displayed all host processes, confirming that sharing the host PID namespace fully exposes the host process table. 
+The evaluation began by assessing whether a default container (see \Cref{lst:configuration-file}) can list host processes. This test checks whether the container is isolated in terms of its process namespace. In Docker, unless explicitly configured, containers run with their own private PID namespace. As such, they are unable to see or interact with processes running on the host system. To validate this, a trick was implemented that attempts to list all system processes using the command \texttt{ps aux}. When executed inside the default configured container, the output only included processes running within that container itself.
 
-Following this, we tested whether the container could send termination signals (\texttt{SIGKILL}, \texttt{SIGTERM}) to host processes using \texttt{kill -9 <PID>}. Without the \texttt{CAP\_KILL} capability, the operation was not permitted. However, enabling \texttt{CAP\_KILL}  process termination within the namespace's limits, and granting \texttt{--privileged} access enabled the container to kill any host process. 
+This behavior confirms that, as expected, the default Docker configuration does not include \texttt{--pid=host}, which would otherwise share the host's PID namespace with the container. Because of this separation, the container is unable to observe or affect processes running outside its isolated environment. The result of the trick was classified as a failure, which indicates that no process escape or visibility was achieved, which is the correct and secure behavior in this case.
 
-Next, we investigated whether the container could attach a debugger to host processes via \texttt{strace -p <PID>}. Without \texttt{CAP\_SYS\_PTRACE}, the operation was denied, but enabling this capability  successful attachment to a host process, raising concerns about potential leakage of sensitive data through system call tracing. 
+This initial test serves as a baseline for container isolation and validates that Docker’s default settings do enforce process namespace isolation properly (for this testing environemnt). Subsequent tests explored how altering these settings (e.g., enabling \texttt{--pid=host}) affects this behavior.
 
-We then examined whether the container could read host process memory by attempting to access \texttt{/proc/<host\_pid>/mem}. With Docker’s default restrictions, the operation was denied, but when running the container with \texttt{--privileged}, the process memory could be read using \texttt{cat /proc/<host\_pid>/mem}. 
+For every subsequent test, we evaluated the impact of enabling host-level process namespace sharing by configuring the container with \texttt{--pid=host}. This setting allows the container to share the host's PID namespace, effectively removing the isolation between the container's and the host's process views. To test this, a trick was executed inside the container that simply invoked the \texttt{ps aux} command.
 
-Finally, we tested cross-container process manipulation by launching two containers with \texttt{--pid=host}. A process running in Container A (e.g., \texttt{sleep 1000}) was visible to Container B, which was able to list and terminate it, proving that containers sharing the host PID namespace are not isolated from each other and can manipulate each other's processes.
+Unlike the default configuration, where only the container’s own processes were visible, the output in this case included the full set of host processes. The result of the trick was classified as a pass, indicating that the container successfully observed host-level processes. 
 
-The result was that the process inside Container A was visible to Container B, and it could be terminated using \texttt{kill -9 <PID>}, proving that containers with \texttt{--pid=host} share the same namespace and are not isolated from each other.
+Following this, we tested whether a container could send termination signals, specifically SIGKILL to host processes by enabling \texttt{CAP\_KILL}. This configuration successfully allowed the container to send termination signals to host processes. By targeting a known host PID, the container was able to forcibly terminate the process using \texttt{SIGKILL}.
 
-The effectiveness of different configurations in preventing host and cross-container process manipulation is also illutrated in Table~\ref{tab:pid-namespace-security}.
+Next, we investigated whether a container could attach a debugger to host processes using the command \texttt{strace -p <PID>}, which attaches to a running process and traces the system calls it makes. This test was designed to evaluate whether a container could observe the runtime behavior of host processes.
+
+Under default Docker settings, this operation failed as expected. Containers are denied the ability to trace processes outside of their own PID namespace, and more importantly, they do not have the \texttt{CAP\_SYS\_PTRACE} capability by default. This Linux capability is required to use debugging or tracing tools like ptrace, gdb, and strace on other processes. As such, attempting to attach strace to a host process resulted in a "permission denied" error.
+
+To further examine the security boundary, we granted the container \texttt{CAP\_SYS\_PTRACE}. However, this alone was not sufficient because the container was still running in its own isolated PID namespace, it could not see or reference host PIDs. Once the container was configured with both \texttt{CAP\_SYS\_PTRACE} and \texttt{--pid=host}, the strace command succeeded in attaching to a host process. This allowed the container to begin tracing the system calls of the host process in real time, including file accesses, socket operations, and memory interactions.
+
+We then examined whether the container could read host process memory by attempting to access \texttt{/proc/<host\_pid>/mem}. With Docker’s default restrictions, the operation was denied, but when running the container with \texttt{--privileged}, the operation was successful.
+
+This case study highlights a core strength of \houdini, which is its ability to systematically explore and identify the principle of least privilege for a given operation. By allowing users to declaratively modify container configurations, \houdini makes it easy to test a wide range of privilege combinations in a repeatable and automated way. Instead of relying on trial-and-error or defaulting to the overly permissive --privileged mode, users can incrementally grant permissions and observe the effect of each change. This enables security practitioners, developers, and researchers to precisely determine the minimum set of permissions required for a given trick to succeed. As a result, \houdini not only serves as a testing framework for container escapes and misconfigurations, but also as a practical tool for privilege minimization and hardening container deployments.
+
+This case study also highlights a scenario where the security policies administrators intend to implement are not properly enforced when the container is running. For example, an administrator may want to use the host's process namespace for tracing host processes but restrict the container from manipulating those processes. To achieve this, the administrator configures the container with \texttt{--pid=host}. \houdini validates this configuration by performing controlled tests to ensure the container can only trace processes and cannot send signals, attach debuggers, or read process memory. If \houdini detects that the container can perform any of these unauthorized actions, it reveals a gap between the intended policy and its actual enforcement. Houdini’s tests provide actionable insights that help administrators adjust configurations to enforce proper isolation while allowing the container to trace processes.
 
 \FloatBarrier
 \begin{table*}[h]  
@@ -75,19 +82,134 @@ The effectiveness of different configurations in preventing host and cross-conta
     \begin{adjustbox}{max width=\textwidth}  
     \begin{tabular}{|l|c|c|c|c|c|}
         \hline
-        \textbf{Security Configuration} & \textbf{List Host Processes} & \textbf{Send Signals} & \textbf{Attach Debugger} & \textbf{Read Memory} & \textbf{Cross-Container Manipulation} \\ \hline
-        Default Docker (PID namespace isolation) & \xmark & \xmark & \xmark & \xmark & \xmark \\ \hline
-        \texttt{--pid=host} (no extra caps) & \cmark & \xmark & \xmark & \xmark & \cmark \\ \hline
-        \texttt{--pid=host} + \texttt{CAP\_KILL} & \cmark & \cmark & \xmark & \xmark & \cmark \\ \hline
-        \texttt{--pid=host} + \texttt{CAP\_SYS\_PTRACE} & \cmark & \xmark & \cmark & \xmark & \cmark \\ \hline
-        Privileged Container (\texttt{--pid=host} + \texttt{--privileged}) & \cmark & \cmark & \cmark & \cmark & \cmark \\ \hline
+        \textbf{Security Configuration} & \textbf{List Host Processes} & \textbf{Send Signals} & \textbf{Attach Debugger} & \textbf{Read Memory} \\ \hline
+        Default Docker (PID namespace isolation) & \xmark & \xmark & \xmark & \xmark \\ \hline
+        \texttt{--pid=host} (no extra caps) & \cmark & \xmark & \xmark & \xmark \\ \hline
+        \texttt{--pid=host} + \texttt{CAP\_KILL} & \cmark & \cmark & \xmark & \xmark \\ \hline
+        \texttt{--pid=host} + \texttt{CAP\_SYS\_PTRACE} & \cmark & \xmark & \cmark & \xmark \\ \hline
+        Privileged Container (\texttt{--pid=host} + \texttt{--privileged}) & \cmark & \cmark & \cmark & \cmark \\ \hline
     \end{tabular}  
     \end{adjustbox}  
 \end{table*}
 
+\begin{listing}[h]
+  \caption{Configuration file for Case Study I}
+  \label{lst:configuration-file}
+  \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
+    name: host_network_namespace
+    dockerfile:
+      - path: Dockerfile
+    dependencies:
+      - server: True
+    docker_config: 
+      - network_mode: bridge
+      - read_only: False
+      - security_opt: []
+      - pid_mode: null
+      - cpu_shares: null
+      - volumes: null
+      - mem_limit: null
+      - cpuset_cpus: null
+      - cpu_quota: null
+      - cpu_period: null
+      - cap_add: []
+      - cap_drop: []
+      - privileged: False
+      - user: myuser
+      - pids_limit: null
+      - ipc_mode: null
+    trick:
+      - path: /houdini/tricks/ProcessNamespace
+  \end{minted}
+\end{listing}
 
 
-This case study illustrate an example scenario where the security policies administrators intend to implement are not properly enforced when the container is running. For example, an administrator may want to use the host's process namespace for tracing host processes but restrict the container from manipulating those processes. To achieve this, the administrator configures the container to share the PID namespace (`--pid=host`), allowing the container to trace processes but preventing any other interactions. Houdini validates this configuration by performing controlled tests to ensure the container can only trace processes and cannot send signals, attach debuggers, or read process memory. If Houdini detects that the container can perform any of these unauthorized actions, it reveals a gap between the intended policy and its actual enforcement. Houdini’s tests provide actionable insights that help administrators adjust configurations to enforce proper isolation while allowing the container to trace processes. By systematically testing various configurations, Houdini helps administrators identify the minimal privileges necessary for the container to perform its intended tasks without compromising security.
+\begin{listing}[h]
+  \caption{Trick Implementation for Case Study I}
+\label{lst:pythonfile}
+  \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
+    #!/bin/bash
+
+    TARGET_CMD="python3 /houdini/server.py"
+    PID=""
+
+    find_target_process() {
+        echo "[1] Searching for process: $TARGET_CMD"
+        PID=$(ps aux | grep '[p]ython3 /houdini/server.py' | awk '{print $2}' | head -n 1)
+        if [[ -n "$PID" ]]; then
+            echo "Found: PID=$PID"
+            return 0
+        else
+            echo "Target process not found."
+            return 1
+        fi
+    }
+
+    send_signal() {
+        echo "[2] Sending SIGCONT to PID $PID"
+        if kill -CONT "$PID" 2>/dev/null; then
+            echo "Signal sent successfully"
+        else
+            echo "Failed to send signal"
+        fi
+    }
+
+    attach_debugger() {
+        echo "[3] Attaching debugger with ptrace to PID $PID"
+        if strace -p "$PID" -e trace=none -o /dev/null -t -qq &>/dev/null & sleep 1; then
+            echo "Able to attach (via strace)"
+            pkill -P $$ strace 2>/dev/null
+        else
+            echo "Failed to attach debugger"
+        fi
+    }
+
+    read_memory() {
+        echo "[4] Trying to read memory from /proc/$PID/mem"
+        if dd if="/proc/$PID/mem" bs=1 count=4 skip=0 2>/dev/null | hexdump; then
+            echo "Read memory succeeded"
+        else
+            echo "Failed to read memory"
+        fi
+    }
+
+    main() {
+        find_target_process || exit 1
+        echo
+        send_signal
+        echo
+        attach_debugger
+        echo
+        read_memory
+    }
+
+    main
+  \end{minted}
+\end{listing}
+
+\begin{listing}[H]
+  \caption{Dockerfile for Case Study I}
+\label{lst:dockerfile}
+  \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
+    FROM ubuntu:20.04
+
+    RUN apt-get update && \
+        apt-get install -y python3
+
+    WORKDIR /
+
+    RUN useradd -m myuser
+
+    COPY process_namespace.sh /process_namespace.sh
+
+    RUN chmod +x /process_namespace.sh
+
+    USER myuser
+
+    CMD ["/bin/bash", "/process_namespace.sh"]
+  \end{minted}
+\end{listing}
+
 
 
 
