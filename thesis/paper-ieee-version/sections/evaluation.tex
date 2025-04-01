@@ -12,7 +12,6 @@ In this evaluation, we investigate whether a Docker container running with \text
     \item Whether the container can send signals \texttt{SIGKILL}, \texttt{SIG\-TERM} to host processes.
     \item Whether enabling \texttt{CAP\-\_SYS\_ADMIN} allows process tracing of host processes.
     \item Whether a container can read host process memory via \texttt{/proc/\$PID/mem}.
-    \item Whether a container with \texttt{--pid=host} can manipulate processes running inside another container that also has \texttt{--pid=host}.
 \end{itemize}
 
 \begin{table}[h!]
@@ -77,7 +76,7 @@ This case study also highlights a scenario where the security policies administr
     \footnotesize  
     \setlength{\tabcolsep}{4pt}  
     \renewcommand{\arraystretch}{1.1}  
-    \caption{Effectiveness of Docker Security Mechanisms Against Host Process Manipulation}  
+    \caption{Ability for container configurations to interact with host processes}
     \label{tab:pid-namespace-security}  
     \begin{adjustbox}{max width=\textwidth}  
     \begin{tabular}{|l|c|c|c|c|c|}
@@ -92,123 +91,123 @@ This case study also highlights a scenario where the security policies administr
     \end{adjustbox}  
 \end{table*}
 
-\begin{listing}[h]
-  \caption{Configuration file for Case Study I}
-  \label{lst:configuration-file}
-  \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
-    name: host_network_namespace
-    dockerfile:
-      - path: Dockerfile
-    dependencies:
-      - server: True
-    docker_config: 
-      - network_mode: bridge
-      - read_only: False
-      - security_opt: []
-      - pid_mode: null
-      - cpu_shares: null
-      - volumes: null
-      - mem_limit: null
-      - cpuset_cpus: null
-      - cpu_quota: null
-      - cpu_period: null
-      - cap_add: []
-      - cap_drop: []
-      - privileged: False
-      - user: myuser
-      - pids_limit: null
-      - ipc_mode: null
-    trick:
-      - path: /houdini/tricks/ProcessNamespace
-  \end{minted}
-\end{listing}
+% \begin{listing}[h]
+%   \caption{Configuration file for Case Study I}
+%   \label{lst:configuration-file}
+%   \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
+%     name: host_network_namespace
+%     dockerfile:
+%       - path: Dockerfile
+%     dependencies:
+%       - server: True
+%     docker_config: 
+%       - network_mode: bridge
+%       - read_only: False
+%       - security_opt: []
+%       - pid_mode: null
+%       - cpu_shares: null
+%       - volumes: null
+%       - mem_limit: null
+%       - cpuset_cpus: null
+%       - cpu_quota: null
+%       - cpu_period: null
+%       - cap_add: []
+%       - cap_drop: []
+%       - privileged: False
+%       - user: myuser
+%       - pids_limit: null
+%       - ipc_mode: null
+%     trick:
+%       - path: /houdini/tricks/ProcessNamespace
+%   \end{minted}
+% \end{listing}
 
 
-\begin{listing}[h]
-  \caption{Trick Implementation for Case Study I}
-\label{lst:pythonfile}
-  \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
-    #!/bin/bash
+% \begin{listing}[h]
+%   \caption{Trick Implementation for Case Study I}
+% \label{lst:pythonfile}
+%   \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
+%     #!/bin/bash
 
-    TARGET_CMD="python3 /houdini/server.py"
-    PID=""
+%     TARGET_CMD="python3 /houdini/server.py"
+%     PID=""
 
-    find_target_process() {
-        echo "[1] Searching for process: $TARGET_CMD"
-        PID=$(ps aux | grep '[p]ython3 /houdini/server.py' | awk '{print $2}' | head -n 1)
-        if [[ -n "$PID" ]]; then
-            echo "Found: PID=$PID"
-            return 0
-        else
-            echo "Target process not found."
-            return 1
-        fi
-    }
+%     find_target_process() {
+%         echo "[1] Searching for process: $TARGET_CMD"
+%         PID=$(ps aux | grep '[p]ython3 /houdini/server.py' | awk '{print $2}' | head -n 1)
+%         if [[ -n "$PID" ]]; then
+%             echo "Found: PID=$PID"
+%             return 0
+%         else
+%             echo "Target process not found."
+%             return 1
+%         fi
+%     }
 
-    send_signal() {
-        echo "[2] Sending SIGCONT to PID $PID"
-        if kill -CONT "$PID" 2>/dev/null; then
-            echo "Signal sent successfully"
-        else
-            echo "Failed to send signal"
-        fi
-    }
+%     send_signal() {
+%         echo "[2] Sending SIGCONT to PID $PID"
+%         if kill -CONT "$PID" 2>/dev/null; then
+%             echo "Signal sent successfully"
+%         else
+%             echo "Failed to send signal"
+%         fi
+%     }
 
-    attach_debugger() {
-        echo "[3] Attaching debugger with ptrace to PID $PID"
-        if strace -p "$PID" -e trace=none -o /dev/null -t -qq &>/dev/null & sleep 1; then
-            echo "Able to attach (via strace)"
-            pkill -P $$ strace 2>/dev/null
-        else
-            echo "Failed to attach debugger"
-        fi
-    }
+%     attach_debugger() {
+%         echo "[3] Attaching debugger with ptrace to PID $PID"
+%         if strace -p "$PID" -e trace=none -o /dev/null -t -qq &>/dev/null & sleep 1; then
+%             echo "Able to attach (via strace)"
+%             pkill -P $$ strace 2>/dev/null
+%         else
+%             echo "Failed to attach debugger"
+%         fi
+%     }
 
-    read_memory() {
-        echo "[4] Trying to read memory from /proc/$PID/mem"
-        if dd if="/proc/$PID/mem" bs=1 count=4 skip=0 2>/dev/null | hexdump; then
-            echo "Read memory succeeded"
-        else
-            echo "Failed to read memory"
-        fi
-    }
+%     read_memory() {
+%         echo "[4] Trying to read memory from /proc/$PID/mem"
+%         if dd if="/proc/$PID/mem" bs=1 count=4 skip=0 2>/dev/null | hexdump; then
+%             echo "Read memory succeeded"
+%         else
+%             echo "Failed to read memory"
+%         fi
+%     }
 
-    main() {
-        find_target_process || exit 1
-        echo
-        send_signal
-        echo
-        attach_debugger
-        echo
-        read_memory
-    }
+%     main() {
+%         find_target_process || exit 1
+%         echo
+%         send_signal
+%         echo
+%         attach_debugger
+%         echo
+%         read_memory
+%     }
 
-    main
-  \end{minted}
-\end{listing}
+%     main
+%   \end{minted}
+% \end{listing}
 
-\begin{listing}[H]
-  \caption{Dockerfile for Case Study I}
-\label{lst:dockerfile}
-  \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
-    FROM ubuntu:20.04
+% \begin{listing}[H]
+%   \caption{Dockerfile for Case Study I}
+% \label{lst:dockerfile}
+%   \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
+%     FROM ubuntu:20.04
 
-    RUN apt-get update && \
-        apt-get install -y python3
+%     RUN apt-get update && \
+%         apt-get install -y python3
 
-    WORKDIR /
+%     WORKDIR /
 
-    RUN useradd -m myuser
+%     RUN useradd -m myuser
 
-    COPY process_namespace.sh /process_namespace.sh
+%     COPY process_namespace.sh /process_namespace.sh
 
-    RUN chmod +x /process_namespace.sh
+%     RUN chmod +x /process_namespace.sh
 
-    USER myuser
+%     USER myuser
 
-    CMD ["/bin/bash", "/process_namespace.sh"]
-  \end{minted}
-\end{listing}
+%     CMD ["/bin/bash", "/process_namespace.sh"]
+%   \end{minted}
+% \end{listing}
 
 
 
@@ -238,7 +237,7 @@ In this case study, we evaluate Docker’s network isolation mechanisms to deter
 
 \begin{table*}[h]
     \centering
-    \caption{Effectiveness of Docker Security Mechanisms in Privilege Port Binding}
+    \caption{Ability for Container to bind to privileged ports}
     \label{tab:port-binding-pre-20.03}
     \scriptsize
     \begin{tabular}{|p{2.5cm}|c|c|c|c|c|}
@@ -259,6 +258,12 @@ This case study highlights how discrepancies between Docker versions in handling
 For example, administrators might configure a container to be restricted from binding to privileged ports, but if Docker is running a version where the NET\_BIND\_SERVICE capability is no longer required for root containers (like in Docker 20.03 and beyond), the container could still bind to these ports despite the policy specifying otherwise. This creates a mismatch between the intended policy (restricting privileged port binding) and the actual enforcement (where containers can still bind to those ports in certain Docker versions).
 
 Houdini helps identify these gaps by systematically testing container configurations across different Docker versions. By simulating different Docker versions and security policies, Houdini verifies whether containers are correctly enforcing the intended restrictions on privileged port binding. For instance, Houdini could test whether containers configured to prevent binding to privileged ports are still able to bind to those ports in Docker versions 20.03 or later, where the security model has changed. If a container running with Docker 20.03 or newer can bind to privileged ports despite the configuration specifying otherwise, Houdini will detect this discrepancy and highlight the gap between the intended policy and actual enforcement.
+
+This set of experiments evaluates how Docker’s privilege model for binding to privileged ports (i.e., ports below 1024) has evolved across versions. Traditionally, binding to privileged ports required root access or the NET\_BIND\_SERVICE capability. However, newer versions of Docker introduced support for binding to these ports even in rootless containers, provided the necessary capability is explicitly granted.
+
+By testing various combinations of user privileges (root vs. rootless) and capability settings across multiple Docker versions, this case study reveals which configurations are sufficient and which are excessive for achieving the goal of binding to a low-numbered port. It demonstrates that in modern Docker versions (23.0.0+), it is no longer necessary to run as root or grant all privileges to perform this operation. Instead, a least-privileged approach using a rootless container with NET\_BIND\_SERVICE is sufficient.
+
+This case study shows that \houdini can empower Docker users to avoid unnecessary elevation of privileges, particularly avoiding full root access or the use of the --privileged flag, both of which expose containers to a broader attack surface. Houdini enables this kind of analysis by systematically testing Docker configurations and identifying the minimum set of privileges required for a given operation, helping developers and administrators adopt safer, more secure defaults.
 
 
 

@@ -3,7 +3,6 @@ dockerfile:
   - path: Dockerfile
 dependencies:
   - server: False
-  - security_opt: ["seccomp={\"defaultAction\":\"SCMP_ACT_ALLOW\",\"syscalls\":[{\"name\":\"bind\",\"action\":\"SCMP_ACT_ERRNO\"}]}"]
 docker_config: 
   - network_mode: bridge
   - read_only: True
