@@ -25,6 +25,10 @@ if [ -d "${extracted_folder}" ]; then
     # Copy files to overlay/bin
     cp -r "${extracted_folder}/docker/"* "$(get_parent_dir)/overlay/usr/bin/"
     echo "Copied files to $(get_parent_dir)/overlay/usr/bin/"
+
+    # Make all files executable
+    chmod +x "$(get_parent_dir)/overlay/usr/bin/"*
+    echo "Marked all files in usr/bin as executable"
 else
     echo "Extracted folder for docker-${docker_engine_version}.tgz not found"
 fi

@@ -1,0 +1,9 @@
+docker: Docker version 18.09.9, build 039a7df9ba
+runc: runc version 1.0.0-rc8
+commit: 425e105d5a03fabd737a126ad93d62a9eeede87f
+spec: 1.0.1-dev
+No existing container named host_mount found. Proceeding to create a new one.
+Creating Docker Image
+Image 'host_mount' built successfully. ✓
+Error running Docker container: 400 Client Error for http+docker://localhost/v1.39/containers/bba0e2d7ee2709eeb6477bf2c05eca7bbfa94df9d2617af4b10900a8e1f4c0c5/start: Bad Request ("OCI runtime create failed: container_linux.go:345: starting container process caused "process_linux.go:430: container init caused \"mkdir /proc/self/fd/5: not a directory\"": unknown: Are you trying to mount a directory onto a file (or vice-versa)? Check if the specified host path exists and is the expected type")
+

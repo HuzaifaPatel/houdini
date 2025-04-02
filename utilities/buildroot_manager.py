@@ -101,7 +101,6 @@ class BuildrootManager:
 		    "-nographic",
 		    "-virtfs", "local,path=/home/huzi/Desktop,mount_tag=hostshare,security_model=mapped-file,id=hostshare"
 		]
-
 		process = subprocess.Popen(qemu_cmd, stderr=subprocess.PIPE)
 
 		_, error_output = process.communicate()

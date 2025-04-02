@@ -179,3 +179,24 @@ def parse_trick_and_run(trick_data, args):
     )
 
     # run_command_in_container(container, "ls")
+
+def get_versions():
+    versions = {}
+
+    try:
+        docker_output = subprocess.check_output(["docker", "--version"], stderr=subprocess.STDOUT)
+        versions['docker'] = docker_output.decode().strip()
+    except subprocess.CalledProcessError as e:
+        versions['docker'] = f"Error: {e.output.decode().strip()}"
+    except FileNotFoundError:
+        versions['docker'] = "Docker not found"
+
+    try:
+        runc_output = subprocess.check_output(["runc", "--version"], stderr=subprocess.STDOUT)
+        versions['runc'] = runc_output.decode().strip()
+    except subprocess.CalledProcessError as e:
+        versions['runc'] = f"Error: {e.output.decode().strip()}"
+    except FileNotFoundError:
+        versions['runc'] = "runc not found"
+
+    return versions

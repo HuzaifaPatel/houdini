@@ -1,0 +1,9 @@
+docker: Docker version 19.03.5, build 633a0ea838
+runc: runc version 1.0.0-rc8+dev
+commit: 3e425f80a8c931f88e6d94a8c831b9d5aa481657
+spec: 1.0.1-dev
+No existing container named host_mount found. Proceeding to create a new one.
+Creating Docker Image
+Error building Docker image: toomanyrequests: You have reached your unauthenticated pull rate limit. https://www.docker.com/increase-rate-limit
+Error running Docker container: 404 Client Error for http+docker://localhost/v1.40/images/create?tag=latest&fromImage=host_mount: Not Found ("pull access denied for host_mount, repository does not exist or may require 'docker login': denied: requested access to the resource is denied")
+

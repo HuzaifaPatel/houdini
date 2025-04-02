@@ -1,0 +1,13 @@
+docker: Docker version 17.09.1-ce, build 19e2cf6
+runc: runc version 1.0.0-rc10
+commit: dc9208a3303feef5b3839f4323d9beb36df0a9dd
+spec: 1.0.1-dev
+No existing container named host_mount found. Proceeding to create a new one.
+Creating Docker Image
+Image 'host_mount' built successfully. ✓
+Container 'host_mount' started successfully. ✓
+Successfully changed directory to: ../../../../..
+File found: houdini/tricks/HostMount/61240abcc5412ab41c9a4c44be7e898666c8bb9c650bf8985b8ae2ee8d4160ce
+Container exited with code: 0
+Container exited successfully.
+

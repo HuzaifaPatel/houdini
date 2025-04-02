@@ -26,13 +26,8 @@ def server_status():
 #kernel, docker, runc versions
 @app.route('/version-status', methods=['GET'])
 def version_status():
-    versions = get_version()
-    response_data = jsonify(versions)    
-
-    response = make_response(response_data, 200)
-    # response.headers['X-Checksum'] = hashlib.sha512(response_data.encode()).hexdigest()
-
-    return response
+    versions = get_versions()
+    return make_response(jsonify(versions), 200)
 
 @app.route('/run-trick/<trick_folder>/<trick>', methods=['GET'])
 def run_trick(trick_folder, trick):
