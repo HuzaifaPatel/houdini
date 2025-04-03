@@ -7,6 +7,8 @@ At the core of Houdini’s architecture, a Flask-based server runs on the host o
 
 When a trick is initiated, the Flask server exposes an endpoint that the Houdini client on the host uses to send a request containing the container configuration and the test logic to execute. The server then transmits this data into the guest VM. Inside the VM, a listener service receives this request, parses the configuration, and launches a container with the specified settings. The trick code is then executed within the container. Once execution is complete, the listener inside the VM collects the results, and sends them back to the Flask server. The Flask server then responds to the original request with the results, allowing the host to log the outcome.
 
+If Houdini were compromised during testing, it would not necessarily pose a threat to the host system due to the design of the testing environment. Houdini is intentionally designed to operate within a controlled, containerized environment inside a VM. This means that even if a trick were to exploit a vulnerability within the containerized environment, the impact would be contained within the VM, isolated from the host system and other containers. The VM itself serves as an additional layer of security.
+
 \begin{figure}[h]
   \label{fig:state-machine}
   \includegraphics[width=1\linewidth]{figs/design.pdf}

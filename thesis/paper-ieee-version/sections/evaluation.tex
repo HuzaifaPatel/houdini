@@ -61,7 +61,7 @@ The result was that the process inside Container A was visible to Container B, a
 
 The effectiveness of different configurations in preventing host and cross-container process manipulation is also illutrated in Table~\ref{tab:pid-namespace-security}.
 
-This case study highlights a core strength of \houdini, which is its ability to systematically explore and identify the principle of least privilege for a given operation. By allowing users to declaratively modify container configurations, \houdini makes it easy to test a wide range of privilege combinations in a repeatable and automated way. Instead of relying on trial-and-error or defaulting to the overly permissive --privileged mode, users can incrementally grant permissions and observe the effect of each change. This enables security practitioners, developers, and researchers to precisely determine the minimum set of permissions required for a given trick to succeed. As a result, \houdini not only serves as a testing framework for container escapes and misconfigurations, but also as a practical tool for privilege minimization and hardening container deployments.
+This case study highlights a core strength of \houdini, which is its ability to systematically explore and identify the least privilege for a given operation. By allowing users to declaratively modify container configurations, \houdini makes it easy to test a wide range of privilege combinations in a repeatable and automated way. Instead of relying on trial-and-error or defaulting to the overly permissive \texttt{--privileged} mode, users can incrementally grant permissions and observe the effect of each change. This enables security practitioners, developers, and researchers to precisely determine the minimum set of permissions required for a given trick to succeed. As a result, \houdini not only serves as a testing framework for container escapes and misconfigurations, but also as a practical tool for privilege minimization and hardening container deployments.
 
 This case study also highlights a scenario where the security policies administrators intend to implement are not properly enforced when the container is running. For example, an administrator may want to use the host's process namespace for tracing host processes but restrict the container from manipulating those processes. To achieve this, the administrator configures the container with \texttt{--pid=host}. \houdini validates this configuration by performing controlled tests to ensure the container can only trace processes and cannot send signals, attach debuggers, or read process memory. If \houdini detects that the container can perform any of these unauthorized actions, it reveals a gap between the intended policy and its actual enforcement. Houdini’s tests provide actionable insights that help administrators adjust configurations to enforce proper isolation while allowing the container to trace processes.
 
@@ -86,123 +86,121 @@ This case study also highlights a scenario where the security policies administr
     \end{adjustbox}  
 \end{table*}
 
-% \begin{listing}[h]
-%   \caption{Configuration file for Case Study I}
-%   \label{lst:configuration-file}
-%   \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
-%     name: host_network_namespace
-%     dockerfile:
-%       - path: Dockerfile
-%     dependencies:
-%       - server: True
-%     docker_config: 
-%       - network_mode: bridge
-%       - read_only: False
-%       - security_opt: []
-%       - pid_mode: null
-%       - cpu_shares: null
-%       - volumes: null
-%       - mem_limit: null
-%       - cpuset_cpus: null
-%       - cpu_quota: null
-%       - cpu_period: null
-%       - cap_add: []
-%       - cap_drop: []
-%       - privileged: False
-%       - user: myuser
-%       - pids_limit: null
-%       - ipc_mode: null
-%     trick:
-%       - path: /houdini/tricks/ProcessNamespace
-%   \end{minted}
-% \end{listing}
+% \captionof{listing}{Configuration file for Case Study I}
+% \label{lst:configuration-file}
+% \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
+% name: host_network_namespace
+% dockerfile:
+%   - path: Dockerfile
+% dependencies:
+%   - server: True
+% docker_config: 
+%   - network_mode: bridge
+%   - read_only: False
+%   - security_opt: []
+%   - pid_mode: null
+%   - cpu_shares: null
+%   - volumes: null
+%   - mem_limit: null
+%   - cpuset_cpus: null
+%   - cpu_quota: null
+%   - cpu_period: null
+%   - cap_add: []
+%   - cap_drop: []
+%   - privileged: False
+%   - user: myuser
+%   - pids_limit: null
+%   - ipc_mode: null
+% trick:
+%   - path: /houdini/tricks/ProcessNamespace
+% \end{minted}
 
+% \vspace{1em}
 
-% \begin{listing}[h]
-%   \caption{Trick Implementation for Case Study I}
+% \captionof{listing}{Trick Implementation for Case Study I}
 % \label{lst:pythonfile}
-%   \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
-%     #!/bin/bash
+% \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{bash}
+% #!/bin/bash
 
-%     TARGET_CMD="python3 /houdini/server.py"
-%     PID=""
+% TARGET_CMD="python3 /houdini/server.py"
+% PID=""
 
-%     find_target_process() {
-%         echo "[1] Searching for process: $TARGET_CMD"
-%         PID=$(ps aux | grep '[p]ython3 /houdini/server.py' | awk '{print $2}' | head -n 1)
-%         if [[ -n "$PID" ]]; then
-%             echo "Found: PID=$PID"
-%             return 0
-%         else
-%             echo "Target process not found."
-%             return 1
-%         fi
-%     }
+% find_target_process() {
+%     echo "[1] Searching for process: $TARGET_CMD"
+%     PID=$(ps aux | grep '[p]ython3 /houdini/server.py' | awk '{print $2}' | head -n 1)
+%     if [[ -n "$PID" ]]; then
+%         echo "Found: PID=$PID"
+%         return 0
+%     else
+%         echo "Target process not found."
+%         return 1
+%     fi
+% }
 
-%     send_signal() {
-%         echo "[2] Sending SIGCONT to PID $PID"
-%         if kill -CONT "$PID" 2>/dev/null; then
-%             echo "Signal sent successfully"
-%         else
-%             echo "Failed to send signal"
-%         fi
-%     }
+% send_signal() {
+%     echo "[2] Sending SIGCONT to PID $PID"
+%     if kill -CONT "$PID" 2>/dev/null; then
+%         echo "Signal sent successfully"
+%     else
+%         echo "Failed to send signal"
+%     fi
+% }
 
-%     attach_debugger() {
-%         echo "[3] Attaching debugger with ptrace to PID $PID"
-%         if strace -p "$PID" -e trace=none -o /dev/null -t -qq &>/dev/null & sleep 1; then
-%             echo "Able to attach (via strace)"
-%             pkill -P $$ strace 2>/dev/null
-%         else
-%             echo "Failed to attach debugger"
-%         fi
-%     }
+% attach_debugger() {
+%     echo "[3] Attaching debugger with ptrace to PID $PID"
+%     if strace -p "$PID" -e trace=none -o /dev/null -t -qq &>/dev/null & sleep 1; then
+%         echo "Able to attach (via strace)"
+%         pkill -P $$ strace 2>/dev/null
+%     else
+%         echo "Failed to attach debugger"
+%     fi
+% }
 
-%     read_memory() {
-%         echo "[4] Trying to read memory from /proc/$PID/mem"
-%         if dd if="/proc/$PID/mem" bs=1 count=4 skip=0 2>/dev/null | hexdump; then
-%             echo "Read memory succeeded"
-%         else
-%             echo "Failed to read memory"
-%         fi
-%     }
+% read_memory() {
+%     echo "[4] Trying to read memory from /proc/$PID/mem"
+%     if dd if="/proc/$PID/mem" bs=1 count=4 skip=0 2>/dev/null | hexdump; then
+%         echo "Read memory succeeded"
+%     else
+%         echo "Failed to read memory"
+%     fi
+% }
 
-%     main() {
-%         find_target_process || exit 1
-%         echo
-%         send_signal
-%         echo
-%         attach_debugger
-%         echo
-%         read_memory
-%     }
+% main() {
+%     find_target_process || exit 1
+%     echo
+%     send_signal
+%     echo
+%     attach_debugger
+%     echo
+%     read_memory
+% }
 
-%     main
-%   \end{minted}
-% \end{listing}
+% main
+% \end{minted}
 
-% \begin{listing}[H]
-%   \caption{Dockerfile for Case Study I}
+% \vspace{1em}
+
+% \captionof{listing}{Dockerfile for Case Study I}
 % \label{lst:dockerfile}
-%   \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
-%     FROM ubuntu:20.04
+% \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{dockerfile}
+% FROM ubuntu:20.04
 
-%     RUN apt-get update && \
-%         apt-get install -y python3
+% RUN apt-get update && \
+%     apt-get install -y python3
 
-%     WORKDIR /
+% WORKDIR /
 
-%     RUN useradd -m myuser
+% RUN useradd -m myuser
 
-%     COPY process_namespace.sh /process_namespace.sh
+% COPY process_namespace.sh /process_namespace.sh
 
-%     RUN chmod +x /process_namespace.sh
+% RUN chmod +x /process_namespace.sh
 
-%     USER myuser
+% USER myuser
 
-%     CMD ["/bin/bash", "/process_namespace.sh"]
-%   \end{minted}
-% \end{listing}
+% CMD ["/bin/bash", "/process_namespace.sh"]
+% \end{minted}
+
 
 
 
@@ -308,7 +306,6 @@ While security policies and CVEs often describe what should be true, such as whi
         runc 1.0.0-rc3 & 5 & \cmark \\
         runc 1.0.0-rc4+dev & 5 & \cmark \\
         runc 1.0.0-rc10 & 4 & \cmark \\
-        runc 1.0.0-rc92 & \xmark & \xmark \\
         runc 1.1.7 & 9 & \cmark \\
         runc 1.1.8 & 9 & \cmark \\
         runc 1.1.9 & 9 & \cmark \\

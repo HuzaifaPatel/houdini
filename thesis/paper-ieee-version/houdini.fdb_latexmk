@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex houdini"] 1743596789.46287 "houdini.aux" "houdini.bbl" "houdini" 1743599970.14006 0
+["bibtex houdini"] 1743646562.71421 "houdini.aux" "houdini.bbl" "houdini" 1743646563.1441 0
   "./refs.bib" 1742605862.55928 7058 ad848d2171f37ce46f748cb401e21faf ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/unsrt.bst" 1292289607 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "houdini.aux" 1743599970.07498 6245 3ba94e62f429c8e665a4304976ba50a8 "pdflatex"
+  "houdini.aux" 1743646563.08039 6472 57e0427f6908b643248fa741beec1ddd "pdflatex"
   (generated)
   "houdini.bbl"
   "houdini.blg"
   (rewritten before read)
-["pdflatex"] 1743599969.71963 "houdini.tex" "houdini.pdf" "houdini" 1743599970.14019 0
+["pdflatex"] 1743646562.72762 "houdini.tex" "houdini.pdf" "houdini" 1743646563.14423 0
   "/etc/texmf/web2c/texmf.cnf" 1743333561.62507 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -91,6 +91,7 @@
   "/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty" 1705352648 5319 2b738d02ce36ada6dcdd9534940db0ee ""
   "/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty" 1705352648 2894 fc64867f9d198785eabe71a88276a9cb ""
   "/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty" 1579038678 6078 f1cb470c9199e7110a27851508ed7a5c ""
+  "/usr/share/texlive/texmf-dist/tex/latex/capt-of/capt-of.sty" 1264379041 1311 063f8536a047a2d9cb1803321f793f37 ""
   "/usr/share/texlive/texmf-dist/tex/latex/cite/cite.sty" 1425427964 26218 19edeff8cdc2bcb704e8051dc55eb5a7 ""
   "/usr/share/texlive/texmf-dist/tex/latex/cleveref/cleveref.sty" 1525128982 329481 7fc6b003158402a4c694bc0a1b729308 ""
   "/usr/share/texlive/texmf-dist/tex/latex/collectbox/collectbox.sty" 1666037909 9124 59c3b56f1a073de66e3eea35f9c173c8 ""
@@ -146,17 +147,18 @@
   "_minted-houdini/D765CA7658C470E55A725EB9DE66A03DCF52E252A5A1A1DEEFB329A43DA1E2A7.pygtex" 1743430239.91644 3005 83edaab99987b6b2a16dbb26cbfadca6 ""
   "_minted-houdini/default.pygstyle" 1743429801.58334 6428 74aba51736a5bc6590f8f7dd413c6f27 ""
   "figs/design.pdf" 1743426757.11427 33191 cc6dccaff3a3a30a765d9d47590491f6 ""
-  "houdini.aux" 1743599970.07498 6245 3ba94e62f429c8e665a4304976ba50a8 "pdflatex"
-  "houdini.bbl" 1743596789.47323 3670 7db83dd512bf968c5f06f108c1a31be0 "bibtex houdini"
-  "houdini.tex" 1742605862.56028 2755 19cd69635bcf580952ec76f6d8221974 ""
+  "houdini.aux" 1743646563.08039 6472 57e0427f6908b643248fa741beec1ddd "pdflatex"
+  "houdini.bbl" 1743646562.72538 3670 7db83dd512bf968c5f06f108c1a31be0 "bibtex houdini"
+  "houdini.tex" 1743644746.55201 2804 f33a782414dcafbb74ad25afc8e8083a ""
   "huzaifa.sty" 1742605862.55428 500 e723b64ba45f2686bcf119b272e40fc8 ""
   "sections/conclusion.tex" 1742605863.29234 1391 b28387984ab19df244f703aff64073ba ""
   "sections/confinement-problem.tex" 1743334933.64017 2886 c18f05e7d9f169afff42e1e411c6bb83 ""
-  "sections/design.tex" 1743500261.98366 2269 c6adb3314fa112f8edfc180c0009c5dc ""
-  "sections/evaluation.tex" 1743599967.50792 32269 24d5028a7dd6324566def6b74c9324b7 ""
+  "sections/design.tex" 1743640822.09079 2779 8e264b81ca01e4c1deb3ec79934b952b ""
+  "sections/discussion.tex" 1743641651.45503 961 1dc2752c81f980ae92977e01dca54965 ""
+  "sections/evaluation.tex" 1743646560.87138 31659 d42c6257cf5fc796023e48dae81db503 ""
   "sections/implementation.tex" 1743501969.82864 5781 1bfcf04da78a0e5a097be509bf65b146 ""
   "sections/intro.tex" 1743333509.73568 7259 06e6692cff1c6d6f54719f22b9b6f575 ""
-  "sections/motivation.tex" 1743445828.54573 7681 16f7d331198e33d983f61be3484f48dd ""
+  "sections/motivation.tex" 1743641969.98746 7033 4b8f3b692bdb45161d4bc3ed044166b9 ""
   "sections/related.tex" 1743335021.49526 7924 7bf69f88eca19f3fdf9a2058fe918a98 ""
   (generated)
   "houdini.aux"
