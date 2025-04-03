@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+import\PYG{+w}{ }http.server
+import\PYG{+w}{ }socketserver
+
+\PYG{n+nv}{PORT}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m}{23}
+
+\PYG{n+nv}{Handler}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }http.server.SimpleHTTPRequestHandler
+
+try:
+\PYG{+w}{    }\PYG{c+c1}{\PYGZsh{} Try to bind to the port without serving}
+\PYG{+w}{    }with\PYG{+w}{ }socketserver.TCPServer\PYG{o}{((}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}},\PYG{+w}{ }PORT\PYG{o}{)},\PYG{+w}{ }Handler\PYG{o}{)}\PYG{+w}{ }as\PYG{+w}{ }httpd:
+\PYG{+w}{        }print\PYG{o}{(}f\PYG{l+s+s2}{\PYGZdq{}Successfully bound to port \PYGZob{}PORT\PYGZcb{}\PYGZdq{}}\PYG{o}{)}
+except\PYG{+w}{ }PermissionError\PYG{+w}{ }as\PYG{+w}{ }e:
+\PYG{+w}{    }print\PYG{o}{(}f\PYG{l+s+s2}{\PYGZdq{}Failed to bind to port \PYGZob{}PORT\PYGZcb{}: \PYGZob{}e\PYGZcb{}\PYGZdq{}}\PYG{o}{)}
+
+\end{Verbatim}

@@ -1,0 +1,58 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+ch}{\PYGZsh{}!/bin/bash}
+
+\PYG{n+nv}{TARGET\PYGZus{}CMD}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}python3 /houdini/server.py\PYGZdq{}}
+\PYG{n+nv}{PID}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}
+
+find\PYGZus{}target\PYGZus{}process\PYG{o}{()}\PYG{+w}{ }\PYG{o}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}[1] Searching for process: }\PYG{n+nv}{\PYGZdl{}TARGET\PYGZus{}CMD}\PYG{l+s+s2}{\PYGZdq{}}
+\PYG{+w}{    }\PYG{n+nv}{PID}\PYG{o}{=}\PYG{k}{\PYGZdl{}(}ps\PYG{+w}{ }aux\PYG{+w}{ }\PYG{p}{|}\PYG{+w}{ }grep\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}[p]ython3 /houdini/server.py\PYGZsq{}}\PYG{+w}{ }\PYG{p}{|}\PYG{+w}{ }awk\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}\PYGZob{}print \PYGZdl{}2\PYGZcb{}\PYGZsq{}}\PYG{+w}{ }\PYG{p}{|}\PYG{+w}{ }head\PYG{+w}{ }\PYGZhy{}n\PYG{+w}{ }\PYG{l+m}{1}\PYG{k}{)}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{o}{[[}\PYG{+w}{ }\PYGZhy{}n\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}}\PYG{n+nv}{\PYGZdl{}PID}\PYG{l+s+s2}{\PYGZdq{}}\PYG{+w}{ }\PYG{o}{]]}\PYG{p}{;}\PYG{+w}{ }\PYG{k}{then}
+\PYG{+w}{        }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Found: PID=}\PYG{n+nv}{\PYGZdl{}PID}\PYG{l+s+s2}{\PYGZdq{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m}{0}
+\PYG{+w}{    }\PYG{k}{else}
+\PYG{+w}{        }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Target process not found.\PYGZdq{}}
+\PYG{+w}{        }\PYG{k}{return}\PYG{+w}{ }\PYG{l+m}{1}
+\PYG{+w}{    }\PYG{k}{fi}
+\PYG{o}{\PYGZcb{}}
+
+send\PYGZus{}signal\PYG{o}{()}\PYG{+w}{ }\PYG{o}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}[2] Sending SIGCONT to PID }\PYG{n+nv}{\PYGZdl{}PID}\PYG{l+s+s2}{\PYGZdq{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{n+nb}{kill}\PYG{+w}{ }\PYGZhy{}CONT\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}}\PYG{n+nv}{\PYGZdl{}PID}\PYG{l+s+s2}{\PYGZdq{}}\PYG{+w}{ }\PYG{l+m}{2}\PYGZgt{}/dev/null\PYG{p}{;}\PYG{+w}{ }\PYG{k}{then}
+\PYG{+w}{        }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Signal sent successfully\PYGZdq{}}
+\PYG{+w}{    }\PYG{k}{else}
+\PYG{+w}{        }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Failed to send signal\PYGZdq{}}
+\PYG{+w}{    }\PYG{k}{fi}
+\PYG{o}{\PYGZcb{}}
+
+attach\PYGZus{}debugger\PYG{o}{()}\PYG{+w}{ }\PYG{o}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}[3] Attaching debugger with ptrace to PID }\PYG{n+nv}{\PYGZdl{}PID}\PYG{l+s+s2}{\PYGZdq{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }strace\PYG{+w}{ }\PYGZhy{}p\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}}\PYG{n+nv}{\PYGZdl{}PID}\PYG{l+s+s2}{\PYGZdq{}}\PYG{+w}{ }\PYGZhy{}e\PYG{+w}{ }\PYG{n+nv}{trace}\PYG{o}{=}none\PYG{+w}{ }\PYGZhy{}o\PYG{+w}{ }/dev/null\PYG{+w}{ }\PYGZhy{}t\PYG{+w}{ }\PYGZhy{}qq\PYG{+w}{ }\PYG{p}{\PYGZam{}}\PYGZgt{}/dev/null\PYG{+w}{ }\PYG{p}{\PYGZam{}}\PYG{+w}{ }sleep\PYG{+w}{ }\PYG{l+m}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{k}{then}
+\PYG{+w}{        }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Able to attach (via strace)\PYGZdq{}}
+\PYG{+w}{        }pkill\PYG{+w}{ }\PYGZhy{}P\PYG{+w}{ }\PYG{n+nv}{\PYGZdl{}\PYGZdl{}}\PYG{+w}{ }strace\PYG{+w}{ }\PYG{l+m}{2}\PYGZgt{}/dev/null
+\PYG{+w}{    }\PYG{k}{else}
+\PYG{+w}{        }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Failed to attach debugger\PYGZdq{}}
+\PYG{+w}{    }\PYG{k}{fi}
+\PYG{o}{\PYGZcb{}}
+
+read\PYGZus{}memory\PYG{o}{()}\PYG{+w}{ }\PYG{o}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}[4] Trying to read memory from /proc/}\PYG{n+nv}{\PYGZdl{}PID}\PYG{l+s+s2}{/mem\PYGZdq{}}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }dd\PYG{+w}{ }\PYG{k}{if}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}/proc/}\PYG{n+nv}{\PYGZdl{}PID}\PYG{l+s+s2}{/mem\PYGZdq{}}\PYG{+w}{ }\PYG{n+nv}{bs}\PYG{o}{=}\PYG{l+m}{1}\PYG{+w}{ }\PYG{n+nv}{count}\PYG{o}{=}\PYG{l+m}{4}\PYG{+w}{ }\PYG{n+nv}{skip}\PYG{o}{=}\PYG{l+m}{0}\PYG{+w}{ }\PYG{l+m}{2}\PYGZgt{}/dev/null\PYG{+w}{ }\PYG{p}{|}\PYG{+w}{ }hexdump\PYG{p}{;}\PYG{+w}{ }\PYG{k}{then}
+\PYG{+w}{        }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Read memory succeeded\PYGZdq{}}
+\PYG{+w}{    }\PYG{k}{else}
+\PYG{+w}{        }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Failed to read memory\PYGZdq{}}
+\PYG{+w}{    }\PYG{k}{fi}
+\PYG{o}{\PYGZcb{}}
+
+main\PYG{o}{()}\PYG{+w}{ }\PYG{o}{\PYGZob{}}
+\PYG{+w}{    }find\PYGZus{}target\PYGZus{}process\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{exit}\PYG{+w}{ }\PYG{l+m}{1}
+\PYG{+w}{    }\PYG{n+nb}{echo}
+\PYG{+w}{    }send\PYGZus{}signal
+\PYG{+w}{    }\PYG{n+nb}{echo}
+\PYG{+w}{    }attach\PYGZus{}debugger
+\PYG{+w}{    }\PYG{n+nb}{echo}
+\PYG{+w}{    }read\PYGZus{}memory
+\PYG{o}{\PYGZcb{}}
+
+main
+\end{Verbatim}

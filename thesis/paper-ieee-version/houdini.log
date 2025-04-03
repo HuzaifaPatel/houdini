@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  2 APR 2025 22:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  3 APR 2025 12:56
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -551,7 +551,62 @@ File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count328
 \l__pdf_internal_box=\box68
 )
-(./houdini.aux)
+(./houdini.aux
+
+LaTeX Warning: Label `lst:configuration-file' multiply defined.
+
+
+LaTeX Warning: Label `lst:configuration-file@cref' multiply defined.
+
+
+LaTeX Warning: Label `lst:pythonfile' multiply defined.
+
+
+LaTeX Warning: Label `lst:pythonfile@cref' multiply defined.
+
+
+LaTeX Warning: Label `lst:dockerfile' multiply defined.
+
+
+LaTeX Warning: Label `lst:dockerfile@cref' multiply defined.
+
+
+LaTeX Warning: Label `lst:configuration-file' multiply defined.
+
+
+LaTeX Warning: Label `lst:configuration-file@cref' multiply defined.
+
+
+LaTeX Warning: Label `lst:pythonfile' multiply defined.
+
+
+LaTeX Warning: Label `lst:pythonfile@cref' multiply defined.
+
+
+LaTeX Warning: Label `lst:dockerfile' multiply defined.
+
+
+LaTeX Warning: Label `lst:dockerfile@cref' multiply defined.
+
+
+LaTeX Warning: Label `lst:configuration-file' multiply defined.
+
+
+LaTeX Warning: Label `lst:configuration-file@cref' multiply defined.
+
+
+LaTeX Warning: Label `lst:pythonfile' multiply defined.
+
+
+LaTeX Warning: Label `lst:pythonfile@cref' multiply defined.
+
+
+LaTeX Warning: Label `lst:dockerfile' multiply defined.
+
+
+LaTeX Warning: Label `lst:dockerfile@cref' multiply defined.
+
+)
 \openout1 = `houdini.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
@@ -678,16 +733,70 @@ Underfull \hbox (badness 10000) in paragraph at lines 56--57
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+\openout3 = `houdini.pyg'.
 
-Overfull \hbox (28.93163pt too wide) in paragraph at lines 236--247
+
+(./_minted-houdini/A0B46A918BDF154AA494FF63C47D7B2FCF52E252A5A1A1DEEFB329A43DA1
+E2A7.pygtex)
+\openout3 = `houdini.pyg'.
+
+
+(./_minted-houdini/E48597A30A77CD652BFA000773781B29213EE0290DCB1965C14A8C0D6018
+AFC9.pygtex
+LaTeX Font Info:    Font shape `OT1/pcr/m/it' in size <7> not available
+(Font)              Font shape `OT1/pcr/m/sl' tried instead on input line 2.
+ [6])
+\openout3 = `houdini.pyg'.
+
+
+(./_minted-houdini/E3E690D45D0113ABA92C40539FEFEEDD9AD7FB9ED18FE489D10946320D40
+4B1D.pygtex)
+Overfull \hbox (28.93163pt too wide) in paragraph at lines 241--252
  [][] 
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[6] [7]) (./sections/related.tex [8]) (./sections/discussion.tex)
-(./sections/conclusion.tex) (./houdini.bbl [9])
+[7]
+\openout3 = `houdini.pyg'.
+
+
+(./_minted-houdini/567C94FD268BF94D820045B5E5C8B4B3CF52E252A5A1A1DEEFB329A43DA1
+E2A7.pygtex)
+\openout3 = `houdini.pyg'.
+
+
+(./_minted-houdini/0B63AE8D2F0AD194E236A978E2A88DA1213EE0290DCB1965C14A8C0D6018
+AFC9.pygtex)
+\openout3 = `houdini.pyg'.
+
+
+(./_minted-houdini/0D67A2F51738CCB41B9B7F5A34E651409AD7FB9ED18FE489D10946320D40
+4B1D.pygtex) [8]
+\openout3 = `houdini.pyg'.
+
+
+(./_minted-houdini/84998759B8DA9C903EA262003A504ED7CF52E252A5A1A1DEEFB329A43DA1
+E2A7.pygtex)
+\openout3 = `houdini.pyg'.
+
+
+(./_minted-houdini/F166C53FF73A44A6C41DF9CC2A51CE93213EE0290DCB1965C14A8C0D6018
+AFC9.pygtex
+Overfull \hbox (180.59969pt too wide) in paragraph at lines 4--4
+|| ||[]\OT1/pcr/m/n/7 target_file[][]=[][]\TS1/pcr/m/n/7 '\OT1/pcr/m/n/7 houdin
+i/tricks/HostMount/61240abcc5412ab41c9a4c44be7e898666c8bb9c650bf8985b8ae2ee8d41
+60ce\TS1/pcr/m/n/7 '[]|  
+ []
+
+)
+\openout3 = `houdini.pyg'.
+
+
+(./_minted-houdini/1CE5C49CAC7FB246BAB7E50CA58190A79AD7FB9ED18FE489D10946320D40
+4B1D.pygtex)) (./sections/related.tex [9]) (./sections/discussion.tex [10])
+(./sections/conclusion.tex) (./houdini.bbl)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -699,22 +808,24 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[10
-
-] (./houdini.aux)
+[11] (./houdini.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
+
+
+LaTeX Warning: There were multiply-defined labels.
+
 runsystem(rm houdini.pyg)...executed.
 
  ) 
 Here is how much of TeX's memory you used:
- 12225 strings out of 476182
- 229466 string characters out of 5795595
- 1947975 words of memory out of 5000000
- 33960 multiletter control sequences out of 15000+600000
- 609771 words of font info for 142 fonts, out of 8000000 for 9000
+ 12300 strings out of 476182
+ 235239 string characters out of 5795595
+ 1953975 words of memory out of 5000000
+ 34006 multiletter control sequences out of 15000+600000
+ 610388 words of font info for 144 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  92i,11n,93p,1637b,776s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr
@@ -722,14 +833,15 @@ Here is how much of TeX's memory you used:
 texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive
 /texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/ur
-w/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a
-.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on houdini.pdf (10 pages, 196678 bytes).
+w/courier/ucrro8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb
+8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/urw/times/utmri8a.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/urw/zapfding/uzdr.pfb>
+Output written on houdini.pdf (11 pages, 219537 bytes).
 PDF statistics:
- 113 PDF objects out of 1000 (max. 8388607)
- 71 compressed objects within 1 object stream
+ 121 PDF objects out of 1000 (max. 8388607)
+ 76 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -9,7 +9,7 @@ docker_config:
   - security_opt: []
   - pid_mode: null
   - cpu_shares: 512
-  - volumes : {"/proc": {"bind": "/host_proc", "mode": "ro"}}
+  - volumes : []
   - mem_limit: null
   - cpuset_cpus: null
   - cpu_quota: null

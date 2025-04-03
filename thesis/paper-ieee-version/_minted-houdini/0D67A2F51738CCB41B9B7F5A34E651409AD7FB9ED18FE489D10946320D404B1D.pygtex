@@ -1,0 +1,23 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c}{\PYGZsh{} Use the official Python image (already includes Python and pip)}
+\PYG{k}{FROM}\PYG{+w}{ }\PYG{l+s}{python:3.9\PYGZhy{}slim}
+
+\PYG{c}{\PYGZsh{} Create a new user and group}
+\PYG{k}{RUN}\PYG{+w}{ }groupadd\PYG{+w}{ }\PYGZhy{}r\PYG{+w}{ }myuser\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }useradd\PYG{+w}{ }\PYGZhy{}r\PYG{+w}{ }\PYGZhy{}g\PYG{+w}{ }myuser\PYG{+w}{ }myuser
+
+\PYG{c}{\PYGZsh{} Set the working directory}
+\PYG{k}{WORKDIR}\PYG{+w}{ }\PYG{l+s}{/}
+
+\PYG{c}{\PYGZsh{} Copy the Python script into the container}
+\PYG{k}{COPY}\PYG{+w}{ }privileged\PYGZus{}ports.py\PYG{+w}{ }/privileged\PYGZus{}ports.py
+
+\PYG{c}{\PYGZsh{} Change ownership of the working directory and script to the new user}
+\PYG{k}{RUN}\PYG{+w}{ }chown\PYG{+w}{ }myuser:myuser\PYG{+w}{ }privileged\PYGZus{}ports.py
+
+\PYG{c}{\PYGZsh{} Switch to the new user}
+\PYG{k}{USER}\PYG{+w}{ }\PYG{l+s}{root}
+
+\PYG{c}{\PYGZsh{} Specify the default command to run the script}
+\PYG{k}{CMD}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}python\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}privileged\PYGZus{}ports.py\PYGZdq{}}\PYG{p}{]}
+
+\end{Verbatim}

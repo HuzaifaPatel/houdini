@@ -86,120 +86,125 @@ This case study also highlights a scenario where the security policies administr
     \end{adjustbox}  
 \end{table*}
 
-% \captionof{listing}{Configuration file for Case Study I}
-% \label{lst:configuration-file}
-% \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
-% name: host_network_namespace
-% dockerfile:
-%   - path: Dockerfile
-% dependencies:
-%   - server: True
-% docker_config: 
-%   - network_mode: bridge
-%   - read_only: False
-%   - security_opt: []
-%   - pid_mode: null
-%   - cpu_shares: null
-%   - volumes: null
-%   - mem_limit: null
-%   - cpuset_cpus: null
-%   - cpu_quota: null
-%   - cpu_period: null
-%   - cap_add: []
-%   - cap_drop: []
-%   - privileged: False
-%   - user: myuser
-%   - pids_limit: null
-%   - ipc_mode: null
-% trick:
-%   - path: /houdini/tricks/ProcessNamespace
-% \end{minted}
 
-% \vspace{1em}
 
-% \captionof{listing}{Trick Implementation for Case Study I}
-% \label{lst:pythonfile}
-% \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{bash}
-% #!/bin/bash
 
-% TARGET_CMD="python3 /houdini/server.py"
-% PID=""
 
-% find_target_process() {
-%     echo "[1] Searching for process: $TARGET_CMD"
-%     PID=$(ps aux | grep '[p]ython3 /houdini/server.py' | awk '{print $2}' | head -n 1)
-%     if [[ -n "$PID" ]]; then
-%         echo "Found: PID=$PID"
-%         return 0
-%     else
-%         echo "Target process not found."
-%         return 1
-%     fi
-% }
 
-% send_signal() {
-%     echo "[2] Sending SIGCONT to PID $PID"
-%     if kill -CONT "$PID" 2>/dev/null; then
-%         echo "Signal sent successfully"
-%     else
-%         echo "Failed to send signal"
-%     fi
-% }
+\captionof{listing}{Configuration file for Case Study I}
+\label{lst:configuration-file}
+\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
+name: host_network_namespace
+dockerfile:
+  - path: Dockerfile
+dependencies:
+  - server: True
+docker_config: 
+  - network_mode: bridge
+  - read_only: False
+  - security_opt: []
+  - pid_mode: null
+  - cpu_shares: null
+  - volumes: null
+  - mem_limit: null
+  - cpuset_cpus: null
+  - cpu_quota: null
+  - cpu_period: null
+  - cap_add: []
+  - cap_drop: []
+  - privileged: False
+  - user: myuser
+  - pids_limit: null
+  - ipc_mode: null
+trick:
+  - path: /houdini/tricks/ProcessNamespace
+\end{minted}
 
-% attach_debugger() {
-%     echo "[3] Attaching debugger with ptrace to PID $PID"
-%     if strace -p "$PID" -e trace=none -o /dev/null -t -qq &>/dev/null & sleep 1; then
-%         echo "Able to attach (via strace)"
-%         pkill -P $$ strace 2>/dev/null
-%     else
-%         echo "Failed to attach debugger"
-%     fi
-% }
+\vspace{1em}
 
-% read_memory() {
-%     echo "[4] Trying to read memory from /proc/$PID/mem"
-%     if dd if="/proc/$PID/mem" bs=1 count=4 skip=0 2>/dev/null | hexdump; then
-%         echo "Read memory succeeded"
-%     else
-%         echo "Failed to read memory"
-%     fi
-% }
+\captionof{listing}{Trick Implementation for Case Study I}
+\label{lst:pythonfile}
+\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{bash}
+#!/bin/bash
 
-% main() {
-%     find_target_process || exit 1
-%     echo
-%     send_signal
-%     echo
-%     attach_debugger
-%     echo
-%     read_memory
-% }
+TARGET_CMD="python3 /houdini/server.py"
+PID=""
 
-% main
-% \end{minted}
+find_target_process() {
+    echo "[1] Searching for process: $TARGET_CMD"
+    PID=$(ps aux | grep '[p]ython3 /houdini/server.py' | awk '{print $2}' | head -n 1)
+    if [[ -n "$PID" ]]; then
+        echo "Found: PID=$PID"
+        return 0
+    else
+        echo "Target process not found."
+        return 1
+    fi
+}
 
-% \vspace{1em}
+send_signal() {
+    echo "[2] Sending SIGCONT to PID $PID"
+    if kill -CONT "$PID" 2>/dev/null; then
+        echo "Signal sent successfully"
+    else
+        echo "Failed to send signal"
+    fi
+}
 
-% \captionof{listing}{Dockerfile for Case Study I}
-% \label{lst:dockerfile}
-% \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{dockerfile}
-% FROM ubuntu:20.04
+attach_debugger() {
+    echo "[3] Attaching debugger with ptrace to PID $PID"
+    if strace -p "$PID" -e trace=none -o /dev/null -t -qq &>/dev/null & sleep 1; then
+        echo "Able to attach (via strace)"
+        pkill -P $$ strace 2>/dev/null
+    else
+        echo "Failed to attach debugger"
+    fi
+}
 
-% RUN apt-get update && \
-%     apt-get install -y python3
+read_memory() {
+    echo "[4] Trying to read memory from /proc/$PID/mem"
+    if dd if="/proc/$PID/mem" bs=1 count=4 skip=0 2>/dev/null | hexdump; then
+        echo "Read memory succeeded"
+    else
+        echo "Failed to read memory"
+    fi
+}
 
-% WORKDIR /
+main() {
+    find_target_process || exit 1
+    echo
+    send_signal
+    echo
+    attach_debugger
+    echo
+    read_memory
+}
 
-% RUN useradd -m myuser
+main
+\end{minted}
 
-% COPY process_namespace.sh /process_namespace.sh
+\vspace{1em}
 
-% RUN chmod +x /process_namespace.sh
+\captionof{listing}{Dockerfile for Case Study I}
+\label{lst:dockerfile}
+\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{dockerfile}
+FROM ubuntu:20.04
 
-% USER myuser
+RUN apt-get update && \
+    apt-get install -y python3
 
-% CMD ["/bin/bash", "/process_namespace.sh"]
-% \end{minted}
+WORKDIR /
+
+RUN useradd -m myuser
+
+COPY process_namespace.sh /process_namespace.sh
+
+RUN chmod +x /process_namespace.sh
+
+USER myuser
+
+CMD ["/bin/bash", "/process_namespace.sh"]
+\end{minted}
 
 
 
@@ -262,7 +267,83 @@ This case study shows that \houdini can empower Docker users to avoid unnecessar
 
 
 
+\captionof{listing}{Configuration file for Case Study I}
+\label{lst:configuration-file}
+\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
+name: cpu_shares
+dockerfile:
+  - path: Dockerfile
+dependencies:
+  - server: False
+docker_config: 
+  - network_mode: bridge
+  - read_only: True
+  - security_opt: []
+  - pid_mode: null
+  - cpu_shares: 512
+  - volumes : []
+  - mem_limit: null
+  - cpuset_cpus: null
+  - cpu_quota: null
+  - cpu_period: null
+  - cap_add: ["NET_BIND_SERVICE"]
+  - cap_drop: []
+  - privileged: False
+  - user: root
+  - pids_limit: null
+  - ipc_mode: null
+trick:
+  - path: /houdini/tricks/PrivilegedPorts
+\end{minted}
 
+\vspace{1em}
+
+\captionof{listing}{Trick Implementation for Case Study I}
+\label{lst:pythonfile}
+\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{bash}
+import http.server
+import socketserver
+
+PORT = 23
+
+Handler = http.server.SimpleHTTPRequestHandler
+
+try:
+    # Try to bind to the port without serving
+    with socketserver.TCPServer(("", PORT), Handler) as httpd:
+        print(f"Successfully bound to port {PORT}")
+except PermissionError as e:
+    print(f"Failed to bind to port {PORT}: {e}")
+
+\end{minted}
+
+\vspace{1em}
+
+\captionof{listing}{Dockerfile for Case Study I}
+\label{lst:dockerfile}
+\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{dockerfile}
+# Use the official Python image (already includes Python and pip)
+FROM python:3.9-slim
+
+# Create a new user and group
+RUN groupadd -r myuser && useradd -r -g myuser myuser
+
+# Set the working directory
+WORKDIR /
+
+# Copy the Python script into the container
+COPY privileged_ports.py /privileged_ports.py
+
+# Change ownership of the working directory and script to the new user
+RUN chown myuser:myuser privileged_ports.py 
+
+# Switch to the new user
+USER root
+
+# Specify the default command to run the script
+CMD ["python", "privileged_ports.py"]
+
+\end{minted}
 
 
 
@@ -317,6 +398,117 @@ While security policies and CVEs often describe what should be true, such as whi
     \end{tabular}
     \label{tab:cve_results}
 \end{table}
+
+
+
+
+
+
+\captionof{listing}{Configuration file for Case Study I}
+\label{lst:configuration-file}
+\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
+name: host_mount
+dockerfile:
+  - path: Dockerfile
+dependencies:
+  - server: False
+  - security_opt: null
+docker_config: 
+  - network_mode: bridge
+  - read_only: False
+  - security_opt: []
+  - pid_mode: null
+  - cpu_shares: 512
+  - volumes : []
+  - mem_limit: null
+  - cpuset_cpus: null
+  - cpu_quota: null
+  - cpu_period: null
+  - cap_add: []
+  - cap_drop: []
+  - privileged: False
+  - user: root
+  - pids_limit: null
+  - ipc_mode: null
+trick:
+  - path: /houdini/tricks/HostMount
+\end{minted}
+
+\vspace{1em}
+
+\captionof{listing}{Trick Implementation for Case Study I}
+\label{lst:pythonfile}
+\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{bash}
+#!/bin/bash
+relative_path='../../../../../'
+target_file='houdini/tricks/HostMount/61240abcc5412ab41c9a4c44be7e898666c8bb9c650bf8985b8ae2ee8d4160ce'
+
+# Try to change directory
+if cd "$relative_path" 2>/dev/null; then
+    echo "Successfully changed directory to: $(pwd)"
+
+    # Check if the target file exists
+    if [ -f "$target_file" ]; then
+        echo "File found: $target_file"
+    else
+        echo "File not found: $target_file"
+    fi
+else
+    err_code=$?
+    case $err_code in
+        1)
+            echo "Error: Permission denied"
+            ;;
+        2)
+            echo "Error: No such file or directory"
+            ;;
+        *)
+            echo "Unexpected error (exit code $err_code)"
+            ;;
+    esac
+fi
+
+# Display Docker and runc versions
+echo "Docker version:"
+docker --version || echo "Docker not found"
+
+echo "runc version:"
+runc --version || echo "runc not found"
+
+\end{minted}
+
+\vspace{1em}
+
+\captionof{listing}{Dockerfile for Case Study I}
+\label{lst:dockerfile}
+\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{dockerfile}
+FROM ubuntu:16.04
+
+WORKDIR /proc/self/fd/5
+
+COPY host_mount.sh /host_mount.sh
+
+RUN chmod +x /host_mount.sh
+
+CMD ["/host_mount.sh"]
+
+\end{minted}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,7 +1,5 @@
 FROM ubuntu:16.04
 
-# original fs was 9
-# Set the working directory
 WORKDIR /proc/self/fd/5
 
 # Copy the script
