@@ -66,7 +66,7 @@ class BuildrootManager:
 	def make_filesystem(self):
 		self.run_get_docker()
 		command = ['make', f'O={FILESYSTEM_PATH}', '-j', f'{self.cpu_count}']
-		self.set_buildroot_pkg()
+		# self.set_buildroot_pkg()
 		# shutil.copy(BUILDROOT_CONFIG_FILE, FILESYSTEM_PATH)
 		self.make_olddefconfig()
 		set_selinux_mode.update_selinux_config()
@@ -107,10 +107,10 @@ class BuildrootManager:
 
 		return process
 
-	def set_buildroot_pkg(self):
-		if os.path.exists(FILESYSTEM_BUILD):
-			BuildrootPackageManager.set_runc_version()
-			BuildrootPackageManager.update_docker_engine_version()
+	# def set_buildroot_pkg(self):
+		# if os.path.exists(FILESYSTEM_BUILD):
+			# BuildrootPackageManager.set_runc_version()
+			# BuildrootPackageManager.update_docker_engine_version()
 			# BuildrootPackageManager.update_docker_cli_version()
 
 	def set_kernel_ver(self):

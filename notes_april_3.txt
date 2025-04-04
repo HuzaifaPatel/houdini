@@ -1,0 +1,7 @@
+foot note : oldest available runc version
+add another row - newest runc version
+add another foot note - newest available runc version
+
+switch case study 3 to case study 1
+
+heading should be identifying inconsistencies in CVEs

@@ -1,13 +1,11 @@
 \begin{Verbatim}[commandchars=\\\{\}]
 \PYG{c+ch}{\PYGZsh{}!/bin/bash}
 \PYG{n+nv}{relative\PYGZus{}path}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}../../../../../\PYGZsq{}}
-\PYG{n+nv}{target\PYGZus{}file}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}houdini/tricks/HostMount/61240abcc5412ab41c9a4c44be7e898666c8bb9c650bf8985b8ae2ee8d4160ce\PYGZsq{}}
+\PYG{n+nv}{target\PYGZus{}file}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}houdini/tricks/HostMount/61240abcc5412ab\PYGZsq{}}
 
-\PYG{c+c1}{\PYGZsh{} Try to change directory}
 \PYG{k}{if}\PYG{+w}{ }\PYG{n+nb}{cd}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}}\PYG{n+nv}{\PYGZdl{}relative\PYGZus{}path}\PYG{l+s+s2}{\PYGZdq{}}\PYG{+w}{ }\PYG{l+m}{2}\PYGZgt{}/dev/null\PYG{p}{;}\PYG{+w}{ }\PYG{k}{then}
 \PYG{+w}{    }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Successfully changed directory to: }\PYG{k}{\PYGZdl{}(}\PYG{n+nb}{pwd}\PYG{k}{)}\PYG{l+s+s2}{\PYGZdq{}}
 
-\PYG{+w}{    }\PYG{c+c1}{\PYGZsh{} Check if the target file exists}
 \PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{o}{[}\PYG{+w}{ }\PYGZhy{}f\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}}\PYG{n+nv}{\PYGZdl{}target\PYGZus{}file}\PYG{l+s+s2}{\PYGZdq{}}\PYG{+w}{ }\PYG{o}{]}\PYG{p}{;}\PYG{+w}{ }\PYG{k}{then}
 \PYG{+w}{        }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}File found: }\PYG{n+nv}{\PYGZdl{}target\PYGZus{}file}\PYG{l+s+s2}{\PYGZdq{}}
 \PYG{+w}{    }\PYG{k}{else}
@@ -28,7 +26,6 @@
 \PYG{+w}{    }\PYG{k}{esac}
 \PYG{k}{fi}
 
-\PYG{c+c1}{\PYGZsh{} Display Docker and runc versions}
 \PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Docker version:\PYGZdq{}}
 docker\PYG{+w}{ }\PYGZhy{}\PYGZhy{}version\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n+nb}{echo}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Docker not found\PYGZdq{}}
 

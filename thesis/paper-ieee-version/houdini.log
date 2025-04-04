@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  3 APR 2025 12:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  3 APR 2025 23:19
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -749,9 +749,9 @@ LaTeX Font Info:    Font shape `OT1/pcr/m/it' in size <7> not available
 \openout3 = `houdini.pyg'.
 
 
-(./_minted-houdini/E3E690D45D0113ABA92C40539FEFEEDD9AD7FB9ED18FE489D10946320D40
+(./_minted-houdini/4BC176FC83B0E5832DDC2FFBF35787BD9AD7FB9ED18FE489D10946320D40
 4B1D.pygtex)
-Overfull \hbox (28.93163pt too wide) in paragraph at lines 241--252
+Overfull \hbox (28.93163pt too wide) in paragraph at lines 236--247
  [][] 
  []
 
@@ -772,8 +772,11 @@ AFC9.pygtex)
 \openout3 = `houdini.pyg'.
 
 
-(./_minted-houdini/0D67A2F51738CCB41B9B7F5A34E651409AD7FB9ED18FE489D10946320D40
-4B1D.pygtex) [8]
+(./_minted-houdini/ED2DA29343A925BFBC78BBF462F77DCF9AD7FB9ED18FE489D10946320D40
+4B1D.pygtex)
+Underfull \vbox (badness 2894) has occurred while \output is active []
+
+ [8]
 \openout3 = `houdini.pyg'.
 
 
@@ -782,21 +785,14 @@ E2A7.pygtex)
 \openout3 = `houdini.pyg'.
 
 
-(./_minted-houdini/F166C53FF73A44A6C41DF9CC2A51CE93213EE0290DCB1965C14A8C0D6018
-AFC9.pygtex
-Overfull \hbox (180.59969pt too wide) in paragraph at lines 4--4
-|| ||[]\OT1/pcr/m/n/7 target_file[][]=[][]\TS1/pcr/m/n/7 '\OT1/pcr/m/n/7 houdin
-i/tricks/HostMount/61240abcc5412ab41c9a4c44be7e898666c8bb9c650bf8985b8ae2ee8d41
-60ce\TS1/pcr/m/n/7 '[]|  
- []
-
-)
+(./_minted-houdini/06A58A91C6F8B5975F8885BBC79952D8213EE0290DCB1965C14A8C0D6018
+AFC9.pygtex)
 \openout3 = `houdini.pyg'.
 
 
-(./_minted-houdini/1CE5C49CAC7FB246BAB7E50CA58190A79AD7FB9ED18FE489D10946320D40
-4B1D.pygtex)) (./sections/related.tex [9]) (./sections/discussion.tex [10])
-(./sections/conclusion.tex) (./houdini.bbl)
+(./_minted-houdini/D14C7642C254614403B310A9E06817CB9AD7FB9ED18FE489D10946320D40
+4B1D.pygtex)) (./sections/related.tex [9]) (./sections/discussion.tex)
+(./sections/conclusion.tex [10]) (./houdini.bbl)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -821,10 +817,10 @@ runsystem(rm houdini.pyg)...executed.
 
  ) 
 Here is how much of TeX's memory you used:
- 12300 strings out of 476182
- 235239 string characters out of 5795595
+ 12298 strings out of 476182
+ 235200 string characters out of 5795595
  1953975 words of memory out of 5000000
- 34006 multiletter control sequences out of 15000+600000
+ 34004 multiletter control sequences out of 15000+600000
  610388 words of font info for 144 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  92i,11n,93p,1637b,776s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -838,7 +834,7 @@ w/courier/ucrro8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb
 hare/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/te
 xmf-dist/fonts/type1/urw/times/utmri8a.pfb></usr/share/texlive/texmf-dist/fonts
 /type1/urw/zapfding/uzdr.pfb>
-Output written on houdini.pdf (11 pages, 219537 bytes).
+Output written on houdini.pdf (11 pages, 216987 bytes).
 PDF statistics:
  121 PDF objects out of 1000 (max. 8388607)
  76 compressed objects within 1 object stream

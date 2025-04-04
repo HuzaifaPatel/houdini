@@ -194,15 +194,10 @@ RUN apt-get update && \
     apt-get install -y python3
 
 WORKDIR /
-
 RUN useradd -m myuser
-
 COPY process_namespace.sh /process_namespace.sh
-
 RUN chmod +x /process_namespace.sh
-
 USER myuser
-
 CMD ["/bin/bash", "/process_namespace.sh"]
 \end{minted}
 
@@ -322,27 +317,13 @@ except PermissionError as e:
 \captionof{listing}{Dockerfile for Case Study I}
 \label{lst:dockerfile}
 \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{dockerfile}
-# Use the official Python image (already includes Python and pip)
 FROM python:3.9-slim
-
-# Create a new user and group
 RUN groupadd -r myuser && useradd -r -g myuser myuser
-
-# Set the working directory
 WORKDIR /
-
-# Copy the Python script into the container
 COPY privileged_ports.py /privileged_ports.py
-
-# Change ownership of the working directory and script to the new user
 RUN chown myuser:myuser privileged_ports.py 
-
-# Switch to the new user
 USER root
-
-# Specify the default command to run the script
 CMD ["python", "privileged_ports.py"]
-
 \end{minted}
 
 
@@ -377,27 +358,30 @@ While security policies and CVEs often describe what should be true, such as whi
 
 \begin{table}[H]
     \centering
-    \label{tab:cve201616}
     \caption{Runc Versions Against CVE-2024-21616}
-    \begin{tabular}{|l|c|c|}
+    \label{tab:cve201616}
+    \resizebox{\columnwidth}{!}{%
+    \begin{tabular}{l|l|c|c}
         \hline
-        \textbf{Runc Version} & Leaked File Descriptors & \textbf{Exploit Success} \\
+        \textbf{Docker Version} & \textbf{Runc Version} & \textbf{Leaked FDs} & \textbf{Exploit Success} \\
         \hline
-        runc 1.0.0-rc2 & 4 & \cmark \\
-        runc 1.0.0-rc3 & 5 & \cmark \\
-        runc 1.0.0-rc4+dev & 5 & \cmark \\
-        runc 1.0.0-rc10 & 4 & \cmark \\
-        runc 1.1.7 & 9 & \cmark \\
-        runc 1.1.8 & 9 & \cmark \\
-        runc 1.1.9 & 9 & \cmark \\
-        runc 1.1.11 & 9 & \cmark \\
-        runc 1.1.12 & \xmark & \xmark \\
-        runc 1.1.13 & \xmark & \xmark \\
-        runc 1.1.14 & \xmark & \xmark \\
+        17.03.0-ce & runc 1.0.0-rc2 & 4 & \cmark \\
+        17.06.1-ce & runc 1.0.0-rc3 & 5 & \cmark \\
+        N/A & runc 1.0.0-rc4+dev & 5 & \cmark \\
+        N/A & runc 1.0.0-rc10 & 4 & \cmark \\
+        N/A & runc 1.0.0-rc91 & \xmark & \xmark \\
+        N/A & runc 1.1.7 & 9 & \cmark \\
+        N/A & runc 1.1.8 & 9 & \cmark \\
+        N/A & runc 1.1.9 & 9 & \cmark \\
+        N/A & runc 1.1.11 & 9 & \cmark \\
+        - & runc 1.1.12 & \xmark & \xmark \\
+        - & runc 1.1.13 & \xmark & \xmark \\
+        - & runc 1.1.14 & \xmark & \xmark \\
         \hline
     \end{tabular}
-    \label{tab:cve_results}
+    }
 \end{table}
+
 
 
 
@@ -441,13 +425,11 @@ trick:
 \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{bash}
 #!/bin/bash
 relative_path='../../../../../'
-target_file='houdini/tricks/HostMount/61240abcc5412ab41c9a4c44be7e898666c8bb9c650bf8985b8ae2ee8d4160ce'
+target_file='houdini/tricks/HostMount/61240abcc5412ab'
 
-# Try to change directory
 if cd "$relative_path" 2>/dev/null; then
     echo "Successfully changed directory to: $(pwd)"
 
-    # Check if the target file exists
     if [ -f "$target_file" ]; then
         echo "File found: $target_file"
     else
@@ -468,7 +450,6 @@ else
     esac
 fi
 
-# Display Docker and runc versions
 echo "Docker version:"
 docker --version || echo "Docker not found"
 
@@ -483,15 +464,10 @@ runc --version || echo "runc not found"
 \label{lst:dockerfile}
 \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{dockerfile}
 FROM ubuntu:16.04
-
 WORKDIR /proc/self/fd/5
-
 COPY host_mount.sh /host_mount.sh
-
 RUN chmod +x /host_mount.sh
-
 CMD ["/host_mount.sh"]
-
 \end{minted}
 
 

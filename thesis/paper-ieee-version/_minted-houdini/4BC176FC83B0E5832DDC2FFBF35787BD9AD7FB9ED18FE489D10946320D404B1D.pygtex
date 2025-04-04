@@ -5,14 +5,9 @@
 \PYG{+w}{    }apt\PYGZhy{}get\PYG{+w}{ }install\PYG{+w}{ }\PYGZhy{}y\PYG{+w}{ }python3
 
 \PYG{k}{WORKDIR}\PYG{+w}{ }\PYG{l+s}{/}
-
 \PYG{k}{RUN}\PYG{+w}{ }useradd\PYG{+w}{ }\PYGZhy{}m\PYG{+w}{ }myuser
-
 \PYG{k}{COPY}\PYG{+w}{ }process\PYGZus{}namespace.sh\PYG{+w}{ }/process\PYGZus{}namespace.sh
-
 \PYG{k}{RUN}\PYG{+w}{ }chmod\PYG{+w}{ }+x\PYG{+w}{ }/process\PYGZus{}namespace.sh
-
 \PYG{k}{USER}\PYG{+w}{ }\PYG{l+s}{myuser}
-
 \PYG{k}{CMD}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}/bin/bash\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}/process\PYGZus{}namespace.sh\PYGZdq{}}\PYG{p}{]}
 \end{Verbatim}

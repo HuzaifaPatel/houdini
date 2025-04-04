@@ -1,34 +1,124 @@
 #!/bin/bash
 
-get_parent_dir() {
-    echo "$(dirname "$(pwd)")"
-}
+get_version_from_config() {
+    local variable_name=$1
+    local config_path="/home/huzi/Documents/houdini/constants/houdini_config.py"
 
-python_script=$(get_parent_dir)/constants/houdini_config.py
-
-docker_engine_version=$(python3 - <<END
+    python3 -c "
 import re
-with open('$python_script', 'r') as f:
+with open('$config_path', 'r') as f:
     content = f.read()
-    match = re.search(r'DOCKER_ENGINE_VERSION\s*=\s*"([^"]+)"', content)
+    match = re.search(r'$variable_name\s*=\s*\"([^\"]+)\"', content)
     if match:
         print(match.group(1))
-END
-)
+" 2>/dev/null
+}
 
-# Check if the folder exists
-extracted_folder="$(get_parent_dir)/misc/extracted_docker_engines/docker-${docker_engine_version}.tgz"
+remove_docker_binaries() {
+    echo -e "\n🔧 Running remove_docker_binaries..."
 
-if [ -d "${extracted_folder}" ]; then
-    echo "Found extracted folder for docker-${docker_engine_version}.tgz"
+    local TARGET_DIR="/home/huzi/Documents/houdini/buildroot/output/target/usr/bin"
+    local TARGET_DIR_OVERLAY="/home/huzi/Documents/houdini/overlay/usr/bin"
 
-    # Copy files to overlay/bin
-    cp -r "${extracted_folder}/docker/"* "$(get_parent_dir)/overlay/usr/bin/"
-    echo "Copied files to $(get_parent_dir)/overlay/usr/bin/"
+    local BINARIES=(
+        "docker"
+        "docker-containerd"
+        "docker-containerd-ctr"
+        "docker-containerd-shim"
+        "dockerd"
+        "docker-init"
+        "docker-proxy"
+        "docker-runc"
+        "runc"
+        "containerd"
+        "ctr"
+        "containerd-shim-runc-v2"
+        "containerd-shim"
+    )
 
-    # Make all files executable
-    chmod +x "$(get_parent_dir)/overlay/usr/bin/"*
-    echo "Marked all files in usr/bin as executable"
-else
-    echo "Extracted folder for docker-${docker_engine_version}.tgz not found"
-fi
+    for dir in "$TARGET_DIR" "$TARGET_DIR_OVERLAY"; do
+        if [ ! -d "$dir" ]; then
+            echo "❌ Directory not found: $dir"
+            continue
+        fi
+
+        echo "📁 Checking directory: $dir"
+        for binary in "${BINARIES[@]}"; do
+            if [ -f "$dir/$binary" ]; then
+                rm "$dir/$binary"
+                echo "🗑️  Removed $binary from $dir"
+            else
+                echo "➖ $binary not found in $dir, skipping"
+            fi
+        done
+    done
+}
+
+
+get_docker_engine_binaries() {
+    echo -e "\n🐳 Running get_docker_engine_binaries..."
+
+    local version_file="/tmp/docker_engine_version.txt"
+    get_version_from_config "DOCKER_ENGINE_VERSION" > "$version_file"
+    local docker_engine_version
+    docker_engine_version=$(cat "$version_file")
+    rm "$version_file"
+
+    echo "✅ Docker engine version: $docker_engine_version"
+
+    local extracted_folder="/home/huzi/Documents/houdini/misc/extracted_docker_engines/docker-${docker_engine_version}.tgz"
+    local overlay_bin="/home/huzi/Documents/houdini/overlay/usr/bin"
+
+    if [ -d "${extracted_folder}" ]; then
+        echo "📦 Found extracted folder for docker-${docker_engine_version}.tgz"
+        cp -r "${extracted_folder}/docker/"* "$overlay_bin/"
+        echo "📥 Copied files to $overlay_bin"
+        chmod +x "$overlay_bin"/*
+        echo "✅ Marked all files in $overlay_bin as executable"
+    else
+        echo "❌ Extracted folder for docker-${docker_engine_version}.tgz not found"
+    fi
+}
+
+get_runc_binaries() {
+    echo -e "\n📦 Running get_runc_binaries..."
+
+    local version_file="/tmp/runc_version.txt"
+    get_version_from_config "RUNC_VERSION" > "$version_file"
+    local runc_version
+    runc_version=$(cat "$version_file")
+    rm "$version_file"
+
+    echo "✅ RUNC version: $runc_version"
+
+    local extracted_folder="/home/huzi/Documents/houdini/misc/runc/runc-${runc_version}"
+    local overlay_bin="/home/huzi/Documents/houdini/overlay/usr/bin"
+
+    if [ -d "${extracted_folder}" ]; then
+        echo "📦 Found extracted folder for runc-${runc_version}"
+
+        local src_runc="${extracted_folder}/runc"
+        if [ ! -f "$src_runc" ]; then
+            echo "❌ ERROR: $src_runc not found in extracted folder"
+            return 1
+        fi
+
+        if [ -f "${overlay_bin}/docker-runc" ]; then
+            cp "$src_runc" "${overlay_bin}/docker-runc"
+            echo "📄 Copied runc as docker-runc"
+        else
+            cp "$src_runc" "${overlay_bin}/runc"
+            echo "📄 Copied runc as runc"
+        fi
+
+        chmod +x "${overlay_bin}/runc" "${overlay_bin}/docker-runc" 2>/dev/null
+        echo "✅ Marked copied file(s) as executable"
+    else
+        echo "❌ Extracted folder for runc-${runc_version} not found"
+    fi
+}
+
+# ---- Execute in strict order ----
+remove_docker_binaries
+get_docker_engine_binaries
+get_runc_binaries

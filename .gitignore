@@ -4,3 +4,4 @@ venv/
 misc/
 overlay/usr/bin/
 buildroot/
+vm_logs/

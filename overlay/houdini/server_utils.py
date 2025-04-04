@@ -35,16 +35,16 @@ def build_docker_image(dockerfile_path, image_name):
 
 
 def run_docker_container(image_name, container_name, network_mode, read_only, security_opt, pid_mode, cpu_shares, volumes, mem_limit, cpuset_cpus, cpu_quota, cpu_period, cap_add, cap_drop, privileged, user, pids_limit, ipc_mode, path):
+    client = docker.from_env()
     try:
-
         container = client.containers.run(
-            image_name,
+            image=image_name,
             name=container_name,
-            detach=True, 
-            network_mode=network_mode, 
-            read_only=read_only, 
+            detach=True,
+            network_mode=network_mode,
+            read_only=read_only,
             security_opt=security_opt,
-            pid_mode=pid_mode, 
+            pid_mode=pid_mode,
             cpu_shares=cpu_shares,
             volumes=volumes,
             mem_limit=mem_limit,
@@ -56,36 +56,42 @@ def run_docker_container(image_name, container_name, network_mode, read_only, se
             privileged=privileged,
             user=user,
             pids_limit=pids_limit,
-            ipc_mode=ipc_mode
+            ipc_mode=ipc_mode,
+            stdout=True,
+            stderr=True,
+            tty=True,
         )
-
-
-        print(f"Container '{container_name}' started successfully. {check_mark}")
-
-        if image_name == "cpu_shares":
-            run_program_on_vm(path)
-
-        # Attach to the container's stdout
-        for chunk in codecs.iterdecode(container.attach(stdout=True, stderr=False, stream=True, logs=False), "utf-8"):
-            sys.stdout.write(chunk)
-
-        # Wait for the container to finish
-        exit_status = container.wait()
-        
-        # Get the exit code
-        exit_code = exit_status['StatusCode']
-        print(f"Container exited with code: {exit_code}")
-        
-
-        # Check if the container exited properly
-        if exit_code == 0:
-            print("Container exited successfully.")
-        else:
-            print("Container exited with errors.")
-
-        return container
     except docker.errors.APIError as e:
-        print(f"Error running Docker container: {e}")
+        print("❌ Docker API error:", e)
+    except docker.errors.ContainerError as e:
+        print("❌ Docker Container error:", e)
+    except Exception as e:
+        print("❌ Unexpected error in run_docker_container():", e)
+
+    print(f"Container '{container_name}' started successfully. {check_mark}")
+
+    if image_name == "cpu_shares":
+        run_program_on_vm(path)
+
+    # Attach to the container's stdout
+    for chunk in codecs.iterdecode(container.attach(stdout=True, stderr=False, stream=True, logs=False), "utf-8"):
+        sys.stdout.write(chunk)
+
+    # Wait for the container to finish
+    exit_status = container.wait()
+    
+    # Get the exit code
+    exit_code = exit_status['StatusCode']
+    print(f"Container exited with code: {exit_code}")
+    
+
+    # Check if the container exited properly
+    if exit_code == 0:
+        print("Container exited successfully.")
+    else:
+        print("Container exited with errors.")
+
+    return container
 
 
 def send_file_to_container(container_name, file_path, target_file_name, target_directory='/'):
@@ -155,7 +161,7 @@ def parse_trick_and_run(trick_data, args):
     os.chdir(trick_data['trick'][0]['path'])
     build_docker_image(trick_data['trick'][0]['path'], container_name)
     os.chdir(original_directory)
-
+    print(container_name)
     container = run_docker_container(
         container_name, 
         container_name,
@@ -198,5 +204,13 @@ def get_versions():
         versions['runc'] = f"Error: {e.output.decode().strip()}"
     except FileNotFoundError:
         versions['runc'] = "runc not found"
+
+    try:
+        docker_runc_output = subprocess.check_output(["docker-runc", "--version"], stderr=subprocess.STDOUT)
+        versions['docker-runc'] = docker_runc_output.decode().strip()
+    except subprocess.CalledProcessError as e:
+        versions['docker-runc'] = f"Error: {e.output.decode().strip()}"
+    except FileNotFoundError:
+        versions['docker-runc'] = "docker-runc not found"
 
     return versions
