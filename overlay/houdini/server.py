@@ -29,6 +29,22 @@ def version_status():
     versions = get_versions()
     return make_response(jsonify(versions), 200)
 
+@app.route('/run-command-in-vm', methods=['GET'])
+def run_command_in_vm():
+    cmd = request.args.get('cmd')
+    try:
+        output_lines = []
+        with subprocess.Popen(
+            cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True
+        ) as process:
+            for line in process.stdout:
+                output_lines.append(line)
+
+        return jsonify({'output': ''.join(output_lines)})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 @app.route('/run-trick/<trick_folder>/<trick>', methods=['GET'])
 def run_trick(trick_folder, trick):
 

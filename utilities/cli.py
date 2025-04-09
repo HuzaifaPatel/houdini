@@ -8,6 +8,7 @@ from style import Style
 from run_trick import run_trick
 from get_versions import get_versions
 from server_status import server_status
+from run_command_in_vm import run_command_in_vm
 
 def _initialize():
     euid = os.geteuid()
@@ -30,6 +31,8 @@ def parser():
 	parser.add_argument('--start_vm', action='store_true', help='Start Virtual Machine')
 	parser.add_argument('--get_versions', action='store_true', help='View Version Information of Software installed on VM')
 	parser.add_argument('--server_status', action='store_true', help='Get Status of Houdini Server')
+	parser.add_argument('--run_command_in_vm', action='store_true', help='Get Status of Houdini Server')
+	parser.add_argument('command', nargs=argparse.REMAINDER, help='Command to run inside the VM')
 
 	# Parse the arguments
 	args = parser.parse_args()
@@ -51,3 +54,5 @@ def parser():
 		get_versions()
 	if args.server_status:
 		server_status()
+	if args.run_command_in_vm:
+		run_command_in_vm(" ".join(args.command))

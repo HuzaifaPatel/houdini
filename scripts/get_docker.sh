@@ -14,6 +14,37 @@ with open('$config_path', 'r') as f:
 " 2>/dev/null
 }
 
+remove_initd_scripts() {
+    echo -e "\n🧹 Removing init.d scripts..."
+
+    local INITD_DIR="/home/huzi/Documents/houdini/buildroot/output/target/etc/init.d"
+
+    if [ ! -d "$INITD_DIR" ]; then
+        echo "❌ Directory not found: $INITD_DIR"
+        return 1
+    fi
+
+    local SCRIPTS=(
+        "S50docker"
+        "S99docker_login"
+        "S50houdini"
+        "S99host_ipc"
+        "S99http_server"
+        "S99mount_hostshare"
+        "S99set_docker_pro"
+    )
+
+    for script in "${SCRIPTS[@]}"; do
+        local filepath="$INITD_DIR/$script"
+        if [ -f "$filepath" ]; then
+            rm "$filepath"
+            echo "🗑️  Removed $script"
+        else
+            echo "➖ $script not found, skipping"
+        fi
+    done
+}
+
 remove_docker_binaries() {
     echo -e "\n🔧 Running remove_docker_binaries..."
 
@@ -120,5 +151,6 @@ get_runc_binaries() {
 
 # ---- Execute in strict order ----
 remove_docker_binaries
+remove_initd_scripts
 get_docker_engine_binaries
-get_runc_binaries
+# get_runc_binaries

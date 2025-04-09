@@ -5,3 +5,4 @@ misc/
 overlay/usr/bin/
 buildroot/
 vm_logs/
+overlay/etc/init.d/S99docker_login

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  3 APR 2025 23:19
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  9 APR 2025 06:50
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -589,6 +589,12 @@ LaTeX Warning: Label `lst:dockerfile' multiply defined.
 LaTeX Warning: Label `lst:dockerfile@cref' multiply defined.
 
 
+LaTeX Warning: Label `tab:pid-namespace-security' multiply defined.
+
+
+LaTeX Warning: Label `tab:pid-namespace-security@cref' multiply defined.
+
+
 LaTeX Warning: Label `lst:configuration-file' multiply defined.
 
 
@@ -648,25 +654,28 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 Package newfloat Info: `float' package detected.
-LaTeX Font Info:    Calculating math sizes for size <11> on input line 41.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 41.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 25.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 41.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 25.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-(./sections/intro.tex [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/us
-r/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}
+) [1
 
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-di
+st/fonts/enc/dvips/base/8r.enc}
 
-])
-(./sections/confinement-problem.tex) (./sections/motivation.tex [2]
+]
+LaTeX Font Info:    Calculating math sizes for size <11> on input line 66.
+ (./sections/intro.tex [2
+
+]) (./sections/confinement-problem.tex)
+(./sections/motivation.tex [3]
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
 7.
 
@@ -676,11 +685,11 @@ File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 (./sections/design.tex
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [3]
+ [4]
 
 pdfTeX warning: pdflatex (file ./figs/design.pdf): PDF inclusion: found PDF ver
 sion <1.7>, but at most version <1.5> allowed
-<figs/design.pdf, id=17, 361.35pt x 216.81pt>
+<figs/design.pdf, id=22, 361.35pt x 216.81pt>
 File: figs/design.pdf Graphic file (type pdf)
 <use figs/design.pdf>
 Package pdftex.def Info: figs/design.pdf  used on input line 14.
@@ -704,32 +713,54 @@ LaTeX Font Info:    Trying to load font information for TS1+pcr on input line 8
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1pcr.fd
 File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
 ))
-[4 <./figs/design.pdf>]
+[5 <./figs/design.pdf>]
 \openout3 = `houdini.pyg'.
 
 
 (./_minted-houdini/B3B18A8AD01BF768FE6823EF12A8D74ECF52E252A5A1A1DEEFB329A43DA1
-E2A7.pygtex)) (./sections/evaluation.tex
-Underfull \hbox (badness 1616) in paragraph at lines 13--14
+E2A7.pygtex)) (./sections/evaluation.tex [6]
+\openout3 = `houdini.pyg'.
+
+
+(./_minted-houdini/EBF2E3A87CE046438D762AC5BA8A0E45CF52E252A5A1A1DEEFB329A43DA1
+E2A7.pygtex)
+\openout3 = `houdini.pyg'.
+
+
+(./_minted-houdini/06A58A91C6F8B5975F8885BBC79952D8213EE0290DCB1965C14A8C0D6018
+AFC9.pygtex
+LaTeX Font Info:    Font shape `OT1/pcr/m/it' in size <7> not available
+(Font)              Font shape `OT1/pcr/m/sl' tried instead on input line 2.
+)
+\openout3 = `houdini.pyg'.
+
+
+(./_minted-houdini/657CE329C49147B3530F2688E2987B4A9AD7FB9ED18FE489D10946320D40
+4B1D.pygtex) [7]
+Underfull \hbox (badness 1616) in paragraph at lines 168--169
 []\OT1/ptm/m/n/10 Whether en-abling \OT1/pcr/m/n/10 CAP-_SYS_ADMIN \OT1/ptm/m/n
 /10 al-lows pro-cess
  []
 
-[5]
-Underfull \hbox (badness 10000) in paragraph at lines 56--57
+
+Underfull \hbox (badness 10000) in paragraph at lines 211--212
 []\OT1/ptm/m/n/10 We then ex-am-ined whether the con-tainer could
  []
 
 
-Underfull \hbox (badness 7451) in paragraph at lines 56--57
+Underfull \hbox (badness 7451) in paragraph at lines 211--212
 \OT1/ptm/m/n/10 read host pro-cess mem-ory by at-tempt-ing to ac-cess
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 56--57
+Underfull \hbox (badness 10000) in paragraph at lines 211--212
 \OT1/pcr/m/n/10 /proc/<host_pid>/mem\OT1/ptm/m/n/10 . With Docker's de-fault
  []
 
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[8]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -742,23 +773,20 @@ E2A7.pygtex)
 
 
 (./_minted-houdini/E48597A30A77CD652BFA000773781B29213EE0290DCB1965C14A8C0D6018
-AFC9.pygtex
-LaTeX Font Info:    Font shape `OT1/pcr/m/it' in size <7> not available
-(Font)              Font shape `OT1/pcr/m/sl' tried instead on input line 2.
- [6])
+AFC9.pygtex)
 \openout3 = `houdini.pyg'.
 
 
 (./_minted-houdini/4BC176FC83B0E5832DDC2FFBF35787BD9AD7FB9ED18FE489D10946320D40
 4B1D.pygtex)
-Overfull \hbox (28.93163pt too wide) in paragraph at lines 236--247
+Overfull \hbox (28.93163pt too wide) in paragraph at lines 421--432
  [][] 
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[7]
+[9]
 \openout3 = `houdini.pyg'.
 
 
@@ -768,31 +796,13 @@ E2A7.pygtex)
 
 
 (./_minted-houdini/0B63AE8D2F0AD194E236A978E2A88DA1213EE0290DCB1965C14A8C0D6018
-AFC9.pygtex)
+AFC9.pygtex [10])
 \openout3 = `houdini.pyg'.
 
 
 (./_minted-houdini/ED2DA29343A925BFBC78BBF462F77DCF9AD7FB9ED18FE489D10946320D40
-4B1D.pygtex)
-Underfull \vbox (badness 2894) has occurred while \output is active []
-
- [8]
-\openout3 = `houdini.pyg'.
-
-
-(./_minted-houdini/84998759B8DA9C903EA262003A504ED7CF52E252A5A1A1DEEFB329A43DA1
-E2A7.pygtex)
-\openout3 = `houdini.pyg'.
-
-
-(./_minted-houdini/06A58A91C6F8B5975F8885BBC79952D8213EE0290DCB1965C14A8C0D6018
-AFC9.pygtex)
-\openout3 = `houdini.pyg'.
-
-
-(./_minted-houdini/D14C7642C254614403B310A9E06817CB9AD7FB9ED18FE489D10946320D40
-4B1D.pygtex)) (./sections/related.tex [9]) (./sections/discussion.tex)
-(./sections/conclusion.tex [10]) (./houdini.bbl)
+4B1D.pygtex)) (./sections/related.tex [11]) (./sections/discussion.tex)
+(./sections/conclusion.tex) (./houdini.bbl)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -804,7 +814,7 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[11] (./houdini.aux)
+[12] (./houdini.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -817,27 +827,31 @@ runsystem(rm houdini.pyg)...executed.
 
  ) 
 Here is how much of TeX's memory you used:
- 12298 strings out of 476182
- 235200 string characters out of 5795595
- 1953975 words of memory out of 5000000
- 34004 multiletter control sequences out of 15000+600000
- 610388 words of font info for 144 fonts, out of 8000000 for 9000
+ 12304 strings out of 476182
+ 235345 string characters out of 5795595
+ 1963975 words of memory out of 5000000
+ 34009 multiletter control sequences out of 15000+600000
+ 610903 words of font info for 146 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 92i,11n,93p,1637b,776s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive
-/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/ur
-w/courier/ucrro8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb
-8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/s
-hare/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/urw/times/utmri8a.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/urw/zapfding/uzdr.pfb>
-Output written on houdini.pdf (11 pages, 216987 bytes).
+ 92i,11n,93p,1637b,760s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/urw/courier/ucrb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/couri
+er/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrro8a.pf
+b></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-d
+ist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/urw/times/utmri8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/zapfding/
+uzdr.pfb>
+Output written on houdini.pdf (12 pages, 253568 bytes).
 PDF statistics:
- 121 PDF objects out of 1000 (max. 8388607)
- 76 compressed objects within 1 object stream
+ 144 PDF objects out of 1000 (max. 8388607)
+ 90 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -3,7 +3,162 @@
 
 To assess the effectiveness of container confinement mechanisms, we conducted a series of controlled experiments to evaluate whether common security policies successfully prevent resource starvation, unauthorized access attempts, and container escapes. Our evaluation focuses on testing various isolation features, including namespaces, cgroups, seccomp, and Linux capabilities, under different configurations and attack scenarios. These are done in the form of three case studies.
 
-\subsection{Case Study 1 - Evaluating Host Process Manipulation via PID Namespace Escape}
+
+
+
+
+
+
+
+
+
+\subsection{Case Study 1: Evaluating CVE-2024-21626}
+
+CVE-2024-21626 is a critical vulnerability affecting Docker and runc that allows malicious containers to escape their isolation and execute arbitrary commands on the host system. This poses a significant risk to enterprises relying on containerization, as attackers could gain unauthorized access to sensitive data and system resources. 
+
+The root cause of this vulnerability lies in how runc handles cgroups for containers, which are used to manage system resources like CPU and memory. When runc creates a container, it opens a file descriptor to the host's /sys/fs/cgroup directory to configure resource limits for the container. This file descriptor is exposed inside the container via /proc/self/fd/, which lists all open file descriptors of the container's process. The vulnerability occurs when an attacker manipulates the working directory in the Dockerfile to point to a file descriptor like \texttt{/proc/self/fd/7}, which refers to the host’s /sys/fs/cgroup. By doing this, the container’s process is no longer interacting with its own filesystem but with the host’s cgroup settings, effectively breaking the container's isolation. 
+
+To test the exploitability of CVE-2024-21626, we designed a Houdini trick that executes the following steps:
+\begin{enumerate}
+    \item Launch a container with various runc.
+    \item Set the working directory to \texttt{/proc/self/fd/<fd>}, pointing to a controlled file descriptor.
+    \item Attempt to break out of the container by leveraging the misconfigured working directory.
+    \item Validate whether commands can be executed on the host system.
+\end{enumerate}
+
+The CVE for this vulnerability initially indicated that the affected runc versions were >= 1.0.0-rc93, <= 1.1.11. This suggests the vulnerability was introduced in runc version rc93 and fixed in version 1.1.12. However, empirical tests conducted by \houdini revealed a significant discrepancy with this assumption. Houdini's testing showed that earlier runc versions, such as \texttt{1.0.0-rc1}, \texttt{1.0.0-rc2}, \texttt{1.0.0-rc3}, and \texttt{1.0.0-rc4} exhibited the same vulnerability. This discovery expands upon the original CVE report's scope as the vulnerability had been present in runc versions prior to rc93.
+
+\begin{table}[H]
+    \centering
+    \caption{Runc Versions Against CVE-2024-21626}
+    \label{tab:cve201626}
+    \resizebox{\columnwidth}{!}{%
+        \begin{tabular}{l|l|c|c}
+            \hline
+            \textbf{Docker Version} & \textbf{Runc Version} & \textbf{Leaked FD} & \textbf{Exploit Success} \\
+            \hline
+            1.11.0 & runc 0.0.9 & - & \xmark \\
+            1.12.0 & runc 1.0.0-rc1 & /proc/self/fd/4 & \cmark \\
+            17.03.0-ce & runc 1.0.0-rc2 & /proc/self/fd/4 & \cmark \\
+            17.06.1-ce & runc 1.0.0-rc3 & /proc/self/fd/5 & \cmark \\
+            17.09.0-ce & runc 1.0.0-rc4 & /proc/self/fd/5 & \cmark \\
+            - & runc 1.0.0-rc8 & - & \xmark \\
+            - & runc 1.0.0-rc10 & - & \xmark \\
+            - & runc 1.0.0-rc91 & - & \xmark \\
+            20.10.17 & runc 1.1.2 & /proc/self/fd/9 & \cmark \\
+            23.0.1 & runc 1.1.4 & /proc/self/fd/8 & \cmark \\
+            23.0.5 & runc 1.1.5 & /proc/self/fd/8 & \cmark \\
+            24.0.2 & runc 1.1.7 & /proc/self/fd/9 & \cmark \\
+            24.0.5 & runc 1.1.8 & /proc/self/fd/9 & \cmark \\
+            24.0.7 & runc 1.1.9 & /proc/self/fd/9 & \cmark \\
+            24.0.0 & runc 1.1.11 & /proc/self/fd/9 & \cmark \\
+            - & runc 1.1.12 & - & \xmark \\
+            - & runc 1.1.13 & - & \xmark \\
+            - & runc 1.1.14 & - & \xmark \\
+            \hline
+        \end{tabular}
+    }
+\end{table}
+
+These findings highlight two key aspects of \houdini’s role in uncovering the true scope of the vulnerability. Firstly, it challenges misleading security assumptions. Secondly, it identifies gaps between intended and actual enforcement.
+
+The security assumption outlined in the CVE is that the vulnerability exists only in runc versions >= 1.0.0-rc93, <= 1.1.11, suggesting that earlier versions are safe. This creates a false sense of security, leading users and system administrators to believe there is no urgency to patch or retire older versions. Rather than accepting the CVE’s claims, \houdini takes a more rigorous approach by testing the actual behavior of the continaer to determine whether the vulnerability is present in those earlier versions. In doing so, \houdini follows a fundamental security principle: security must be validated through testing, not simply assumed or trusted. 
+
+While security policies and CVEs often describe what should be true, such as which versions are affected or which behaviors are restricted, what actually happens at runtime can tell a different story. Houdini helps expose these gaps between what is stated in documentation and how the system behaves in practice by testing the system in real-world scenarios. For example, while the CVE marked runc version 1.0.0-rc93 as the point where the vulnerability was introduced, Houdini’s testing revealed that the issue existed in earlier versions as well, showing that isolation was already broken. This mismatch between what is expected and what is actually happening can lead to serious problems. Organizations may rely on official documentation and assume their systems are safe, overlooking vulnerabilities that fall outside the scope of the CVE. As a result, they might miss critical risks, leaving systems unpatched and vulnerable to exploitation. By testing how the container behaves under specific configurations, Houdini provides a more accurate picture of the system’s security, which helps to uncover vulnerabilities that might otherwise be overlooked.
+
+
+
+\captionof{listing}{Configuration file for Case Study I}
+\label{lst:configuration-file}
+\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
+name: host_mount
+dockerfile:
+  - path: Dockerfile
+dependencies:
+  - server: False
+  - security_opt: null
+docker_config: 
+  - network_mode: bridge
+  - read_only: False
+  - security_opt: []
+  - pid_mode: null
+  - cpu_shares: 1024
+  - volumes : []
+  - mem_limit: null
+  - cpuset_cpus: null
+  - cpu_quota: null
+  - cpu_period: null
+  - cap_add: []
+  - cap_drop: []
+  - privileged: False
+  - user: root
+  - pids_limit: null
+  - ipc_mode: null
+trick:
+  - path: /houdini/tricks/HostMount
+\end{minted}
+
+\vspace{1em}
+
+\captionof{listing}{Trick Implementation for Case Study I}
+\label{lst:pythonfile}
+\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{bash}
+#!/bin/bash
+relative_path='../../../../../'
+target_file='houdini/tricks/HostMount/61240abcc5412ab'
+
+if cd "$relative_path" 2>/dev/null; then
+    echo "Successfully changed directory to: $(pwd)"
+
+    if [ -f "$target_file" ]; then
+        echo "File found: $target_file"
+    else
+        echo "File not found: $target_file"
+    fi
+else
+    err_code=$?
+    case $err_code in
+        1)
+            echo "Error: Permission denied"
+            ;;
+        2)
+            echo "Error: No such file or directory"
+            ;;
+        *)
+            echo "Unexpected error (exit code $err_code)"
+            ;;
+    esac
+fi
+
+echo "Docker version:"
+docker --version || echo "Docker not found"
+
+echo "runc version:"
+runc --version || echo "runc not found"
+
+\end{minted}
+
+\vspace{1em}
+
+\captionof{listing}{Dockerfile for Case Study I}
+\label{lst:dockerfile}
+\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{dockerfile}
+FROM ubuntu:16.04
+WORKDIR /proc/self/fd/4
+COPY host_mount.sh /host_mount.sh
+RUN chmod +x /host_mount.sh
+CMD ["/host_mount.sh"]
+\end{minted}
+
+
+
+
+
+
+
+
+
+\subsection{Case Study 2 - Evaluating Host Process Manipulation via PID Namespace Escape}
 
 In this evaluation, we investigate whether a Docker container running with \texttt{--pid=host} can interact with and manipulate host processes. The PID namespace is responsible for process isolation, ensuring that containerized processes remain separate from host processes. However, when \texttt{--pid=host} is enabled, the container shares the host's PID namespace, making all host processes visible inside the container. We assess the security implications of this setting by evaluating the following:
 
@@ -82,6 +237,36 @@ This case study also highlights a scenario where the security policies administr
         \texttt{--pid=host} + \texttt{CAP\_KILL} & \cmark & \cmark & \xmark & \xmark \\ \hline
         \texttt{--pid=host} + \texttt{CAP\_SYS\_PTRACE} & \cmark & \xmark & \cmark & \xmark \\ \hline
         Privileged Container (\texttt{--pid=host} + \texttt{--privileged}) & \cmark & \cmark & \cmark & \cmark \\ \hline
+    \end{tabular}  
+    \end{adjustbox}  
+\end{table*}
+
+To better represent our evaluation in Table ~\ref{tab:pid-namespace-security}, we define four symbols, each representing an operation that we conducted:
+\begin{itemize}
+    \item $\diamondsuit$ List Host Processes
+    \item $\triangle$ Send Signals
+    \item $\star$ Attach Debugger
+    \item $\square$ Read Memory
+\end{itemize}
+
+
+\FloatBarrier
+\begin{table*}[h]  
+    \centering
+    \footnotesize  
+    \setlength{\tabcolsep}{4pt}  
+    \renewcommand{\arraystretch}{1.1}  
+    \caption{Ability for container configurations to interact with host processes}
+    \label{tab:pid-namespace-security}  
+    \begin{adjustbox}{max width=\textwidth}  
+    \begin{tabular}{|l|c|c|c|c|c|c|}
+        \hline
+        \textbf{\texttt{Security Configuration}} & \textbf{\texttt{Default Docker}} & \textbf{\texttt{--pid=host}} & \textbf{\texttt{CAP\_KILL}} & \textbf{\texttt{CAP\_SYS\_PTRACE}} & \textbf{\texttt{--privileged}}  \\ \hline
+        \textbf{\texttt{Default Docker}} & $\triangle$ & \xmark & \xmark & \xmark & \xmark \\ \hline
+        \textbf{\texttt{--pid=host}} & \cmark & \xmark & \xmark & \xmark  & \xmark \\ \hline
+        \textbf{\texttt{CAP\_KILL}} & \cmark & \cmark & \xmark & \xmark & \xmark \\ \hline
+        \textbf{\texttt{CAP\_SYS\_PTRACE}} & \cmark & \xmark & \cmark & \xmark & \xmark \\ \hline
+        \textbf{\texttt{--privileged}} & \cmark & \cmark & \cmark & \cmark & \xmark \\ \hline
     \end{tabular}  
     \end{adjustbox}  
 \end{table*}
@@ -325,346 +510,3 @@ RUN chown myuser:myuser privileged_ports.py
 USER root
 CMD ["python", "privileged_ports.py"]
 \end{minted}
-
-
-
-
-
-
-
-
-\subsection{Case Study 3: Evaluating CVE-2024-21616}
-
-CVE-2024-21616 is a critical vulnerability affecting Docker and runc that allows malicious containers to escape their isolation and execute arbitrary commands on the host system. This poses a significant risk to enterprises relying on containerization, as attackers could gain unauthorized access to sensitive data and system resources. 
-
-The root cause of this vulnerability is the improper handling of a container’s working directory when set to a special file descriptor path such as \texttt{/proc/self/fd/<fd>}, where \texttt{<fd>} typically points to \texttt{/sys/fs/cgroup}. If exploited, this flaw allows a containerized process to break out of its confined environment, effectively compromising the host machine. According to the CVE, the vulnerability affects runc versions from \texttt{v1.0.0-rc93} to \texttt{1.1.11}.
-
-To test the exploitability of CVE-2024-21616, we designed a Houdini trick that executes the following steps:
-\begin{enumerate}
-    \item Launch a container with various runc.
-    \item Set the working directory to \texttt{/proc/self/fd/<fd>}, pointing to a controlled file descriptor.
-    \item Attempt to break out of the container by leveraging the misconfigured working directory.
-    \item Validate whether commands can be executed on the host system.
-\end{enumerate}
-
-The CVE for this vulnerability explicitly lists the affected runc versions as ranging from v1.0.0-rc93 to 1.1.11. This suggests that the flaw was introduced at rc93 and contained after 1.1.11. However, Houdini’s empirical tests contradict this assumption. We observed that earlier versions such as rc2, rc3, and even rc10 exhibit the same vulnerability.
-
-These findings highlight two key aspects of \houdini’s role in uncovering the true scope of the vulnerability: (1) it challenges misleading security assumptions, and (2) it identifies gaps between intended and actual enforcement.
-
-The security assumption is that the vulnerability only exists in runc versions between v1.0.0-rc93 and 1.1.11, as stated in the official CVE report. This creates the impression that earlier versions are safe, which leads users and system administrators to believe there’s no need to patch or retire those versions. Instead of accepting what the CVE says at face value, Houdini tests how the software behaves to see if the vulnerability is really present. In doing so, Houdini aligns itself with the broader philosophy that security guarantees must be tested, not trusted.
-
-While security policies and CVEs often describe what should be true, such as which versions are affected or which behaviors are restricted, what happens at runtime can tell a different story. Houdini exposes these gaps between policy and practice by validating whether the system enforces its intended security boundaries in real-world scenarios. In this case, although the CVE intended to mark rc93 as the point of introduction, Houdini showed that the enforcement of isolation was already broken in earlier versions, despite not being flagged. This kind of gap can have real consequences, as organizations may rely on the written policy and overlook vulnerable systems that fall outside the official scope. Houdini fills this gap by revealing what the system actually allows, rather than what the documentation claims.
-
-
-\begin{table}[H]
-    \centering
-    \caption{Runc Versions Against CVE-2024-21616}
-    \label{tab:cve201616}
-    \resizebox{\columnwidth}{!}{%
-    \begin{tabular}{l|l|c|c}
-        \hline
-        \textbf{Docker Version} & \textbf{Runc Version} & \textbf{Leaked FDs} & \textbf{Exploit Success} \\
-        \hline
-        17.03.0-ce & runc 1.0.0-rc2 & 4 & \cmark \\
-        17.06.1-ce & runc 1.0.0-rc3 & 5 & \cmark \\
-        N/A & runc 1.0.0-rc4+dev & 5 & \cmark \\
-        N/A & runc 1.0.0-rc10 & 4 & \cmark \\
-        N/A & runc 1.0.0-rc91 & \xmark & \xmark \\
-        N/A & runc 1.1.7 & 9 & \cmark \\
-        N/A & runc 1.1.8 & 9 & \cmark \\
-        N/A & runc 1.1.9 & 9 & \cmark \\
-        N/A & runc 1.1.11 & 9 & \cmark \\
-        - & runc 1.1.12 & \xmark & \xmark \\
-        - & runc 1.1.13 & \xmark & \xmark \\
-        - & runc 1.1.14 & \xmark & \xmark \\
-        \hline
-    \end{tabular}
-    }
-\end{table}
-
-
-
-
-
-
-
-\captionof{listing}{Configuration file for Case Study I}
-\label{lst:configuration-file}
-\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
-name: host_mount
-dockerfile:
-  - path: Dockerfile
-dependencies:
-  - server: False
-  - security_opt: null
-docker_config: 
-  - network_mode: bridge
-  - read_only: False
-  - security_opt: []
-  - pid_mode: null
-  - cpu_shares: 512
-  - volumes : []
-  - mem_limit: null
-  - cpuset_cpus: null
-  - cpu_quota: null
-  - cpu_period: null
-  - cap_add: []
-  - cap_drop: []
-  - privileged: False
-  - user: root
-  - pids_limit: null
-  - ipc_mode: null
-trick:
-  - path: /houdini/tricks/HostMount
-\end{minted}
-
-\vspace{1em}
-
-\captionof{listing}{Trick Implementation for Case Study I}
-\label{lst:pythonfile}
-\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{bash}
-#!/bin/bash
-relative_path='../../../../../'
-target_file='houdini/tricks/HostMount/61240abcc5412ab'
-
-if cd "$relative_path" 2>/dev/null; then
-    echo "Successfully changed directory to: $(pwd)"
-
-    if [ -f "$target_file" ]; then
-        echo "File found: $target_file"
-    else
-        echo "File not found: $target_file"
-    fi
-else
-    err_code=$?
-    case $err_code in
-        1)
-            echo "Error: Permission denied"
-            ;;
-        2)
-            echo "Error: No such file or directory"
-            ;;
-        *)
-            echo "Unexpected error (exit code $err_code)"
-            ;;
-    esac
-fi
-
-echo "Docker version:"
-docker --version || echo "Docker not found"
-
-echo "runc version:"
-runc --version || echo "runc not found"
-
-\end{minted}
-
-\vspace{1em}
-
-\captionof{listing}{Dockerfile for Case Study I}
-\label{lst:dockerfile}
-\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{dockerfile}
-FROM ubuntu:16.04
-WORKDIR /proc/self/fd/5
-COPY host_mount.sh /host_mount.sh
-RUN chmod +x /host_mount.sh
-CMD ["/host_mount.sh"]
-\end{minted}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% \subsection{Case Study - Evaluating Host Interaction via IPC Namespace Escape}
-
-% The IPC (Inter-Process Communication) namespace is designed to isolate shared memory, message queues, semaphores, and pipes between containers and the host system. This prevents unauthorized processes inside a container from interacting with host processes via IPC mechanisms. However, Docker allows the use of \texttt{--ipc=host}, which removes IPC isolation, exposing the host’s IPC objects to the container.
-
-% In this evaluation, we investigate whether a container configured with \texttt{--ipc=host} can do any of the following:
-% \begin{itemize}
-%     \item Read or write to shared memory segments created by host processes.
-%     \item Send messages to a message queue owned by a host process.
-%     \item Interact with host semaphores or manipulate them.
-%     \item Access POSIX shared memory files in \texttt{/dev/shm}.
-%     \item Read or write to named pipes (FIFOs) shared by host processes.
-%     \item Intercept data from anonymous (unnamed) pipes used by host applications.
-% \end{itemize}
-
-% \begin{table}[h!]
-% \caption{Testing Environment}
-% \centering
-% \scriptsize % Reduces font size more
-% \begin{tabular}{|l|l|} 
-% \hline
-% \textbf{Component} & \textbf{Specification} \\
-% \hline
-% Host Machine & 20 Core CPU, 16GB RAM, Ubuntu 24.04 \\
-% \hline
-% Virtual Machine & QEMU, 4 Core CPU, 12GB RAM, No Distribution \\
-% \hline
-% Docker Version & 27.0.3 \\
-% \hline
-% Kernel Version & Linux 6.1 \\
-% \hline
-% Container Runtime & \texttt{runc} 1.1.11 \\
-% \hline
-% \end{tabular}
-% \end{table}
-
-% The container was tested under different security configurations:
-
-% \begin{itemize}
-%     \item Default Docker settings (\texttt{--ipc=private}).
-%     \item Docker container with \texttt{--ipc=host}.
-%     \item Docker container with \texttt{--ipc=host} and additional privileges (\texttt{--privileged}).
-% \end{itemize}
-
-% To conduct these tests, we created IPC objects from the host and then tested whether a process inside the container could access or manipulate them.
-
-% \paragraph{Attack Scenarios}
-% To determine the extent of IPC namespace exposure, the following attack scenarios were conducted:
-
-% \begin{itemize}
-%     \item \textbf{Shared Memory Access:} The host created a shared memory segment using \texttt{ipcmk -M 1024}, and the container attempted to list and modify it.
-%     \item \textbf{Message Queue Manipulation:} A message queue was created using \texttt{ipcmk -Q}, and the container attempted to send and receive messages.
-%     \item \textbf{Semaphore Interaction:} A host semaphore was created with \texttt{ipcmk -S}, and the container attempted to manipulate it.
-%     \item \textbf{Access to POSIX Shared Memory Files:} A shared memory file was created in \texttt{/dev/shm}, and the container attempted to read it.
-%     \item \textbf{Named Pipe (FIFO) Access:} A named pipe was created using \texttt{mkfifo /tmp/secure\_pipe}, and the container attempted to read from and write to it.
-%     \item \textbf{Intercepting Unnamed Pipes:} A host process used an anonymous pipe for IPC, and the container attempted to access its data.
-% \end{itemize}
-
-% \FloatBarrier
-% \begin{table*}[h]  
-%     \centering
-%     \footnotesize  
-%     \setlength{\tabcolsep}{4pt} 
-%     \renewcommand{\arraystretch}{1.1} 
-%     \caption{Effectiveness of Docker Security Mechanisms in Preventing Host IPC Access}
-%     \label{tab:ipc-security}
-%     \begin{adjustbox}{max width=\textwidth}  
-%     \begin{tabular}{|p{3.5cm}|p{4.5cm}|p{7.5cm}|}
-%         \hline
-%         \textbf{Attack Scenario} & \textbf{Default Docker (\texttt{--ipc=private})} & \textbf{Docker with \texttt{--ipc=host}} \\ \hline
-%         Shared Memory Access & \textcolor{red}{\ding{55} } No access to host memory & \textcolor{green}{\ding{51} } Container could read and modify host shared memory \\ \hline
-%         Message Queue Manipulation & \textcolor{red}{\ding{55} } Message queues isolated & \textcolor{green}{\ding{51} } Container could send and receive messages in the host’s queue \\ \hline
-%         Semaphore Interaction & \textcolor{red}{\ding{55} } Semaphores isolated & \textcolor{green}{\ding{51} } Container could list and manipulate host semaphores \\ \hline
-%         Access to POSIX \texttt{/dev/shm} & \textcolor{red}{\ding{55} } No visibility of \texttt{/dev/shm} files & \textcolor{green}{\ding{51} } Container could read and modify shared memory files \\ \hline
-%         Named Pipe (FIFO) Access & \textcolor{red}{\ding{55} } Named pipe not accessible & \textcolor{green}{\ding{51} } Container could read and write to host FIFO \\ \hline
-%         Intercepting Unnamed Pipes & \textcolor{red}{\ding{55} } Process-specific pipes isolated & \textcolor{green}{\ding{51} } Container could intercept unnamed pipe data from host \\ \hline
-%     \end{tabular}
-%     \end{adjustbox}
-% \end{table*}
-
-
-
-
-% \subsection{Case Study - Evaluating Network Confinement via Network Namespace Escape}
-
-% \subsubsection{Introduction to the Evaluation}
-
-% The network namespace in Linux provides network isolation between containers and the host system. Each container typically runs in its own network namespace, preventing unauthorized access to host networking resources. Docker’s default configuration assigns a container to a bridge network, where it gets a virtual network interface and an isolated stack. However, using \texttt{--network=host} removes this isolation, allowing the container to share the host’s network stack directly.
-
-% In this evaluation, we assess the security implications of sharing the host’s network namespace by testing whether a container running with \texttt{--network=host} can:
-% \begin{itemize}
-%     \item Capture host network traffic (e.g., sniffing unencrypted packets).
-%     \item List active network connections from the host.
-%     \item Access and manipulate firewall rules (iptables).
-%     \item Interfere with other containers’ network traffic.
-%     \item Modify network interfaces and routes.
-% \end{itemize}
-
-% \subsubsection{Experimental Setup}
-
-% \begin{itemize}
-%     \item \textbf{Host Machine:} 8-core CPU, 16GB RAM, Ubuntu 22.04
-%     \item \textbf{Docker Version:} 24.0.2
-%     \item \textbf{Kernel Version:} Linux 5.15.0
-%     \item \textbf{Container Runtime:} \texttt{runc} 1.1.7
-% \end{itemize}
-
-% The container was tested under different security configurations:
-
-% \begin{itemize}
-%     \item Default Docker network settings (\texttt{--network=bridge}).
-%     \item Container with host networking enabled (\texttt{--network=host}).
-%     \item Privileged container with \texttt{--network=host} and additional capabilities.
-% \end{itemize}
-
-% To conduct these tests, we deployed a victim service on the host (e.g., a local web server) and monitored whether a container running with \texttt{--network=host} could access, modify, or intercept network traffic.
-
-% \subsubsection{Security Testing}
-
-% \paragraph{Attack Scenarios}
-% To determine the impact of sharing a network namespace, we performed the following attack scenarios:
-
-% \begin{itemize}
-%     \item Packet Sniffing: A container with \texttt{--network=host} ran \texttt{tcpdump} to capture network traffic from the host.
-%     \item Listing Active Connections: The container executed \texttt{netstat -tunapl} to enumerate host network connections.
-%     \item Firewall Rule Manipulation: The container modified iptables rules to disrupt host networking.
-%     \item Cross-Container Traffic Interference: The container attempted to reroute or block network traffic to another container.
-%     \item Modifying Network Interfaces: The container used \texttt{ip link set eth0 down} to disable the host’s primary network interface.
-% \end{itemize}
-
-% \subsubsection{Results and Findings}
-
-% \FloatBarrier
-% \begin{table*}[h]
-% \centering \footnotesize
-% \setlength{\tabcolsep}{4pt} \renewcommand{\arraystretch}{1.1} \caption{Effectiveness of Docker Security Mechanisms in Preventing Host Network Access} \label{tab:network-security}
-% \begin{adjustbox}{max width=\textwidth}
-% \begin{tabular}{|p{6cm}|p{4cm}|p{4cm}|p{4cm}|}
-%     \hline
-%     \textbf{Attack Scenario} & \textbf{Default Docker (\texttt{--network=bridge})} & \textbf{Docker with \texttt{--network=host}} & \textbf{Privileged Container (\texttt{--privileged})} \\
-%     \hline
-%     Packet Sniffing (tcpdump) & \textcolor{red}{\ding{55} Blocked} - Container cannot capture external traffic & \textcolor{green}{\ding{51} Allowed} - Full visibility into host network traffic & \textcolor{green}{\ding{51} Allowed} - Full visibility into host network traffic \\
-%     \hline
-%     Listing Active Connections (netstat) & \textcolor{red}{\ding{55} Blocked} - Container can only see its own traffic & \textcolor{green}{\ding{51} Allowed} - Container can enumerate all host connections & \textcolor{green}{\ding{51} Allowed} - Full visibility of all host connections \\
-%     \hline
-%     Firewall Rule Manipulation (iptables) & \textcolor{red}{\ding{55} Blocked} - Container has no access to host firewall & \textcolor{green}{\ding{51} Allowed} - Container can modify host firewall rules & \textcolor{green}{\ding{51} Allowed} - Full control over host firewall rules \\
-%     \hline
-%     Cross-Container Traffic Interference & \textcolor{red}{\ding{55} Blocked} - Containers are isolated & \textcolor{green}{\ding{51} Allowed} - Traffic can be rerouted or blocked & \textcolor{green}{\ding{51} Allowed} - Full control over traffic between containers \\
-%     \hline
-%     Modifying Network Interfaces (ip link) & \textcolor{red}{\ding{55} Blocked} - Container cannot modify host interfaces & \textcolor{green}{\ding{51} Allowed} - Container can disable host network & \textcolor{green}{\ding{51} Allowed} - Full control over host network interfaces \\
-%     \hline
-%     Privileged Container (\texttt{--privileged}) & \textcolor{red}{\ding{55} Blocked} - No access to host network resources & \textcolor{green}{\ding{51} Allowed} - Full control over network interfaces and firewall & \textcolor{green}{\ding{51} Allowed} - Full access to host network resources \\
-%     \hline
-%     Adding Capabilities (\texttt{--cap-add}) & \textcolor{red}{\ding{55} Blocked} - Container cannot change network settings without appropriate capabilities & \textcolor{green}{\ding{51} Allowed} - Ability to modify network configurations when specific capabilities are added & \textcolor{green}{\ding{51} Allowed} - Full control when additional capabilities are added \\
-%     \hline
-%     User Namespace Remapping (\texttt{--userns-remap}) & \textcolor{green}{\ding{51} Allowed} - Strong isolation between containers and host & \textcolor{red}{\ding{55} Blocked} - Limited access to the host network due to user namespace isolation & \textcolor{green}{\ding{51} Allowed} - Strong isolation, limiting network access \\
-%     \hline
-% \end{tabular}
-% \end{adjustbox}
-% \end{table*}
-% s
-
-% \subsubsection{Key Takeaways}
-
-% \begin{itemize}
-%     \item Enabling \texttt{--network=host} removes network isolation, exposing host network traffic, firewall configurations, and interfaces to the container.
-%     \item A privileged container with \texttt{--network=host} has full network control, allowing it to modify firewall rules, disable interfaces, and interfere with other containers.
-%     \item Docker’s default network namespace provides strong isolation, preventing unauthorized host-network interactions.
-%     \item Cross-container traffic interference becomes possible with \texttt{--network=host}, allowing one container to affect another’s network operations.
-% \end{itemize}

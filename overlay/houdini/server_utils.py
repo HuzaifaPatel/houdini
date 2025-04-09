@@ -13,7 +13,11 @@ import threading
 from docker.types import Ulimit
 check_mark = '\u2713'
 x_button = "\u2717"
+
+username = os.getenv("DOCKER_USERNAME")
+password = os.getenv("DOCKER_TOKEN")
 client = docker.from_env()
+client.login(username=username, password=password)
 
 def is_service_running(service_name):
     result = subprocess.run(['pgrep', '-f', service_name], check=True, stdout=subprocess.PIPE)
@@ -32,10 +36,9 @@ def build_docker_image(dockerfile_path, image_name):
     except docker.errors.BuildError as e:
         print(f"Error building Docker image: {e}")
 
-
-
 def run_docker_container(image_name, container_name, network_mode, read_only, security_opt, pid_mode, cpu_shares, volumes, mem_limit, cpuset_cpus, cpu_quota, cpu_period, cap_add, cap_drop, privileged, user, pids_limit, ipc_mode, path):
     client = docker.from_env()
+    container = None
     try:
         container = client.containers.run(
             image=image_name,
@@ -63,10 +66,13 @@ def run_docker_container(image_name, container_name, network_mode, read_only, se
         )
     except docker.errors.APIError as e:
         print("❌ Docker API error:", e)
+        return None
     except docker.errors.ContainerError as e:
         print("❌ Docker Container error:", e)
+        return None
     except Exception as e:
         print("❌ Unexpected error in run_docker_container():", e)
+        return None
 
     print(f"Container '{container_name}' started successfully. {check_mark}")
 
@@ -92,7 +98,6 @@ def run_docker_container(image_name, container_name, network_mode, read_only, se
         print("Container exited with errors.")
 
     return container
-
 
 def send_file_to_container(container_name, file_path, target_file_name, target_directory='/'):
     client = docker.from_env()
