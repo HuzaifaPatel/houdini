@@ -1,0 +1,3 @@
+--privliedged option  overrides apparmor 
+if we have --pid=host + --user=guest --privileged, we can't send signals to a uid that does not match ours. this is more of a linux thing not docker
+if we use the apparmor docker-default profile, it will block ptrace. even if we are root. 

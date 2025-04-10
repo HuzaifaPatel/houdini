@@ -183,7 +183,7 @@ Virtual Machine & QEMU, 4 Core CPU, 12GB RAM, No Distribution \\
 \hline
 Docker Version & 27.0.3 \\
 \hline
-Kernel Version & 6.1 \\
+Kernel Version & 5.4 \\
 \hline
 Container Runtime & \texttt{runc} 1.1.11 \\
 \hline
@@ -229,48 +229,25 @@ This case study also highlights a scenario where the security policies administr
     \caption{Ability for container configurations to interact with host processes}
     \label{tab:pid-namespace-security}  
     \begin{adjustbox}{max width=\textwidth}  
-    \begin{tabular}{|l|c|c|c|c|c|}
+    \begin{tabular}{|l|c|c|c|c|c|c|c|}
         \hline
-        \textbf{Security Configuration} & \textbf{List Host Processes} & \textbf{Send Signals} & \textbf{Attach Debugger} & \textbf{Read Memory} \\ \hline
-        Default Docker (PID namespace isolation) & \xmark & \xmark & \xmark & \xmark \\ \hline
-        \texttt{--pid=host} & \cmark & \xmark & \xmark & \xmark \\ \hline
-        \texttt{--pid=host} + \texttt{CAP\_KILL} & \cmark & \cmark & \xmark & \xmark \\ \hline
-        \texttt{--pid=host} + \texttt{CAP\_SYS\_PTRACE} & \cmark & \xmark & \cmark & \xmark \\ \hline
-        Privileged Container (\texttt{--pid=host} + \texttt{--privileged}) & \cmark & \cmark & \cmark & \cmark \\ \hline
+        \textbf{\texttt{Security Configuration}} & \textbf{\texttt{--pid=host}} & \textbf{\texttt{CAP\_KILL}} & \textbf{\texttt{CAP\_SYS\_PTRACE}} & \textbf{\texttt{--privileged}} & \textbf{\texttt{--pid=host} + \texttt{--user=non-root}} & \textbf{\texttt{--pid=host} + \texttt{apparmor=docker-default}}  \\ \hline
+        \textbf{\texttt{--pid=host}} & $\diamondsuit$ & $\diamondsuit$ $\triangle$ & $\diamondsuit$ $\star$ & $\diamondsuit$ $\triangle$ $\star$ $\square$ & $\diamondsuit$ & $\diamondsuit$ \\ \hline
+        \textbf{\texttt{CAP\_KILL}} & $\diamondsuit$ $\triangle$ & & & & $\diamondsuit$ & $\diamondsuit$  \\ \hline
+        \textbf{\texttt{CAP\_SYS\_PTRACE}} & $\diamondsuit$ $\star$ & & & $\diamondsuit$ & $\diamondsuit$ & $\diamondsuit$ \\ \hline
+        \textbf{\texttt{--privileged}} & $\diamondsuit$ $\triangle$ $\star$ $\square$ & & & & $\diamondsuit$ $\triangle$ $\star$ $\square$ \\ \hline
+        \textbf{\texttt{--pid=host} + \texttt{--user=non-root}} & $\diamondsuit$ & $\diamondsuit$  & $\diamondsuit$ & $\diamondsuit$ $\square$ & $\diamondsuit$ $\square$ \\ \hline
+        \textbf{\texttt{--pid=host} + \texttt{apparmor=docker-default}} & $\diamondsuit$ & $\diamondsuit$ $\triangle$ & $\diamondsuit$ & $\diamondsuit$ $\triangle$ $\star$ $\square$ \\ \hline 
+
     \end{tabular}  
     \end{adjustbox}  
+    \vspace{0.5em} \\
+    \noindent\textbf{Legend} \\
+    $\diamondsuit$ List Host Processes \quad
+    $\triangle$ Send Signals \quad
+    $\star$ Attach Debugger \quad
+    $\square$ Read Memory
 \end{table*}
-
-To better represent our evaluation in Table ~\ref{tab:pid-namespace-security}, we define four symbols, each representing an operation that we conducted:
-\begin{itemize}
-    \item $\diamondsuit$ List Host Processes
-    \item $\triangle$ Send Signals
-    \item $\star$ Attach Debugger
-    \item $\square$ Read Memory
-\end{itemize}
-
-
-\FloatBarrier
-\begin{table*}[h]  
-    \centering
-    \footnotesize  
-    \setlength{\tabcolsep}{4pt}  
-    \renewcommand{\arraystretch}{1.1}  
-    \caption{Ability for container configurations to interact with host processes}
-    \label{tab:pid-namespace-security}  
-    \begin{adjustbox}{max width=\textwidth}  
-    \begin{tabular}{|l|c|c|c|c|c|c|}
-        \hline
-        \textbf{\texttt{Security Configuration}} & \textbf{\texttt{Default Docker}} & \textbf{\texttt{--pid=host}} & \textbf{\texttt{CAP\_KILL}} & \textbf{\texttt{CAP\_SYS\_PTRACE}} & \textbf{\texttt{--privileged}}  \\ \hline
-        \textbf{\texttt{Default Docker}} & $\triangle$ & \xmark & \xmark & \xmark & \xmark \\ \hline
-        \textbf{\texttt{--pid=host}} & \cmark & \xmark & \xmark & \xmark  & \xmark \\ \hline
-        \textbf{\texttt{CAP\_KILL}} & \cmark & \cmark & \xmark & \xmark & \xmark \\ \hline
-        \textbf{\texttt{CAP\_SYS\_PTRACE}} & \cmark & \xmark & \cmark & \xmark & \xmark \\ \hline
-        \textbf{\texttt{--privileged}} & \cmark & \cmark & \cmark & \cmark & \xmark \\ \hline
-    \end{tabular}  
-    \end{adjustbox}  
-\end{table*}
-
 
 
 

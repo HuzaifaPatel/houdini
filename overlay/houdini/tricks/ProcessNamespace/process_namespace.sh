@@ -26,9 +26,19 @@ send_signal() {
 
 attach_debugger() {
     echo "[3] Attaching debugger with ptrace to PID $PID"
-    if strace -p "$PID" -e trace=none -o /dev/null -t -qq &>/dev/null & sleep 1; then
+
+    # Attempt to attach strace in the background
+    strace -p "$PID" -e trace=none -o /dev/null -t -qq &
+    STRACE_PID=$!
+
+    # Give it a moment to try attaching
+    sleep 0.2
+
+    # Check if strace is still running (i.e., it successfully attached)
+    if kill -0 "$STRACE_PID" 2>/dev/null; then
+        kill "$STRACE_PID"       # Cleanly stop strace
+        wait "$STRACE_PID" 2>/dev/null
         echo "✅ Able to attach (via strace)"
-        pkill -P $$ strace 2>/dev/null
     else
         echo "❌ Failed to attach debugger"
     fi

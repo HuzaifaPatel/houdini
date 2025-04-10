@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex houdini"] 1744195856.12211 "houdini.aux" "houdini.bbl" "houdini" 1744195856.63854 0
+["bibtex houdini"] 1744239563.40374 "houdini.aux" "houdini.bbl" "houdini" 1744247692.72358 0
   "./refs.bib" 1742605862.55928 7058 ad848d2171f37ce46f748cb401e21faf ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/unsrt.bst" 1292289607 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "houdini.aux" 1744195856.56772 9588 e02de9628d6c885f9620a171ca7b1239 "pdflatex"
+  "houdini.aux" 1744247692.62331 9249 062558c385cf7dfb4fd1124e53d69856 "pdflatex"
   (generated)
   "houdini.bbl"
   "houdini.blg"
   (rewritten before read)
-["pdflatex"] 1744195856.1352 "houdini.tex" "houdini.pdf" "houdini" 1744195856.6387 0
+["pdflatex"] 1744247692.07942 "houdini.tex" "houdini.pdf" "houdini" 1744247692.72374 0
   "/etc/texmf/web2c/texmf.cnf" 1743333561.62507 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -47,9 +47,8 @@
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm" 1136768653 1124 6c73e740cf17375f03eec0ee63599741 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1136768653 1116 933a60c408fc0a863a92debe84b2d294 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1136768653 1120 8b7d695260f3cff42e636090a8002094 ""
-  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1248133631 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb" 1248133631 37912 77d683123f92148345f3fc36a38d9ab1 ""
-  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
+  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb" 1248133631 35469 70d41d2b9ea31d5d813066df7c99281c ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb" 1248133631 32915 7bf7720c61a5b3a7ff25b0964421c9b6 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb" 1248133631 32716 08e384dc442464e7285e891af9f45947 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb" 1248133631 32626 4f5c1b83753b1dd3a97d1b399a005b4b ""
@@ -164,15 +163,15 @@
   "_minted-houdini/ED2DA29343A925BFBC78BBF462F77DCF9AD7FB9ED18FE489D10946320D404B1D.pygtex" 1743699555.66606 738 916b1d197c79c908c9357c86a5c152f2 ""
   "_minted-houdini/default.pygstyle" 1743429801.58334 6428 74aba51736a5bc6590f8f7dd413c6f27 ""
   "figs/design.pdf" 1743426757.11427 33191 cc6dccaff3a3a30a765d9d47590491f6 ""
-  "houdini.aux" 1744195856.56772 9588 e02de9628d6c885f9620a171ca7b1239 "pdflatex"
-  "houdini.bbl" 1744195856.13269 3670 7db83dd512bf968c5f06f108c1a31be0 "bibtex houdini"
-  "houdini.tex" 1744195213.19023 2998 cbba410af668226799e108b1e0853600 ""
+  "houdini.aux" 1744247692.62331 9249 062558c385cf7dfb4fd1124e53d69856 "pdflatex"
+  "houdini.bbl" 1744239563.41385 3670 7db83dd512bf968c5f06f108c1a31be0 "bibtex houdini"
+  "houdini.tex" 1744197812.87973 2806 ccf6b39a1e61adf62ed8df893183f6fc ""
   "huzaifa.sty" 1742605862.55428 500 e723b64ba45f2686bcf119b272e40fc8 ""
   "sections/conclusion.tex" 1742605863.29234 1391 b28387984ab19df244f703aff64073ba ""
   "sections/confinement-problem.tex" 1743334933.64017 2886 c18f05e7d9f169afff42e1e411c6bb83 ""
   "sections/design.tex" 1743640822.09079 2779 8e264b81ca01e4c1deb3ec79934b952b ""
   "sections/discussion.tex" 1743641651.45503 961 1dc2752c81f980ae92977e01dca54965 ""
-  "sections/evaluation.tex" 1744195852.60844 26423 02b56f7bfcd407bf22e1b1dde79e0475 ""
+  "sections/evaluation.tex" 1744247690.11863 25906 0b546aa242ac80af99596c5c7e692986 ""
   "sections/implementation.tex" 1743501969.82864 5781 1bfcf04da78a0e5a097be509bf65b146 ""
   "sections/intro.tex" 1743333509.73568 7259 06e6692cff1c6d6f54719f22b9b6f575 ""
   "sections/motivation.tex" 1743651049.75152 7045 5bc4c2bfc51429cd14529ebb96c7dc0e ""

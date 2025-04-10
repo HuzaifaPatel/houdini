@@ -3,7 +3,6 @@ dockerfile:
   - path: Dockerfile
 dependencies:
   - server: True
-  - file: 85c8de88d28866bf0868090b3961162bf82392f690d9e4730910f4af7c6ab3ee.txt
 docker_config: 
   - network_mode: bridge
   - read_only: False
@@ -15,10 +14,10 @@ docker_config:
   - cpuset_cpus: null
   - cpu_quota: null
   - cpu_period: null
-  - cap_add: []
+  - cap_add: ["CAP_SYS_PTRACE"]
   - cap_drop: []
-  - privileged: False
-  - user: myuser
+  - privileged: True
+  - user: root
   - pids_limit: null
   - ipc_mode: null
 trick:
