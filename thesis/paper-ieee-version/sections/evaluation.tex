@@ -16,7 +16,9 @@ To assess the effectiveness of container confinement mechanisms, we conducted a 
 
 CVE-2024-21626 is a critical vulnerability affecting Docker and runc that allows malicious containers to escape their isolation and execute arbitrary commands on the host system. This poses a significant risk to enterprises relying on containerization, as attackers could gain unauthorized access to sensitive data and system resources. 
 
-The root cause of this vulnerability lies in how runc handles cgroups for containers, which are used to manage system resources like CPU and memory. When runc creates a container, it opens a file descriptor to the host's \texttt{/sys/fs/cgroup} directory to configure resource limits for the container. This file descriptor is exposed inside the container via \texttt{/proc/self/fd/}, which lists all open file descriptors of the container's process. The vulnerability occurs when an attacker manipulates the working directory in the Dockerfile to point to a file descriptor like \texttt{/proc/self/fd/7}, which refers to the host’s \texttt{/sys/fs/cgroup}. By doing this, the container’s process is no longer interacting with its own filesystem but with the host’s cgroup settings, effectively breaking the container's isolation. 
+The root cause of this vulnerability lies in how runc handles cgroups for containers, which are used to manage system resources like CPU and memory. During container creation, runc opens a file descriptor to the host's \texttt{/sys/fs/cgroup} directory to configure resource limits. This descriptor remains open throughout the container’s lifecycle and is exposed inside the container via \texttt{/proc/self/fd/}, which lists all open file descriptors of the running process. The vulnerability arises when an attacker sets the working directory in the Dockerfile to point to one of these exposed descriptors, such as \texttt{/proc/self/fd/N}, where \texttt{N} refers to the specific file descriptor inherited from runc that points to the host’s cgroup hierarchy. This causes the container’s current working directory to resolve to a privileged host path. As a result, all subsequent relative file operations in the container are interpreted from the host’s cgroup filesystem rather than the container’s own root, allowing unintended access or modification of host resources.
+
+This behavior is enabled by Linux's treatment of \texttt{/proc/self/fd/N} as dynamic symlinks to open file descriptors. When dereferenced, these symlinks resolve to the original host-side path, regardless of container filesystem restrictions. Because runc and Docker do not restrict access to inherited file descriptors or sanitize the working directory path during initialization, attackers can exploit this oversight to escape isolation. By simply changing the container’s working directory to a leaked file descriptor, a malicious container can directly interact with host-managed control groups, effectively undermining one of the core mechanisms used to isolate container workloads.
 
 To test the exploitability of CVE-2024-21626, we designed a \houdini trick that executes the following steps:
 \begin{enumerate}
@@ -26,7 +28,9 @@ To test the exploitability of CVE-2024-21626, we designed a \houdini trick that 
     \item Validate whether commands can be executed on the host system.
 \end{enumerate}
 
-The CVE for this vulnerability initially indicated that the affected runc versions were $\geq 1.0.0\text{-}rc93$, $\leq 1.1.11$. This suggests the vulnerability was introduced in runc version rc93 and fixed in version 1.1.12. However, empirical tests conducted by \houdini revealed a significant discrepancy with this assumption. Houdini's testing showed that earlier runc versions, such as \texttt{1.0.0-rc1}, \texttt{1.0.0-rc2}, \texttt{1.0.0-rc3}, and \texttt{1.0.0-rc4} exhibited the same vulnerability. This discovery expands upon the original CVE report's scope as the vulnerability had been present in runc versions prior to \texttt{rc93}.
+The CVE for this vulnerability initially indicated that the affected runc versions were $\geq 1.0.0\text{-}rc93$, $\leq 1.1.11$. This suggests the vulnerability was introduced in runc version rc93 and fixed in version 1.1.12. However, empirical tests conducted by \houdini revealed a significant discrepancy with this assumption. Houdini's testing showed that earlier runc versions, such as \texttt{1.0.0-rc1}, \texttt{1.0.0-rc2}, \texttt{1.0.0-rc3}, and \texttt{1.0.0-rc4}, also exhibited the same vulnerability. This discovery expands the scope of the CVE, revealing that the issue existed well before version \texttt{rc93}.
+
+This discrepancy highlights a recurring issue in vulnerability disclosure processes: CVEs often rely on assumptions from static code analysis or limited testing. Without rigorous empirical validation across historical versions, critical edge cases can be missed. In the case of CVE-2024-21626, this oversight could have allowed vulnerable deployments relying on older runc versions to remain unpatched under the false belief that they were unaffected.
 
 \begin{table}[H]
     \centering
@@ -255,121 +259,6 @@ This case study also highlights a scenario where the security policies administr
 
 
 
-\captionof{listing}{Configuration file for Case Study II}
-\label{lst:configuration-file}
-\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
-name: host_network_namespace
-dockerfile:
-  - path: Dockerfile
-dependencies:
-  - server: True
-docker_config: 
-  - network_mode: bridge
-  - read_only: False
-  - security_opt: []
-  - pid_mode: null
-  - cpu_shares: null
-  - volumes: null
-  - mem_limit: null
-  - cpuset_cpus: null
-  - cpu_quota: null
-  - cpu_period: null
-  - cap_add: []
-  - cap_drop: []
-  - privileged: False
-  - user: myuser
-  - pids_limit: null
-  - ipc_mode: null
-trick:
-  - path: /houdini/tricks/ProcessNamespace
-\end{minted}
-
-\vspace{1em}
-
-\captionof{listing}{Trick Implementation for Case Study II}
-\label{lst:pythonfile}
-\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{bash}
-#!/bin/bash
-
-TARGET_CMD="python3 /houdini/server.py"
-PID=""
-
-find_target_process() {
-    echo "[1] Searching for process: $TARGET_CMD"
-    PID=$(ps aux | grep '[p]ython3 /houdini/server.py' | awk '{print $2}' | head -n 1)
-    if [[ -n "$PID" ]]; then
-        echo "Found: PID=$PID"
-        return 0
-    else
-        echo "Target process not found."
-        return 1
-    fi
-}
-
-send_signal() {
-    echo "[2] Sending SIGCONT to PID $PID"
-    if kill -CONT "$PID" 2>/dev/null; then
-        echo "Signal sent successfully"
-    else
-        echo "Failed to send signal"
-    fi
-}
-
-attach_debugger() {
-    echo "[3] Attaching debugger with ptrace to PID $PID"
-    if strace -p "$PID" -e trace=none -o /dev/null -t -qq &>/dev/null & sleep 1; then
-        echo "Able to attach (via strace)"
-        pkill -P $$ strace 2>/dev/null
-    else
-        echo "Failed to attach debugger"
-    fi
-}
-
-read_memory() {
-    echo "[4] Trying to read memory from /proc/$PID/mem"
-    if dd if="/proc/$PID/mem" bs=1 count=4 skip=0 2>/dev/null | hexdump; then
-        echo "Read memory succeeded"
-    else
-        echo "Failed to read memory"
-    fi
-}
-
-main() {
-    find_target_process || exit 1
-    echo
-    send_signal
-    echo
-    attach_debugger
-    echo
-    read_memory
-}
-
-main
-\end{minted}
-
-\vspace{1em}
-
-\captionof{listing}{Dockerfile for Case Study II}
-\label{lst:dockerfile}
-\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{dockerfile}
-FROM ubuntu:20.04
-
-RUN apt-get update && \
-    apt-get install -y python3
-
-WORKDIR /
-RUN useradd -m myuser
-COPY process_namespace.sh /process_namespace.sh
-RUN chmod +x /process_namespace.sh
-USER myuser
-CMD ["/bin/bash", "/process_namespace.sh"]
-\end{minted}
-
-
-
-
-
-
 
 
 
@@ -423,69 +312,3 @@ By testing various combinations of user privileges (root vs. rootless) and capab
 This case study shows that \houdini can empower Docker users to avoid unnecessary elevation of privileges, particularly avoiding full root access or the use of the --privileged flag, both of which expose containers to a broader attack surface. Houdini enables this kind of analysis by systematically testing Docker configurations and identifying the minimum set of privileges required for a given operation, helping developers and administrators adopt safer, more secure defaults.
 
 
-
-
-
-\captionof{listing}{Configuration file for Case Study I}
-\label{lst:configuration-file}
-\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
-name: cpu_shares
-dockerfile:
-  - path: Dockerfile
-dependencies:
-  - server: False
-docker_config: 
-  - network_mode: bridge
-  - read_only: True
-  - security_opt: []
-  - pid_mode: null
-  - cpu_shares: 512
-  - volumes : []
-  - mem_limit: null
-  - cpuset_cpus: null
-  - cpu_quota: null
-  - cpu_period: null
-  - cap_add: ["NET_BIND_SERVICE"]
-  - cap_drop: []
-  - privileged: False
-  - user: root
-  - pids_limit: null
-  - ipc_mode: null
-trick:
-  - path: /houdini/tricks/PrivilegedPorts
-\end{minted}
-
-\vspace{1em}
-
-\captionof{listing}{Trick Implementation for Case Study I}
-\label{lst:pythonfile}
-\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{bash}
-import http.server
-import socketserver
-
-PORT = 23
-
-Handler = http.server.SimpleHTTPRequestHandler
-
-try:
-    # Try to bind to the port without serving
-    with socketserver.TCPServer(("", PORT), Handler) as httpd:
-        print(f"Successfully bound to port {PORT}")
-except PermissionError as e:
-    print(f"Failed to bind to port {PORT}: {e}")
-
-\end{minted}
-
-\vspace{1em}
-
-\captionof{listing}{Dockerfile for Case Study I}
-\label{lst:dockerfile}
-\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{dockerfile}
-FROM python:3.9-slim
-RUN groupadd -r myuser && useradd -r -g myuser myuser
-WORKDIR /
-COPY privileged_ports.py /privileged_ports.py
-RUN chown myuser:myuser privileged_ports.py 
-USER root
-CMD ["python", "privileged_ports.py"]
-\end{minted}

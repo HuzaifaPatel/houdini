@@ -1,9 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{FROM}\PYG{+w}{ }\PYG{l+s}{python:3.9\PYGZhy{}slim}
-\PYG{k}{RUN}\PYG{+w}{ }groupadd\PYG{+w}{ }\PYGZhy{}r\PYG{+w}{ }myuser\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }useradd\PYG{+w}{ }\PYGZhy{}r\PYG{+w}{ }\PYGZhy{}g\PYG{+w}{ }myuser\PYG{+w}{ }myuser
-\PYG{k}{WORKDIR}\PYG{+w}{ }\PYG{l+s}{/}
-\PYG{k}{COPY}\PYG{+w}{ }privileged\PYGZus{}ports.py\PYG{+w}{ }/privileged\PYGZus{}ports.py
-\PYG{k}{RUN}\PYG{+w}{ }chown\PYG{+w}{ }myuser:myuser\PYG{+w}{ }privileged\PYGZus{}ports.py
-\PYG{k}{USER}\PYG{+w}{ }\PYG{l+s}{root}
-\PYG{k}{CMD}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}python\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}privileged\PYGZus{}ports.py\PYGZdq{}}\PYG{p}{]}
-\end{Verbatim}
