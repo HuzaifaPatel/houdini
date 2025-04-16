@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  16 APR 2025 09:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  16 APR 2025 10:15
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -766,11 +766,15 @@ Underfull \hbox (badness 1688) in paragraph at lines 302--303
 \OT1/ptm/m/n/10 ver-sions in han-dling priv-i-leged port bind-ing can cre-ate
  []
 
-) (./sections/related.tex [8]
+) (./sections/related.tex
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [9])
-(./sections/discussion.tex) (./sections/conclusion.tex) (./houdini.bbl [10])
+ [8]
+[9]) (./sections/discussion.tex
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+)
+(./sections/conclusion.tex) (./houdini.bbl [10])
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -823,7 +827,7 @@ texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type
 1/urw/times/utmri8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/zapfding
 /uzdr.pfb>
-Output written on houdini.pdf (11 pages, 257022 bytes).
+Output written on houdini.pdf (11 pages, 257707 bytes).
 PDF statistics:
  146 PDF objects out of 1000 (max. 8388607)
  91 compressed objects within 1 object stream
