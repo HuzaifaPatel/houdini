@@ -3,20 +3,20 @@ dockerfile:
   - path: Dockerfile
 dependencies:
   - server: True
-docker_config: 
+docker_config:
   - network_mode: bridge
   - read_only: False
   - security_opt: []
-  - pid_mode: null
+  - pid_mode: host
   - cpu_shares: null
   - volumes: null
   - mem_limit: null
   - cpuset_cpus: null
   - cpu_quota: null
   - cpu_period: null
-  - cap_add: ["CAP_SYS_PTRACE"]
+  - cap_add: []
   - cap_drop: []
-  - privileged: True
+  - privileged: False
   - user: root
   - pids_limit: null
   - ipc_mode: null

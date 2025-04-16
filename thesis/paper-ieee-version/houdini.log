@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  9 APR 2025 21:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  16 APR 2025 07:58
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -539,16 +539,51 @@ Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
 (/usr/share/texlive/texmf-dist/tex/latex/capt-of/capt-of.sty
 Package: capt-of 2009/12/29 v0.2 standard captions outside of floats
 )
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen275
+\captionmargin=\dimen276
+\caption@leftmargin=\dimen277
+\caption@rightmargin=\dimen278
+\caption@width=\dimen279
+\caption@indent=\dimen280
+\caption@parindent=\dimen281
+\caption@hangindent=\dimen282
+Package caption Info: Unknown document class (or package),
+(caption)             standard defaults will be used.
+Package caption Info: \@makecaption = \long macro:#1#2->\ifx \@captype \@IEEEta
+blestring \footnotesize \bgroup \par \centering \@IEEEtabletopskipstrut {\norma
+lfont \footnotesize #1}\\{\normalfont \footnotesize \scshape #2}\par \addvspace
+ {0.5\baselineskip }\egroup \@IEEEtablecaptionsepspace \else \@IEEEfigurecaptio
+nsepspace \setbox \@tempboxa \hbox {\normalfont \footnotesize {#1.}\nobreakspac
+e \nobreakspace #2}\ifdim \wd \@tempboxa >\hsize \setbox \@tempboxa \hbox {\nor
+malfont \footnotesize {#1.}\nobreakspace \nobreakspace }\parbox [t]{\hsize }{\n
+ormalfont \footnotesize \noindent \unhbox \@tempboxa #2}\else \ifCLASSOPTIONcon
+ference \hbox to\hsize {\normalfont \footnotesize \hfil \box \@tempboxa \hfil }
+\else \hbox to\hsize {\normalfont \footnotesize \box \@tempboxa \hfil }\fi \fi 
+\fi  on input line 1175.
+)
+
+Package caption Warning: Unknown document class (or package),
+(caption)                standard defaults will be used.
+See the caption package documentation for explanation.
+
+\c@caption@flags=\count328
+\c@continuedfloat=\count329
+Package caption Info: float package is loaded.
+)
 runsystem(command -v pygmentize && touch houdini.aex)...executed.
 
 runsystem(rm houdini.aex)...executed.
 
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... none found.
-
-(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+ (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count328
+\l__color_backend_stack_int=\count330
 \l__pdf_internal_box=\box68
 )
 (./houdini.aux
@@ -609,34 +644,34 @@ LaTeX Warning: Label `lst:dockerfile@cref' multiply defined.
 )
 \openout1 = `houdini.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
-LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
 
 -- Lines per column: 56 (exact).
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count329
-\scratchdimen=\dimen275
+\scratchcounter=\count331
+\scratchdimen=\dimen283
 \scratchbox=\box69
-\nofMPsegments=\count330
-\nofMParguments=\count331
+\nofMPsegments=\count332
+\nofMParguments=\count333
 \everyMPshowfont=\toks31
-\MPscratchCnt=\count332
-\MPscratchDim=\dimen276
-\MPnumerator=\count333
-\makeMPintoPDFobject=\count334
+\MPscratchCnt=\count334
+\MPscratchDim=\dimen284
+\MPnumerator=\count335
+\makeMPintoPDFobject=\count336
 \everyMPtoPDFconversion=\toks32
 ) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -648,14 +683,16 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 Package newfloat Info: `float' package detected.
-LaTeX Font Info:    Calculating math sizes for size <11> on input line 43.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 43.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Calculating math sizes for size <11> on input line 44.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 44.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 43.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 44.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
@@ -709,7 +746,23 @@ File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
 
 
 (./_minted-houdini/B3B18A8AD01BF768FE6823EF12A8D74ECF52E252A5A1A1DEEFB329A43DA1
-E2A7.pygtex)) (./sections/evaluation.tex [5]
+E2A7.pygtex)) (./sections/evaluation.tex
+Underfull \hbox (badness 1540) in paragraph at lines 19--20
+\OT1/ptm/m/n/10 di-rec-tory to con-fig-ure re-source lim-its for the con-tainer
+.
+ []
+
+
+Underfull \hbox (badness 1354) in paragraph at lines 19--20
+\OT1/ptm/m/n/10 This file de-scrip-tor is ex-posed in-side the con-tainer via
+ []
+
+[5]
+
+Package caption Warning: \setcaptiontype
+(caption)                outside box or environment on input line 71.
+See the caption package documentation for explanation.
+
 \openout3 = `houdini.pyg'.
 
 
@@ -728,26 +781,17 @@ LaTeX Font Info:    Font shape `OT1/pcr/m/it' in size <7> not available
 
 (./_minted-houdini/657CE329C49147B3530F2688E2987B4A9AD7FB9ED18FE489D10946320D40
 4B1D.pygtex) [6]
-Underfull \hbox (badness 1616) in paragraph at lines 168--169
-[]\OT1/ptm/m/n/10 Whether en-abling \OT1/pcr/m/n/10 CAP-_SYS_ADMIN \OT1/ptm/m/n
-/10 al-lows pro-cess
+Underfull \hbox (badness 1521) in paragraph at lines 203--204
+[]\OT1/ptm/m/n/10 The eval-u-a-tion be-gan by as-sess-ing whether a con-tainer
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 211--212
-[]\OT1/ptm/m/n/10 We then ex-am-ined whether the con-tainer could
+Underfull \hbox (badness 2951) in paragraph at lines 213--214
+\OT1/pcr/m/n/10 docker-default \OT1/ptm/m/n/10 pro-file, its abil-ity to in-ter
+-act with
  []
 
-
-Underfull \hbox (badness 7451) in paragraph at lines 211--212
-\OT1/ptm/m/n/10 read host pro-cess mem-ory by at-tempt-ing to ac-cess
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 211--212
-\OT1/pcr/m/n/10 /proc/<host_pid>/mem\OT1/ptm/m/n/10 . With Docker's de-fault
- []
-
+[7]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -755,7 +799,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 (./_minted-houdini/A0B46A918BDF154AA494FF63C47D7B2FCF52E252A5A1A1DEEFB329A43DA1
-E2A7.pygtex [7])
+E2A7.pygtex)
 \openout3 = `houdini.pyg'.
 
 
@@ -766,19 +810,27 @@ AFC9.pygtex)
 
 (./_minted-houdini/4BC176FC83B0E5832DDC2FFBF35787BD9AD7FB9ED18FE489D10946320D40
 4B1D.pygtex)
-Overfull \hbox (28.93163pt too wide) in paragraph at lines 398--409
+Overfull \hbox (28.93163pt too wide) in paragraph at lines 400--411
  [][] 
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+
+Underfull \hbox (badness 1688) in paragraph at lines 413--414
+\OT1/ptm/m/n/10 ver-sions in han-dling priv-i-leged port bind-ing can cre-ate
+ []
+
 [8]
 \openout3 = `houdini.pyg'.
 
 
 (./_minted-houdini/567C94FD268BF94D820045B5E5C8B4B3CF52E252A5A1A1DEEFB329A43DA1
-E2A7.pygtex)
+E2A7.pygtex
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+)
 \openout3 = `houdini.pyg'.
 
 
@@ -788,7 +840,7 @@ AFC9.pygtex)
 
 
 (./_minted-houdini/ED2DA29343A925BFBC78BBF462F77DCF9AD7FB9ED18FE489D10946320D40
-4B1D.pygtex)) (./sections/related.tex [9]) (./sections/discussion.tex [10])
+4B1D.pygtex [9])) (./sections/related.tex) (./sections/discussion.tex [10])
 (./sections/conclusion.tex) (./houdini.bbl)
 
 ** Conference Paper **
@@ -812,32 +864,38 @@ LaTeX Warning: There were multiply-defined labels.
 
 runsystem(rm houdini.pyg)...executed.
 
- ) 
+ )
+(\end occurred inside a group at level 1)
+
+### simple group (level 1) entered at line 222 ({)
+### bottom level 
 Here is how much of TeX's memory you used:
- 12298 strings out of 476182
- 235200 string characters out of 5795595
- 1961975 words of memory out of 5000000
- 34004 multiletter control sequences out of 15000+600000
- 610388 words of font info for 144 fonts, out of 8000000 for 9000
+ 13614 strings out of 476182
+ 260723 string characters out of 5795595
+ 1963975 words of memory out of 5000000
+ 35315 multiletter control sequences out of 15000+600000
+ 608371 words of font info for 141 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 92i,11n,93p,1637b,776s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/public/amsfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/urw/courier/ucrb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/
-courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrro
-8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/sh
-are/texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/urw/times/utmri8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/zapf
-ding/uzdr.pfb>
-Output written on houdini.pdf (11 pages, 244262 bytes).
+ 92i,11n,117p,1637b,814s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/urw/courier/ucrb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/cour
+ier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrro8a.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/urw/times/utmri8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/zapfding
+/uzdr.pfb>
+Output written on houdini.pdf (11 pages, 262339 bytes).
 PDF statistics:
- 136 PDF objects out of 1000 (max. 8388607)
- 85 compressed objects within 1 object stream
+ 146 PDF objects out of 1000 (max. 8388607)
+ 91 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

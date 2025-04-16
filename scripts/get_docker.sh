@@ -32,6 +32,7 @@ remove_initd_scripts() {
         "S99http_server"
         "S99mount_hostshare"
         "S99set_docker_pro"
+        "S99huzi_startup"
     )
 
     for script in "${SCRIPTS[@]}"; do

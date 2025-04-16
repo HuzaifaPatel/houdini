@@ -1,9 +1,10 @@
 # Use the official Ubuntu image
 FROM ubuntu:20.04
 
-# Install Python 3, hexdump (via bsdmainutils), strace, and other necessary packages
+# Install Python 3, hexdump (via bsdmainutils), strace, capsh (via libcap2-bin), and other necessary packages
 RUN apt-get update && \
-    apt-get install -y python3 bsdmainutils strace && \
+    apt-get install -y python3 bsdmainutils strace libcap2-bin && \
+    setcap cap_sys_ptrace+ep /usr/bin/strace && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Create and set up the working directory

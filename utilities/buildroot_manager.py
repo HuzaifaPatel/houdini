@@ -94,7 +94,7 @@ class BuildrootManager:
 		    "-m", "{}".format(VM_RAM),
 		    "-kernel", kernel,
 		    "-drive", "file={},if=virtio,format=raw".format(drive),
-		    "-append", "rootwait root=/dev/vda console=tty1 console=ttyS0 loglevel=0 cgroup_enable=cpuset cgroup_enable=memory",
+		    "-append", "apparmor=1 security=apparmor rootwait root=/dev/vda console=tty1 console=ttyS0 loglevel=0 cgroup_enable=cpuset cgroup_enable=memory",
 		    "-serial", "mon:stdio",
 		    "-net", "nic,model=virtio",
 		    "-net", "user,hostfwd=tcp::{}-:{}".format(PORT, PORT),

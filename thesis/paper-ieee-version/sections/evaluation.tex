@@ -16,17 +16,17 @@ To assess the effectiveness of container confinement mechanisms, we conducted a 
 
 CVE-2024-21626 is a critical vulnerability affecting Docker and runc that allows malicious containers to escape their isolation and execute arbitrary commands on the host system. This poses a significant risk to enterprises relying on containerization, as attackers could gain unauthorized access to sensitive data and system resources. 
 
-The root cause of this vulnerability lies in how runc handles cgroups for containers, which are used to manage system resources like CPU and memory. When runc creates a container, it opens a file descriptor to the host's /sys/fs/cgroup directory to configure resource limits for the container. This file descriptor is exposed inside the container via /proc/self/fd/, which lists all open file descriptors of the container's process. The vulnerability occurs when an attacker manipulates the working directory in the Dockerfile to point to a file descriptor like \texttt{/proc/self/fd/7}, which refers to the host’s /sys/fs/cgroup. By doing this, the container’s process is no longer interacting with its own filesystem but with the host’s cgroup settings, effectively breaking the container's isolation. 
+The root cause of this vulnerability lies in how runc handles cgroups for containers, which are used to manage system resources like CPU and memory. When runc creates a container, it opens a file descriptor to the host's \texttt{/sys/fs/cgroup} directory to configure resource limits for the container. This file descriptor is exposed inside the container via \texttt{/proc/self/fd/}, which lists all open file descriptors of the container's process. The vulnerability occurs when an attacker manipulates the working directory in the Dockerfile to point to a file descriptor like \texttt{/proc/self/fd/7}, which refers to the host’s \texttt{/sys/fs/cgroup}. By doing this, the container’s process is no longer interacting with its own filesystem but with the host’s cgroup settings, effectively breaking the container's isolation. 
 
-To test the exploitability of CVE-2024-21626, we designed a Houdini trick that executes the following steps:
+To test the exploitability of CVE-2024-21626, we designed a \houdini trick that executes the following steps:
 \begin{enumerate}
-    \item Launch a container with various runc.
+    \item Launch a container with various runc versions.
     \item Set the working directory to \texttt{/proc/self/fd/<fd>}, pointing to a controlled file descriptor.
     \item Attempt to break out of the container by leveraging the misconfigured working directory.
     \item Validate whether commands can be executed on the host system.
 \end{enumerate}
 
-The CVE for this vulnerability initially indicated that the affected runc versions were >= 1.0.0-rc93, <= 1.1.11. This suggests the vulnerability was introduced in runc version rc93 and fixed in version 1.1.12. However, empirical tests conducted by \houdini revealed a significant discrepancy with this assumption. Houdini's testing showed that earlier runc versions, such as \texttt{1.0.0-rc1}, \texttt{1.0.0-rc2}, \texttt{1.0.0-rc3}, and \texttt{1.0.0-rc4} exhibited the same vulnerability. This discovery expands upon the original CVE report's scope as the vulnerability had been present in runc versions prior to rc93.
+The CVE for this vulnerability initially indicated that the affected runc versions were $\geq 1.0.0\text{-}rc93$, $\leq 1.1.11$. This suggests the vulnerability was introduced in runc version rc93 and fixed in version 1.1.12. However, empirical tests conducted by \houdini revealed a significant discrepancy with this assumption. Houdini's testing showed that earlier runc versions, such as \texttt{1.0.0-rc1}, \texttt{1.0.0-rc2}, \texttt{1.0.0-rc3}, and \texttt{1.0.0-rc4} exhibited the same vulnerability. This discovery expands upon the original CVE report's scope as the vulnerability had been present in runc versions prior to \texttt{rc93}.
 
 \begin{table}[H]
     \centering
@@ -158,15 +158,14 @@ CMD ["/host_mount.sh"]
 
 
 
-\subsection{Case Study 2 - Evaluating Host Process Manipulation via PID Namespace Escape}
+\subsection{Case Study 2 - Evaluating Host Process Manipulation}
 
-In this evaluation, we investigate whether a Docker container running with \texttt{--pid=host} can interact with and manipulate host processes. The PID namespace is responsible for process isolation, ensuring that containerized processes remain separate from host processes. However, when \texttt{--pid=host} is enabled, the container shares the host's PID namespace, making all host processes visible inside the container. We assess the security implications of this setting by evaluating the following:
+In this evaluation, we investigate whether a Docker container running with a non-privileged user with \texttt{UID=1000} can interact with and manipulate host processes that are owned by \texttt{UID=1000}. The PID namespace is responsible for process isolation, ensuring that containerized processes remain separate from other PID namespaces. However, when \texttt{--pid=host} is enabled, the container shares the host's PID namespace, making all host processes visible inside the container. We assess the security implications of this setting by evaluating the following:
 
 \begin{itemize}
     \item Whether a container with \texttt{--pid=host} can list host processes.
-    \item Whether the container can send signals \texttt{SIGKILL}, \texttt{SIG\-TERM} to host processes.
-    \item Whether enabling \texttt{CAP\-\_SYS\_ADMIN} allows process tracing of host processes.
-    \item Whether a container can read host process memory via \texttt{/proc/\$PID/mem}.
+    \item Whether the container can send the signal \texttt{SIGCONT} to host processes.
+    \item Whether enabling \texttt{CAP\-\_SYS\_ADMIN} allows tracing of host processes.
 \end{itemize}
 
 \begin{table}[h!]
@@ -183,77 +182,80 @@ Virtual Machine & QEMU, 4 Core CPU, 12GB RAM, No Distribution \\
 \hline
 Docker Version & 27.0.3 \\
 \hline
-Kernel Version & 5.4 \\
+Kernel Version & 6.7 \\
 \hline
-Container Runtime & \texttt{runc} 1.1.11 \\
+Container Runtime & \texttt{runc} 1.1.13 \\
 \hline
 \end{tabular}
 \end{table}
 
-The container was started with various security configurations:
+The container was started with a combination of various security configurations:
 
 \begin{itemize}
-    \item Default Docker container configuration (separate PID namespace)
-    \item Docker container with \texttt{--pid=host}
-    \item Docker container with \texttt{--pid=host} and additional capabilities \texttt{CAP\_KILL}, \texttt{CAP\_SYS\_PTRACE}
-    \item Docker container with \texttt{--pid=host} and additional capabilities \texttt{CAP\_SYS\_PTRACE}
-    \item Privileged Docker container with \texttt{--pid=host}
+    \item \texttt{--pid=host}
+    \item \texttt{CAP\_KILL}
+    \item \texttt{CAP\_SYS\_PTRACE}
+    \item \texttt{Privileged Docker container}
 \end{itemize}
 
 For each security configuration, different methods were tested to determine whether a process inside the container could interact and/or manipulate host processes.
 
-The evaluation began by assessing whether a container with \texttt{--pid=host} could list host processes using \texttt{ps aux}. As expected, the container displayed all host processes, confirming that sharing the host PID namespace fully exposes the host process table. 
+The evaluation began by assessing whether a container launched with \texttt{--pid=host} could list host processes using \texttt{ps aux}. As expected, the container displayed all processes running on the host, confirming that sharing the host PID namespace fully exposes the host's process table to the container.
 
-Following this, we tested whether the container could send termination signals (\texttt{SIGKILL}, \texttt{SIGTERM}) to host processes using \texttt{kill -9 <PID>}. Without the \texttt{CAP\_KILL} capability, the operation was not permitted. However, enabling \texttt{CAP\_KILL}  process termination within the namespace's limits, and granting \texttt{--privileged} access enabled the container to kill any host process. 
+Following this, we tested whether a container process could send a \texttt{SIGCONT} signal to a host process owned by UID 1000. The container was launched with \texttt{--pid=host}, allowing it to see and interact with host processes. The container process also ran as UID 1000, matching the target host process.
 
-Next, we investigated whether the container could attach a debugger to host processes via \texttt{strace -p <PID>}. Without \texttt{CAP\_SYS\_PTRACE}, the operation was denied, but enabling this capability  successful attachment to a host process, raising concerns about potential leakage of sensitive data through system call tracing. 
+Despite not being granted \texttt{CAP\_KILL}, the signal was successfully delivered. This is because both processes shared the same UID and PID namespace, and under standard Unix permission checks, a process can send signals to another process it "owns" by UID without requiring special capabilities.
 
-We then examined whether the container could read host process memory by attempting to access \texttt{/proc/<host\_pid>/mem}. With Docker’s default restrictions, the operation was denied, but when running the container with \texttt{--privileged}, the process memory could be read using \texttt{cat /proc/<host\_pid>/mem}. 
+In this configuration, \texttt{CAP\_KILL} is redundant for signaling same-UID processes but would still be required to signal higher-privileged ones (e.g., UID 0).
 
-Finally, we tested cross-container process manipulation by launching two containers with \texttt{--pid=host}. A process running in Container A (e.g., \texttt{sleep 1000}) was visible to Container B, which was able to list and terminate it, proving that containers sharing the host PID namespace are not isolated from each other and can manipulate each other's processes.
+As shown in Table ~\ref{tab:pid-namespace-security}, combining \texttt{--pid=host} with \texttt{CAP\_SYS\_PTRACE} enables nearly the same level of interaction with host processes as granting full \texttt{--privileged} mode. Specifically, it allows a containerized process to list host processes, send signals, and attach a debugger to them, all key capabilities typically associated with privileged containers. However, unlike \texttt{--privileged}, this more targeted configuration limits access to only what's required, reducing the attack surface and following the principle of least privilege. These results demonstrate that it is unnecessary to over-privilege containers when finer-grained controls like capabilities and namespace sharing can achieve the same functional outcomes with significantly better security posture.
 
-The result was that the process inside Container A was visible to Container B, and it could be terminated using \texttt{kill -9 <PID>}, proving that containers with \texttt{--pid=host} share the same namespace and are not isolated from each other.
+However, when the container is confined by AppArmor’s \texttt{docker-default} profile, its ability to interact with host processes becomes significantly restricted. Specifically, \texttt{docker-default} explicitly denies critical system calls such as \texttt{signal} and \texttt{ptrace}, which are required for sending signals and attaching debuggers to other processes. As a result, even if the container shares the PID namespace with the host and possesses the necessary capabilities, these operations will still fail due to mandatory access control restrictions imposed by AppArmor. Including the \texttt{--privileged} flag when starting the container overrides AppArmor confinement by disabling the \texttt{docker-default} profile entirely. This lifts all AppArmor-imposed restrictions, allowing the container full access to system calls such as \texttt{signal} and \texttt{ptrace}, regardless of its previous confinement status. As a result, operations that were previously blocked—such as sending signals or attaching debuggers to host processes—are now permitted, even if AppArmor would normally deny them.
 
-The effectiveness of different configurations in preventing host and cross-container process manipulation is also illutrated in Table~\ref{tab:pid-namespace-security}.
+It is also important to note that granting capabilities such as \texttt{CAP\_KILL} and \texttt{CAP\_SYS\_PTRACE} alone is not sufficient for interacting with host processes unless the container shares the host’s PID namespace. Without the \texttt{--pid=host} flag, the container operates in its own isolated PID namespace, meaning it cannot see or reference host PIDs at all. As a result, any attempt to send signals or attach to host processes will fail—not because of insufficient capabilities, but because the target PIDs are simply invisible or meaningless within the container’s isolated view.
 
 This case study highlights a core strength of \houdini, which is its ability to systematically explore and identify the least privilege for a given operation. By allowing users to declaratively modify container configurations, \houdini makes it easy to test a wide range of privilege combinations in a repeatable and automated way. Instead of relying on trial-and-error or defaulting to the overly permissive \texttt{--privileged} mode, users can incrementally grant permissions and observe the effect of each change. This enables security practitioners, developers, and researchers to precisely determine the minimum set of permissions required for a given trick to succeed. As a result, \houdini not only serves as a testing framework for container escapes and misconfigurations, but also as a practical tool for privilege minimization and hardening container deployments.
 
 This case study also highlights a scenario where the security policies administrators intend to implement are not properly enforced when the container is running. For example, an administrator may want to use the host's process namespace for tracing host processes but restrict the container from manipulating those processes. To achieve this, the administrator configures the container with \texttt{--pid=host}. \houdini validates this configuration by performing controlled tests to ensure the container can only trace processes and cannot send signals, attach debuggers, or read process memory. If \houdini detects that the container can perform any of these unauthorized actions, it reveals a gap between the intended policy and its actual enforcement. Houdini’s tests provide actionable insights that help administrators adjust configurations to enforce proper isolation while allowing the container to trace processes.
 
 \FloatBarrier
+{\captionsetup{font=footnotesize}
 \begin{table*}[h]  
     \centering
     \footnotesize  
     \setlength{\tabcolsep}{4pt}  
     \renewcommand{\arraystretch}{1.1}  
-    \caption{Ability for container configurations to interact with host processes}
+    \caption{Ability for containers to interact with host processes}
     \label{tab:pid-namespace-security}  
     \begin{adjustbox}{max width=\textwidth}  
     \begin{tabular}{|l|c|c|c|c|c|c|c|}
         \hline
-        \textbf{\texttt{Security Configuration}} & \textbf{\texttt{--pid=host}} & \textbf{\texttt{CAP\_KILL}} & \textbf{\texttt{CAP\_SYS\_PTRACE}} & \textbf{\texttt{--privileged}} & \textbf{\texttt{--pid=host} + \texttt{--user=non-root}} & \textbf{\texttt{--pid=host} + \texttt{apparmor=docker-default}}  \\ \hline
-        \textbf{\texttt{--pid=host}} & $\diamondsuit$ & $\diamondsuit$ $\triangle$ & $\diamondsuit$ $\star$ & $\diamondsuit$ $\triangle$ $\star$ $\square$ & $\diamondsuit$ & $\diamondsuit$ \\ \hline
-        \textbf{\texttt{CAP\_KILL}} & $\diamondsuit$ $\triangle$ & & & & $\diamondsuit$ & $\diamondsuit$  \\ \hline
-        \textbf{\texttt{CAP\_SYS\_PTRACE}} & $\diamondsuit$ $\star$ & & & $\diamondsuit$ & $\diamondsuit$ & $\diamondsuit$ \\ \hline
-        \textbf{\texttt{--privileged}} & $\diamondsuit$ $\triangle$ $\star$ $\square$ & & & & $\diamondsuit$ $\triangle$ $\star$ $\square$ \\ \hline
-        \textbf{\texttt{--pid=host} + \texttt{--user=non-root}} & $\diamondsuit$ & $\diamondsuit$  & $\diamondsuit$ & $\diamondsuit$ $\square$ & $\diamondsuit$ $\square$ \\ \hline
-        \textbf{\texttt{--pid=host} + \texttt{apparmor=docker-default}} & $\diamondsuit$ & $\diamondsuit$ $\triangle$ & $\diamondsuit$ & $\diamondsuit$ $\triangle$ $\star$ $\square$ \\ \hline 
+        \textbf{\texttt{Security Configuration}} & \textbf{\texttt{--pid=host}} & \textbf{\texttt{CAP\_KILL}} & \textbf{\texttt{CAP\_SYS\_PTRACE}} & \textbf{\texttt{--privileged}} & \textbf{\texttt{--pid=host} + \texttt{apparmor=docker-default}}  \\ \hline
+        
+        \textbf{\texttt{--pid=host}} & $\diamondsuit$ $\triangle$ & $\diamondsuit$ $\triangle$  & $\diamondsuit$ $\triangle$ $\star$  & $\diamondsuit$ $\triangle$ $\star$  & $\diamondsuit$  \\ \hline
+        
+        \textbf{\texttt{CAP\_KILL}} & $\diamondsuit$ $\triangle$  & & & & $\diamondsuit$  \\ \hline
+        
+        \textbf{\texttt{CAP\_SYS\_PTRACE}} & $\diamondsuit$ $\triangle$ $\star$  & & & & $\diamondsuit$  \\ \hline
+        
+        \textbf{\texttt{--privileged}} & $\diamondsuit$ $\triangle$ $\star$ & & & & $\diamondsuit$ $\triangle$ $\star$  \\ \hline
 
+        \textbf{\texttt{apparmor=docker-default}} & $\diamondsuit$ &  & & & $\diamondsuit$ \\ \hline 
+                
+        \textbf{\texttt{--pid=host} + \texttt{apparmor=docker-default}} & $\diamondsuit$ & $\diamondsuit$  & $\diamondsuit$  & $\diamondsuit$ $\triangle$ $\star$  & $\diamondsuit$  \\ \hline 
     \end{tabular}  
-    \end{adjustbox}  
-    \vspace{0.5em} \\
-    \noindent\textbf{Legend} \\
-    $\diamondsuit$ List Host Processes \quad
-    $\triangle$ Send Signals \quad
-    $\star$ Attach Debugger \quad
-    $\square$ Read Memory
+    \end{adjustbox}
+    \caption*{
+        The following tests were run as a non-root user with UID=1000 and were run against the same non-root process with UID=1000. \\
+        $\diamondsuit$ List Host Process \quad \\
+        $\triangle$ Send Signal to Host Process \quad \\
+        $\star$ Attach Debugger to Host Process
+    }
 \end{table*}
 
 
 
-
-
-\captionof{listing}{Configuration file for Case Study I}
+\captionof{listing}{Configuration file for Case Study II}
 \label{lst:configuration-file}
 \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
 name: host_network_namespace
@@ -284,7 +286,7 @@ trick:
 
 \vspace{1em}
 
-\captionof{listing}{Trick Implementation for Case Study I}
+\captionof{listing}{Trick Implementation for Case Study II}
 \label{lst:pythonfile}
 \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{bash}
 #!/bin/bash
@@ -347,7 +349,7 @@ main
 
 \vspace{1em}
 
-\captionof{listing}{Dockerfile for Case Study I}
+\captionof{listing}{Dockerfile for Case Study II}
 \label{lst:dockerfile}
 \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{dockerfile}
 FROM ubuntu:20.04
@@ -386,7 +388,7 @@ CMD ["/bin/bash", "/process_namespace.sh"]
 
 
 
-\subsection{Case Study 2 - Evaluating Docker Privileged Port Forwarding Restrictions}
+\subsection{Case Study 3 - Evaluating Docker Privileged Port Forwarding Restrictions}
 
 In this case study, we evaluate Docker’s network isolation mechanisms to determine how well they enforce privileged port binding restrictions. Starting with Docker version 20.03, a significant change was introduced to Docker. They redefined unprivileged ports to start at 0 instead of 1024, effectively removing the need for root to bind to privileged ports. Table ~\ref{tab:port-binding-pre-20.03} presents the results.
 

@@ -1,3 +1,45 @@
 --privliedged option  overrides apparmor 
 if we have --pid=host + --user=guest --privileged, we can't send signals to a uid that does not match ours. this is more of a linux thing not docker
-if we use the apparmor docker-default profile, it will block ptrace. even if we are root. 
+if we use the apparmor docker-default profile, it will block the ptrace systemcall. even if we are root. It will be denied by the seccomp filter. --security-opt seccomp=unconfined cannot override this because apparmor runs independent of seccomp filters
+
+if you're non-root, CAP_KILL only let's you send a signal to a process with the same uid.
+We purposefully make python script.py in the VM have root processes, so that we can test to see if the container can kill a root process
+if you're a non-root user, CAP_KILL is useless
+
+Why sending signal does not work when apparmor=docker-default is used:
+	AppArmor docker-default limits you from:
+	Reading or writing to /proc/<host-pid>/mem, maps, or status
+
+	Sending signals to processes you don't own — even if you have CAP_KILL
+
+	Attaching debuggers via ptrace()
+
+
+Capabilities grant potential power
+
+AppArmor governs whether that power is actually allowed
+
+
+CAP_SYS_PTRACE gives all the operations. So, no need to enable --privileged
+
+what i don't like about the table is that it repeats itself too much.
+
+
+
+
+
+
+Kernel Version	Why It Might Break Your Table
+≤ 4.8	No LSM stacking, limited AppArmor/SELinux coexistence
+4.8–4.14	Yama introduced stronger ptrace_scope; seccomp added new filters
+5.1	Unprivileged ptrace to non-child blocked by default under Yama
+5.4 (LTS)	Common on Ubuntu 20.04 — baseline for many container runtimes
+5.7	Introduced LSM stacking! Now multiple LSMs (e.g., AppArmor + Yama) active at once ✅
+5.11	Added new syscalls to seccomp whitelist — some default profiles block clone3 now
+5.13	Introduced clone3() restrictions — broke unshare and container tooling unless patched
+5.15 (LTS)	Common in Ubuntu 22.04 — stable point for AppArmor and default seccomp
+6.0+	clone3, bpf, and pidfd features tightened even more
+6.5	Brought BPF hardening, new capabilities required for tracing and perf
+6.7	You likely tested — LSMs enabled by default, CONFIG_LSM includes AppArmor, Yama, BPF
+6.8–6.9	Landlock becomes more usable (sandboxing), more granular syscalls appearing
+6.10+ (future)	May change cgroup/namespace behavior (early SIGKILL to broken clone3)

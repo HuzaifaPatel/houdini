@@ -1,0 +1,27 @@
+#!/bin/sh
+
+echo "[INFO] Creating user 'huzi'..."
+
+# Add user if not already present
+if ! id huzi >/dev/null 2>&1; then
+    adduser -D huzi
+    passwd -d huzi
+    echo "[INFO] User 'huzi' created."
+else
+    echo "[INFO] User 'huzi' already exists."
+fi
+
+# Create home directory if missing
+if [ ! -d /home/huzi ]; then
+    mkdir -p /home/huzi
+    chown huzi:huzi /home/huzi
+    echo "[INFO] /home/huzi created."
+fi
+
+# Start an infinite background process as 'huzi'
+echo "[INFO] Starting background loop as 'huzi'..."
+su huzi -c "nohup sh -c 'while true; do sleep 1; done' > /dev/null 2>&1 &"
+
+echo "[INFO] Startup script completed."
+
+exit 0

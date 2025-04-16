@@ -1,11 +1,12 @@
+# cat process_namespace.sh
 #!/bin/bash
 
-TARGET_CMD="python3 /houdini/server.py"
+TARGET_CMD="sh -c while"
 PID=""
 
 find_target_process() {
     echo "[1] Searching for process: $TARGET_CMD"
-    PID=$(ps aux | grep '[p]ython3 /houdini/server.py' | awk '{print $2}' | head -n 1)
+    PID=$(ps aux | grep "[s]h -c" | awk '{print $2}' | head -n 1)
     if [[ -n "$PID" ]]; then
         echo "✅ Found: PID=$PID"
         return 0
@@ -46,7 +47,22 @@ attach_debugger() {
 
 read_memory() {
     echo "[4] Trying to read memory from /proc/$PID/mem"
-    if dd if="/proc/$PID/mem" bs=1 count=4 skip=0 2>/dev/null | hexdump; then
+
+    # Extract first readable memory region
+    START_HEX=$(awk '/r..p/ {print $1}' /proc/$PID/maps | head -n 1 | cut -d'-' -f1)
+
+    if [[ -z "$START_HEX" ]]; then
+        echo "❌ Failed to find readable memory region"
+        return 1
+    fi
+
+    # Convert hex address to decimal
+    OFFSET=$(printf "%d\n" 0x$START_HEX)
+
+    echo "📍 Reading from offset: $START_HEX (decimal $OFFSET)"
+
+    # Read and display memory
+    if dd if="/proc/$PID/mem" bs=1 count=64 skip=$OFFSET 2>/dev/null | hexdump -C; then
         echo "✅ Read memory succeeded"
     else
         echo "❌ Failed to read memory"
