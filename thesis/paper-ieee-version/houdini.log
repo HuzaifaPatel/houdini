@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  16 APR 2025 11:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  21 APR 2025 18:35
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -588,22 +588,10 @@ File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 )
 (./houdini.aux
 
-LaTeX Warning: Label `lst:configuration-file' multiply defined.
-
-
-LaTeX Warning: Label `lst:configuration-file@cref' multiply defined.
-
-
 LaTeX Warning: Label `lst:pythonfile' multiply defined.
 
 
 LaTeX Warning: Label `lst:pythonfile@cref' multiply defined.
-
-
-LaTeX Warning: Label `lst:dockerfile' multiply defined.
-
-
-LaTeX Warning: Label `lst:dockerfile@cref' multiply defined.
 
 )
 \openout1 = `houdini.aux'.
@@ -705,27 +693,20 @@ LaTeX Font Info:    Trying to load font information for TS1+pcr on input line 8
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1pcr.fd
 File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
 ))
-[4 <./figs/design.pdf>]
-\openout3 = `houdini.pyg'.
+[4 <./figs/design.pdf>]) (./sections/evaluation.tex
+Underfull \vbox (badness 7064) has occurred while \output is active []
 
 
-(./_minted-houdini/B3B18A8AD01BF768FE6823EF12A8D74ECF52E252A5A1A1DEEFB329A43DA1
-E2A7.pygtex)) (./sections/evaluation.tex
-Underfull \hbox (badness 5726) in paragraph at lines 21--22
+Underfull \hbox (badness 5726) in paragraph at lines 11--12
 []\OT1/ptm/m/n/10 This be-hav-ior is en-abled by Linux's treat-ment of
  []
 
 [5]
 
 Package caption Warning: \setcaptiontype
-(caption)                outside box or environment on input line 75.
+(caption)                outside box or environment on input line 66.
 See the caption package documentation for explanation.
 
-\openout3 = `houdini.pyg'.
-
-
-(./_minted-houdini/EBF2E3A87CE046438D762AC5BA8A0E45CF52E252A5A1A1DEEFB329A43DA1
-E2A7.pygtex)
 \openout3 = `houdini.pyg'.
 
 
@@ -733,23 +714,27 @@ E2A7.pygtex)
 AFC9.pygtex
 LaTeX Font Info:    Font shape `OT1/pcr/m/it' in size <7> not available
 (Font)              Font shape `OT1/pcr/m/sl' tried instead on input line 2.
- [6])
+)
 \openout3 = `houdini.pyg'.
 
 
 (./_minted-houdini/657CE329C49147B3530F2688E2987B4A9AD7FB9ED18FE489D10946320D40
 4B1D.pygtex)
-Underfull \hbox (badness 1521) in paragraph at lines 200--201
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[6]
+Underfull \hbox (badness 1521) in paragraph at lines 159--160
 []\OT1/ptm/m/n/10 The eval-u-a-tion be-gan by as-sess-ing whether a con-tainer
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 206--207
+Underfull \hbox (badness 10000) in paragraph at lines 165--166
 []\OT1/ptm/m/n/10 When the con-tainer is con-fined by Ap-pAr-mor's
  []
 
 
-Underfull \hbox (badness 2951) in paragraph at lines 206--207
+Underfull \hbox (badness 2951) in paragraph at lines 165--166
 \OT1/pcr/m/n/10 docker-default \OT1/ptm/m/n/10 pro-file, its abil-ity to in-ter
 -act with
  []
@@ -759,7 +744,7 @@ Underfull \hbox (badness 2951) in paragraph at lines 206--207
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Overfull \hbox (28.93163pt too wide) in paragraph at lines 278--289
+Overfull \hbox (28.93163pt too wide) in paragraph at lines 237--248
  [][] 
  []
 
@@ -767,15 +752,15 @@ Overfull \hbox (28.93163pt too wide) in paragraph at lines 278--289
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 1688) in paragraph at lines 291--292
+Underfull \hbox (badness 1688) in paragraph at lines 250--251
 \OT1/ptm/m/n/10 ver-sions in han-dling priv-i-leged port bind-ing can cre-ate
  []
 
-) (./sections/related.tex [8]
+) (./sections/related.tex [8]) (./sections/discussion.tex
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [9])
-(./sections/discussion.tex) (./sections/conclusion.tex) (./houdini.bbl [10])
+(./sections/conclusion.tex) (./houdini.bbl)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -787,9 +772,7 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[11
-
-] (./houdini.aux)
+[10] (./houdini.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -803,13 +786,13 @@ runsystem(rm houdini.pyg)...executed.
  )
 (\end occurred inside a group at level 1)
 
-### simple group (level 1) entered at line 215 ({)
+### simple group (level 1) entered at line 174 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 13572 strings out of 476182
- 257057 string characters out of 5795595
- 1955975 words of memory out of 5000000
- 35291 multiletter control sequences out of 15000+600000
+ 13558 strings out of 476182
+ 255835 string characters out of 5795595
+ 1954975 words of memory out of 5000000
+ 35283 multiletter control sequences out of 15000+600000
  608371 words of font info for 141 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  92i,11n,117p,1637b,802s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -828,10 +811,10 @@ texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type
 1/urw/times/utmri8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/zapfding
 /uzdr.pfb>
-Output written on houdini.pdf (11 pages, 257561 bytes).
+Output written on houdini.pdf (10 pages, 255835 bytes).
 PDF statistics:
- 146 PDF objects out of 1000 (max. 8388607)
- 91 compressed objects within 1 object stream
+ 143 PDF objects out of 1000 (max. 8388607)
+ 89 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

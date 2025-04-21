@@ -1,6 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{+w}{      }\PYG{l+lScalar+lScalarPlain}{FROM python:3.10\PYGZhy{}slim}
-\PYG{+w}{      }\PYG{l+lScalar+lScalarPlain}{WORKDIR /}
-\PYG{+w}{      }\PYG{l+lScalar+lScalarPlain}{COPY Out\PYGZus{}Of\PYGZus{}The\PYGZus{}Box\PYGZus{}Example.py .}
-\PYG{+w}{      }\PYG{l+lScalar+lScalarPlain}{CMD [\PYGZdq{}python3\PYGZdq{}, \PYGZdq{}Out\PYGZus{}Of\PYGZus{}The\PYGZus{}Box\PYGZus{}Example.py\PYGZdq{}]}
-\end{Verbatim}

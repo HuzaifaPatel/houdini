@@ -45,9 +45,6 @@
 \@writefile{lol}{\contentsline {listing}{\numberline {2}{\ignorespaces Exploit for CVE-2024-21616}}{5}{}\protected@file@percent }
 \newlabel{lst:pythonfile}{{2}{5}{}{}{}}
 \newlabel{lst:pythonfile@cref}{{[listing][2][]2}{[1][4][]5}}
-\@writefile{lol}{\contentsline {listing}{\numberline {3}{\ignorespaces \relax }}{5}{}\protected@file@percent }
-\newlabel{lst:dockerfile}{{3}{5}{}{}{}}
-\newlabel{lst:dockerfile@cref}{{[listing][3][]3}{[1][5][]5}}
 \@LN@col{2}
 \@writefile{toc}{\contentsline {section}{\numberline {VI}Evaluation}{5}{}\protected@file@percent }
 \newlabel{sec:evaluation}{{VI}{5}{}{}{}}
@@ -58,33 +55,36 @@
 \newlabel{tab:cve201626}{{I}{6}{}{}{}}
 \newlabel{tab:cve201626@cref}{{[table][1][]I}{[1][6][]6}}
 \@LN@col{2}
-\@writefile{lol}{\contentsline {listing}{\numberline {4}{\ignorespaces Configuration file for Case Study I}}{6}{}\protected@file@percent }
-\newlabel{lst:configuration-file}{{4}{6}{}{}{}}
-\newlabel{lst:configuration-file@cref}{{[listing][4][]4}{[1][6][]6}}
-\@writefile{lol}{\contentsline {listing}{\numberline {5}{\ignorespaces Trick Implementation for Case Study I}}{6}{}\protected@file@percent }
-\newlabel{lst:pythonfile}{{5}{6}{}{}{}}
-\newlabel{lst:pythonfile@cref}{{[listing][5][]5}{[1][6][]6}}
+\@writefile{lol}{\contentsline {listing}{\numberline {3}{\ignorespaces Trick Implementation for Case Study I}}{6}{}\protected@file@percent }
+\newlabel{lst:pythonfile}{{3}{6}{}{}{}}
+\newlabel{lst:pythonfile@cref}{{[listing][3][]3}{[1][6][]6}}
+\@writefile{lol}{\contentsline {listing}{\numberline {4}{\ignorespaces Dockerfile for Case Study I}}{6}{}\protected@file@percent }
+\newlabel{lst:dockerfile}{{4}{6}{}{}{}}
+\newlabel{lst:dockerfile@cref}{{[listing][4][]4}{[1][6][]6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}Case Study 2 - Evaluating Host Process Manipulation}{6}{}\protected@file@percent }
 \@LN@col{1}
-\@writefile{lol}{\contentsline {listing}{\numberline {6}{\ignorespaces Dockerfile for Case Study I}}{7}{}\protected@file@percent }
-\newlabel{lst:dockerfile}{{6}{7}{}{}{}}
-\newlabel{lst:dockerfile@cref}{{[listing][6][]6}{[1][7][]7}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}Case Study 2 - Evaluating Host Process Manipulation}{7}{}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Testing Environment}}{7}{}\protected@file@percent }
 \@LN@col{2}
+\citation{shu2017study}
+\citation{CIS}
 \@LN@col{1}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}Case Study 3 - Evaluating Docker Privileged Port Forwarding Restrictions}{8}{}\protected@file@percent }
 \@LN@col{2}
 \@writefile{toc}{\contentsline {section}{\numberline {VII}Related Work}{8}{}\protected@file@percent }
 \newlabel{sec:related}{{VII}{8}{}{}{}}
 \newlabel{sec:related@cref}{{[section][7][]VII}{[1][8][]8}}
-\citation{shu2017study}
-\citation{CIS}
 \citation{abdoul2018novel}
 \citation{vmware2018escape}
 \citation{virtualbox2017bugs}
 \citation{mds2019attack}
 \citation{severed2018}
 \citation{heckler2024}
+\citation{chromezeroday}
+\citation{macossandboxescape}
+\citation{chromiumsandboxescape}
+\citation{crushftpsandboxescape}
+\citation{judge0sandboxescape}
+\citation{vm2sandboxescape}
 \@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Ability for containers to interact with host processes}}{9}{}\protected@file@percent }
 \newlabel{tab:pid-namespace-security}{{III}{9}{}{}{}}
 \newlabel{tab:pid-namespace-security@cref}{{[table][3][]III}{[1][8][]9}}
@@ -93,12 +93,6 @@
 \newlabel{tab:port-binding-pre-20.03@cref}{{[table][4][]IV}{[1][8][]9}}
 \@LN@col{1}
 \@LN@col{2}
-\citation{chromezeroday}
-\citation{macossandboxescape}
-\citation{chromiumsandboxescape}
-\citation{crushftpsandboxescape}
-\citation{judge0sandboxescape}
-\citation{vm2sandboxescape}
 \bibstyle{unsrt}
 \bibdata{refs}
 \bibcite{CIS}{1}
@@ -112,15 +106,6 @@
 \bibcite{virtualbox2017bugs}{9}
 \bibcite{mds2019attack}{10}
 \bibcite{severed2018}{11}
-\@LN@col{1}
-\@writefile{toc}{\contentsline {section}{\numberline {VIII}Discussion}{10}{}\protected@file@percent }
-\newlabel{sec:discussion}{{VIII}{10}{}{}{}}
-\newlabel{sec:discussion@cref}{{[section][8][]VIII}{[1][10][]10}}
-\@LN@col{2}
-\@writefile{toc}{\contentsline {section}{\numberline {IX}Conclusion}{10}{}\protected@file@percent }
-\newlabel{sec:conclusion}{{IX}{10}{}{}{}}
-\newlabel{sec:conclusion@cref}{{[section][9][]IX}{[1][10][]10}}
-\@writefile{toc}{\contentsline {section}{References}{10}{}\protected@file@percent }
 \bibcite{heckler2024}{12}
 \bibcite{chromezeroday}{13}
 \bibcite{macossandboxescape}{14}
@@ -132,10 +117,15 @@
   default.pygstyle,
   D765CA7658C470E55A725EB9DE66A03DCF52E252A5A1A1DEEFB329A43DA1E2A7.pygtex,
   1E6E26D53ED49A279B3EED593CC16878CF52E252A5A1A1DEEFB329A43DA1E2A7.pygtex,
-  B3B18A8AD01BF768FE6823EF12A8D74ECF52E252A5A1A1DEEFB329A43DA1E2A7.pygtex,
-  EBF2E3A87CE046438D762AC5BA8A0E45CF52E252A5A1A1DEEFB329A43DA1E2A7.pygtex,
   06A58A91C6F8B5975F8885BBC79952D8213EE0290DCB1965C14A8C0D6018AFC9.pygtex,
   657CE329C49147B3530F2688E2987B4A9AD7FB9ED18FE489D10946320D404B1D.pygtex}
 \@LN@col{1}
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}Discussion}{10}{}\protected@file@percent }
+\newlabel{sec:discussion}{{VIII}{10}{}{}{}}
+\newlabel{sec:discussion@cref}{{[section][8][]VIII}{[1][10][]10}}
+\@writefile{toc}{\contentsline {section}{\numberline {IX}Conclusion}{10}{}\protected@file@percent }
+\newlabel{sec:conclusion}{{IX}{10}{}{}{}}
+\newlabel{sec:conclusion@cref}{{[section][9][]IX}{[1][10][]10}}
 \@LN@col{2}
-\gdef \@abspage@last{11}
+\@writefile{toc}{\contentsline {section}{References}{10}{}\protected@file@percent }
+\gdef \@abspage@last{10}

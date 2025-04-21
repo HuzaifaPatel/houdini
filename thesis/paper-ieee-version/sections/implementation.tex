@@ -70,17 +70,6 @@ The second component is the trick implementation, which can be written in any pr
 
 Finally, the Dockerfile is used to configure and set up the container's environment. It specifies how the container should be built, including copying necessary files into the container and installing required dependencies. The Dockerfile also configures the container with the settings defined in the configuration file (see \Cref{lst:configuration-file}), ensuring the container is set up correctly to run the trick.
 
-\begin{listing}[H]
-  \caption{}
-\label{lst:dockerfile}
-  \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
-      FROM python:3.10-slim
-      WORKDIR /
-      COPY Out_Of_The_Box_Example.py .
-      CMD ["python3", "Out_Of_The_Box_Example.py"]
-  \end{minted}
-\end{listing}
-
 This modular design, comprising of the configuration file, a trick implementation file, and Dockerfile provides flexibility to define and test various container escapes and vulnerabilities. It also allows users to easily customize or extend existing tricks by modifying any of the three components to suit their needs.
 
 To illustrate how \houdini operates, a simple example trick is provided. This introductory trick attempts to read the /etc/shadow file inside the container. While not an actual exploit, this scenario serves as a baseline check for container isolation: under normal configurations, containers should not have permission to access this file. The purpose of this example is to demonstrate the structure of a trick using \houdini’s modular design, without relying on any specific vulnerability. Actual tricks and exploits are discussed in detail in the Evaluation section.
