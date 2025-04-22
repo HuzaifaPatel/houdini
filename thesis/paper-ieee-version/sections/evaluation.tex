@@ -10,21 +10,20 @@ The root cause of this vulnerability lies in how runc handles cgroups for contai
 
 This behavior is enabled by Linux's treatment of \texttt{/proc/self/fd/N} as dynamic symlinks to open file descriptors. When dereferenced, these symlinks resolve to the original host-side path, regardless of container filesystem restrictions. Because runc and Docker do not restrict access to inherited file descriptors or sanitize the working directory path during initialization, attackers can exploit this oversight to escape isolation. By simply changing the container’s working directory to a leaked file descriptor, a malicious container can directly interact with host-managed control groups.
 
-To test the exploitability of CVE-2024-21626, we designed a \houdini trick that executes the following steps:
+To test the exploitability of CVE-2024-21626, we designed a \houdini trick that executes the following steps on various Docker and runc versions as shown in Table~\ref{tab:cve201626}:
 \begin{enumerate}
-    \item Launch a container with various runc versions.
     \item Set the working directory to \texttt{/proc/self/fd/<fd>}, pointing to a controlled file descriptor.
     \item Attempt to break out of the container by leveraging the misconfigured working directory.
     \item Validate whether commands can be executed on the host system.
 \end{enumerate}
 
-The CVE for this vulnerability initially indicated that the affected runc versions were $\geq 1.0.0\text{-}rc93$, $\leq 1.1.11$. This suggests the vulnerability was introduced in runc version rc93 and fixed in version 1.1.12. However, empirical tests conducted by \houdini revealed a significant discrepancy with this assumption. Houdini's testing showed that earlier runc versions, such as \texttt{1.0.0-rc1}, \texttt{1.0.0-rc2}, \texttt{1.0.0-rc3}, and \texttt{1.0.0-rc4}, also exhibited the same vulnerability. This discovery expands the scope of the CVE, revealing that the issue existed well before version \texttt{rc93}.
+The CVE for this vulnerability indicates that the affected runc versions are $\geq 1.0.0\text{-}rc93$, $\leq 1.1.11$. This suggests the vulnerability was introduced in runc version rc93 and fixed in version 1.1.12. However, empirical tests conducted by \houdini revealed a significant discrepancy with this assertion. Houdini's testing showed that earlier runc versions, such as \texttt{1.0.0-rc1}, \texttt{1.0.0-rc2}, \texttt{1.0.0-rc3}, and \texttt{1.0.0-rc4} also exhibited the same vulnerability. This discovery expands the scope of the CVE by revealing that the issue existed well before version \texttt{rc93}.
 
-This discrepancy highlights a recurring issue in vulnerability disclosure processes: CVEs often rely on assumptions from static code analysis or limited testing. Without rigorous empirical validation across historical versions, critical edge cases can be missed. In the case of CVE-2024-21626, this oversight could have allowed vulnerable deployments relying on older runc versions to remain unpatched under the false belief that they were unaffected.
+This discrepancy highlights a recurring issue in vulnerability disclosure processes: CVEs often rely on assumptions from static code analysis or limited testing. Without rigorous empirical validation across historical versions, critical edge cases can be missed. In the case of CVE-2024-21626, this oversight could have allowed vulnerable deployments relying on older runc versions to remain unpatched under the false belief that they were unaffected by this vulnerability.
 
 \begin{table}[H]
     \centering
-    \caption{Runc Versions Against CVE-2024-21626}
+    \caption{runc Versions Against CVE-2024-21626}
     \label{tab:cve201626}
     \resizebox{\columnwidth}{!}{%
         \begin{tabular}{l|l|c|c}
@@ -56,12 +55,11 @@ This discrepancy highlights a recurring issue in vulnerability disclosure proces
 
 These findings highlight two key aspects of \houdini’s role in uncovering the true scope of the vulnerability. Firstly, it challenges misleading security assumptions. Secondly, it identifies gaps between intended and actual enforcement.
 
-The security assumption outlined in the CVE is that the vulnerability exists only in runc versions >= 1.0.0-rc93, <= 1.1.11, suggesting that earlier versions are safe. This creates a false sense of security, leading users and system administrators to believe there is no urgency to patch or retire older versions. Rather than accepting the CVE’s claims, \houdini takes a more rigorous approach by testing the actual behavior of the continaer to determine whether the vulnerability is present in those earlier versions. In doing so, \houdini follows a fundamental security principle: security must be validated through testing, not simply assumed or trusted. 
+The security assumption outlined in the CVE is that the vulnerability exists only in runc versions $\geq 1.0.0\text{-}rc93$, $\leq 1.1.11$, suggesting that earlier versions are safe. This creates a false sense of security, leading users and system administrators to believe there is no urgency to patch or retire older versions. Rather than accepting the securty advisories claims, \houdini takes a more rigorous approach by empirically testing the behavior of the continaer to determine whether the vulnerability is present in other runc versions. In doing so, \houdini follows a fundamental security principle: security must be validated through testing, not simply assumed or trusted.
+
+This gap in the CVE’s version range shows a common problem in how vulnerabilities are reported. Many CVEs are based on static code checks or changes between versions, but these methods can miss bugs that only appear when the software is actually running. They also don’t always catch problems that happen in specific setups or older versions. Without hands-on testing, some vulnerabilities can go unnoticed for years. In the case of CVE-2024-21626, this meant that older versions of \texttt{runc} were still affected—even though the CVE said they were safe. \houdini’s testing shows why it’s important to go beyond what CVEs say and check how software behaves in the real world.
 
 While security policies and CVEs often describe what should be true, such as which versions are affected or which behaviors are restricted, what actually happens at runtime can tell a different story. Houdini helps expose these gaps between what is stated in documentation and how the system behaves in practice by testing the system in real-world scenarios. For example, while the CVE marked runc version 1.0.0-rc93 as the point where the vulnerability was introduced, Houdini’s testing revealed that the issue existed in earlier versions as well, showing that isolation was already broken. This mismatch between what is expected and what is actually happening can lead to serious problems. Organizations may rely on official documentation and assume their systems are safe, overlooking vulnerabilities that fall outside the scope of the CVE. As a result, they might miss critical risks, leaving systems unpatched and vulnerable to exploitation. By testing how the container behaves under specific configurations, Houdini provides a more accurate picture of the system’s security, which helps to uncover vulnerabilities that might otherwise be overlooked.
-
-
-
 
 \captionof{listing}{Trick Implementation for Case Study I}
 \label{lst:pythonfile}
@@ -182,19 +180,19 @@ This case study highlights a scenario where the security policies administrators
     \begin{adjustbox}{max width=\textwidth}  
     \begin{tabular}{|l|c|c|c|c|c|c|c|}
         \hline
-        \textbf{\texttt{Security Configuration}} & \textbf{\texttt{--pid=host}} & \textbf{\texttt{CAP\_KILL}} & \textbf{\texttt{CAP\_SYS\_PTRACE}} & \textbf{\texttt{--privileged}} & \textbf{\texttt{--pid=host} + \texttt{apparmor=docker-default}}  \\ \hline
+        \textbf{\texttt{Security Configuration}} & \textbf{\texttt{--pid=host}} & \textbf{\texttt{CAP\_KILL}} & \textbf{\texttt{CAP\_SYS\_PTRACE}} & \textbf{\texttt{--privileged}} & \textbf{\texttt{apparmor=docker-default}} & \textbf{\texttt{--pid=host} + \texttt{apparmor=docker-default}}  \\ \hline
         
-        \textbf{\texttt{--pid=host}} & $\diamondsuit$ $\triangle$ & $\diamondsuit$ $\triangle$  & $\diamondsuit$ $\triangle$ $\star$  & $\diamondsuit$ $\triangle$ $\star$  & $\diamondsuit$  \\ \hline
+        \textbf{\texttt{--pid=host}} & $\diamondsuit$ $\triangle$ & $\diamondsuit$ $\triangle$  & $\diamondsuit$ $\triangle$ $\star$  & $\diamondsuit$ $\triangle$ $\star$ & $\diamondsuit$ & $\diamondsuit$  \\ \hline
         
-        \textbf{\texttt{CAP\_KILL}} & $\diamondsuit$ $\triangle$  & & & & $\diamondsuit$  \\ \hline
+        \textbf{\texttt{CAP\_KILL}} & $\diamondsuit$ $\triangle$  & & & & & $\diamondsuit$  \\ \hline
         
-        \textbf{\texttt{CAP\_SYS\_PTRACE}} & $\diamondsuit$ $\triangle$ $\star$  & & & & $\diamondsuit$  \\ \hline
+        \textbf{\texttt{CAP\_SYS\_PTRACE}} & $\diamondsuit$ $\triangle$ $\star$  & & & & & $\diamondsuit$  \\ \hline
         
-        \textbf{\texttt{--privileged}} & $\diamondsuit$ $\triangle$ $\star$ & & & & $\diamondsuit$ $\triangle$ $\star$  \\ \hline
+        \textbf{\texttt{--privileged}} & $\diamondsuit$ $\triangle$ $\star$ & & & & & $\diamondsuit$ $\triangle$ $\star$  \\ \hline
 
-        \textbf{\texttt{apparmor=docker-default}} & $\diamondsuit$ &  & & & $\diamondsuit$ \\ \hline 
+        \textbf{\texttt{apparmor=docker-default}} & $\diamondsuit$ &  & & & & $\diamondsuit$ \\ \hline 
                 
-        \textbf{\texttt{--pid=host} + \texttt{apparmor=docker-default}} & $\diamondsuit$ & $\diamondsuit$  & $\diamondsuit$  & $\diamondsuit$ $\triangle$ $\star$  & $\diamondsuit$  \\ \hline 
+        \textbf{\texttt{--pid=host} + \texttt{apparmor=docker-default}} & $\diamondsuit$ & $\diamondsuit$  & $\diamondsuit$  & $\diamondsuit$ $\triangle$ $\star$ & $\diamondsuit$ & $\diamondsuit$  \\ \hline 
     \end{tabular}  
     \end{adjustbox}
     \caption*{
