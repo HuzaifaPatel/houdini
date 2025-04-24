@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  24 APR 2025 13:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  24 APR 2025 13:14
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -820,7 +820,7 @@ texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type
 1/urw/times/utmri8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/zapfding
 /uzdr.pfb>
-Output written on houdini.pdf (11 pages, 258254 bytes).
+Output written on houdini.pdf (11 pages, 258589 bytes).
 PDF statistics:
  146 PDF objects out of 1000 (max. 8388607)
  91 compressed objects within 1 object stream
