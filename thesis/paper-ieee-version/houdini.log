@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  24 APR 2025 11:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  24 APR 2025 12:45
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -652,13 +652,13 @@ r/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}
 
 
 ])
-(./sections/confinement-problem.tex) (./sections/motivation.tex [2]
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
-7.
+(./sections/confinement-problem.tex) (./sections/motivation.tex
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 4
+.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-))
+) [2])
 (./sections/design.tex [3]
 
 pdfTeX warning: pdflatex (file ./figs/design.pdf): PDF inclusion: found PDF ver
@@ -765,8 +765,11 @@ Underfull \hbox (badness 1688) in paragraph at lines 250--251
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 )
-(./sections/related.tex [8]) (./sections/discussion.tex [9])
-(./sections/conclusion.tex) (./houdini.bbl)
+(./sections/related.tex [8]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+)
+(./sections/discussion.tex [9]) (./sections/conclusion.tex) (./houdini.bbl)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -795,10 +798,10 @@ runsystem(rm houdini.pyg)...executed.
 ### simple group (level 1) entered at line 174 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 13533 strings out of 476182
- 255462 string characters out of 5795595
+ 13538 strings out of 476182
+ 255512 string characters out of 5795595
  1956975 words of memory out of 5000000
- 35260 multiletter control sequences out of 15000+600000
+ 35265 multiletter control sequences out of 15000+600000
  602873 words of font info for 126 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  92i,11n,117p,1637b,848s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -817,7 +820,7 @@ texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type
 1/urw/times/utmri8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/zapfding
 /uzdr.pfb>
-Output written on houdini.pdf (10 pages, 255101 bytes).
+Output written on houdini.pdf (10 pages, 256602 bytes).
 PDF statistics:
  143 PDF objects out of 1000 (max. 8388607)
  89 compressed objects within 1 object stream

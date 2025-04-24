@@ -27,6 +27,32 @@ Martin Zboril and Vlasta Svat{\'a}.
 \newblock Performance comparison of cloud virtual machines.
 \newblock {\em Journal of Systems and Information Technology}, 2025.
 
+\bibitem{trivy}
+Aqua Security.
+\newblock Trivy: A simple and comprehensive vulnerability scanner for
+  containers and other artifacts.
+\newblock \url{https://github.com/aquasecurity/trivy}, n.d.
+
+\bibitem{clair}
+Quay.
+\newblock Clair: Vulnerability static analysis for containers.
+\newblock \url{https://github.com/quay/clair}, n.d.
+
+\bibitem{docker_bench}
+Docker.
+\newblock Docker bench for security: A security testing tool for docker.
+\newblock \url{https://github.com/docker/docker-bench-security}, n.d.
+
+\bibitem{kube_bench}
+Aqua Security.
+\newblock Kube-bench: Checks whether kubernetes is deployed securely.
+\newblock \url{https://github.com/aquasecurity/kube-bench}, n.d.
+
+\bibitem{circleci}
+CircleCI.
+\newblock Circleci: Continuous integration and delivery platform.
+\newblock \url{https://circleci.com}, n.d.
+
 \bibitem{shu2017study}
 Rui Shu, Xiaohui Gu, and William Enck.
 \newblock A study of security vulnerabilities on docker hub.
