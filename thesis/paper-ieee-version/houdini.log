@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  24 APR 2025 12:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  24 APR 2025 13:06
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -658,8 +658,8 @@ LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 4
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-) [2])
-(./sections/design.tex [3]
+) [2] [3])
+(./sections/design.tex
 
 pdfTeX warning: pdflatex (file ./figs/design.pdf): PDF inclusion: found PDF ver
 sion <1.7>, but at most version <1.5> allowed
@@ -669,14 +669,14 @@ File: figs/design.pdf Graphic file (type pdf)
 Package pdftex.def Info: figs/design.pdf  used on input line 14.
 (pdftex.def)             Requested size: 252.0pt x 151.20024pt.
 ) (./sections/implementation.tex
-Underfull \vbox (badness 3049) has occurred while \output is active []
-
 \openout3 = `houdini.pyg'.
 
-
-(./_minted-houdini/default.pygstyle)
+ (./_minted-houdini/default.pygstyle)
 (./_minted-houdini/937DFD282BF9AA4DE4BD8C12811090C9CF52E252A5A1A1DEEFB329A43DA1
 E2A7.pygtex)
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 \openout3 = `houdini.pyg'.
 
 
@@ -726,11 +726,15 @@ LaTeX Font Info:    Font shape `OT1/pcr/m/it' in size <7> not available
 
 (./_minted-houdini/657CE329C49147B3530F2688E2987B4A9AD7FB9ED18FE489D10946320D40
 4B1D.pygtex)
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[6]
 Underfull \hbox (badness 1521) in paragraph at lines 153--154
 []\OT1/ptm/m/n/10 The eval-u-a-tion be-gan by as-sess-ing whether a con-tainer
  []
 
-[6]
+
 Underfull \hbox (badness 1838) in paragraph at lines 157--158
 []\OT1/ptm/m/n/10 As shown in Ta-ble III[], com-bin-ing \OT1/pcr/m/n/10 --pid=h
 ost \OT1/ptm/m/n/10 with
@@ -747,6 +751,7 @@ Underfull \hbox (badness 2951) in paragraph at lines 159--160
 -act with
  []
 
+[7]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -758,15 +763,11 @@ Underfull \hbox (badness 1688) in paragraph at lines 250--251
 \OT1/ptm/m/n/10 ver-sions in han-dling priv-i-leged port bind-ing can cre-ate
  []
 
-[7]
+) (./sections/related.tex [8]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-)
-(./sections/related.tex [8]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-)
-(./sections/discussion.tex [9]) (./sections/conclusion.tex) (./houdini.bbl)
+ [9])
+(./sections/discussion.tex) (./sections/conclusion.tex) (./houdini.bbl [10])
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -778,7 +779,9 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[10] (./houdini.aux)
+[11
+
+] (./houdini.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -797,7 +800,7 @@ runsystem(rm houdini.pyg)...executed.
 Here is how much of TeX's memory you used:
  13538 strings out of 476182
  255512 string characters out of 5795595
- 1956975 words of memory out of 5000000
+ 1954975 words of memory out of 5000000
  35265 multiletter control sequences out of 15000+600000
  602873 words of font info for 126 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -817,10 +820,10 @@ texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type
 1/urw/times/utmri8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/zapfding
 /uzdr.pfb>
-Output written on houdini.pdf (10 pages, 256611 bytes).
+Output written on houdini.pdf (11 pages, 258254 bytes).
 PDF statistics:
- 143 PDF objects out of 1000 (max. 8388607)
- 89 compressed objects within 1 object stream
+ 146 PDF objects out of 1000 (max. 8388607)
+ 91 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
