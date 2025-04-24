@@ -21,6 +21,7 @@
 \PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{user}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{root}
 \PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{pids\PYGZus{}limit}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{null}
 \PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{ipc\PYGZus{}mode}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{private}
+\PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{userns\PYGZus{}mode}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{null}
 \PYG{+w}{    }\PYG{n+nt}{trick}\PYG{p}{:}
 \PYG{+w}{      }\PYG{p+pIndicator}{\PYGZhy{}}\PYG{+w}{ }\PYG{n+nt}{path}\PYG{p}{:}\PYG{+w}{ }\PYG{l+lScalar+lScalarPlain}{/houdini/tricks/OutOfTheBoxExample}
 \end{Verbatim}
