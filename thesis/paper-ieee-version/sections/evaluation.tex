@@ -4,7 +4,7 @@
 
 \subsection{Case Study 1: Evaluating CVE-2024-21626}
 
-CVE-2024-21626 is a critical vulnerability in runc, the low-level container runtime used by Docker and other container engines. It allows a malicious container to escape its isolation and execute arbitrary commands on the host system.
+CVE-2024-21626 is a critical container escape vulnerability in runc, the low-level container runtime used by Docker and other container engines. It allows a malicious container to escape its isolation and execute arbitrary commands on the host system.
 
 The root cause of this vulnerability lies in how runc handles cgroups for containers, which are used to manage system resources like CPU and memory. During container creation, runc opens a file descriptor to the host's \texttt{/sys/fs/cgroup} directory to configure resource limits. This descriptor remains open throughout the container’s lifecycle and is exposed inside the container via \texttt{/proc/self/fd/}, which lists all open file descriptors of the running process. The vulnerability arises when an attacker sets the working directory in the Dockerfile to point to one of these exposed descriptors, such as \texttt{/proc/self/fd/N}, where \texttt{N} refers to the specific file descriptor inherited from runc that points to the host’s cgroup hierarchy. This causes the container’s current working directory to resolve to a privileged host path. As a result, all subsequent relative file operations in the container are interpreted from the host’s cgroup filesystem rather than the container’s own root, allowing unintended access or modification of host resources.
 

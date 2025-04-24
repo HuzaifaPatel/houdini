@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  24 APR 2025 12:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  24 APR 2025 12:52
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -707,10 +707,7 @@ Underfull \hbox (badness 5726) in paragraph at lines 11--12
 []\OT1/ptm/m/n/10 This be-hav-ior is en-abled by Linux's treat-ment of
  []
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [5]
+[5]
 
 Package caption Warning: \setcaptiontype
 (caption)                outside box or environment on input line 60.
@@ -820,7 +817,7 @@ texlive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type
 1/urw/times/utmri8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/zapfding
 /uzdr.pfb>
-Output written on houdini.pdf (10 pages, 256602 bytes).
+Output written on houdini.pdf (10 pages, 256611 bytes).
 PDF statistics:
  143 PDF objects out of 1000 (max. 8388607)
  89 compressed objects within 1 object stream
