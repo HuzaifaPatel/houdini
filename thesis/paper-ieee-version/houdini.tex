@@ -23,7 +23,7 @@
 \newcommand{\xmark}{\textcolor{red}{\ding{55}}}    % ❌ Define cross mark
 
 
-\title{Houdini: Security Benchmarking of Container Confinement}
+\title{Houdini: Security Benchmarking\\ of Container Confinement}
 
 % \author{\IEEEauthorblockN{1\textsuperscript{st}}
 % \IEEEauthorblockA{\textit{Carleton University} \\
@@ -42,9 +42,12 @@
 % }
 
 \maketitle
-
+%remove this before submission. it shows page numbers
+\thispagestyle{plain}
+\pagestyle{plain}
+%%%%%%%%%%%%%%%%
 \begin{abstract}
-  While container-based workloads are now a standard part of our cloud infrastructure, container security remains a challenging problem. Container confinement is a particularly pressing problem, as without it, a single vulnerable application can be used to compromise entire clusters of containers. While we have many technologies that can be used to secure containers, currently there is no easy way to determine whether a given Docker configuration provides even a basic level of protection. Here we present Houdini, a security test suite for container confinement. Much as network scanning tools can help catch misconfigured firewalls, Houdini can check whether a given Docker container configuration properly enforces confinement. While it can be used to test deployable containers, Houdini is optimised for testing and comparing container confinement technologies. Here we present the motivation, design, implementation, and initial results on running Houdini on a set of different container configurations. By providing a benchmark framework by which container confinement technologies can be evaluated, we believe Houdini can help foster the development of next-generation container confinement technologies.
+  While container-based workloads are now a standard part of our cloud infrastructure, container security remains challenging. Container confinement is a particularly pressing problem, as without it, a single vulnerable application can be used to compromise entire clusters of containers. While we have many technologies that can be used to confine containers, currently there is no easy way to verify whether a given Docker configuration provides even a basic level of protection. Here we present Houdini, a security test suite for container confinement. Houdini can check whether a given Docker container configuration and environment properly enforce confinement. While it can be used to test deployable containers, Houdini is optimized for testing and comparing container confinement technologies. This paper presents the motivation, design, implementation, and initial results of running Houdini on a set of container configurations. By providing a benchmark framework by which container confinement technologies can be evaluated, we believe Houdini can help foster the development of next-generation container confinement technologies.
 \end{abstract}
 
 \begin{IEEEkeywords}
