@@ -1,5 +1,11 @@
 \section{Discussion}
 \label{sec:discussion}
+\todo{this section needs to start with a summary of what was reviewed in the evaluation section. Unfortunately case studies A B C already have a lot of repetition so this needs to be brief and punchy.} 
+
+\todo{the next paragraph needs to be a reminder that Houdini has more applications than just what was reviewed in the case studies a B C. You can say that it's more of a general tool and the community is likely to find uses outside of what was discussed in this paper.} 
+
+\todo{this wasn't mentioned anywhere else but I think we should say explicitly here that we intend to make the source code for Houdini available as well as a base set of initial tricks once the paper has been accepted for publication}
+
 Houdini’s design not only addresses critical security challenges in container confinement but also lends itself well to continuous security testing in modern software development environments. Because it is both safe and modular, \houdini can be seamlessly integrated into automated systems, such as CI/CD pipelines, to provide ongoing validation of container security.
 
 Regression testing is a widely adopted practice in software engineering to ensure that updates or changes to code do not introduce unintended failures or security regressions. In the context of container security, integrating \houdini into CI/CD pipelines enables organizations to automatically trigger a comprehensive suite of confinement tests whenever any part of the container stack changes—such as kernel upgrades, Docker releases, or policy updates. This continuous validation ensures that every new deployment or system update is accompanied by an up-to-date security assessment. By systematically rerunning empirical security tests across different software versions and configurations, \houdini helps detect configuration drift and regression in security guarantees that might otherwise go unnoticed, maintaining the effectiveness of container isolation mechanisms as platforms evolve.
