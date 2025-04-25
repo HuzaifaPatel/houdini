@@ -2,22 +2,22 @@
 \label{sec:evaluation}
 
 
-\subsection{Case Study 1: Evaluating CVE-2024-21626}
+\subsection{Case Study 1: Evaluating the accuracy of CVE-2024-21626}
 
-CVE-2024-21626 is a critical container escape vulnerability in runc, the low-level container runtime used by Docker and other container engines. It allows a malicious container to escape its isolation and execute arbitrary commands on the host system.
+CVE-2024-21626\addref is a container escape vulnerability in runc, the low-level container runtime used by Docker and other container engines. It allows a malicious container to escape its isolation and execute arbitrary commands on the host system.
 
 The root cause of this vulnerability lies in how runc handles cgroups for containers, which are used to manage system resources like CPU and memory. During container creation, runc opens a file descriptor to the host's \texttt{/sys/fs/cgroup} directory to configure resource limits. This descriptor remains open throughout the container’s lifecycle and is exposed inside the container via \texttt{/proc/self/fd/}, which lists all open file descriptors of the running process. The vulnerability arises when an attacker sets the working directory in the Dockerfile to point to one of these exposed descriptors, such as \texttt{/proc/self/fd/N}, where \texttt{N} refers to the specific file descriptor inherited from runc that points to the host’s cgroup hierarchy. This causes the container’s current working directory to resolve to a privileged host path. As a result, all subsequent relative file operations in the container are interpreted from the host’s cgroup filesystem rather than the container’s own root, allowing unintended access or modification of host resources.
 
-This behavior is enabled by Linux's treatment of \texttt{/proc/self/fd/N} as dynamic symlinks to open file descriptors. When dereferenced, these symlinks resolve to the original host-side path, regardless of container filesystem restrictions. Because runc and Docker do not restrict access to inherited file descriptors or sanitize the working directory path during initialization, attackers can exploit this oversight to escape isolation. By simply changing the container’s working directory to a leaked file descriptor, a malicious container can directly interact with host-managed control groups.
+This behavior is enabled by Linux's treatment of \texttt{/proc/self/fd/N} as dynamic symlinks to open file descriptors. When dereferenced, these symlinks resolve to the original host-side path, regardless of container filesystem restrictions. Because runc and Docker do not restrict access to inherited file descriptors or sanitize the working directory path during initialization, attackers can exploit this oversight to escape isolation. By simply changing the container's working directory to a leaked file descriptor, a malicious container can directly interact with host-managed control groups.
 
-To test the exploitability of CVE-2024-21626, we designed a \houdini trick that executes the following steps on various Docker and runc versions as shown in Table~\ref{tab:cve201626}:
+To test the exploitability of CVE-2024-21626, we designed a \houdini trick that executes the following steps on Docker and runc versions listed in Table~\ref{tab:cve201626}:
 \begin{enumerate}
     \item Set the working directory to \texttt{/proc/self/fd/<fd>}, pointing to a controlled file descriptor.
     \item Attempt to break out of the container by leveraging the misconfigured working directory.
     \item Validate whether commands can be executed on the host system.
 \end{enumerate}
 
-The CVE for this vulnerability indicates that the affected runc versions are $\geq 1.0.0\text{-}rc93$, $\leq 1.1.11$. This suggests the vulnerability was introduced in runc version rc93 and fixed in version 1.1.12. However, empirical tests conducted by \houdini revealed a significant discrepancy with this assertion. Houdini's testing showed that earlier runc versions, such as \texttt{1.0.0-rc1}, \texttt{1.0.0-rc2}, \texttt{1.0.0-rc3}, and \texttt{1.0.0-rc4} also exhibited the same vulnerability. This discovery expands the scope of the CVE by revealing that the issue existed well before version \texttt{rc93}.
+The CVE for this vulnerability indicates that the affected runc versions are $\geq$ 1.0.0-rc93\todo{fix font to match below versions}, $\leq$ 1.1.11. This suggests the vulnerability was introduced in runc version rc93 and fixed in version 1.1.12. However, our tests conducted with \houdini revealed a significant discrepancy with this assertion. Our testing showed that earlier runc versions, such as \texttt{1.0.0-rc1}, \texttt{1.0.0-rc2}, \texttt{1.0.0-rc3}, and \texttt{1.0.0-rc4} also exhibited the same vulnerability. This discovery expands the scope of the CVE by revealing that the issue existed well before version \texttt{rc93}.
 
 This discrepancy highlights a recurring issue in vulnerability disclosure processes: CVEs often rely on assumptions from static code analysis or limited testing. Without rigorous empirical validation across historical versions, critical edge cases can be missed. In the case of CVE-2024-21626, this oversight could have allowed vulnerable deployments relying on older runc versions to remain unpatched under the false belief that they were unaffected by this vulnerability.
 
@@ -53,9 +53,13 @@ This discrepancy highlights a recurring issue in vulnerability disclosure proces
     }
 \end{table}
 
-These findings highlight two key aspects of \houdini’s role in uncovering the true scope of the vulnerability. Firstly, it challenges misleading security assumptions, and secondly, it identifies gaps between intended and actual enforcement.
+These findings highlight two \houdini can challenge misleading security assumptions and identify gaps between intended and actual enforcement.
+
+\begin{comment}
+    %this appears to be duplicated text from above
 
 The security assumption outlined in the CVE is that the vulnerability exists only in runc versions $\geq 1.0.0\text{-}rc93$, $\leq 1.1.11$, suggesting that earlier versions are safe. This creates a false sense of security, leading users and system administrators to believe there is no urgency to patch or retire older versions. Rather than accepting the securty advisories claims, \houdini takes a more rigorous approach by empirically testing the behavior of the continaer to determine whether the vulnerability is present in other runc versions. In doing so, \houdini follows a fundamental principle of system assurance: vulnerabilities cannot be assumed absent, they must be revealed through observation. As CVEs often rely on static code inspection or version diffs to define the scope of a vulnerability, we argue that validation must also occur through dynamic runtime analysis. While the former methods are helpful, they have inherent limitations. For example, static analysis inspects code without execution, and version diffs highlight changes but cannot guarantee correct behavior. As a result, issues that only surface during real execution, especially under specific configurations may go unnoticed.
+\end{comment}
 
 \captionof{listing}{Trick Implementation for Case Study I}
 \label{lst:pythonfile}
