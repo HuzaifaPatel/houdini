@@ -1,3 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-mkfifo /tmp/secure\PYGZus{}pipe
-\end{Verbatim}

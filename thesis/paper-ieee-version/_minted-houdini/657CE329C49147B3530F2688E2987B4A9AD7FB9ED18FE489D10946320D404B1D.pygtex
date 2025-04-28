@@ -1,7 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k}{FROM}\PYG{+w}{ }\PYG{l+s}{ubuntu:16.04}
-\PYG{k}{WORKDIR}\PYG{+w}{ }\PYG{l+s}{/proc/self/fd/4}
-\PYG{k}{COPY}\PYG{+w}{ }host\PYGZus{}mount.sh\PYG{+w}{ }/host\PYGZus{}mount.sh
-\PYG{k}{RUN}\PYG{+w}{ }chmod\PYG{+w}{ }+x\PYG{+w}{ }/host\PYGZus{}mount.sh
-\PYG{k}{CMD}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}/host\PYGZus{}mount.sh\PYGZdq{}}\PYG{p}{]}
-\end{Verbatim}

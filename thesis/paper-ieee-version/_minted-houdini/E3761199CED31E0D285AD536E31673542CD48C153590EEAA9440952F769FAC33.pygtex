@@ -1,3 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{n+nb}{echo} \PYG{l+s+s2}{\PYGZdq{}Secret Data\PYGZdq{}} \PYG{p}{|} cat \PYGZgt{} /proc/self/fd/1
-\end{Verbatim}
