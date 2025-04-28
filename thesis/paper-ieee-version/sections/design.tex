@@ -1,7 +1,7 @@
 \section{Design}
 \label{sec:design}
 
-\houdini is built using Python 3 and leverages a QEMU VM to provide a controlled testing environment for container security validation. Instead of running containers directly on the host system, Houdini starts a dedicated VM, ensuring that any security tests remain isolated and do not affect the host system. Dedicated VMs also help ensure test reproducibility. Within the \houdini configuration, specific versions of Docker, the Linux kernel, and runc can be requested and installed into the VM. The VM is created with the help of Buildroot\addref, which enables the construction of minimal, reproducible Linux environments. 
+\houdini is built using Python 3 and leverages a QEMU VM to provide a controlled testing environment for container security validation. Instead of running containers directly on the host system, Houdini starts a dedicated VM, ensuring that any security tests remain isolated and do not affect the host system. Dedicated VMs also help ensure test reproducibility. Within the \houdini configuration, specific versions of Docker, the Linux kernel, and runc can be requested and installed into the VM. The VM is created with the help of Buildroot\cite{buildroot}, which enables the construction of minimal, reproducible Linux environments. 
 %tailored for security testing. 
 This granularity in configuration enables our goal of easily testing how different kernel and container runtime versions impact policy enforcement. It also enables regression testing across versions to detect when security behavior changes unexpectedly.
 
