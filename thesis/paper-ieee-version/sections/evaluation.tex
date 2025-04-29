@@ -1,6 +1,24 @@
 \section{Evaluation}
 \label{sec:evaluation}
 
+The case studies were done in the following environment:
+
+\begin{table}[h!]
+\caption{Testing Environment}
+\centering
+\scriptsize % Reduces font size more
+\begin{tabular}{|l|l|} 
+\hline
+\textbf{Component} & \textbf{Specification} \\
+\hline
+Host Machine & 20 Core CPU, 16GB RAM, Ubuntu 24.04 \\
+\hline
+Virtual Machine & QEMU, 4 Core CPU, 12GB RAM, No Distribution \\
+\hline
+Kernel Version & 6.7 \\
+\hline
+\end{tabular}
+\end{table}
 
 \subsection{Case Study 1: Evaluating the accuracy of CVE-2024-21626}
 
@@ -123,8 +141,6 @@ CMD ["/host_mount.sh"]
 
 In this evaluation, we examine whether a Docker container running as a non-privileged user with \texttt{UID=1000} can interact with and manipulate host processes that are also owned by \texttt{UID=1000}. Under a default Docker configuration, the PID namespace provides process isolation by restricting a container's visibility and access to processes outside its own namespace. However, when the container is launched with the \texttt{--pid=host} flag, it shares the host’s PID namespace, allowing it to enumerate and interact with host processes. This configuration effectively bypasses one of the core isolation mechanisms provided by containers. To assess the security implications of this namespace sharing, we investigate whether process-level interactions, such as sending signals or attaching debuggers are permitted between the container and host processes when UID ownership is aligned.
 
-\todo{why is the table below here for this case study and not for the previous one?}
-
 \begin{table}[h!]
 \caption{Testing Environment}
 \centering
@@ -133,13 +149,7 @@ In this evaluation, we examine whether a Docker container running as a non-privi
 \hline
 \textbf{Component} & \textbf{Specification} \\
 \hline
-Host Machine & 20 Core CPU, 16GB RAM, Ubuntu 24.04 \\
-\hline
-Virtual Machine & QEMU, 4 Core CPU, 12GB RAM, No Distribution \\
-\hline
 Docker Version & 27.0.3 \\
-\hline
-Kernel Version & 6.7 \\
 \hline
 Container Runtime & \texttt{runc} 1.1.13 \\
 \hline
