@@ -36,7 +36,7 @@ def build_docker_image(dockerfile_path, image_name):
     except docker.errors.BuildError as e:
         print(f"Error building Docker image: {e}")
 
-def run_docker_container(image_name, container_name, network_mode, read_only, security_opt, pid_mode, cpu_shares, volumes, mem_limit, cpuset_cpus, cpu_quota, cpu_period, cap_add, cap_drop, privileged, user, pids_limit, ipc_mode, path):
+def run_docker_container(image_name, container_name, network_mode, read_only, security_opt, pid_mode, cpu_shares, volumes, mem_limit, cpuset_cpus, cpu_quota, cpu_period, cap_add, cap_drop, privileged, user, pids_limit, ipc_mode, userns_mode, path):
     client = docker.from_env()
     container = None
     try:
@@ -60,6 +60,7 @@ def run_docker_container(image_name, container_name, network_mode, read_only, se
             user=user,
             pids_limit=pids_limit,
             ipc_mode=ipc_mode,
+            userns_mode=userns_mode,
             stdout=True,
             stderr=True,
             tty=True,
@@ -186,6 +187,7 @@ def parse_trick_and_run(trick_data, args):
         trick_data['docker_config'][13]['user'],
         trick_data['docker_config'][14]['pids_limit'],
         trick_data['docker_config'][15]['ipc_mode'],
+        trick_data['docker_config'][16]['userns_mode'],
         trick_data['trick'][0]['path']
     )
 
