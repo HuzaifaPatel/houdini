@@ -258,7 +258,7 @@ In this case study, we evaluate Docker's network isolation mechanisms to determi
     \scriptsize
     \begin{tabular}{|p{2.5cm}|c|c|c|c|c|}
         \hline
-        \texttt{Docker Version} & \texttt{NET\_BIND\_SERVICE + root} & \texttt{NET\_BIND\_SERVICE + root-less} & \texttt{root} & \texttt{root-less} & \texttt{Default Container} \\ \hline
+        \texttt{Docker Version} & \texttt{NET\_BIND\_SERVICE + root} & \texttt{NET\_BIND\_SERVICE + non-root user} & \texttt{root} & \texttt{non-root user} & \texttt{Default Container} \\ \hline
         19.03.9                & \cmark                         & \xmark                               & \xmark      & \xmark           & \xmark                                      \\ \hline
         19.03.0                & \cmark                         & \xmark                               & \xmark      & \xmark           & \xmark                                      \\ \hline
         20.10.0                & \cmark                         & \xmark                              & \xmark      & \xmark           & \xmark                                      \\ \hline
@@ -267,6 +267,9 @@ In this case study, we evaluate Docker's network isolation mechanisms to determi
         25.0.0                 & \cmark                         & \cmark                              & \cmark      & \xmark           & \xmark                                      \\ \hline
         27.0.1                 & \cmark                         & \cmark                              & \cmark      & \xmark           & \xmark                                      \\ \hline
     \end{tabular}
+    \caption*{
+        Note: A non-root user implies a user account that does not have administrative privileges, (not root-less Docker).
+    }
 \end{table*}
 
 This case study highlights how discrepancies between Docker versions in handling privileged port binding can create gaps between administrators' intended confinement policies and actual enforcement. A change in Docker's handling of binding to privileged ports, such as the removal of the NET\_BIND\_SERVICE requirement starting from Docker 20.03, may allow containers to bypass restrictions even when policies are set to prevent it. 
