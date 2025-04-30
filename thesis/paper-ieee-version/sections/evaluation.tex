@@ -27,7 +27,6 @@ CVE-2024-21626 \cite{runc-cve-2024-21626} is a container escape vulnerability in
 The root cause of this vulnerability lies in how runc handles cgroups for containers, which are used to manage system resources like CPU and memory. During container creation, runc opens a file descriptor to the host's \texttt{/sys/fs/cgroup} directory to configure resource limits. This descriptor remains open throughout the container’s lifecycle and is exposed inside the container via \texttt{/proc/self/fd/}, which lists all open file descriptors of the running process. The vulnerability arises when an attacker sets the working directory in the Dockerfile to point to one of these exposed descriptors, such as \texttt{/proc/self/fd/N}, where \texttt{N} refers to the specific file descriptor inherited from runc that points to the host’s cgroup hierarchy. This causes the container’s current working directory to resolve to a privileged host path. As a result, all subsequent relative file operations in the container are interpreted from the host’s cgroup filesystem rather than the container’s own root, allowing unintended access or modification of host resources.
 
 This behavior is enabled by Linux's treatment of \texttt{/proc/self/fd/N} as dynamic symlinks to open file descriptors. When dereferenced, these symlinks resolve to the original host-side path, regardless of container filesystem restrictions. Because runc and Docker do not restrict access to inherited file descriptors or sanitize the working directory path during initialization, attackers can exploit this oversight to escape isolation. By simply changing the container's working directory to a leaked file descriptor, a malicious container can directly interact with host-managed control groups.
-
 To test the exploitability of CVE-2024-21626, we designed a \houdini trick that executes the following steps on Docker and runc versions listed in Table~\ref{tab:cve201626}:
 \begin{enumerate}
     \item Set the working directory to \texttt{/proc/self/fd/<fd>}, pointing to a controlled file descriptor.
@@ -39,7 +38,7 @@ The CVE for this vulnerability indicates that the affected runc versions are $\g
 
 This discrepancy highlights a recurring issue in vulnerability disclosure processes: CVEs often rely on assumptions from static code analysis or limited testing. Without rigorous empirical validation across historical versions, critical edge cases can be missed. In the case of CVE-2024-21626, this oversight could have allowed vulnerable deployments relying on older runc versions to remain unpatched under the false belief that they were unaffected by this vulnerability.
 
-\begin{table}[H]
+\begin{table}[h!]
     \centering
     \caption{runc Versions Against CVE-2024-21626}
     \label{tab:cve201626}
@@ -73,8 +72,14 @@ This discrepancy highlights a recurring issue in vulnerability disclosure proces
 
 These findings highlight two \houdini can challenge misleading security assumptions and identify gaps between intended and actual enforcement.
 
+\begin{comment}
+    %this appears to be duplicated text from above
+
+The security assumption outlined in the CVE is that the vulnerability exists only in runc versions $\geq 1.0.0\text{-}rc93$, $\leq 1.1.11$, suggesting that earlier versions are safe. This creates a false sense of security, leading users and system administrators to believe there is no urgency to patch or retire older versions. Rather than accepting the securty advisories claims, \houdini takes a more rigorous approach by empirically testing the behavior of the continaer to determine whether the vulnerability is present in other runc versions. In doing so, \houdini follows a fundamental principle of system assurance: vulnerabilities cannot be assumed absent, they must be revealed through observation. As CVEs often rely on static code inspection or version diffs to define the scope of a vulnerability, we argue that validation must also occur through dynamic runtime analysis. While the former methods are helpful, they have inherent limitations. For example, static analysis inspects code without execution, and version diffs highlight changes but cannot guarantee correct behavior. As a result, issues that only surface during real execution, especially under specific configurations may go unnoticed.
+\end{comment}
+
 \begin{listing}[h!]
-\captionof{listing}{Trick Implementation for Case Study I}
+\caption{Trick Implementation for Case Study I}
 \label{lst:pythonfile}
 \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{bash}
 #!/bin/bash
@@ -113,9 +118,9 @@ runc --version || echo "runc not found"
 \end{minted}
 \end{listing}
 
-% \vspace{1em}
+\vspace{1em}
 
-\begin{listing}[H]
+\begin{listing}[h!]
 \caption{Dockerfile for Case Study I}
 \label{lst:dockerfile}
 \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{dockerfile}
@@ -126,7 +131,6 @@ RUN chmod +x /host_mount.sh
 CMD ["/host_mount.sh"]
 \end{minted}
 \end{listing}
-
 
 
 
@@ -183,6 +187,12 @@ Our results are summarized in Table~\ref{tab:pid-namespace-security}, where all 
 When the container shares the same user namespace as the host (or has aligned UID mappings), and the container process runs under the same UID as the host processes, it can bypass security restrictions that would normally prevent such interactions. In this case, the container may be able to perform operations like sending signals or attaching debuggers to host processes, even without elevated capabilities like \texttt{CAP\_KILL} or \texttt{CAP\_SYS\_PTRACE}. These capabilities, which are typically required for such actions, are not necessary when the container and host share UID mappings, as the container process is considered the same user as the host processes it targets.
 
 This case study highlights a core strength of \houdini, which is its ability to systematically explore and identify the least privilege for a given operation. By allowing users to declaratively modify container configurations, \houdini makes it easy to test a wide range of privilege combinations in a repeatable and automated way. Instead of relying on trial-and-error or defaulting to the overly permissive \texttt{--privileged} mode, users can incrementally grant permissions and observe the effect of each change. This enables security practitioners, developers, and researchers to precisely determine the minimum set of permissions required for a given trick to succeed. As a result, \houdini not only serves as a testing framework for container escapes and misconfigurations, but also as a practical tool for privilege minimization and hardening container deployments.
+
+%This case study highlights the complexity of security policies in containerized environments, highlighting that the runtime behavior of security configurations is not always straightforward or predictable. While administrators may configure a container with \texttt{--pid=host} to enable the container to monitor host processes, there is an assumption that certain operations, such as sending signals or attaching debuggers remain restricted. However, these assumptions may not hold at runtime due to the interplay of various factors such as user namespaces and UID mappings.
+
+
+
+%The non-trivial nature of these runtime behaviors is why houdini performs empirical tests to validate configurations. By simulating real-world interactions between the container and host processes, it can identify whether these configurations inadvertently allow unauthorized actions. If the container can perform actions it should not be able to, despite policy expectations, this exposes a gap between the intended security policy and its actual enforcement at runtime.
 
 \FloatBarrier
 {\captionsetup{font=footnotesize}
