@@ -1,3 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-cat /proc/\PYGZlt{}host\PYGZus{}pid\PYGZgt{}/mem
-\end{Verbatim}

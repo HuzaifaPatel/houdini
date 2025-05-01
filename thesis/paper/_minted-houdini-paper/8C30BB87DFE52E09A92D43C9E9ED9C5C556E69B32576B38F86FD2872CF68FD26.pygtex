@@ -1,3 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-strace \PYGZhy{}p \PYGZlt{}host\PYGZus{}pid\PYGZgt{}
-\end{Verbatim}
