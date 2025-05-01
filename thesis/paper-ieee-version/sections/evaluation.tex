@@ -13,7 +13,7 @@ The case studies were done in the following environment:
 \hline
 Host Machine & 20 Core CPU, 16GB RAM, Ubuntu 24.04 \\
 \hline
-Virtual Machine & QEMU, 4 Core CPU, 12GB RAM, No Distribution \\
+Virtual Machine & QEMU, 4 Core CPU, 12GB RAM, minimal Python runtime \\
 \hline
 Kernel Version & 6.7 \\
 \hline
@@ -36,7 +36,7 @@ To test the exploitability of CVE-2024-21626, we designed a \houdini trick that 
 
 The CVE for this vulnerability indicates that the affected runc versions are $\geq$ \texttt{1.0.0-rc93}, $\leq$ \texttt{1.1.11}. This suggests the vulnerability was introduced in runc version rc93 and fixed in version 1.1.12. However, our tests conducted with \houdini revealed a significant discrepancy with this assertion. Our testing showed that earlier runc versions, such as \texttt{1.0.0-rc1}, \texttt{1.0.0-rc2}, \texttt{1.0.0-rc3}, and \texttt{1.0.0-rc4} also exhibited the same vulnerability. This discovery expands the scope of the CVE by revealing that the issue existed well before version \texttt{rc93}.
 
-This discrepancy highlights a recurring issue in vulnerability disclosure processes: CVEs often rely on assumptions from static code analysis or limited testing. Without rigorous empirical validation across historical versions, critical edge cases can be missed. In the case of CVE-2024-21626, this oversight could have allowed vulnerable deployments relying on older runc versions to remain unpatched under the false belief that they were unaffected by this vulnerability.
+This discrepancy highlights a recurring issue in vulnerability disclosure processes: CVEs often rely on assumptions from static code analysis or limited testing. Without rigorous empirical validation across historical versions, critical edge cases can be missed. In the case of CVE-2024-21626, this oversight could have allowed vulnerable deployments relying on older runc versions to remain unpatched under the false belief that they were unaffected.
 
 \begin{table}[h!]
     \centering
@@ -70,7 +70,7 @@ This discrepancy highlights a recurring issue in vulnerability disclosure proces
     }
 \end{table}
 
-These findings highlight two \houdini can challenge misleading security assumptions and identify gaps between intended and actual enforcement.
+These findings highlight how \houdini can challenge misleading security assumptions and identify gaps between intended and actual enforcement.
 
 \begin{comment}
     %this appears to be duplicated text from above
@@ -172,7 +172,7 @@ The evaluation began by assessing whether a container launched with \texttt{--pi
 
 Following this, we tested whether a container process could send a \texttt{SIGKILL} signal to a host process owned by \texttt{UID 1000}. The container was launched with \texttt{--pid=host}, allowing it to see and interact with host processes. Despite not being granted \texttt{CAP\_KILL}, the signal was successfully delivered. This is because by default, both processes share the same UID and PID namespace, and under standard Linux permission checks, a process can send signals to another process it owns by UID without requiring special capabilities. However, if the target host process is owned by a different UID (another non-root user), \texttt{CAP\_KILL} is required for the signal to be delivered. That capability must also be effective in the user namespace of the target process. Similarly, signaling host processes owned by \texttt{UID 0} remains restricted even with \texttt{CAP\_KILL}, unless the container process itself is also running as root.
 
-Combining \texttt{--pid=host} with \texttt{CAP\_SYS\_PTRACE} enables nearly the same level of interaction with host processes as granting \texttt{--privileged} mode. Specifically, it allows a containerized process to list host processes, send signals, and attach a debugger to them, all key capabilities typically associated with privileged containers. However, unlike \texttt{--privileged}, this more targeted configuration limits access to only what's required, reducing the attack surface and following the principle of least privilege. These results demonstrate that it is unnecessary to over-privilege containers when finer-grained controls like capabilities and namespace sharing can achieve the same functional outcomes with significantly better security posture.
+Combining \texttt{--pid=host} with \texttt{CAP\_SYS\_PTRACE} enables nearly the same level of interaction with host processes as granting \texttt{--privileged} mode. Specifically, it allows a containerized process to list host processes, send signals, and attach a debugger to them, all key capabilities typically associated with privileged containers. However, unlike \texttt{--privileged}, this more targeted configuration limits access to only what's required, reducing the attack surface and following the principle of least privilege. These results demonstrate that it is unnecessary to over-privilege containers when finer-grained controls like capabilities and namespace sharing can achieve the same functional outcomes with a significantly better security posture.
 
 When the container is confined by AppArmor's \texttt{docker-default} profile, its ability to interact with host processes becomes significantly restricted. Specifically, \texttt{docker-default} explicitly denies system calls such as \texttt{signal} and \texttt{ptrace}, which are required for sending signals and attaching debuggers to other processes. As a result, even if the container shares the PID namespace with the host and possesses the necessary capabilities, these operations will fail. 
 
@@ -184,7 +184,7 @@ We note that the explanation above was derived after substantial amount of testi
 
 Our results are summarized in Table~\ref{tab:pid-namespace-security}, where all pairs of flags were tested using \houdini, and where the cells show what functionality was possible when launching containers with the pair of flags intersecting the rows and columns of Table~\ref{tab:pid-namespace-security}. 
 
-When the container shares the same user namespace as the host (or has aligned UID mappings), and the container process runs under the same UID as the host processes, it can bypass security restrictions that would normally prevent such interactions. In this case, the container may be able to perform operations like sending signals or attaching debuggers to host processes, even without elevated capabilities like \texttt{CAP\_KILL} or \texttt{CAP\_SYS\_PTRACE}. These capabilities, which are typically required for such actions, are not necessary when the container and host share UID mappings, as the container process is considered the same user as the host processes it targets.
+%% When the container shares the same user namespace as the host (or has aligned UID mappings), and the container process runs under the same UID as the host processes, it can bypass security restrictions that would normally prevent such interactions. In this case, the container may be able to perform operations like sending signals or attaching debuggers to host processes, even without elevated capabilities like \texttt{CAP\_KILL} or \texttt{CAP\_SYS\_PTRACE}. These capabilities, which are typically required for such actions, are not necessary when the container and host share UID mappings, as the container process is considered the same user as the host processes it targets.
 
 This case study highlights a core strength of \houdini, which is its ability to systematically explore and identify the least privilege for a given operation. By allowing users to declaratively modify container configurations, \houdini makes it easy to test a wide range of privilege combinations in a repeatable and automated way. Instead of relying on trial-and-error or defaulting to the overly permissive \texttt{--privileged} mode, users can incrementally grant permissions and observe the effect of each change. This enables security practitioners, developers, and researchers to precisely determine the minimum set of permissions required for a given trick to succeed. As a result, \houdini not only serves as a testing framework for container escapes and misconfigurations, but also as a practical tool for privilege minimization and hardening container deployments.
 
