@@ -5,7 +5,7 @@ PORT = 49153
 VM_URL = f'http://127.0.0.1:{PORT}'
 VM_RAM = 12000
 CPU_CORES = 4
-TRICK = "ProcessNamespace"
+TRICK = "HostMount"
 
 def get_value(variable_name):
     global_vars = globals()
