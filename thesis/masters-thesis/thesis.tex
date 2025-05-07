@@ -4,6 +4,10 @@
 % \usepackage[T1]{fontenc}
 \usepackage{xcolor}
 \usepackage{setspace}
+\usepackage{pifont}
+\usepackage{tabularx}
+\newcommand{\cmark}{\ding{51}} % ✔
+\newcommand{\xmark}{\ding{55}} % ✘
 \usepackage[acronym]{glossaries}
 % \usepackage{tikz}
 % \usepackage{tikzit}
@@ -15,6 +19,7 @@
 	\input{sections/titlepage.tex}
 	\printglossary[type=acronym, title=Nomenclature]
 	\input{sections/chapter2-background.tex}
+	\input{sections/chapter8-evaluation.tex}
 \end{document}
 
 \bibliographystyle{unsrt}

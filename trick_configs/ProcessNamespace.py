@@ -1,0 +1,5 @@
+pid_modes = [None, "--pid=host"]
+cap_kill = [False, True]
+cap_sys_ptrace = [False, True]
+privileged_opts = [False, True]
+apparmor_profiles = ["apparmor=unconfined", "apparmor=docker-default"]

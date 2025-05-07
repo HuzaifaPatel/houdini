@@ -87,25 +87,27 @@ class BuildrootManager:
 			print(result.stderr)
 
 	def start_vm(self, kernel=get_absolute_path(f"/kernels/{KERNEL_VERSION}/arch/x86/boot/bzImage"), drive=get_absolute_path("/buildroot/output/images/rootfs.ext2")):
-		print(KERNEL_VERSION)
-		qemu_cmd = [
-		    "qemu-system-x86_64",
-		    "-smp", str(CPU_CORES),
-		    "-m", "{}".format(VM_RAM),
-		    "-kernel", kernel,
-		    "-drive", "file={},if=virtio,format=raw".format(drive),
-		    "-append", "apparmor=1 security=apparmor rootwait root=/dev/vda console=tty1 console=ttyS0 loglevel=0 cgroup_enable=cpuset cgroup_enable=memory",
-		    "-serial", "mon:stdio",
-		    "-net", "nic,model=virtio",
-		    "-net", "user,hostfwd=tcp::{}-:{}".format(PORT, PORT),
-		    "-nographic",
-		    "-virtfs", "local,path=/home/huzi/Desktop,mount_tag=hostshare,security_model=mapped-file,id=hostshare"
-		]
-		process = subprocess.Popen(qemu_cmd, stderr=subprocess.PIPE)
+	    qemu_cmd = [
+	        "qemu-system-x86_64",
+	        "-smp", str(CPU_CORES),
+	        "-m", str(VM_RAM),
+	        "-kernel", kernel,
+	        "-drive", f"file={drive},if=virtio,format=raw",
+	        "-append", "apparmor=1 security=apparmor rootwait root=/dev/vda console=tty1 console=ttyS0 loglevel=0 cgroup_enable=cpuset cgroup_enable=memory",
+	        "-serial", "mon:stdio",
+	        "-net", "nic,model=virtio",
+	        "-net", f"user,hostfwd=tcp::{PORT}-:{PORT}",
+	        "-nographic",
+	        "-virtfs", "local,path=/home/huzi/Desktop,mount_tag=hostshare,security_model=mapped-file,id=hostshare"
+	    ]
 
-		_, error_output = process.communicate()
+	    terminal_cmd = [
+	        "gnome-terminal", "--tab", "--",
+	        *qemu_cmd
+	    ]
 
-		return process
+	    subprocess.Popen(terminal_cmd)
+
 
 	# def set_buildroot_pkg(self):
 		# if os.path.exists(FILESYSTEM_BUILD):

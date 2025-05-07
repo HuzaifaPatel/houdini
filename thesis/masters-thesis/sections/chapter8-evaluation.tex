@@ -1,0 +1,45 @@
+% Inside the document:
+\begin{table*}[ht]
+\centering
+\tiny
+\caption{Results of Security Configuration Combinations on Process Namespace Isolation}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\textwidth}{|X|c|c|c|}
+\hline
+\textbf{Docker Flags} & \textbf{Found} & \textbf{Signal} & \textbf{Debugger} \\
+\hline
+--security-opt apparmor=unconfined & \xmark & \xmark & \xmark \\
+--security-opt apparmor=docker-default & \xmark & \xmark & \xmark \\
+--privileged --security-opt apparmor=unconfined & \xmark & \xmark & \xmark \\
+--privileged --security-opt apparmor=docker-default & \xmark & \xmark & \xmark \\
+--cap-add CAP\_SYS\_PTRACE --security-opt apparmor=unconfined & \xmark & \xmark & \xmark \\
+--cap-add CAP\_SYS\_PTRACE --security-opt apparmor=docker-default & \xmark & \xmark & \xmark \\
+--privileged --cap-add CAP\_SYS\_PTRACE --security-opt apparmor=unconfined & \xmark & \xmark & \xmark \\
+--privileged --cap-add CAP\_SYS\_PTRACE --security-opt apparmor=docker-default & \xmark & \xmark & \xmark \\
+--cap-add CAP\_KILL --security-opt apparmor=unconfined & \xmark & \xmark & \xmark \\
+--cap-add CAP\_KILL --security-opt apparmor=docker-default & \xmark & \xmark & \xmark \\
+--privileged --cap-add CAP\_KILL --security-opt apparmor=unconfined & \xmark & \xmark & \xmark \\
+--privileged --cap-add CAP\_KILL --security-opt apparmor=docker-default & \xmark & \xmark & \xmark \\
+--cap-add CAP\_KILL --cap-add CAP\_SYS\_PTRACE --security-opt apparmor=unconfined & \xmark & \xmark & \xmark \\
+--cap-add CAP\_KILL --cap-add CAP\_SYS\_PTRACE --security-opt apparmor=docker-default & \xmark & \xmark & \xmark \\
+--privileged --cap-add CAP\_KILL --cap-add CAP\_SYS\_PTRACE --security-opt apparmor=unconfined & \xmark & \xmark & \xmark \\
+--privileged --cap-add CAP\_KILL --cap-add CAP\_SYS\_PTRACE --security-opt apparmor=docker-default & \xmark & \xmark & \xmark \\
+--pid=host --security-opt apparmor=unconfined & \cmark & \cmark & \xmark \\
+--pid=host --security-opt apparmor=docker-default & \cmark & \xmark & \xmark \\
+--pid=host --privileged --security-opt apparmor=unconfined & \cmark & \cmark & \cmark \\
+--pid=host --privileged --security-opt apparmor=docker-default & \cmark & \xmark & \xmark \\
+--pid=host --cap-add CAP\_SYS\_PTRACE --security-opt apparmor=unconfined & \cmark & \cmark & \cmark \\
+--pid=host --cap-add CAP\_SYS\_PTRACE --security-opt apparmor=docker-default & \cmark & \xmark & \xmark \\
+--pid=host --privileged --cap-add CAP\_SYS\_PTRACE --security-opt apparmor=unconfined & \cmark & \cmark & \cmark \\
+--pid=host --privileged --cap-add CAP\_SYS\_PTRACE --security-opt apparmor=docker-default & \cmark & \xmark & \xmark \\
+--pid=host --cap-add CAP\_KILL --security-opt apparmor=unconfined & \cmark & \cmark & \xmark \\
+--pid=host --cap-add CAP\_KILL --security-opt apparmor=docker-default & \cmark & \xmark & \xmark \\
+--pid=host --privileged --cap-add CAP\_KILL --security-opt apparmor=unconfined & \cmark & \cmark & \cmark \\
+--pid=host --privileged --cap-add CAP\_KILL --security-opt apparmor=docker-default & \cmark & \xmark & \xmark \\
+--pid=host --cap-add CAP\_KILL --cap-add CAP\_SYS\_PTRACE --security-opt apparmor=unconfined & \cmark & \cmark & \cmark \\
+--pid=host --cap-add CAP\_KILL --cap-add CAP\_SYS\_PTRACE --security-opt apparmor=docker-default & \cmark & \xmark & \xmark \\
+--pid=host --privileged --cap-add CAP\_KILL --cap-add CAP\_SYS\_PTRACE --security-opt apparmor=unconfined & \cmark & \cmark & \cmark \\
+--pid=host --privileged --cap-add CAP\_KILL --cap-add CAP\_SYS\_PTRACE --security-opt apparmor=docker-default & \cmark & \xmark & \xmark \\
+\hline
+\end{tabularx}
+\end{table*}

@@ -1,17 +1,11 @@
 RUNC_VERSION = "1.0.0"
-DOCKER_ENGINE_VERSION = "27.0.3"
+DOCKER_ENGINE_VERSION = "24.0.0"
 KERNEL_VERSION = "6.0"
 PORT = 49153
 VM_URL = f'http://127.0.0.1:{PORT}'
 VM_RAM = 12000
 CPU_CORES = 4
-PRIV_MODE = False
-
-#     enforcing - SELinux security policy is enforced.
-#     permissive - SELinux prints warnings instead of enforcing.
-#     disabled - No SELinux policy is loaded.
-SELINUX = "disabled"
-APPARMOR = "docker-default" # not working yet
+TRICK = "ProcessNamespace"
 
 def get_value(variable_name):
     global_vars = globals()

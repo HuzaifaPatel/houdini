@@ -2,7 +2,7 @@
 FROM python:3.9-slim
 
 # Create a new user and group
-RUN groupadd -r myuser && useradd -r -g myuser myuser
+RUN groupadd -r huzi && useradd -r -g huzi huzi
 
 # Set the working directory
 WORKDIR /
@@ -11,10 +11,7 @@ WORKDIR /
 COPY privileged_ports.py /privileged_ports.py
 
 # Change ownership of the working directory and script to the new user
-RUN chown myuser:myuser privileged_ports.py 
-
-# Switch to the new user
-USER root
+RUN chown huzi:huzi privileged_ports.py 
 
 # Specify the default command to run the script
 CMD ["python", "privileged_ports.py"]
