@@ -1,5 +1,5 @@
 # Use the official Python image (already includes Python and pip)
-FROM python:3.9-slim
+FROM python:3.7-slim
 
 # Create a new user and group
 RUN groupadd -r huzi && useradd -r -g huzi huzi

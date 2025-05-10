@@ -1,4 +1,4 @@
-pid_modes = [None, "--pid=host"]
+pid_mode = [None, "--pid=host"]
 cap_kill = [False, True]
 cap_sys_ptrace = [False, True]
 privileged_opts = [False, True]

@@ -9,7 +9,6 @@ import importlib
 from houdini_config import PORT, VM_RAM, CPU_CORES, KERNEL_VERSION
 import shutil
 import time
-import set_selinux_mode
 
 class BuildrootManager:
 	def __init__(self):
@@ -69,7 +68,6 @@ class BuildrootManager:
 		# self.set_buildroot_pkg()
 		# shutil.copy(BUILDROOT_CONFIG_FILE, FILESYSTEM_PATH)
 		self.make_olddefconfig()
-		set_selinux_mode.update_selinux_config()
 		self.make(command, 'rootfs-ext2')
 
 	def make_olddefconfig(self):

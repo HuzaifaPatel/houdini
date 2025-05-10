@@ -129,8 +129,7 @@ docker_versions=(
 # 26.1.4
 # 27.0.1
 # 27.0.2
-27.0.3
-# runc91
+# 27.0.3
 )
 
 runc_versions=(

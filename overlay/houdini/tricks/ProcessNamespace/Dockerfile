@@ -1,5 +1,5 @@
 # Use the official Ubuntu image
-FROM ubuntu:20.04
+FROM ubuntu:14.04
 
 # Install Python 3, hexdump (via bsdmainutils), strace, capsh (via libcap2-bin), and other necessary packages
 RUN apt-get update && \

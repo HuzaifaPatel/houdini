@@ -1,11 +1,11 @@
-RUNC_VERSION = "1.0.0"
-DOCKER_ENGINE_VERSION = "24.0.0"
-KERNEL_VERSION = "6.0"
+RUNC_VERSION = "1.1.10"
+DOCKER_ENGINE_VERSION = "27.0.3"
+KERNEL_VERSION = "6.7"
 PORT = 49153
 VM_URL = f'http://127.0.0.1:{PORT}'
 VM_RAM = 12000
 CPU_CORES = 4
-TRICK = "HostMount"
+TRICK = "ProcessNamespace"
 
 def get_value(variable_name):
     global_vars = globals()

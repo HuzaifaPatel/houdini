@@ -2,9 +2,9 @@ __pycache__/
 kernels/
 venv/
 misc/
+logs/
 overlay/usr/bin/
 buildroot/
-vm_logs/
 overlay/etc/init.d/S99docker_login
 buildroot-old/
 ## Core latex/pdflatex auxiliary files:
