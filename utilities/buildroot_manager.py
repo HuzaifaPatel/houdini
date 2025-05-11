@@ -1,10 +1,9 @@
 import subprocess
 from buildroot_package_manager import *
 from style import Style
-from path_manager import get_absolute_path
+from path_manager import *
 import os
 import multiprocessing
-from kernel_configurator import *
 import importlib
 from houdini_config import PORT, VM_RAM, CPU_CORES, KERNEL_VERSION
 import shutil
@@ -45,21 +44,6 @@ class BuildrootManager:
 	        return
 	    else:
 	    	print("Moved Docker files to overlay")
-
-
-	def make_kernel(self):
-		if os.path.isfile(os.path.join(KERNEL_DIR, KERNEL_VERSION, 'build', f'linux-{KERNEL_VERSION}', 'arch', 'x86', 'boot', 'bzImage')):
-			Style.print_color('\nKernels exists.\n', 'green')
-			return 0
-
-		if not os.path.isdir(os.path.join(KERNEL_DIR, KERNEL_VERSION)):
-			os.makedirs(os.path.join(KERNEL_DIR, KERNEL_VERSION))
-
-		command = ['make', f'O={KERNEL_DIR}/{KERNEL_VERSION}', '-j', f'{self.cpu_count}']
-		self.set_kernel_ver()
-		self.make_olddefconfig()
-		shutil.copy(BUILDROOT_CONFIG_FILE, f'{KERNEL_DIR}/{KERNEL_VERSION}')
-		self.make(command, 'linux-rebuild')
 
 
 	def make_filesystem(self):
@@ -106,12 +90,6 @@ class BuildrootManager:
 
 	    subprocess.Popen(terminal_cmd)
 
-
-	# def set_buildroot_pkg(self):
-		# if os.path.exists(FILESYSTEM_BUILD):
-			# BuildrootPackageManager.set_runc_version()
-			# BuildrootPackageManager.update_docker_engine_version()
-			# BuildrootPackageManager.update_docker_cli_version()
 
 	def set_kernel_ver(self):
 		KernelConfigurator.set_br2_linux_kernel_custom_version_value() # this is good

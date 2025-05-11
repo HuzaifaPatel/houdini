@@ -1,6 +1,5 @@
 import subprocess
 import yaml
-from config import *
 import docker
 from signal import SIGKILL
 import subprocess

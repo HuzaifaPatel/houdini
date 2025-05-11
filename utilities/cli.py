@@ -26,7 +26,6 @@ def parser():
 
 	# Add arguments
 	parser.add_argument('--mkfs', action='store_true', help='Make filesystem')
-	parser.add_argument('--mkkern', action='store_true', help='Make kernel')
 	parser.add_argument('--run_trick', type=str, help='Run a trick')
 	parser.add_argument('--start_vm', action='store_true', help='Start Virtual Machine')
 	parser.add_argument('--get_versions', action='store_true', help='View Version Information of Software installed on VM')
@@ -44,8 +43,6 @@ def parser():
 
 	if args.mkfs:
 	    brm.make_filesystem()
-	if args.mkkern:
-	    brm.make_kernel()
 	if args.run_trick:
 	    run_trick(args.run_trick)
 	if args.start_vm:

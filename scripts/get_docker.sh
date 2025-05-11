@@ -28,9 +28,7 @@ remove_initd_scripts() {
         "S50docker"
         "S99docker_login"
         "S50houdini"
-        "S99host_ipc"
         "S99http_server"
-        "S99mount_hostshare"
         "S99set_docker_pro"
         "S99huzi_startup"
     )

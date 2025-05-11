@@ -54,26 +54,3 @@ class BuildrootPackageManager:
         else:
             DOCKER_ENGINE_MAKEFILE_PATH.write_text(new_content)
             print(f"✅ Updated DOCKER_ENGINE_VERSION to {DOCKER_ENGINE_VERSION} in {DOCKER_ENGINE_MAKEFILE_PATH}")
-
-
-    # @staticmethod
-    # def update_docker_cli_version():
-    #     if not DOCKER_CLI_MAKEFILE_PATH.exists():
-    #         print(f"Error: Docker CLI {DOCKER_CLI_MAKEFILE_PATH} not found.")
-    #         sys.exit(0)
-
-    #     content = DOCKER_CLI_MAKEFILE_PATH.read_text()
-        
-    #     new_content, count = re.subn(
-    #         r"^(DOCKER_CLI_VERSION\s*=\s*)[\d.]+",
-    #         lambda m: m.group(1) + DOCKER_CLI_VERSION,
-    #         content,
-    #         flags=re.MULTILINE
-    #     )
-
-    #     if count == 0:
-    #         print("No DOCKER_CLI_VERSION line found.")
-    #     else:
-    #         DOCKER_CLI_MAKEFILE_PATH.write_text(new_content)
-    #         print(f"✅ Updated DOCKER_CLI_VERSION to {DOCKER_CLI_VERSION} in {DOCKER_CLI_MAKEFILE_PATH}")
-
