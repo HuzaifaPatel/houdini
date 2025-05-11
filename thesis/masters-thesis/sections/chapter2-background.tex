@@ -38,4 +38,40 @@ Native hypervisors are hypervisors that push VM guest instructions directly to t
 
 \subsection{Emulation Hypervisor}
 Emulation hypervisors are hypervisors that emulate every VM guest instruction using software virtualization ~\cite{10.1145/2775111}. Emulated guest instructions are very easy to trace because all guest VM instructions are trapped to the hypervisor. Examples of emulation hypervisors include but are not limited to QEMU, Bochs, early versions of VMware-Workstation, and VirtualBox ~\cite{10.1145/2775111}.
+
+
+\subsection{Why do we have run Docker with sudo?}
+
+By default, Docker’s daemon (dockerd) runs as root, and access to it is controlled through the Unix socket:
+
+
+Copy
+Edit
+/var/run/docker.sock
+This socket is owned by root and typically part of the docker group.
+If your user isn’t in the docker group, you’ll need sudo to interact with it.
+
+Why Docker Needs Elevated Privileges:
+Container Isolation Requires Kernel Features:
+
+Managing cgroups, namespaces, mounting filesystems, setting up virtual networks—all require elevated permissions.
+
+By Default, Docker Protects Access to Its Control API:
+
+docker.sock is a privileged control interface that allows full system control (you can effectively become root via it).
+
+
+You can check if Yama is enabled by inspecting the ptrace\_scope value in /proc:
+
+bash
+Copy
+Edit
+cat /proc/sys/kernel/yama/ptrace\_scope
+What the Values Mean:
+Value	Description
+0	Yama is disabled (classic ptrace behavior).
+1	Yama is enabled in restrictive mode (processes can only ptrace their children).
+2	Yama is enabled, requires CAP\_SYS\_PTRACE to trace any process.
+3	Yama is locked down; no ptrace allowed regardless of capabilities.
+
 \end{doublespace}
