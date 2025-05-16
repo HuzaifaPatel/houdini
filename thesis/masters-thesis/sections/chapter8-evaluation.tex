@@ -1,1 +1,242 @@
 % Inside the document:
+\fontsize{12pt}{14pt} \selectfont
+\begin{doublespace}
+\chapter{Evaluation}
+
+
+\subsection{Case Study 1: Evaluating the accuracy of CVE-2024-21626}
+
+CVE-2024-21626 \cite{runc-cve-2024-21626} is a container escape vulnerability in runc, the low-level container runtime used by Docker and other container engines. It allows a malicious container to escape its isolation and execute arbitrary commands on the host system.
+
+The root cause of this vulnerability lies in how runc handles cgroups for containers, which are used to manage system resources like CPU and memory. During container creation, runc opens a file descriptor to the host's \texttt{/sys/fs/cgroup} directory to configure resource limits. This descriptor remains open throughout the container’s lifecycle and is exposed inside the container via \texttt{/proc/self/fd/}, which lists all open file descriptors of the running process. The vulnerability arises when an attacker sets the working directory in the Dockerfile to point to one of these exposed descriptors, such as \texttt{/proc/self/fd/N}, where \texttt{N} refers to the specific file descriptor inherited from runc that points to the host’s cgroup hierarchy. This causes the container’s current working directory to resolve to a privileged host path. As a result, all subsequent relative file operations in the container are interpreted from the host’s cgroup filesystem rather than the container’s own root, allowing unintended access or modification of host resources.
+
+This behavior is enabled by Linux's treatment of \texttt{/proc/self/fd/N} as dynamic symlinks to open file descriptors. When dereferenced, these symlinks resolve to the original host-side path, regardless of container filesystem restrictions. Because runc and Docker do not restrict access to inherited file descriptors or sanitize the working directory path during initialization, attackers can exploit this oversight to escape isolation. By simply changing the container's working directory to a leaked file descriptor, a malicious container can directly interact with host-managed control groups.
+To test the exploitability of CVE-2024-21626, we designed a Houdini trick that executes the following steps on Docker and runc versions listed in Table~\ref{tab:cve201626}:
+\begin{enumerate}
+    \item Set the working directory to \texttt{/proc/self/fd/<fd>}, pointing to a controlled file descriptor.
+    \item Attempt to break out of the container by leveraging the misconfigured working directory.
+    \item Validate whether commands can be executed on the host system.
+\end{enumerate}
+
+The CVE for this vulnerability indicates that the affected runc versions are $\geq$ \texttt{1.0.0-rc93}, $\leq$ \texttt{1.1.11}. This suggests the vulnerability was introduced in runc version rc93 and fixed in version 1.1.12. However, our tests conducted with Houdini revealed a significant discrepancy with this assertion. Our testing showed that earlier runc versions, such as \texttt{1.0.0-rc1}, \texttt{1.0.0-rc2}, \texttt{1.0.0-rc3}, and \texttt{1.0.0-rc4} also exhibited the same vulnerability. This discovery expands the scope of the CVE by revealing that the issue existed well before version \texttt{rc93}.
+
+This discrepancy highlights a recurring issue in vulnerability disclosure processes: CVEs often rely on assumptions from static code analysis or limited testing. Without rigorous empirical validation across historical versions, critical edge cases can be missed. In the case of CVE-2024-21626, this oversight could have allowed vulnerable deployments relying on older runc versions to remain unpatched under the false belief that they were unaffected.
+
+
+\begin{table}[h!]
+    \centering
+    \caption{runc Versions Against CVE-2024-21626}
+    \label{tab:cve201626}
+    \resizebox{\columnwidth}{!}{%
+        \begin{tabular}{l|l|c|c}
+            \hline
+            \textbf{Docker Version} & \textbf{Runc Version} & \textbf{Leaked FD} & \textbf{Exploit Success} \\
+            \hline
+            1.11.0 & runc 0.0.9 & - & \xmark \\
+            1.12.0 & runc 1.0.0-rc1 & /proc/self/fd/4 & \cmark \\
+            17.03.0-ce & runc 1.0.0-rc2 & /proc/self/fd/4 & \cmark \\
+            17.06.1-ce & runc 1.0.0-rc3 & /proc/self/fd/5 & \cmark \\
+            17.09.0-ce & runc 1.0.0-rc4 & /proc/self/fd/5 & \cmark \\
+            - & runc 1.0.0-rc8 & - & \xmark \\
+            - & runc 1.0.0-rc10 & - & \xmark \\
+            - & runc 1.0.0-rc91 & - & \xmark \\
+            20.10.17 & runc 1.1.2 & /proc/self/fd/9 & \cmark \\
+            23.0.1 & runc 1.1.4 & /proc/self/fd/8 & \cmark \\
+            23.0.5 & runc 1.1.5 & /proc/self/fd/8 & \cmark \\
+            24.0.2 & runc 1.1.7 & /proc/self/fd/9 & \cmark \\
+            24.0.5 & runc 1.1.8 & /proc/self/fd/9 & \cmark \\
+            24.0.7 & runc 1.1.9 & /proc/self/fd/9 & \cmark \\
+            24.0.0 & runc 1.1.11 & /proc/self/fd/9 & \cmark \\
+            - & runc 1.1.12 & - & \xmark \\
+            - & runc 1.1.13 & - & \xmark \\
+            - & runc 1.1.14 & - & \xmark \\
+            \hline
+        \end{tabular}
+    }
+\end{table}
+
+\subsection{Case Study 2}
+
+
+In this evaluation, we examine whether a Docker container running as a non-privileged user with \texttt{UID 1000} can interact with and manipulate host processes that are also owned by \texttt{UID 1000}. Under a default Docker configuration, the PID namespace provides process isolation by restricting a container's visibility and access to processes outside its own namespace. However, when the container is launched with the \texttt{--pid=host} flag, it shares the host’s PID namespace, allowing it to enumerate and interact with host processes. This configuration effectively bypasses one of the core isolation mechanisms provided by containers. To assess the security implications of this namespace sharing, we investigate whether process-level interactions, such as sending signals or attaching debuggers are permitted between the container and host processes when UID ownership is aligned. The testing environment for this case study is in Table~\ref{table:case2env}.
+
+\begin{table}[h!]
+\caption{Case Study 2 Testing Environment\label{table:case2env}}
+\centering
+\scriptsize % Reduces font size more
+\begin{tabular}{|l|l|} 
+\hline
+\textbf{Component} & \textbf{Specification} \\
+\hline
+Docker Version & 27.0.3 \\
+\hline
+Container Runtime & \texttt{runc} 1.1.13 \\
+\hline
+\end{tabular}
+\end{table}
+
+Case study 2's results are summarized in Table~\ref{tab:pid-namespace-security}, where all pairs of flags were tested using Houdini, and where the cells show what functionality was possible when launching containers with the pair of flags intersecting the rows and columns of Table~\ref{tab:pid-namespace-security}. 
+
+Our objective here is to investigate how various security flags interact with each other, and to determine the minimum set of privileges required for a container to manipulate host processes. Specifically, we looked at the following flags:
+
+\begin{itemize}
+    \item \texttt{--pid=host}
+    \item \texttt{CAP\_KILL}
+    \item \texttt{CAP\_SYS\_PTRACE}
+    \item \texttt{--privileged}
+    \item \texttt{apparmor=docker-default}
+\end{itemize}
+
+The evaluation began by assessing whether a container launched with \texttt{--pid=host} could list host processes using \texttt{ps aux}. As expected, the container displayed all processes running on the host, confirming that sharing the host PID namespace fully exposes the host's process table to the container.
+
+Following this, we tested whether a container process could send a \texttt{SIGKILL} signal to a host process owned by \texttt{UID 1000}. The container was launched with \texttt{--pid=host}, allowing it to see and interact with host processes. Despite not being granted \texttt{CAP\_KILL}, the signal was successfully delivered. This is because by default, both processes share the same UID and PID namespace, and under standard Linux permission checks, a process can send signals to another process it owns by UID without requiring special capabilities. However, if the target host process is owned by a different UID (another non-root user), \texttt{CAP\_KILL} is required for the signal to be delivered. That capability must also be effective in the user namespace of the target process. Similarly, signaling host processes owned by \texttt{UID 0} remains restricted even with \texttt{CAP\_KILL}, unless the container process itself is also running as root.
+
+Combining \texttt{--pid=host} with \texttt{CAP\_SYS\_PTRACE} enables nearly the same level of interaction with host processes as granting \texttt{--privileged} mode. Specifically, it allows a containerized process to list host processes, send signals, and attach a debugger to them, all key capabilities typically associated with privileged containers. However, unlike \texttt{--privileged}, this more targeted configuration avoids giving the container unnecessary capabilities such as access to all of the host's devices. These results demonstrate that it is unnecessary to over-privilege containers when finer-grained controls can achieve the same functional outcomes with a significantly better security posture.
+
+When the container is confined by AppArmor's \texttt{docker-default} profile, its ability to interact with host processes becomes significantly restricted. Specifically, \texttt{docker-default} explicitly denies system calls such as \texttt{signal} and \texttt{ptrace}, which are required for sending signals and attaching debuggers to other processes. As a result, even if the container shares the PID namespace with the host and possesses the necessary capabilities, these operations will fail. 
+
+However, including the \texttt{--privileged} flag when starting the container overrides AppArmor confinement by disabling the \texttt{docker-default} profile entirely. This lifts all AppArmor-imposed restrictions, allowing the container full access to the previously restricted system calls. As a result, operations that were previously blocked, such as sending signals or attaching debuggers to host processes are now permitted, even if AppArmor would normally deny them.
+
+It is also important to note that granting capabilities such as \texttt{CAP\_KILL} and \texttt{CAP\_SYS\_PTRACE} alone is not sufficient for interacting with host processes unless the container shares the host’s PID namespace. Without the \texttt{--pid=host} flag, the container operates in its own isolated PID namespace, meaning it cannot see or reference host PIDs at all. As a result, any attempt to send signals or attach to host processes will fail.
+
+We note that the explanation above was derived after substantial amount of testing and analysis. The Docker documentation alone does not clarify this behavior. Instead, users are expected to understand both the Docker tooling and the underlying Linux kernel security model to correctly select these flags. 
+
+When the container shares the same user namespace as the host (or has aligned UID mappings), and the container process runs under the same UID as the host processes, it can bypass security restrictions that would normally prevent such interactions. In this case, the container may be able to perform operations like sending signals or attaching debuggers to host processes, even without elevated capabilities like \texttt{CAP\_KILL} or \texttt{CAP\_SYS\_PTRACE}. These capabilities, which are typically required for such actions, are not necessary when the container and host share UID mappings, as the container process is considered the same user as the host processes it targets.
+
+This case study highlights a core strength of Houdini, which is its ability to systematically explore and identify the least privilege for a given operation. By allowing users to declaratively modify container configurations, Houdini makes it easy to test a wide range of privilege combinations in a repeatable and automated way. Instead of relying on trial and error or defaulting to the overly permissive \texttt{--privileged} mode, users can incrementally grant permissions and observe the effect of each change. Houdini thus enables security practitioners, developers, and researchers to precisely determine the minimum set of permissions required for a given trick to succeed. As a result, Houdini not only serves as a testing framework for container escapes and misconfigurations, but also as a practical tool for privilege minimization and hardening container deployments.
+
+This case study highlights the complexity of security policies in containerized environments, highlighting that the runtime behavior of security configurations is not always straightforward or predictable. While administrators may configure a container with \texttt{--pid=host} to enable the container to monitor host processes, there is an assumption that certain operations, such as sending signals or attaching debuggers remain restricted. However, these assumptions may not hold at runtime due to the interplay of various factors such as user namespaces and UID mappings.
+
+
+\begin{table*}[!h]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \renewcommand{\arraystretch}{1.1}
+    \caption{Ability for Containers to Interact with Host Processes Across Yama Settings (Ubuntu Kernel 6.8.12)}
+    \label{tab:combined-pid-namespace-security}
+    \begin{adjustbox}{max width=\textwidth}
+    \begin{tabular}{|l|c|c|c|c|c|c|c|c|}
+        \hline
+        \textbf{Security Configuration} & \textbf{Yama Scope} & \texttt{--pid=host} & \texttt{CAP\_KILL} & \texttt{CAP\_SYS\_PTRACE} & \texttt{--privileged} & \texttt{apparmor=docker-default} & \texttt{--pid=host + apparmor=docker-default} \\
+        \hline
+
+        \multirow{4}{*}{\texttt{--pid=host}} 
+            & 0 & $\diamondsuit$ $\triangle$ & $\diamondsuit$ $\triangle$ & $\diamondsuit$ $\triangle$ $\star$ & $\diamondsuit$ $\triangle$ $\star$ & $\diamondsuit$ & $\diamondsuit$ \\
+            & 1 & $\diamondsuit$ $\triangle$ & $\diamondsuit$ $\triangle$ & $\diamondsuit$ $\triangle$ $\star$ & $\diamondsuit$ $\triangle$ $\star$ & $\diamondsuit$ & $\diamondsuit$ \\
+            & 2 & $\diamondsuit$ $\triangle$ & $\diamondsuit$ $\triangle$ & $\diamondsuit$ $\triangle$ & $\diamondsuit$ $\triangle$ & $\diamondsuit$ & $\diamondsuit$ \\
+            & 3 & $\diamondsuit$ $\triangle$ & $\diamondsuit$ $\triangle$ & $\diamondsuit$ $\triangle$ & $\diamondsuit$ $\triangle$ & $\diamondsuit$ & $\diamondsuit$ \\
+        \hline
+
+        \multirow{4}{*}{\texttt{CAP\_KILL}} 
+            & 0 & $\diamondsuit$ $\triangle$ &  &  &  &  & $\diamondsuit$ \\
+            & 1 & $\diamondsuit$ $\triangle$ &  &  &  &  & $\diamondsuit$ \\
+            & 2 & $\diamondsuit$ $\triangle$ &  &  &  &  & $\diamondsuit$ \\
+            & 3 & $\diamondsuit$ $\triangle$ &  &  &  &  & $\diamondsuit$ \\
+        \hline
+
+        \multirow{4}{*}{\texttt{CAP\_SYS\_PTRACE}} 
+            & 0 & $\diamondsuit$ $\triangle$ $\star$ &  &  &  &  & $\diamondsuit$ \\
+            & 1 & $\diamondsuit$ $\triangle$ $\star$ &  &  &  &  & $\diamondsuit$ \\
+            & 2 & $\diamondsuit$ $\triangle$ &  &  &  &  & $\diamondsuit$ \\
+            & 3 & $\diamondsuit$ $\triangle$ &  &  &  &  & $\diamondsuit$ \\
+        \hline
+
+        \multirow{4}{*}{\texttt{--privileged}} 
+            & 0 & $\diamondsuit$ $\triangle$ $\star$ &  &  &  &  & $\diamondsuit$ $\triangle$ $\star$ \\
+            & 1 & $\diamondsuit$ $\triangle$ $\star$ &  &  &  &  & $\diamondsuit$ $\triangle$ $\star$ \\
+            & 2 & $\diamondsuit$ $\triangle$ &  &  &  &  & $\diamondsuit$ $\triangle$ \\
+            & 3 & $\diamondsuit$ $\triangle$ &  &  &  &  & $\diamondsuit$ $\triangle$ \\
+        \hline
+
+        \multirow{4}{*}{\texttt{apparmor=docker-default}} 
+            & 0 & $\diamondsuit$ &  &  &  &  & $\diamondsuit$ \\
+            & 1 & $\diamondsuit$ &  &  &  &  & $\diamondsuit$ \\
+            & 2 & $\diamondsuit$ &  &  &  &  & $\diamondsuit$ \\
+            & 3 & $\diamondsuit$ &  &  &  &  & $\diamondsuit$ \\
+        \hline
+
+        \multirow{4}{*}{\texttt{--pid=host} + \texttt{apparmor=docker-default}} 
+            & 0 & $\diamondsuit$ & $\diamondsuit$ & $\diamondsuit$ & $\diamondsuit$ $\triangle$ $\star$ & $\diamondsuit$ & $\diamondsuit$ \\
+            & 1 & $\diamondsuit$ & $\diamondsuit$ & $\diamondsuit$ & $\diamondsuit$ $\triangle$ $\star$ & $\diamondsuit$ & $\diamondsuit$ \\
+            & 2 & $\diamondsuit$ & $\diamondsuit$ & $\diamondsuit$ & $\diamondsuit$ $\triangle$ & $\diamondsuit$ & $\diamondsuit$ \\
+            & 3 & $\diamondsuit$ & $\diamondsuit$ & $\diamondsuit$ & $\diamondsuit$ $\triangle$ & $\diamondsuit$ & $\diamondsuit$ \\
+        \hline
+    \end{tabular}
+    \end{adjustbox}
+    \caption*{
+        Tests run as a non-root user (UID=1000) against a host process owned by UID 1000.\\
+        $\diamondsuit$ List Host Process \quad 
+        $\triangle$ Send Signal to Host Process \quad 
+        $\star$ Attach Debugger to Host Process
+    }
+\end{table*}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Case Study 3}
+
+To assess the effectiveness of Linux kernel mechanisms in enforcing process isolation within containerized environments, we conducted a series of controlled experiments targeting the ptrace system call under various configurations. These experiments were designed to evaluate how different kernel versions, Yama security module settings, and process capabilities affect the ability of a containerized process to trace other processes, both inside and outside its container boundary.
+
+\begin{table*}[!htbp]
+    \centering
+    \caption{ptrace Behavior Across Distributions with Default Yama Scopes}
+    \label{tab:ptrace-default-yama}
+    \small
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|c|c|c|c|}
+        \hline
+        \textbf{Distribution} & \textbf{Kernel Version} & \textbf{Yama Scope (Default)} & \textbf{CAP\_SYS\_PTRACE} & \textbf{Result} \\
+        \hline
+        Debian 12    & 6.1 (Bookworm)  & 1  & Yes & Success \\
+        Debian 12    & 6.1 (Bookworm)  & 1  & No  & Fail    \\
+        Debian 8     & 3.16 (Jessie)   & 0  & Yes & Success \\
+        Debian 8     & 3.16 (Jessie)   & 0  & No  & Success \\
+        Fedora 40    & 6.7             & 2  & Yes & Fail    \\
+        Fedora 40    & 6.7             & 2  & No  & Fail    \\
+        Ubuntu 24.04 & 6.8.12          & 1  & Yes & Success \\
+        Ubuntu 24.04 & 6.8.12          & 1  & No  & Fail    \\
+        Ubuntu 22.04 & 5.15 (LTS)      & 1  & Yes & Success \\
+        Ubuntu 22.04 & 5.15 (LTS)      & 1  & No  & Fail    \\
+        Ubuntu 16.04 & 4.4 (LTS)       & 0  & Yes & Success \\
+        Ubuntu 16.04 & 4.4 (LTS)       & 0  & No  & Success \\
+        Alpine 3.19  & 6.1             & 0  & Yes & Success \\
+        Alpine 3.19  & 6.1             & 0  & No  & Success \\
+        Arch Linux   & 6.8 (Rolling)   & 1  & Yes & Success \\
+        Arch Linux   & 6.8 (Rolling)   & 1  & No  & Fail    \\
+        CentOS 7     & 3.10            & 1  & Yes & Success \\
+        CentOS 7     & 3.10            & 1  & No  & Fail    \\
+        CentOS 6     & 2.6.32          & 0  & Yes & Success \\
+        CentOS 6     & 2.6.32          & 0  & No  & Success \\
+        \hline
+    \end{tabular}%
+    }
+\end{table*}
+
+
+\end{doublespace}

@@ -1,0 +1,8 @@
+{
+  "runtimes": {
+    "crun": {
+      "path": "crun"
+    }
+  },
+  "default-runtime": "crun"
+}

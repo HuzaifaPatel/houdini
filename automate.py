@@ -107,7 +107,7 @@ def run_tests(image_id, combinations, version):
         if isinstance(kill, str):
             cmd += ["--cap-add", "CAP_KILL"]
 
-        if isinstance(ptrace, bool):
+        if ptrace:
             cmd += ["--cap-add", "CAP_SYS_PTRACE"]
 
         if apparmor:
@@ -147,8 +147,9 @@ def main():
     print(f"🚀 Running test for Docker {DOCKER_ENGINE_VERSION}...")
     update_docker_engine_version(DOCKER_ENGINE_VERSION)
     # mkfs()
-    # start_vm()
-    # wait_for_port()
+    start_vm()
+    wait_for_port()
+    time.sleep(10)
     config = load_config(TRICK)
     combinations = generate_combinations(config)
     image_id = build_docker_image()

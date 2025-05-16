@@ -1,4 +1,4 @@
 all:
-	latexmk -pdf -shell-escape houdini.tex
+	latexmk -pdf houdini.tex
 clean:
 	rm houdini.aux houdini.bbl houdini.blg houdini.fdb_latexmk houdini.fls houdini.log

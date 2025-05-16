@@ -61,17 +61,89 @@ By Default, Docker Protects Access to Its Control API:
 docker.sock is a privileged control interface that allows full system control (you can effectively become root via it).
 
 
-You can check if Yama is enabled by inspecting the ptrace\_scope value in /proc:
+\subsection{YAMA}
 
-bash
-Copy
-Edit
-cat /proc/sys/kernel/yama/ptrace\_scope
-What the Values Mean:
-Value	Description
-0	Yama is disabled (classic ptrace behavior).
-1	Yama is enabled in restrictive mode (processes can only ptrace their children).
-2	Yama is enabled, requires CAP\_SYS\_PTRACE to trace any process.
-3	Yama is locked down; no ptrace allowed regardless of capabilities.
+
+Yama is a Linux Security Module (LSM) that adds additional restrictions to the ptrace system call, which is commonly used for debugging and process tracing. While ptrace is a powerful tool for legitimate uses like debuggers and profilers, it can also be abused by malicious processes to interfere with or spy on other running processes. Yama was introduced to mitigate these risks by controlling and limiting which processes can use ptrace on others, providing a simple but effective hardening mechanism against certain types of attacks.
+
+The core of Yama’s functionality revolves around the /proc/sys/kernel/yama/ptrace\_scope setting, which controls how restrictive the kernel is regarding ptrace access. The available levels range from 0 to 3, each enforcing progressively stricter controls. With ptrace\_scope=0, the system behaves traditionally, allowing any process to ptrace another process owned by the same user if the target is marked as dumpable. At 1, only parent processes can trace their children, limiting the risk of arbitrary tracing. Level 2 requires a process to have CAP\_SYS\_PTRACE capabilities (effectively root-level permissions) to trace any process, and level 3 completely disables ptrace system-wide, locking down the system from process tracing even by privileged users.
+
+Yama is especially valuable in multi-user systems or environments where processes run under the same user account but should remain isolated from one another, such as in containerized or sandboxed environments. While it is a relatively lightweight security module compared to more comprehensive systems like SELinux or AppArmor, it adds a meaningful layer of defense against local privilege escalation attacks. However, it’s important to balance its restrictions with the need for debugging and profiling tools that rely on ptrace. In production environments focused on security, higher ptrace\_scope values (such as 2 or 3) may be appropriate, while development systems typically keep it at 0 or 1 to allow standard debugging workflows.
+
+Yama does not enforce its `ptrace\_scope` restrictions when attempting to trace host processes from within a container because Yama’s enforcement is limited to the current process visibility defined by PID namespaces. In most container environments, the containerized process runs in an isolated PID namespace and cannot see or interact with host processes unless explicitly configured using options like `--pid=host`. Even when a container is started with `--pid=host`, allowing it to see host processes, Yama primarily governs interactions within the same namespace context and is not designed to enforce security policies across different namespaces.
+
+Additionally, for Yama to restrict tracing of host processes, the containerized process would not only need visibility of host PIDs but also require sufficient privileges, such as `CAP\_SYS\_PTRACE`, in the host’s user namespace. In practice, other security mechanisms like AppArmor, SELinux, and seccomp often prevent such privilege escalation before Yama’s policies even apply. As a result, Yama’s effectiveness is primarily confined to preventing ptrace interactions between processes that are already within the same visibility scope, rather than serving as a cross-namespace isolation mechanism. This makes Yama a useful tool for hardening processes within the same environment but not a comprehensive defense against container-to-host process tracing attempts.
+
+
+The behavior of Yama is controlled by the \texttt{/proc/sys/kernel/yama/ptrace\_scope} setting, which determines the level of restriction imposed on \texttt{ptrace} operations. The possible values are summarized below:
+
+\begin{table}[h]
+    \centering
+    \caption{Yama \texttt{ptrace\_scope} Settings}
+    \label{tab:yama-settings}
+    \begin{tabular}{|c|p{10cm}|}
+        \hline
+        \textbf{Value} & \textbf{Behavior} \\
+        \hline
+        0 & No additional restrictions. Processes can trace any other process they have permissions for. \\
+        \hline
+        1 & Restricted to child processes only. This is the default setting in many distributions. \\
+        \hline
+        2 & Restricted unless explicitly allowed via \texttt{/proc/[pid]/uid\_map} or using \texttt{prctl()}. \\
+        \hline
+        3 & No \texttt{ptrace} allowed at all, even for processes with \texttt{CAP\_SYS\_PTRACE}. This is the most restrictive setting. \\
+        \hline
+    \end{tabular}
+\end{table}
+
+When Yama’s ptrace\_scope is set to 2, processes cannot freely attach to other unrelated processes, even if they have administrative capabilities or are running as root. In this mode, the ability to trace or debug a process must be explicitly granted by the target process itself or configured through system-level controls.
+
+This permission can be granted using the prctl() system call with the PR\_SET\_PTRACER option, allowing a specific process to act as a tracer. Alternatively, the system administrator can modify the global ptrace policy by lowering the ptrace\_scope value in /proc/sys/kernel/yama/ptrace\_scope. Without such explicit authorization, ptrace attempts will consistently fail, regardless of user privileges or capabilities. This design enforces stronger security boundaries by preventing unauthorized inspection or manipulation of processes, even by privileged users, unless the target process explicitly consents to being traced.
+
+
+
+Yama is a Linux Security Module (LSM) that enforces additional restrictions on the \texttt{ptrace} system call and process debugging mechanisms. Its primary purpose is to reduce the attack surface for exploits that rely on process introspection and manipulation. By limiting the ability of processes to trace or interact with others, Yama enhances system security and makes privilege escalation attacks more difficult. This is particularly valuable in containerized environments and multi-user systems where process isolation is critical.
+
+\subsection{Kernel Implementation}
+
+Yama is implemented in the Linux kernel source file \texttt{security/yama/yama\_lsm.c}. It integrates with the kernel's LSM framework by registering specific hooks that intercept and evaluate \texttt{ptrace} operations. During initialization, Yama registers its hooks using the following function:
+
+\begin{verbatim}
+void __init yama_add_hooks(void)
+{
+    pr_info("Yama: becoming mindful.\n");
+    security_add_hooks(yama_hooks, ARRAY_SIZE(yama_hooks), "yama");
+    yama_init_sysctl();
+}
+\end{verbatim}
+
+Here, \texttt{security\_add\_hooks} registers an array of hook functions defined in \texttt{yama\_hooks}. These hooks include:
+
+\begin{itemize}
+    \item \texttt{ptrace\_access\_check}
+    \item \texttt{ptrace\_traceme}
+    \item \texttt{task\_prctl}
+    \item \texttt{task\_free}
+\end{itemize}
+
+Each hook is associated with a specific kernel operation, allowing Yama to enforce its security policies at critical points.
+
+\subsection{Enforcement of \texttt{ptrace\_scope}}
+
+The core of Yama’s enforcement logic is implemented in the \texttt{yama\_ptrace\_access\_check} function:
+
+\begin{verbatim}
+static int yama_ptrace_access_check(struct task_struct *child, 
+									unsigned int mode){
+}
+\end{verbatim}
+
+This function determines whether a \texttt{ptrace} operation should be permitted based on the current \texttt{ptrace\_scope} value and the relationship between the tracer and tracee processes.
+
+\subsection{\texttt{ptrace\_scope} Settings}
+
+Yama provides four levels of \texttt{ptrace} restrictions, configurable via \texttt{/proc/sys/kernel/yama/ptrace\_scope}. These settings are summarized in Table~\ref{tab:yama-settings}.
+
+
 
 \end{doublespace}
