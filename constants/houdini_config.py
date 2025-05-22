@@ -2,7 +2,7 @@ RUNC_VERSION = "1.1.10"
 DOCKER_ENGINE_VERSION = "27.0.3"
 KERNEL_VERSION = "ubuntu-6.8.12"
 TRICK = "ProcessNamespace"
-
+CRUN_VERSION = "1.15"
 
 
 PORT = 49153

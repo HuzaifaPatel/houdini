@@ -64,6 +64,7 @@ remove_docker_binaries() {
         "ctr"
         "containerd-shim-runc-v2"
         "containerd-shim"
+        "crun"
     )
 
     for dir in "$TARGET_DIR" "$TARGET_DIR_OVERLAY"; do
@@ -148,8 +149,46 @@ get_runc_binaries() {
     fi
 }
 
+
+get_crun_binaries() {
+    echo -e "\n📦 Running get_crun_binaries..."
+
+    local version_file="/tmp/crun_version.txt"
+    get_version_from_config "CRUN_VERSION" > "$version_file"
+    local crun_version
+    crun_version=$(cat "$version_file")
+    rm "$version_file"
+
+    echo "✅ CRUN version: $crun_version"
+
+    local extracted_folder="/home/huzi/Documents/houdini/misc/crun/$crun_version"
+    local overlay_bin="/home/huzi/Documents/houdini/overlay/usr/bin"
+
+    if [ -d "${extracted_folder}" ]; then
+        echo "📦 Found extracted folder for crun-${crun_version}"
+
+        local src_crun
+        src_crun=$(find "$extracted_folder" -type f -name "crun-*linux-amd64" | head -n 1)
+
+        if [ ! -f "$src_crun" ]; then
+            echo "❌ ERROR: crun binary not found in extracted folder"
+            return 1
+        fi
+
+        cp "$src_crun" "${overlay_bin}/crun"
+        echo "📄 Copied crun as crun"
+
+        chmod +x "${overlay_bin}/crun" 2> /dev/null
+        echo "✅ Marked copied file(s) as executable"
+    else
+        echo "❌ Extracted folder for crun-${crun_version} not found"
+    fi
+}
+
+
 # ---- Execute in strict order ----
 remove_docker_binaries
 remove_initd_scripts
 get_docker_engine_binaries
 # get_runc_binaries
+get_crun_binaries

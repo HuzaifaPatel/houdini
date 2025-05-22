@@ -61,7 +61,7 @@ def run_in_vm(cmd, quiet=False, log_file=None):
 def load_config(trick_name):
     config_module = importlib.import_module(f"{trick_name}")
     config = {}
-    for var in ["pid_mode", "cap_kill", "cap_sys_ptrace", "privileged_opts", "apparmor_profiles", "user",  "net_bind_service", "cap_drop_all"]:
+    for var in ["pid_mode", "cap_kill", "cap_sys_ptrace", "privileged_opts", "apparmor_profiles", "user",  "net_bind_service", "cap_drop_all", "runtime"]:
         config[var] = getattr(config_module, var, None)
     return config
 
@@ -74,7 +74,8 @@ def generate_combinations(config):
         config.get("apparmor_profiles") or [None],
         config.get("user") or [None],
         config.get("net_bind_service") or [None],
-        config.get("cap_drop_all") or [None]
+        config.get("cap_drop_all") or [None],
+        config.get("runtime") or [None]
     ]
     return list(itertools.product(*fields))[:MAX_TESTS]
 
@@ -92,7 +93,7 @@ def build_docker_image():
 
 def run_tests(image_id, combinations, version):
     log_path = os.path.join(LOG_DIR, f"{TRICK}_{version}.log")
-    for idx, (pid_mode, kill, ptrace, privileged, apparmor, user, net_bind_service, cap_drop_all) in enumerate(combinations):
+    for idx, (pid_mode, kill, ptrace, privileged, apparmor, user, net_bind_service, cap_drop_all, runtime) in enumerate(combinations):
         with open(log_path, "a") as f:
             f.write(f"\n=== Test #{idx + 1} ===\n")
 
@@ -122,6 +123,9 @@ def run_tests(image_id, combinations, version):
         if cap_drop_all:
             cmd += ["--cap-drop", "ALL"]
 
+        if isinstance(runtime, str):
+            cmd += ["--runtime", str(runtime)]
+
         cmd.append(str(image_id))
 
         with open(log_path, "a") as f:
@@ -149,7 +153,7 @@ def main():
     # mkfs()
     start_vm()
     wait_for_port()
-    time.sleep(10)
+    time.sleep(20)
     config = load_config(TRICK)
     combinations = generate_combinations(config)
     image_id = build_docker_image()
