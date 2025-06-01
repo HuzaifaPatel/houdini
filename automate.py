@@ -5,8 +5,10 @@ import sys
 import socket
 import time
 import importlib
+import psutil
 import os
 
+parent = psutil.Process() 
 sys.path.append('constants')
 sys.path.append('trick_configs')
 from houdini_config import *
@@ -14,7 +16,7 @@ from houdini_config import *
 CONFIG_PATH = "constants/houdini_config.py"
 LOG_DIR = "logs"
 
-MAX_TESTS = 32
+MAX_TESTS = 1
 
 def ensure_log_dir():
     os.makedirs(LOG_DIR, exist_ok=True)
@@ -35,7 +37,7 @@ def mkfs():
 def start_vm():
     subprocess.run(["./houdini", "--start_vm"], check=True)
 
-def wait_for_port(host="127.0.0.1", port=49153, timeout=30):
+def wait_for_port(host="127.0.0.1", port=49153, timeout=50):
     print(f"Waiting for VM to open port {port}...")
     start = time.time()
     while time.time() - start < timeout:
@@ -140,6 +142,20 @@ def kill_old_qemu_vms():
     except Exception as e:
         print(f"⚠️ Failed to kill QEMU VMs: {e}")
 
+
+def get_total_cpu_usage(process):
+    """Get CPU time of parent + all children."""
+    total = process.cpu_times().user + process.cpu_times().system
+    for child in process.children(recursive=True):
+        try:
+            t = child.cpu_times()
+            total += t.user + t.system
+        except psutil.NoSuchProcess:
+            continue
+    return total
+
+
+
 def main():
     ensure_log_dir()
     log_path = os.path.join(LOG_DIR, f"{TRICK}_{DOCKER_ENGINE_VERSION}.log")
@@ -150,7 +166,9 @@ def main():
 
     print(f"🚀 Running test for Docker {DOCKER_ENGINE_VERSION}...")
     update_docker_engine_version(DOCKER_ENGINE_VERSION)
-    # mkfs()
+    start = time.time()
+    
+    mkfs()
     start_vm()
     wait_for_port()
     time.sleep(20)
@@ -158,8 +176,12 @@ def main():
     combinations = generate_combinations(config)
     image_id = build_docker_image()
     run_tests(image_id, combinations, DOCKER_ENGINE_VERSION)
-    # kill_old_qemu_vms()
+    kill_old_qemu_vms()
 
+
+    end_time = time.perf_counter()
+    duration = end_time - start_time
+    print(f"⏱️  Total execution time: {duration:.2f} seconds")
 
 if __name__ == "__main__":
     main()
