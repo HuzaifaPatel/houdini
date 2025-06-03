@@ -1,0 +1,97 @@
+Congratulations! The Technical Program Committee of the 22nd International Conference on Privacy, Security, and Trust (PST2025) is pleased to inform you that your paper titled
+        
+Houdini: Benchmarking Container Security Confinement
+        
+has been selected as regular paper (maximum 10 pages) for presentation at the conference, publishing in the conference proceedings, and indexing with IEEE Xplore Digital Library (ieeexplore.ieee.org).
+
+The comments of the reviewers who reviewed your paper are included below. Please follow the suggestions indicated in the reviews during the preparation of the camera-ready manuscript. Please follow the camera-ready paper format and preparation guidelines for the proceedings, the template is available at https://www.ieee.org/conferences/publishing/templates
+
+Please submit the camera-ready by July 1, 2025. You can submit up to 12 pages (two extra pages). There will be an overlength charge of CAD$100 per page. An IEEE Copyright form is also required.  
+
+# IEEE compatibility
+When preparing the camera-ready version of your paper please make sure it passes the IEEE PDF eXpress, which is a free service to create IEEE Xplore compatible PDFs or to check PDFs created elsewhere for IEEE Xplore compatibility. Final papers must be in IEEE Xplore compatible format for publication. To access IEEE PDF eXpress Website use URL:  https://ieee-pdf-express.org and enter 65910X for the conference ID. (Please note that you need to create an account as a new user if you have not used IEEE eXpress site before).  
+
+# IEEE Copyright agreement
+For every paper an IEEE copyright agreement has to be completed for the publication of the proceedings on IEEE Xplore. This should be also done through EasyChair. It is essential that this is done when you submit your camera-ready version.
+
+Please note that for every accepted paper, at least one author must register as either Author Full Conference or Author Limited Conference by July 1, 2025. If multiple papers are accepted for presentation, each paper requires a separate Author registration fee. The registration information will be available on PST2025 website https://pstnet.ca/ soon. 
+
+Thank you again for your support of the PST2025. On behalf of the Program Committee, we would like to thank you for your submission and look forward to meeting you at the conference in August!
+
+
+Sincerely,
+
+PST2025 Program Chairs
+
+SUBMISSION: 76
+TITLE: Houdini: Benchmarking Container Security Confinement
+
+
+----------------------- REVIEW 1 ---------------------
+SUBMISSION: 76
+TITLE: Houdini: Benchmarking Container Security Confinement
+AUTHORS: Huzaifa Patel, David Barrera and Anil Somayaji
+
+----------- Overall evaluation -----------
+SCORE: 1 (weak accept)
+----- TEXT:
+Summary: This paper presents and evaluates a technique called Houdini, that verifies container escapes are prevented. 
+
+
+
+Strengths: 
++ Novel idea 
++ Adequate evaluation 
+
+Weaknesses: 
+- Certain methodological choices can be clarified 
+
+Details: 
+
+The paper targets a relevant problem, where Houdini is presented for verifying container confinement. 
+Houdini relies on identifying misconfigurations in Dockerfiles that can lead to container escapes. The applied technique 
+is novel in the context of Dockerfiles. The paper also discuss three case studies each of which show the viability of the testing framework available as part of Houdini. The case studies show that Houdini can detect misconfigurations that can enable container escapes. 
+
+While the reviewer is positive about the paper, the authors can improve on the methodological choices for the paper. For example, the authors can clarify the following: 
+
+- What was the reason behind selecting the QEMU VM? 
+- What was the process of generating the tricks, i.e., the test cases? 
+- Was there a specific reason on selecting the first case study to be related with vulnerabilities? 
+- What were the reasons for motivating the selection of the five configuration parameters listed in page#6
+
+
+
+----------------------- REVIEW 2 ---------------------
+SUBMISSION: 76
+TITLE: Houdini: Benchmarking Container Security Confinement
+AUTHORS: Huzaifa Patel, David Barrera and Anil Somayaji
+
+----------- Overall evaluation -----------
+SCORE: 1 (weak accept)
+----- TEXT:
+The paper addresses a key problem in cloud instrastructure: container isolation. The topic is tricky, because the desired isolation level depends on the use case and the needs for the end-application. That is why the authors focus on the baseline configuration and tests to assess that security posture.
+
+I argue that Hudini whould assess the *maximum* set of privileges, that is to say, if adding more privileges, it expands the attach surface of the container. Least privilege is essential. 
+
+The exemplary applications of Hudini cover most of use cases at T=O. As future work (and implied in the paper), continuous verification is a must. Configurations are dynamic, change through time, policies are updated. Hoduini needs a way to adapt to new requirements.
+Likewise, verify how this approach aligns with NESAS/SCAS standards for assurance. By aligning with a standard, will make this proposition even stronger.
+
+
+
+----------------------- REVIEW 3 ---------------------
+SUBMISSION: 76
+TITLE: Houdini: Benchmarking Container Security Confinement
+AUTHORS: Huzaifa Patel, David Barrera and Anil Somayaji
+
+----------- Overall evaluation -----------
+SCORE: 2 (accept)
+----- TEXT:
+Houdini is a powerful tool that can be used to assess the security posture of containers, especially docker containers. The fact that it can be integrated into a CI/CD pipeline is a big plus. The authors have evaluated Houdini against various CVEs and have proven its effectiveness. 
+
+However, the authors have limited themselves to containers and have not explored container orchestration technologies. If Houdini can find vulnerabilities in a containerized environment it stands to reason that it can also be applied to an entire cluster of containers. It would be interesting to see Houdini extended to benchmark a Kubernetes cluster. Also, compatibility with other container environments can be explored. If the approach is generic enough, proof that it can be applied to any contain tech can be useful. 
+
+The first contribution of the paper, “Defines container confinement and its associated challenges” cannot be counted as new and interesting. The definition and the challenges are drawn from the literature. Moreover, there are many static analysis tools that uncover vulnerabilities in the configuration files. For instance, trivy, kubescape etc. I understand that static analysis tools do not perform dynamic testing which is possible with Houdini but the advantage of such testing is unclear. A comparison between the results of such tools and Houdini would make the need for Houdini stand out. 
+
+There are certain minor issues that should be fixed. For instance, the bottom portion of Figure 1 is cut.
+
+
