@@ -1,5 +1,13 @@
 # Fdb version 4
-["pdflatex"] 1748765482.48267 "thesis.tex" "thesis.pdf" "thesis" 1748765482.963 0
+["bibtex thesis"] 1748944127.80206 "thesis.aux" "thesis.bbl" "thesis" 1748944338.90099 0
+  "./refs.bib" 1748847954.18926 1274 f76a74fa656d136cfca20a50e6067eed ""
+  "/usr/share/texlive/texmf-dist/bibtex/bst/base/unsrt.bst" 1292289607 18030 1376b4b231b50c66211e47e42eda2875 ""
+  "thesis.aux" 1748944338.81142 13178 b04753e8ac0885aa7589dc7ae1d7f52e "pdflatex"
+  (generated)
+  "thesis.bbl"
+  "thesis.blg"
+  (rewritten before read)
+["pdflatex"] 1748944338.34787 "thesis.tex" "thesis.pdf" "thesis" 1748944338.90116 0
   "/etc/texmf/web2c/texmf.cnf" 1743333561.62507 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/huzi/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600pk" 1747343587.10523 14040 2c79a0505033a7389d937a0d67d14822 ""
   "/home/huzi/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1440.600pk" 1746144380.414 16944 28a70253865103b07d2957ecaf9703cd ""
@@ -30,6 +38,7 @@
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1136768653 1116 933a60c408fc0a863a92debe84b2d294 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1136768653 1120 8b7d695260f3cff42e636090a8002094 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmti10.tfm" 1136768653 1480 aa8e34af0eb6a2941b776984cf1dfdc4 ""
+  "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmti12.tfm" 1136768653 1484 ed72f8f5cf654cda15ecc8e32bfcbee5 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm" 1136768653 768 1321e9409b4137d6fb428ac9dc956269 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmtt12.tfm" 1136768653 772 9a936b7f5e2ff0557fce0f62822f0bbf ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmtt8.tfm" 1136768653 768 d7b9a2629a0c353102ad947dc9221d49 ""
@@ -38,6 +47,7 @@
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb" 1248133631 32166 b0c356b15f19587482a9217ce1d8fa67 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb" 1248133631 26057 fad158094905eaf20f4ae3782af0c45c ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1248133631 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
+  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb" 1248133631 36741 fa121aac0049305630cf160b86157ee4 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1248133631 32722 d7379af29a190c3f453aba36302ff5a9 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb" 1248133631 32734 69e00a6b65cedb993666e42eedb3d48f ""
@@ -45,6 +55,7 @@
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb" 1248133631 32726 0a1aea6fcd6468ee2cf64d891f5c43c8 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb" 1248133631 37944 359e864bd06cde3b1cf57bb20757fb06 ""
+  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb" 1248133631 36118 fad905eba93cff5bce1e185fe980a177 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb" 1248133631 31099 c85edf1dd5b9e826d67c9c7293b6786c ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb" 1248133631 24252 1e4e051947e12dfb50fee0b7f4e26e3a ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb" 1248133631 24287 6b803fa9eb1ddff9112e00519b09dd9e ""
@@ -154,13 +165,15 @@
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1743333844.28661 128028 f533b797fba58d231669ea19e894e23e ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1743333855 6800798 0039c0ab1acb6bae0fecf2ff31309882 ""
   "sections/chapter2-background.tex" 1747383976.64849 12573 cff663a37abe5f7b9b1164df5c97fe26 ""
-  "sections/chapter8-evaluation.tex" 1748765481.30077 44716 e7e9954defb71369337be0c1b884b98b ""
-  "sections/chapter9-case-study.tex" 1748479020.20495 20399 eef1471da60ac400644c1650675e33a0 ""
+  "sections/chapter7-design.tex" 1748944126.27609 6645 1786c6b5cc8ee07df6f2cf138d8761ff ""
+  "sections/chapter8-evaluation.tex" 1748944219.99012 52611 f69e70915a867abd61f9751a5c0ecc10 ""
+  "sections/chapter9-case-study.tex" 1748856056.90935 26881 b3074724d0459eec1c30d042ab1f00fe ""
   "sections/titlepage.tex" 1742605862.50028 1015 d77977a1103599183262adcd96e3b15e ""
-  "thesis.acr" 1748765224.13368 282 f3a686dea8f405745492ac9fd313e2f9 ""
-  "thesis.aux" 1748765482.90079 10253 8f30ee3bf66cfe262f1afc80c8eca56e "pdflatex"
-  "thesis.out" 1748765482.90179 7032 f8d7fa883f5e718365caed4f35e74471 "pdflatex"
-  "thesis.tex" 1748494339.52023 982 573a771c2d9ea1ca6979e553d32c8c5c ""
+  "thesis.acr" 1748944128.37711 282 f3a686dea8f405745492ac9fd313e2f9 ""
+  "thesis.aux" 1748944338.81142 13178 b04753e8ac0885aa7589dc7ae1d7f52e "pdflatex"
+  "thesis.bbl" 1748944127.81511 1069 ce986c3a545d017fc6b54092f76222e0 "bibtex thesis"
+  "thesis.out" 1748944338.81242 9539 622efe12657e022ec8f119815f9b4eac "pdflatex"
+  "thesis.tex" 1748853674.17461 1016 3bee60836fc64cd9fb94d5c3f57789c2 ""
   (generated)
   "thesis.acn"
   "thesis.aux"

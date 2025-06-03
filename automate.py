@@ -5,10 +5,10 @@ import sys
 import socket
 import time
 import importlib
-import psutil
+# import psutil
 import os
 
-parent = psutil.Process() 
+# parent = psutil.Process() 
 sys.path.append('constants')
 sys.path.append('trick_configs')
 from houdini_config import *
@@ -16,7 +16,7 @@ from houdini_config import *
 CONFIG_PATH = "constants/houdini_config.py"
 LOG_DIR = "logs"
 
-MAX_TESTS = 1
+MAX_TESTS = 32
 
 def ensure_log_dir():
     os.makedirs(LOG_DIR, exist_ok=True)
@@ -143,18 +143,6 @@ def kill_old_qemu_vms():
         print(f"⚠️ Failed to kill QEMU VMs: {e}")
 
 
-def get_total_cpu_usage(process):
-    """Get CPU time of parent + all children."""
-    total = process.cpu_times().user + process.cpu_times().system
-    for child in process.children(recursive=True):
-        try:
-            t = child.cpu_times()
-            total += t.user + t.system
-        except psutil.NoSuchProcess:
-            continue
-    return total
-
-
 
 def main():
     ensure_log_dir()
@@ -168,7 +156,7 @@ def main():
     update_docker_engine_version(DOCKER_ENGINE_VERSION)
     start = time.time()
     
-    mkfs()
+    # mkfs()
     start_vm()
     wait_for_port()
     time.sleep(20)
@@ -177,11 +165,6 @@ def main():
     image_id = build_docker_image()
     run_tests(image_id, combinations, DOCKER_ENGINE_VERSION)
     kill_old_qemu_vms()
-
-
-    end_time = time.perf_counter()
-    duration = end_time - start_time
-    print(f"⏱️  Total execution time: {duration:.2f} seconds")
 
 if __name__ == "__main__":
     main()

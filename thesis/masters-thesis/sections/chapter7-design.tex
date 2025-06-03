@@ -1,0 +1,39 @@
+\fontsize{12pt}{14pt} \selectfont
+\begin{doublespace}
+\chapter{Design}
+
+\section{Reproducibility and Deterministic Execution}
+
+A central design goal of Houdini is to ensure that container security tests are reproducible and deterministic. Reproducibility means that when a test is run multiple times under the same conditions, it should produce the same result. Determinism ensures that given the same inputs, including the kernel version, filesystem state, runtime binaries, and test logic, the system will always produce the same outputs, without being influenced by system randomness, entropy, or external changes.
+
+This level of control is especially important in security testing, where consistency is critical. Without strict version control, even small system updates can lead to changes in container behavior. For example, an operating system update might alter how system calls are handled, or a new version of Docker or runc might introduce subtle changes in default behavior. These differences can cause a trick to unexpectedly pass or fail, even though the code itself has not changed.
+
+Such inconsistencies lead to misleading test results. A trick might appear to succeed because of quirks in the environment rather than an actual vulnerability (a false positive), or it might fail due to an unrelated system update that blocks the exploit (a false negative). In both cases, the conclusions drawn from the test cannot be trusted. This is especially problematic in workflows like coordinated vulnerability disclosure, where researchers and vendors must independently verify the exploit under identical conditions, or in compliance audits that require consistent, repeatable testing.
+
+To eliminate these risks, Houdini is designed with a tightly controlled execution environment. All critical components like Docker, runc, and the Linux kernel are version-pinned. Their binaries are precompiled and injected into the VM using an overlay filesystem, bypassing reliance on external package managers or distribution-level dependencies. This ensures that the exact versions of all runtime components are known and fixed.
+
+Additionally, Houdini builds its guest environment using Buildroot, a minimalist embedded Linux build system. This allows precise control over every component included in the VM. The result is a clean, self-contained execution environment that avoids the sources of nondeterminism commonly found in general-purpose distributions, such as background services, automatic updates, or untracked dependencies.
+
+In summary, Houdini’s design guarantees that a trick executed today will behave the same way when executed days, weeks, or months later, provided that the same version-pinned environment is used. This reliability is critical for evaluating security vulnerabilities, verifying patches, performing longitudinal studies, and conducting reproducible research. By enforcing a deterministic testbed, Houdini isolates the cause of behavioral differences to the trick logic or configuration itself—never to hidden changes in the surrounding infrastructure.
+
+
+\section{Runtime Injection via OverlayFS}
+
+Rather than relying on Buildroot’s package infrastructure to download and install Docker and runc inside the VM, we used an overlayfs directory to inject precompiled binaries of both components directly into the root filesystem. This approach provides full control over the runtime environment and ensures that only explicitly specified versions are used during testing. We chose not to use Buildroot packages because doing so introduced limitations: several historical versions of Docker and runc were either unavailable or failed to build consistently within Buildroot’s package ecosystem. By manually sourcing and verifying the binaries, we were able to include a broader range of versions and maintain compatibility across all tests.
+
+\section{Preventing Environmental Drift}
+
+Environmental drift refers to unintentional changes in the system that can affect the outcome of container-based tests. These changes may include automatic updates to the operating system, differences in kernel versions, updated system libraries, or changes in container runtime behavior. Even when a test script remains the same, such background variation can cause container behavior to differ between runs—leading to inconsistent or misleading results.
+
+This is a critical concern for security testing, where consistency is essential. Without environmental stability, researchers may encounter false positives, where a trick appears to succeed because of an incidental change, or false negatives, where a real vulnerability is masked by a system-level patch or configuration shift. In either case, the test results become untrustworthy, and any security claims based on those results may be invalid.
+
+To address this, Houdini is designed to eliminate sources of environmental drift by creating a fully version-controlled, deterministic testing environment. All critical components that influence container behavior—including the Linux kernel, Docker engine, and runc runtime—are manually sourced, precompiled, and injected into the root filesystem using an overlay filesystem. This ensures that Houdini uses only explicitly specified versions of each component, independent of host updates or package manager behavior.
+
+This design choice was necessary because many historical versions of Docker and runc are either unavailable through Buildroot’s package system or fail to build due to missing dependencies or upstream changes. By bypassing the package infrastructure and directly injecting verified binaries, Houdini achieves a consistent and reproducible runtime environment across all test sessions.
+
+Additionally, Houdini uses Buildroot to generate a minimal, static guest operating system that excludes background services, update agents, or untracked dependencies that could introduce nondeterminism. The virtual machine is launched without networking to prevent environmental noise from DNS, package mirrors, or remote services. Only a single, tightly scoped communication channel is exposed to the host through a QEMU user-mode forwarded port used for reporting results.
+
+Together, these design decisions ensure that Houdini provides a frozen, deterministic environment where test outcomes are reproducible over time. This stability is especially important for longitudinal analysis, vulnerability tracking, patch verification, and reproducible research—where changes in the results must reflect actual differences in the tested logic, not unintended changes in the surrounding system.
+
+
+\end{doublespace}

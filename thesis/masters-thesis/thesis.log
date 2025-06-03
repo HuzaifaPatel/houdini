@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  1 JUN 2025 04:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  3 JUN 2025 05:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -604,6 +604,12 @@ LaTeX Warning: Label `lst:run-hello-trick' multiply defined.
 
 LaTeX Warning: Label `lst:escape-trick' multiply defined.
 
+
+LaTeX Warning: Label `lst:escape-trick' multiply defined.
+
+
+LaTeX Warning: Label `lst:escape-trick' multiply defined.
+
 )
 \openout1 = `thesis.aux'.
 
@@ -823,88 +829,73 @@ Overfull \hbox (106.42651pt too wide) in paragraph at lines 145--146
 ma/ptrace[]scope\OT1/cmr/m/n/12 .
  []
 
-) (./sections/chapter8-evaluation.tex [8] [9]
+) (./sections/chapter7-design.tex [8] [9]
 Chapter 2.
+[10
+
+] [11] [12]) (./sections/chapter8-evaluation.tex [13]
+Chapter 3.
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
 (hyperref)                than one, level fixed on input line 12.
 
-[10
+[14
 
-] [11] [12] [13]
-Overfull \hbox (2.0738pt too wide) in paragraph at lines 238--238
+] [15] [16] [17]
+Overfull \hbox (2.0738pt too wide) in paragraph at lines 239--239
 []\OT1/cmr/bx/n/17.28 Reproducibility Across Time with Ver-sion Pin-
  []
 
-[14] [15]
-Overfull \hbox (29.62674pt too wide) in paragraph at lines 259--264
-[]\OT1/cmr/bx/n/12 Docker: [] 
- []
-
-
-Overfull \hbox (14.6198pt too wide) in paragraph at lines 265--270
-[]\OT1/cmr/bx/n/12 runc: [] 
- []
-
-
-Overfull \hbox (27.75867pt too wide) in paragraph at lines 271--276
-[]\OT1/cmr/bx/n/12 Kernel: [] 
- []
-
-(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+[18] [19] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 )
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 285.
+nput line 299.
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 287.
- [16] [17]
-[18] [19] [20]
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 301.
+ [20] [21]
+[22]
+
+LaTeX Warning: Reference `sec:ptrace-drift' on page 23 undefined on input line 
+373.
+
+[23] [24] [25]
 LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 
-396.
+427.
  (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmtt.fd
 File: ts1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
-[21]
-Overfull \hbox (66.92912pt too wide) in paragraph at lines 423--424
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-[22]
-Overfull \hbox (20.63469pt too wide) in paragraph at lines 467--468
+[26] [27] [28] [29]
+Overfull \hbox (20.63469pt too wide) in paragraph at lines 510--511
 []\OT1/cmr/m/n/12 To im-ple-ment the new trick, a con-fig-u-ra-tion file was cr
 e-ated in-side the \OT1/cmtt/m/n/12 trick[]configs/
  []
 
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
-) [23]
-Overfull \hbox (4.19115pt too wide) in paragraph at lines 490--491
+) [30]
+Overfull \hbox (4.19115pt too wide) in paragraph at lines 533--534
 []\OT1/cmr/m/n/12 To run the new trick, the user must mod-ify the \OT1/cmtt/m/n
 /12 TRICK \OT1/cmr/m/n/12 vari-able in-side con-stants/hou-
  []
 
-[24] [25] [26] [27] [28] [29] [30] [31] [32] [33])
-(./sections/chapter9-case-study.tex [34]
-Chapter 3.
+[31] [32] [33] [34] [35] [36] [37] [38] [39] [40] [41])
+(./sections/chapter9-case-study.tex [42]
+Chapter 4.
 
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
 (hyperref)                than one, level fixed on input line 8.
 
-
-LaTeX Warning: Citation `runc-cve-2024-21626' on page 35 undefined on input lin
-e 10.
-
-[35
+[43
 
 ]
 
 LaTeX Warning: Float too large for page by 28.57605pt on input line 85.
 
-[36]
+[44]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -912,18 +903,47 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-LaTeX Warning: Reference `tab:pid-namespace-security' on page 37 undefined on i
+LaTeX Warning: Reference `tab:pid-namespace-security' on page 45 undefined on i
 nput line 108.
 
 
-LaTeX Warning: Reference `tab:pid-namespace-security' on page 37 undefined on i
+LaTeX Warning: Reference `tab:pid-namespace-security' on page 45 undefined on i
 nput line 108.
 
-[37] [38] [39]
+[45] [46] [47]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[40]) [41] [42] [43] (./thesis.aux)
+
+Overfull \hbox (85.8072pt too wide) in paragraph at lines 237--248
+ [][] 
+ []
+
+[48]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (40.85039pt too wide) in paragraph at lines 255--256
+\OT1/cmr/m/n/12 bind-ing to priv-i-leged ports, but if Docker is run-ning a ver
+-sion where the NET[]BIND[]SERVICE
+ []
+
+[49]) (./thesis.bbl [50] [51] [52] [53]
+Underfull \hbox (badness 4531) in paragraph at lines 4--8
+[]\OT1/cmr/m/n/12 CrowdStrike.  VENOM: Vir-tu-al-ized En-vi-ron-ment Ne-glected
+ Op-er-a-tions
+ []
+
+
+Underfull \hbox (badness 8094) in paragraph at lines 4--8
+\OT1/cmr/m/n/12 Ma-nip-u-la-tion.  On-line, 2015.  []$\OT1/cmtt/m/n/12 https : 
+/ / www . crowdstrike . com / blog /
+ []
+
+) [54
+
+] (./thesis.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -936,16 +956,16 @@ LaTeX Warning: There were undefined references.
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: F8D7FA883F5E718365CAED4F35E74471;7032.
+(rerunfilecheck)             Checksum: 622EFE12657E022EC8F119815F9B4EAC;9539.
  ) 
 Here is how much of TeX's memory you used:
- 17732 strings out of 476182
- 275713 string characters out of 5795595
- 2071975 words of memory out of 5000000
- 39275 multiletter control sequences out of 15000+600000
- 569941 words of font info for 78 fonts, out of 8000000 for 9000
+ 17788 strings out of 476182
+ 276545 string characters out of 5795595
+ 2018975 words of memory out of 5000000
+ 39297 multiletter control sequences out of 15000+600000
+ 570648 words of font info for 80 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 94i,12n,102p,2390b,2318s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 94i,12n,102p,2390b,2282s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </home/huzi/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tctt1000.600p
 k> </home/huzi/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600p
 k> </home/huzi/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1440.600p
@@ -954,20 +974,22 @@ r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb></usr/share/texlive/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/font
-s/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
-10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on thesis.pdf (44 pages, 290745 bytes).
+st/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+r8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/urw/zapfding/uzdr.pfb>
+Output written on thesis.pdf (55 pages, 339894 bytes).
 PDF statistics:
- 562 PDF objects out of 1000 (max. 8388607)
- 475 compressed objects within 5 object streams
- 158 named destinations out of 1000 (max. 500000)
- 305 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 679 PDF objects out of 1000 (max. 8388607)
+ 577 compressed objects within 6 object streams
+ 185 named destinations out of 1000 (max. 500000)
+ 385 words of extra memory for PDF output out of 10000 (max. 10000000)
 
