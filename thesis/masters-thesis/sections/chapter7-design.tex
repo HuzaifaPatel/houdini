@@ -16,7 +16,6 @@ Additionally, Houdini builds its guest environment using Buildroot, a minimalist
 
 In summary, Houdini’s design guarantees that a trick executed today will behave the same way when executed days, weeks, or months later, provided that the same version-pinned environment is used. This reliability is critical for evaluating security vulnerabilities, verifying patches, performing longitudinal studies, and conducting reproducible research. By enforcing a deterministic testbed, Houdini isolates the cause of behavioral differences to the trick logic or configuration itself—never to hidden changes in the surrounding infrastructure.
 
-
 \section{Runtime Injection via OverlayFS}
 
 Rather than relying on Buildroot’s package infrastructure to download and install Docker and runc inside the VM, we used an overlayfs directory to inject precompiled binaries of both components directly into the root filesystem. This approach provides full control over the runtime environment and ensures that only explicitly specified versions are used during testing. We chose not to use Buildroot packages because doing so introduced limitations: several historical versions of Docker and runc were either unavailable or failed to build consistently within Buildroot’s package ecosystem. By manually sourcing and verifying the binaries, we were able to include a broader range of versions and maintain compatibility across all tests.
@@ -34,6 +33,15 @@ This design choice was necessary because many historical versions of Docker and 
 Additionally, Houdini uses Buildroot to generate a minimal, static guest operating system that excludes background services, update agents, or untracked dependencies that could introduce nondeterminism. The virtual machine is launched without networking to prevent environmental noise from DNS, package mirrors, or remote services. Only a single, tightly scoped communication channel is exposed to the host through a QEMU user-mode forwarded port used for reporting results.
 
 Together, these design decisions ensure that Houdini provides a frozen, deterministic environment where test outcomes are reproducible over time. This stability is especially important for longitudinal analysis, vulnerability tracking, patch verification, and reproducible research—where changes in the results must reflect actual differences in the tested logic, not unintended changes in the surrounding system.
+
+\subsection{Determinism vs. Reproducibility}
+
+While determinism ensures that a given input will yield the same output under identical conditions, reproducibility additionally requires that the environment itself remain stable over time. Houdini addresses both concerns: determinism is enforced by controlling the trick’s logic, while reproducibility is achieved through version pinning, overlay-based injection, and hash verification.
+
+
+\subsection{Ephemeral VM Lifecycle as a Defense}
+
+Houdini’s architecture launches a clean VM for each test. Even if a trick succeeds in compromising the guest kernel or container runtime, the damage is limited to that ephemeral instance. The VM is destroyed upon test completion, and its state does not persist. This provides a form of temporal isolation that complements spatial isolation, making persistence and lateral movement unfeasible for attackers.
 
 
 \end{doublespace}
