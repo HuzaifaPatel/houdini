@@ -2,6 +2,39 @@
 \begin{doublespace}
 \chapter{Design}
 
+
+\begin{itemize}
+
+\item \textbf{Reproducibility:}
+Houdini should produce consistent and repeatable results when run across different machines and environments. Identical configurations and test inputs should yield the same outcomes.
+
+\item \textbf{Scalability:}
+Houdini should support scalable execution, allowing users to easily configure, queue, and execute large batches of tests/tricks across multiple container configurations or versions. The framework should be designed to accept input declaratively and automate the full evaluation without requiring manual intervention.
+
+\item \textbf{Performance:}
+Houdini should execute tests efficiently, minimizing runtime overhead while maintaining accuracy. The framework’s performance should allow it to be integrated into larger workflows, such as continuous integration pipelines, without introducing significant delays.
+
+\item \textbf{Security and Host Isolation:}
+Houdini must isolate tests from the host system to ensure safety during the execution of potentially dangerous tricks. By running tests inside a virtual machine, Houdini should prevent container escapes or exploits from impacting the host. It should maintain a secure boundary between the test environment and the underlying system.
+
+\item \textbf{Accuracy of Detection}
+Houdini should correctly distinguish between successful and failed security isolation. Test results should reflect the actual runtime behavior of the container under evaluation without false positives or negatives.
+
+\item \textbf{Flexibility Across Configurations}
+The framework should support a wide range of container settings, including different Linux capabilities, namespaces, AppArmor profiles, seccomp filters, and Docker flags. It should also accommodate various versions of Docker, runc, crun, and the Linux kernel.
+
+\item \textbf{Transparency and Debuggability}
+Test runs should be transparent and easy to interpret. Logs, intermediate outputs, and error messages should be informative enough to help users understand why a trick passed or failed.
+
+\item \textbf{Version Pinning}
+
+\item \textbf{Detect Configuration-Behavior Inconsistencies:}  
+Evaluate whether containers behave as expected under different security configurations by empirically validating real-world runtime behavior. This helps identify mismatches between intended policy and actual enforcement.
+
+\item \textbf{Assess Cross-Version Consistency and Enforcement Drift:}  
+Determine whether the same container configuration yields consistent behavior across different versions of Docker, container runtimes (e.g., runc, crun), and Linux kernels.
+\end{itemize}
+
 \section{Reproducibility and Deterministic Execution}
 
 A central design goal of Houdini is to ensure that container security tests are reproducible and deterministic. Reproducibility means that when a test is run multiple times under the same conditions, it should produce the same result. Determinism ensures that given the same inputs, including the kernel version, filesystem state, runtime binaries, and test logic, the system will always produce the same outputs, without being influenced by system randomness, entropy, or external changes.

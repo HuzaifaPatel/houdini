@@ -3,258 +3,14 @@
 \begin{doublespace}
 \chapter{Evaluation}
 
-% write a requirements of Houdini
-% write the objectives / goals 
-% make sure methodolgy is consistent
-% remaining experiments
-% make a list of concrete experiments of houdini (not the tricks) 
-
-\subsection{Purpose}
-
-    The purpose of this evaluation is to empirically assess the effectiveness, reliability, and practical utility of Houdini as a framework for detecting security issues, misconfigurations, and enforcement inconsistencies in containerized environments.
-    
-    % the purpose is to evaluate the tool not container confinment.
-    % 1st goal is bad
-    % 2nd goal is good
-    % 3 goal is bad
-    % 4th goal is good
-
-     % what do we need in the piece of software 
-
-     % make a claim, and prove it
-
-     % security and isolation from the host system
-
-\subsection{Requirements / Goals:}
-\begin{itemize}
-
-\item \textbf{Reproducibility:}
-Houdini should produce consistent and repeatable results when run across different machines and environments. Identical configurations and test inputs should yield the same outcomes.
-
-\item \textbf{Scalability:}
-Houdini should support scalable execution, allowing users to easily configure, queue, and execute large batches of tests/tricks across multiple container configurations or versions. The framework should be designed to accept input declaratively and automate the full evaluation without requiring manual intervention.
-
-\item \textbf{Performance:}
-Houdini should execute tests efficiently, minimizing runtime overhead while maintaining accuracy. The framework’s performance should allow it to be integrated into larger workflows, such as continuous integration pipelines, without introducing significant delays.
-
-\item \textbf{Security and Host Isolation:}
-Houdini must isolate tests from the host system to ensure safety during the execution of potentially dangerous tricks. By running tests inside a virtual machine, Houdini should prevent container escapes or exploits from impacting the host. It should maintain a secure boundary between the test environment and the underlying system.
-
-\item \textbf{Accuracy of Detection}
-Houdini should correctly distinguish between successful and failed security isolation. Test results should reflect the actual runtime behavior of the container under evaluation without false positives or negatives.
-
-\item \textbf{Flexibility Across Configurations}
-The framework should support a wide range of container settings, including different Linux capabilities, namespaces, AppArmor profiles, seccomp filters, and Docker flags. It should also accommodate various versions of Docker, runc, crun, and the Linux kernel.
-
-\item \textbf{Transparency and Debuggability}
-Test runs should be transparent and easy to interpret. Logs, intermediate outputs, and error messages should be informative enough to help users understand why a trick passed or failed.
-
-\item \textbf{Version Pinning}
-
-\item \textbf{Detect Configuration-Behavior Inconsistencies:}  
-Evaluate whether containers behave as expected under different security configurations by empirically validating real-world runtime behavior. This helps identify mismatches between intended policy and actual enforcement.
-
-\item \textbf{Assess Cross-Version Consistency and Enforcement Drift:}  
-Determine whether the same container configuration yields consistent behavior across different versions of Docker, container runtimes (e.g., runc, crun), and Linux kernels.
-
-
-
-
-\end{itemize}
-
-\subsection{Methodology / How we will do that:}
-    
-    To evaluate the effectiveness and design properties of the Houdini framework, we conduct a series of controlled experiments targeting key aspects of its architecture and operation. Each experiment is designed to test a specific goal of the framework, including reproducibility, scalability, performance, and security isolation. 
-
-    We structure our methodology as follows:
-
-\begin{enumerate}
-    \item \textbf{Reproducibility Across Machines} \\
-    Run the same trick and configuration on two different machines (e.g., different CPU architectures or hardware specs) and verify that the output is identical.
-
-    \item \textbf{Reproducibility Across Time with Version Pinning} \cmark \\
-    Re-run a pinned Docker, kernel, and runc configuration at a later time to ensure consistent results, demonstrating Houdini's ability to reproduce experiments reliably.
-
-    \item \textbf{Scalability via Bulk Execution} \cmark \\
-    Execute a large batch of tricks (e.g., 32) across multiple configurations in one session. Measure runtime, memory usage, and failure rates to assess Houdini’s batch execution capabilities.
-
-    \item \textbf{Performance Benchmarking} \cmark \\
-    Measure the end-to-end time it takes Houdini to execute a single trick, including VM boot, container launch, and result collection. Compare this to a manually executed baseline outside Houdini.
-
-    \item \textbf{Host Isolation Validation} \cmark \\
-    Run a deliberately malicious trick (e.g., attempting to write to host directories) and verify that the host remains secure, demonstrating that Houdini’s use of VMs effectively isolates test environments.
-
-    \item \textbf{Fault Tolerance and Crash Recovery} \\
-    Introduce failing or crashing tricks (e.g., segmentation faults, infinite loops) and confirm that Houdini logs the failure and continues running subsequent tests without interruption.
-
-    \item \textbf{Version Variability Support} \cmark \\
-    Create a test matrix across different combinations of Docker, runc, and kernel versions. Confirm that Houdini successfully builds and runs tricks across all variations.
-
-    \item \textbf{Extensibility Test} \cmark \\
-    Develop a new custom trick (e.g., testing for a capability or syscall) and integrate it into Houdini. Measure the effort and steps needed to add and run it without modifying the core logic.
-
-    \item \textbf{CI Integration Test} \\
-    Integrate Houdini into a CI/CD system such as GitHub Actions or GitLab CI. Trigger it on container configuration changes and assess its stability and reporting in an automated pipeline.
-\end{enumerate}
-
-
-
-
-\subsection{What Did You Find Out?}
-
-    TODO when I actually run the experiments, but for the last two goals I have some results:
-
-    \begin{itemize}
-        
-        \item The goal \textbf{"Detect Configuration-Behavior Inconsistencies"} is directly supported by \textbf{Case Studies 2, 3, and 4}, where the same configurations sometimes led to unexpected or insecure behavior (e.g., host interaction without capabilities, port binding despite restrictions, and ptrace behavior differing by scope).
-
-        \item The goal \textbf{"Assess Cross-Version Consistency and Enforcement Drift"} is supported by \textbf{Case Studies 1, 3, and 4}, where the same trick or config yielded different results across versions of Docker, runc, and Linux distributions.
-
-    \end{itemize}
-
-
-    \begin{itemize}
-        \item \textbf{Case Study 1 (CVE-21626):} Discovered that older versions of \texttt{runc} (e.g., rc1–rc4), not listed in the official CVE disclosure, were also vulnerable. This expanded the known scope of the vulnerability and revealed version-scoping inconsistencies.
-
-        \item \textbf{Case Study 2 (Host Process Manipulation):} Identified the minimum set of privileges required for a container to successfully interact with host processes. Demonstrated that certain combinations of namespace sharing and UID matching can bypass expected isolation controls, even with reduced capabilities.
-
-        \item \textbf{Case Study 3 (Docker Privileged Port Binding):} Found that containers could bind to privileged ports under newer Docker versions despite appearing unprivileged. This revealed misconfigurations and inconsistencies between intended policy and actual runtime behavior.
-
-        \item \textbf{Case Study 4 (ptrace Enforcement Across Linux Distributions):} Empirically validated that ptrace enforcement behavior varies across Linux distributions due to differences in kernel versions and default Yama settings. Exposed enforcement drift\footnote{Drift refers to changes in security behavior over time due to image updates, runtime automation, or infrastructure modifications.} and platform-dependent inconsistencies in confinement guarantees.
-    \end{itemize}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% \section{Reproducibility Across Machines}
-
-% This experiment evaluates Houdini’s ability to produce identical test results across different physical machines. In practice, container security tests are often deployed on diverse hardware with varying architectures, virtualization support, and system configurations. A robust test framework must ensure that these hardware differences do not impact the behavior or outcome of the experiments. This case study verifies that when Houdini's configuration is held constant, test output remains identical—even across machines with different CPUs, RAM sizes, or host operating systems.
-
-% \subsection{Experimental Setup}
-
-% We selected two physical machines with distinct hardware characteristics:
-
-% \begin{itemize}
-%     \item \textbf{Machine A:} Intel Core i7-9700K, 16GB RAM, Ubuntu 22.04 LTS
-%     \item \textbf{Machine B:} AMD Ryzen 7 5800X, 32GB RAM, Arch Linux (kernel 6.6)
-% \end{itemize}
-
-% Both machines executed the exact same Houdini VM image, built with:
-
-% \begin{itemize}
-%     \item \textbf{Docker:} 27.0.3
-%     \item \textbf{runc:} 1.1.13
-%     \item \textbf{Linux Kernel:} 6.0 (compiled via Buildroot)
-% \end{itemize}
-
-% The VM image and overlayfs directory containing precompiled binaries were transferred directly between hosts to ensure bit-for-bit consistency. SHA256 hashes of all critical components (kernel, runc, Docker) were verified on both machines.
-
-% \subsection{Trick Execution}
-
-% Each machine launched the same QEMU virtual machine and ran the Hello Trick:
-
-% \begin{lstlisting}[language=bash]
-% #!/bin/sh
-% if [ -f /run/trigger_file ]; then
-%     echo "Trick passed"
-% else
-%     echo "Trick failed"
-% fi
-% \end{lstlisting}
-
-% The container was executed twice: once without the trigger file and once with the trigger file created manually prior to execution.
-
-% \subsection{Results}
-
-% On both machines, the following results were observed:
-
-% \begin{itemize}
-%     \item Without trigger file:
-%     \begin{lstlisting}
-%     Trick failed
-%     \end{lstlisting}
-
-%     \item With trigger file:
-%     \begin{lstlisting}
-%     Trick passed
-%     \end{lstlisting}
-% \end{itemize}
-
-% Additionally, the system logs, container output, and HTTP responses sent to the Houdini Flask server were byte-for-byte identical across the two runs.
-
-% \subsection{Analysis}
-
-% These results confirm that Houdini's testing framework produces fully reproducible output across differing host environments, provided that the virtualized guest environment is pinned and controlled. Although the physical hardware varied significantly between hosts, the use of QEMU, static kernel builds, and overlay-injected binaries effectively decoupled test execution from host-specific factors.
-
-% This experiment highlights the portability of Houdini tests and demonstrates their suitability for deployment in heterogeneous research infrastructure, distributed CI pipelines, or cloud-based analysis platforms.
-
-% \subsection{Conclusion}
-
-% Houdini enables consistent and repeatable security testing across machines with diverse hardware profiles. By controlling all aspects of the guest environment—including kernel, container runtime, and trick logic—Houdini guarantees reproducible behavior regardless of the host system. This makes it a reliable foundation for portable and hardware-agnostic container security evaluations.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 \section{Reproducibility Across Time with Version Pinning}
 
-This experiment evaluates Houdini’s ability to reliably reproduce test results over time using a version-pinned container environment. The purpose of this experiment is to determine whether Houdini can serve as a reliable and deterministic testing framework when executed repeatedly over time under controlled, version-pinned conditions. Version pinning refers to explicitly locking the versions of software components, such as Docker, runc, and the Linux kernel, to prevent variation due to automatic updates, rebuilds, or environmental drift. Even slight changes in runtime binaries, system dependencies, or build environments can introduce behavioral drift that invalidates prior findings and undermines test integrity.
+This experiment evaluates Houdini’s ability to reliably reproduce test results over time using a version-pinned container environment. The purpose of this experiment is to determine whether Houdini can serve as a reliable testing framework when executed repeatedly over time under controlled, version-pinned conditions. Version pinning refers to explicitly locking the versions of software components, such as Docker, runc, and the Linux kernel, to prevent variation due to automatic updates, rebuilds, or environmental drift. Even slight changes in runtime binaries, system dependencies, or build environments can introduce behavioral drift that invalidates prior findings and undermines test integrity.
 
 To test reproducibility across time, we define two time points: \( T_0 \), the initial execution, and \( T_1 \), a later re-execution under identical conditions. If Houdini produces the same outputs at both time points, reproducibility is confirmed. We hypothesize that if the trick stays the same and the software environment doesn't change, Houdini will give the same test results every time. This would make it a reliable tool for running long-term container security tests. 
-
-Some tricks may always produce the same result, even if environmental drift occurs. In those cases, the result looks consistent, but it does not mean the environment stayed the same. An example of a trick that always produces the same result even when Docker, \texttt{runc}, or the kernel changes is a simple check for the presence of a file inside the container. For instance, the following script verifies whether a specific file exists:
-
-\begin{lstlisting}[language=bash, caption={Trick that is invariant to environment changes}, label={lst:invariant-trick}, numbers=left, numberstyle=\tiny, stepnumber=1, frame=single, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\footnotesize,  showspaces=false, showstringspaces=false]
-#!/bin/sh
-if [ -f /run/trigger_file ]; then
-    echo "Trick passed"
-else
-    echo "Trick failed"
-fi
-\end{lstlisting}
-
-In this case, the output is solely a function of the script logic and the presence or absence of a file. It depends entirely on the internal state of the container's filesystem and not on any external behavior of Docker, \texttt{runc}, or the kernel. There are no side channels, timing variations, or kernel-level mechanisms that affect the result. This deterministic behavior is a direct consequence of the scripting language itself and the semantic guarantees of shell evaluation. Because the script is self-contained, the result remains the same regardless of surrounding changes—unless those changes directly affect the file being checked. This highlights the importance of distinguishing between true environmental consistency and tricks that are trivially reproducible due to their independence from external state.
-
 
 \subsection{Experimental Setup}
 
@@ -268,7 +24,7 @@ In this case, the output is solely a function of the script logic and the presen
 Virtualization Platform & QEMU \\
 vCPUs & 4 \\
 RAM & 12 GB \\
-Root Filesystem & ext2 (minimal) \\
+Root Filesystem & ext2 \\
 Kernel Version & Linux 6.0 (custom build) \\
 \hline
 \end{tabular}
@@ -306,7 +62,7 @@ Kernel & \texttt{3b03...1c7} & \texttt{3b03...1c7} \\
 
 \subsection{AppArmor Enforcement Trick Logic}
 
-The AppArmor detection trick is used to check if the container is running with AppArmor security enabled, specifically under the `docker-default` profile. It’s a simple and effective way to see if Linux’s AppArmor is active inside the container. The trick works by reading the file `/proc/1/attr/current`, which shows the AppArmor profile applied to the container’s main process. If the profile includes `docker-default`, the trick passes, meaning AppArmor is working correctly. If the profile is missing or different, the trick fails, which could mean that AppArmor is turned off, not supported, or misconfigured. This trick helps identify whether the container's security setup has changed across different Docker versions, kernel updates, or system settings. It’s useful for spotting security drift that might affect how containers are confined.
+The AppArmor detection trick is used to check if the container is running with AppArmor security enabled, specifically under the `docker-default` profile. It’s a simple and effective way to see if Linux’s AppArmor is active inside the container. The trick works by reading the file `/proc/1/attr/current`, which shows the AppArmor profile applied to the container’s main process. If the profile includes `docker-default`, the trick passes, meaning AppArmor is working correctly. If the profile is missing or different, the trick fails, which could mean that AppArmor is turned off or not supported. This trick helps identify whether the container's security setup has changed across different Docker versions, kernel versions, or system settings.
 
 The \texttt{apparmor\_check.sh} script is placed in \texttt{/usr/bin/} and included via the overlay. Its purpose is to detect whether Docker applies AppArmor confinement, which varies by Docker version. The script attempts to write to /proc/sys/kernel/randomize\_va\_space, a location typically blocked by the default AppArmor profile.
 
@@ -360,9 +116,21 @@ R = \frac{2}{2} \times 100\% = 100\%
 
 This confirms full reproducibility under a pinned environment.
 
-\subsection{Analysis and Observations}
 
-This experiment illustrates that when the container runtime stack is fully controlled through version pinning via overlay injection, Houdini can achieve bit-for-bit reproducibility. These controls help make sure the test isn't affected by updates, build changes, or system differences over time. The trick attempts a privileged action that is only blocked if security policies are enforced. So, if the result changes, it could reflect a meaningful shift in runtime behavior or security policy enforcement. That said, if Docker's AppArmor behavior never changes across versions, this trick would produce consistent results, highlighting that not all security changes are observable through every trick.
+\subsection{False Indicators of Reproducibility}
+
+It is important to note that some tricks may always produce the same result, even if environmental drift occurs. In those cases, the result looks consistent, but it does not mean the environment stayed the same. An example of a trick that always produces the same result even when Docker, \texttt{runc}, or the kernel changes is a simple check for the presence of a file inside the container. For instance, the following script verifies whether a specific file exists:
+
+\begin{lstlisting}[language=bash, caption={Trick that is invariant to environment changes}, label={lst:invariant-trick}, numbers=left, numberstyle=\tiny, stepnumber=1, frame=single, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\footnotesize,  showspaces=false, showstringspaces=false]
+#!/bin/sh
+if [ -f /run/trigger_file ]; then
+    echo "Trick passed"
+else
+    echo "Trick failed"
+fi
+\end{lstlisting}
+
+In this case, the output is solely a function of the script logic and the presence or absence of a file. It depends entirely on the internal state of the container's filesystem and not on any external behavior of Docker, \texttt{runc}, or the kernel. There are no side channels, timing variations, or kernel-level mechanisms that affect the result. This deterministic behavior is a direct consequence of the scripting language itself and the semantic guarantees of shell evaluation. This highlights the importance of distinguishing between true environmental consistency and tricks that are trivially reproducible due to their independence from external state.
 
 \subsection{Conclusion}
 
@@ -385,9 +153,134 @@ This experiment shows that Houdini can consistently reproduce results over time,
 
 
 
+
+\section{Reproducibility Across Machines}
+
+\subsection{Purpose and Motivation}
+A property of any empirical testing framework is the ability to produce consistent results regardless of the underlying hardware. In security testing, this reproducibility is essential for verifying claims, comparing results across research environments, and enabling long-term validation of behavior across versions. However, in practice, subtle differences in CPU architecture, I/O latency, or system timing can introduce variability. This evaluation investigates whether Houdini’s virtualized testing architecture effectively abstracts away host-level differences to ensure consistent trick execution.
+
+\subsection{Experimental Design}
+To evaluate this, we selected two tricks written in \texttt{Python 3}:
+
+\begin{enumerate}
+    \item One trick checks for the presence of a file \texttt{/run/trigger\_file} and prints a fixed output.
+    \item Another trick writes a small temporary file to disk, reads it back, and confirms its contents.
+\end{enumerate}
+
+These tricks were executed on two different machines with distinct hardware:
+
+\begin{table}[h]
+\centering
+\caption{Comparison of Machine A and Machine B}
+\label{tab:machine-comparison}
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Specification} & \textbf{Machine A} & \textbf{Machine B} \\
+\hline
+CPU Model & Intel(R) Core(TM) Ultra 7 155H & Intel Xeon (Skylake, IBRS) \\
+vCPUs & 22 & 16 \\
+CPU Memory & 16GB & 32GB \\
+GPU & GeForce RTX 3050 & NVIDIA RTX 4070 Ti Super \\
+GPU Memory & 6 GB & 16GB \\
+Disk Space & 1 TB & 512GB \\
+Operating System & Ubuntu 24.04.2 LTS & Ubuntu 22.04.5 LTS \\
+\hline
+\end{tabular}
+\end{table}
+
+Both systems ran the same version of Houdini, using identical Buildroot VM images, Linux kernel (v6.0), Docker version, and runc version. QEMU was configured identically with KVM enabled and CPU flags masked to avoid exposing host-specific features.
+
+\subsection{Tricks Used}
+
+\begin{lstlisting}[language=bash, caption={Trick Configuration Parameters}, label={lst:escape-trick}, numbers=left, numberstyle=\tiny, stepnumber=1, frame=single, breaklines=true, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\footnotesize, showspaces=false, showstringspaces=false]
+#!/usr/bin/env python3
+import os
+
+if os.path.exists("/run/trigger_file"):
+    print("Trick passed")
+else:
+    print("Trick failed")
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash, caption={Trick Configuration Parameters}, label={lst:escape-trick}, numbers=left, numberstyle=\tiny, stepnumber=1, frame=single, breaklines=true, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\footnotesize, showspaces=false, showstringspaces=false]
+#!/usr/bin/env python3
+
+with open("/tmp/testfile.txt", "w") as f:
+    f.write("Houdini check")
+
+with open("/tmp/testfile.txt", "r") as f:
+    content = f.read()
+
+if content == "Houdini check":
+    print("Trick passed")
+else:
+    print("Trick failed")
+\end{lstlisting}
+
+\subsection{Results}
+On both machines, both tricks produced identical output, exited with code 0, and showed no variation in stdout or stderr. Each trick was executed five times to validate consistency across repeated trials. Houdini’s internal logs containing output matched exactly across runs. For the write-read trick, the generated file was hashed inside the VM using SHA256, with all outputs matching across machines. Minor timing fluctuations (±0.01s) were observed but had no effect on correctness. These findings confirm that Houdini's virtualized execution environment abstracts away hardware variability, providing strong guarantees of reproducibility.
+
+\begin{table}[h]
+\centering
+\caption{Reproducibility Comparison Across Machines}
+\label{tab:reproducibility-results}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Metric} & \textbf{Machine A} & \textbf{Machine B} & \textbf{Difference} \\
+\hline
+Stdout Output & \texttt{Trick passed} & \texttt{Trick passed} & None \\
+Exit Code & 0 & 0 & None \\
+Wall-clock Time (avg) & 0.12s & 0.13s & +0.01s \\
+CPU Utilization & 4\% & 4\% & None \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Threats to Reproducibility (and Why They Don't Apply)}
+One potential concern in cross-machine testing is that host-level kernel settings, such as security modules, sysctl values, or namespace policies could leak into or interfere with the VM and affect test behavior. For example, Linux’s Yama security module controls ptrace restrictions via the ptrace\_scope sysctl, which varies across distributions. On a typical Ubuntu host, ptrace\_scope may default to 1 (restricted), while hardened environments might use 2 or 3, disallowing debugging even with capabilities.
+
+However, Houdini’s design explicitly mitigates this threat. All tests are executed inside a Buildroot-based VM that runs its own Linux kernel, fully isolated from the host. Host kernel modules like Yama are not visible or inherited by the guest kernel. This means even if Machine A has ptrace\_scope=3 and Machine B uses the default 1, the guest VM will behave identically as long as the guest kernel is built without Yama, or with consistent defaults. Houdini controls the kernel config and root filesystem in the guest environment, ensuring uniform policy enforcement across machines.
+
+More generally, no host-level AppArmor profiles, SELinux settings, or LSM configurations apply inside the VM. Even sysctl values, such as those affecting networking, file descriptor limits, or namespaces are isolated to the VM’s kernel and cannot be influenced by the host. As a result, machine-specific hardening policies do not affect the determinism of trick execution.
+
+This design choice is central to Houdini’s reproducibility goal: by treating the guest VM as a sealed, deterministic black box, it ensures that only explicitly configured inputs like Docker version, kernel version, and trick code—affect outcomes. Host-level variation is fully abstracted away.
+
+\subsection{Conclusion}
+These results validate that Houdini’s use of virtualized environments and consistent root filesystems allows deterministic test logic to execute identically across heterogeneous hosts. By isolating each trick in a self-contained VM, Houdini ensures trick behavior remains invariant, enabling reliable cross-system comparison and reproducibility. This strengthens confidence in test outcomes even when hardware parity cannot be assumed, supporting reproducibility across research labs, institutions, and hardware platforms.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \section{Host Isolation Validation}
 
-This experiment is designed as an informal security evaluation rather than a rigorous formal verification. Its goal is not to prove—beyond all possible doubt—that VM escape vulnerabilities are absent. Instead, the aim is to provide practical evidence that, under typical conditions, Houdini’s architecture does not expose any clear or unintended paths through which a containerized workload could influence or compromise the physical host.
+This experiment is designed as an informal security evaluation rather than a rigorous formal verification. Its goal is not to prove beyond all possible doubt that VM escape vulnerabilities are absent. Instead, the aim is to provide practical evidence that, under typical conditions, Houdini’s architecture does not expose any clear or unintended paths through which a containerized workload could influence or compromise the physical host.
 
 To assess this, we use a controlled test: a container attempts to write to a file path that would typically point to a host-mounted directory, if such sharing were accidentally enabled. This simulated path acts as a canary, alerting us to any misconfigurations or unexpected leakages, such as shared folders or improperly scoped namespaces, that could break the intended isolation. If the container is able to write to this location, it would indicate a breach in the containment model.
 
@@ -450,17 +343,24 @@ While shared folders are a common method for transferring files between a VM and
 
 However, Houdini avoids this problem entirely by not relying on shared folders for interprocess communication or result reporting of tricks. This is because Houdini uses a lightweight Flask-based HTTP server running on the host. When a trick completes execution inside the VM, it sends its result, such as pass/fail status or diagnostic output back to the host via an HTTP POST request over a user-mode QEMU network port.
 
+This design has several advantages:
+\begin{itemize}
+    \item It eliminates the need to mount any part of the host filesystem inside the VM.
+    \item It decouples file I/O from test reporting, reducing the attack surface.
+    \item It enables fine-grained control over what data leaves the VM and how it is structured.
+\end{itemize}
+
 \subsection{Baseline Comparison: Without VM Isolation}
 
 To better understand the value of Houdini’s VM-based architecture, it is useful to compare it to traditional container deployments that run directly on the physical host. In such environments, containers share the host's kernel and rely on namespace and cgroup isolation to enforce security boundaries. While these mechanisms are generally effective, they are not foolproof, especially when advanced Docker features or misconfigurations come into play.
 
-Flags like \texttt{--pid=host}, \texttt{--net=host}, and \texttt{--ipc=host} allow containers to join the host’s namespaces. When used, these flags remove key layers of isolation by allowing the container to see or interact with host-level resources such as process IDs, network interfaces, or shared memory segments. These options are sometimes enabled for debugging, performance, or compatibility reasons but significantly expand the container’s visibility and control over the host environment.
+Flags like \texttt{--pid=host}, \texttt{--net=host}, and \texttt{--ipc=host} allow containers to join the host’s namespaces. When used, these flags remove key layers of isolation by allowing the container to see or interact with physical host-level (in this case) resources such as process IDs, network interfaces, or shared memory segments. These options are sometimes enabled for debugging, performance, or compatibility reasons but significantly expand the container’s visibility and control over the host environment.
 
 Even more critically, the use of volume mounts (e.g., \texttt{-v /:/host}) can give a container direct access to the host filesystem. If write access is granted intentionally or through misconfiguration, an attacker could overwrite sensitive files such as \texttt{/etc/passwd}, replace binaries, or inject persistent malware. In practice, many container escapes and privilege escalations have stemmed from overly permissive volume mounts or the misuse of the \texttt{--privileged} flag, which grants broad access to kernel interfaces and devices.
 
 In contrast, Houdini enforces a strict boundary between the containerized workload and the physical host by placing containers inside a disposable VM. Even if a container is launched with aggressive options like \texttt{--privileged} or \texttt{--pid=host}, these privileges are scoped only to the VM, not the physical host. This means that even misconfigured or malicious containers cannot directly interact with the physical hosts kernel, devices, or filesystem.
 
-Additionally, Houdini’s architecture ensures that test environments are ephemeral. Each container runs inside a fresh VM instance with no persistence beyond the test lifecycle. This further reduces risk by eliminating opportunities for long-term compromise or lateral movement.
+Additionally, Houdini’s architecture ensures that test environments are short lasting. Each container runs inside a fresh VM instance with no persistence beyond the test lifecycle. This further reduces risk by eliminating opportunities for long-term compromise or lateral movement.
 
 Ultimately, this baseline comparison shows that Houdini provides a stronger isolation guarantee than conventional Docker deployments. By decoupling the guest environment from the host through virtualization, Houdini limits the radius of potential container exploits and enforces a security boundary that is significantly harder to breach.
 
@@ -475,14 +375,9 @@ Houdini is not designed to test the security of QEMU or the underlying hyperviso
 While no virtualized system is immune to escape-class vulnerabilities, Houdini's design adheres to best practices for secure VM isolation. Its architecture limits exposure to known escape vectors, confines all container execution to a disposable environment, and avoids risky host-guest integration mechanisms. These decisions ensure that even in the presence of an unknown or unpatched vulnerability, the practical risk to the physical host remains minimal.
 
 
-This design has several advantages:
-\begin{itemize}
-    \item It eliminates the need to mount any part of the host filesystem inside the VM.
-    \item It decouples file I/O from test reporting, reducing the attack surface.
-    \item It enables fine-grained control over what data leaves the VM and how it is structured.
-\end{itemize}
 
-\subsection{Scope and Limitations.}
+\subsection{Scope and Limitations}
+
 This evaluation focuses on validating Houdini’s host isolation guarantees through simulated behavior rather than active exploitation. By design, Houdini does not expose any part of the physical host to the VM, making true host access attempts infeasible without deliberately weakening the environment. As such, the trick used here serves as a canary. It simulates a write to a host-mounted path that would only succeed if isolation were broken through misconfiguration or unexpected leakage. While this approach cannot detect low-level hypervisor vulnerabilities or advanced VM escape techniques, it effectively confirms that Houdini’s default configuration does not expose host resources through typical container mechanisms. Stronger adversarial testing, such as injecting known hypervisor exploits or performing fuzzing against QEMU interfaces, is beyond the scope of this evaluation but would complement this work in future studies.
 
 \subsection{Conclusion}
@@ -723,7 +618,7 @@ This level of compatibility makes Houdini suitable not just for point-in-time se
 
 \subsubsection{Conclusion}
 
-In total, Houdini validated 73 Docker versions paired with 20 distinct runc releases, all running on a consistent Linux 6.0 kernel. Every combination succeeded without requiring trick-specific logic changes or framework adaptation. This breadth affirms Houdini’s resilience to version-induced divergence and runtime instability across over a decade of Docker ecosystem evolution.
+Houdini was tested with 73 different Docker versions and 20 versions of runc, all using the same Linux 6.0 kernel. Every version combination worked without needing to change any tricks or modify the framework. This shows that Houdini can handle a wide range of versions without breaking, even across more than ten years of Docker updates.
 
 
 
@@ -898,6 +793,27 @@ CPU utilization         & 4\% \\
 \end{tabular}
 \end{table}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Scalability via Bulk Execution}
+
+A key design goal of Houdini is the ability to scale empirical security testing across many configurations without requiring manual supervision. Modern container ecosystems span a wide matrix of variables—including Docker versions, runtime versions, kernel builds, and isolation flags—making scalability essential for comprehensive evaluation. This section assesses whether Houdini can execute large batches of test cases efficiently and reliably.
 
 
 \end{doublespace}
