@@ -1,9 +1,35 @@
-% Inside the document:
 \fontsize{12pt}{14pt} \selectfont
 \begin{doublespace}
 \chapter{Evaluation}
 
+\begin{enumerate}
+    \item \textbf{Reproducibility Across Machines} \\
+    Run the same trick and configuration on two different machines (e.g., different CPU architectures or hardware specs) and verify that the output is identical.
 
+    \item \textbf{Reproducibility Across Time with Version Pinning} \cmark \\
+    Re-run a pinned Docker, kernel, and runc configuration at a later time to ensure consistent results, demonstrating Houdini's ability to reproduce experiments reliably.
+
+    \item \textbf{Scalability via Bulk Execution} \cmark \\
+    Execute a large batch of tricks (e.g., 32) across multiple configurations in one session. Measure runtime, memory usage, and failure rates to assess Houdini’s batch execution capabilities.
+
+    \item \textbf{Performance Benchmarking} \cmark \\
+    Measure the end-to-end time it takes Houdini to execute a single trick, including VM boot, container launch, and result collection. Compare this to a manually executed baseline outside Houdini.
+
+    \item \textbf{Host Isolation Validation} \cmark \\
+    Run a deliberately malicious trick (e.g., attempting to write to host directories) and verify that the host remains secure, demonstrating that Houdini’s use of VMs effectively isolates test environments.
+
+    \item \textbf{Fault Tolerance and Crash Recovery} \\
+    Introduce failing or crashing tricks (e.g., segmentation faults, infinite loops) and confirm that Houdini logs the failure and continues running subsequent tests without interruption.
+
+    \item \textbf{Version Variability Support} \cmark \\
+    Create a test matrix across different combinations of Docker, runc, and kernel versions. Confirm that Houdini successfully builds and runs tricks across all variations.
+
+    \item \textbf{Extensibility Test} \cmark \\
+    Develop a new custom trick (e.g., testing for a capability or syscall) and integrate it into Houdini. Measure the effort and steps needed to add and run it without modifying the core logic.
+
+    \item \textbf{CI Integration Test} \\
+    Integrate Houdini into a CI/CD system such as GitHub Actions or GitLab CI. Trigger it on container configuration changes and assess its stability and reporting in an automated pipeline.
+\end{enumerate}
 
 
 \section{Reproducibility Across Time with Version Pinning}
@@ -776,7 +802,7 @@ To evaluate Houdini’s performance under batch workloads, we executed a session
 
 The benchmark was conducted using the \texttt{/usr/bin/time -v} utility to capture detailed performance statistics. The total wall-clock time for executing all 32 tricks was approximately 1 minute and 6.80 seconds. During this period, the system reported a user time of 2.75 seconds and a system time of 0.48 seconds, with an overall CPU utilization of just 4\%. These results indicate that while the batch execution is time-bound primarily by I/O and process orchestration overhead, the actual CPU demand remains minimal, suggesting scalability across larger test sets.
 
-\begin{table}[h]
+\begin{table}[ht]
 \centering
 \caption{Performance Metrics for Batch Execution of 32 Tricks}
 \label{tab:batch-execution}
@@ -813,7 +839,36 @@ CPU utilization         & 4\% \\
 
 \section{Scalability via Bulk Execution}
 
-A key design goal of Houdini is the ability to scale empirical security testing across many configurations without requiring manual supervision. Modern container ecosystems span a wide matrix of variables—including Docker versions, runtime versions, kernel builds, and isolation flags—making scalability essential for comprehensive evaluation. This section assesses whether Houdini can execute large batches of test cases efficiently and reliably.
+To evaluate scalability, we constructed a batch consisting of 32 distinct trick-configuration pairs. Each trick was executed in a fresh QEMU virtual machine using a consistent Buildroot image, Docker version, and Linux kernel (v6.0). The test matrix spanned multiple combinations of runtime flags and container configurations to simulate realistic usage patterns in regression testing.
 
+\begin{lstlisting}[language=bash, caption={Trick Configuration Parameters}, label={lst:escape-trick}, numbers=left, numberstyle=\tiny, stepnumber=1, frame=single, breaklines=true, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\footnotesize, showspaces=false, showstringspaces=false]
+pid_mode = [None, "--pid=host"]
+cap_kill = [False, True]
+cap_sys_ptrace = [False, True]
+privileged_opts = [False, True]
+\end{lstlisting}
+
+Houdini’s batch system accepted this matrix as a single declarative input and automatically expanded it into 32 independent tasks. Each task was queued, isolated in its own VM, and executed without manual intervention. The entire batch completed successfully in a single uninterrupted session, confirming the framework’s ability to handle moderate-scale workloads without user supervision.
+
+\subsection{Result Integrity and Logging}
+
+Throughout the bulk execution of 32 trick-configuration pairs, Houdini successfully generated a separate log file for each individual test. Each log captured the complete stdout output as well as the full Docker command used to launch the container (including all runtime flags). For example:
+
+\begin{verbatim}
+docker run --rm --cap-add=CAP_KILL --pid=host ...
+Trick passed
+\end{verbatim}
+
+All logs were uniquely named based on the trick and configuration, stored in a structured directory hierarchy corresponding to the test batch. Manual inspection confirmed that every log was complete, correctly formatted, and attributed to the correct trick. No logs were missing, truncated, or overwritten.
+
+This logging mechanism supports both debugging and reproducibility, as each file serves as a self-contained record of the execution. Moreover, the trick output in every log matched the expected behavior for its configuration, affirming the functional correctness of the batch.
+
+\subsection{Scalability Limits}
+
+While this evaluation involved 32 trick-configuration pairs, Houdini’s architecture does not impose a hard-coded upper limit on batch size. The system is designed to accept arbitrarily large test matrices and automatically expand and schedule each test. In principle, Houdini can scale to hundreds or even thousands of tasks, depending on available system resources.
+
+\subsection{Conclusion}
+
+This evaluation confirms that Houdini meets its scalability goal. The system can reliably orchestrate dozens of isolated tests in a single batch, automatically handling setup, teardown, and result collection. As the matrix of container configurations continues to grow with new software versions and security flags, this scalability ensures that Houdini remains suitable for long-term and large-scale security regression testing.
 
 \end{doublespace}

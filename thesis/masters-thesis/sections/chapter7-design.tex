@@ -2,52 +2,140 @@
 \begin{doublespace}
 \chapter{Design}
 
+\section{Introduction}
 
-\begin{itemize}
+The design of Houdini is guided by a set of core principles aimed at enabling reliable, large-scale testing of container security confinement. At its core, Houdini seeks to ensure \textbf{reproducibility} and \textbf{determinism}, so that each test yields the same result when run under identical conditions, and behaves consistently across time and environments. It enforces strong \textbf{host isolation} by executing potentially dangerous container workloads inside tightly controlled virtual machines, preventing any impact on the host system. The framework is built to support \textbf{flexibility across configurations}, allowing users to test a wide range of Docker flags, Linux capabilities, AppArmor profiles, and runtime versions. Despite its serialized test execution, Houdini is designed with \textbf{scalability} in mind through automation and declarative input modeling, enabling large test matrices to be evaluated with minimal manual effort. It also emphasizes \textbf{performance} by reducing overhead through lightweight virtual machines and precompiled binaries. Finally, Houdini prioritizes \textbf{transparency and debuggability} by logging all configuration inputs and test results in a structured format, enabling users to trace and interpret outcomes with confidence. The following sections describe how each of these design goals is achieved through Houdini's architecture and implementation.
 
-\item \textbf{Reproducibility:}
-Houdini should produce consistent and repeatable results when run across different machines and environments. Identical configurations and test inputs should yield the same outcomes.
 
-\item \textbf{Scalability:}
-Houdini should support scalable execution, allowing users to easily configure, queue, and execute large batches of tests/tricks across multiple container configurations or versions. The framework should be designed to accept input declaratively and automate the full evaluation without requiring manual intervention.
 
-\item \textbf{Performance:}
-Houdini should execute tests efficiently, minimizing runtime overhead while maintaining accuracy. The framework’s performance should allow it to be integrated into larger workflows, such as continuous integration pipelines, without introducing significant delays.
+\section{System Architecture}
 
-\item \textbf{Security and Host Isolation:}
-Houdini must isolate tests from the host system to ensure safety during the execution of potentially dangerous tricks. By running tests inside a virtual machine, Houdini should prevent container escapes or exploits from impacting the host. It should maintain a secure boundary between the test environment and the underlying system.
+Houdini is composed of several coordinated components that work together to execute container security tests in a controlled and reproducible manner. At the top level, the process is initiated by a host-side controller, a Python-based command-line interface (CLI)—which is responsible for parsing user input, defining the test matrix, and orchestrating the execution of each test case. Users interact with Houdini through this CLI to specify which trick to run, along with the desired combinations of container runtime versions, kernel versions, and configuration parameters such as capabilities, namespaces, and AppArmor profiles.
 
-\item \textbf{Accuracy of Detection}
-Houdini should correctly distinguish between successful and failed security isolation. Test results should reflect the actual runtime behavior of the container under evaluation without false positives or negatives.
+To facilitate communication between the host and the virtual test environment, Houdini runs a lightweight Flask server on the host. This server exposes a simple HTTP API that allows the host to send configuration data and trick logic into the virtual machine (VM) and retrieve results once execution is complete. The Flask server acts as a bridge between the Houdini CLI and the internal logic running inside the guest VM.
 
-\item \textbf{Flexibility Across Configurations}
-The framework should support a wide range of container settings, including different Linux capabilities, namespaces, AppArmor profiles, seccomp filters, and Docker flags. It should also accommodate various versions of Docker, runc, crun, and the Linux kernel.
+The actual test environment is provided by a QEMU-based virtual machine. This VM is constructed using a Buildroot-generated Linux image, which provides a minimal and deterministic guest operating system. Each test is launched in a fresh instance of this VM to ensure isolation, reproducibility, and protection for the host system. Even if a container escape occurs or a trick exploits kernel-level vulnerabilities, the damage is contained within the VM and cannot affect the host.
 
-\item \textbf{Transparency and Debuggability}
-Test runs should be transparent and easy to interpret. Logs, intermediate outputs, and error messages should be informative enough to help users understand why a trick passed or failed.
+Inside the virtual machine, a component known as the \textit{trick listener} runs as a persistent background process. This service is responsible for receiving trick execution requests from the Flask server, parsing the incoming configuration, and launching the container under test with the specified parameters. The guest VM includes a version-pinned installation of Docker, which is used to start the container with the exact runtime environment defined by the test configuration. This includes setting flags such as \texttt{--pid=host}, applying AppArmor profiles, granting or dropping specific Linux capabilities, and mounting filesystems.
 
-\item \textbf{Version Pinning}
+Once the container is running, the trick execution logic is carried out inside the container. This logic is defined by the user in a separate script—typically written in Python or Bash—that is copied into the container at build time. The script performs the security test (e.g., attempting to read a protected file, send a signal to a host process, or escalate privileges) and outputs a success or failure message depending on the observed behavior. After execution, the trick listener collects the results and sends them back to the host through the Flask server, where they are logged and stored for further analysis.
 
-\item \textbf{Detect Configuration-Behavior Inconsistencies:}  
-Evaluate whether containers behave as expected under different security configurations by empirically validating real-world runtime behavior. This helps identify mismatches between intended policy and actual enforcement.
+This architecture ensures strict separation between the host and guest environments, deterministic test behavior, and support for a wide variety of container configurations. By isolating execution within a lightweight VM and decoupling the configuration, orchestration, and evaluation layers, Houdini provides a robust and extensible platform for empirical container security testing.
 
-\item \textbf{Assess Cross-Version Consistency and Enforcement Drift:}  
-Determine whether the same container configuration yields consistent behavior across different versions of Docker, container runtimes (e.g., runc, crun), and Linux kernels.
-\end{itemize}
 
-\section{Reproducibility and Deterministic Execution}
 
-A central design goal of Houdini is to ensure that container security tests are reproducible and deterministic. Reproducibility means that when a test is run multiple times under the same conditions, it should produce the same result. Determinism ensures that given the same inputs, including the kernel version, filesystem state, runtime binaries, and test logic, the system will always produce the same outputs, without being influenced by system randomness, entropy, or external changes.
+\section{Trick Lifecycle and Execution Flow}
 
-This level of control is especially important in security testing, where consistency is critical. Without strict version control, even small system updates can lead to changes in container behavior. For example, an operating system update might alter how system calls are handled, or a new version of Docker or runc might introduce subtle changes in default behavior. These differences can cause a trick to unexpectedly pass or fail, even though the code itself has not changed.
+Each test in Houdini is structured around a unit called a \textit{trick}, which encapsulates a container security scenario that is to be evaluated. A trick consists of three core files: a configuration file, a Dockerfile, and an executable script. The configuration file defines how the container should be launched, including parameters such as Linux capabilities, namespace modes, AppArmor profiles, seccomp filters, volume mounts, and user privileges. This file also specifies the Dockerfile to use and the path to the trick implementation. The Dockerfile defines the build environment of the container, installs any required dependencies, and copies the trick script into the container image. Finally, the trick script itself—typically written in Bash or Python—contains the logic of the test. It attempts a specific action (such as reading \texttt{/etc/shadow}, sending a signal to a host process, or escalating privileges) and emits a clear “pass” or “fail” output depending on whether the action succeeds.
 
-Such inconsistencies lead to misleading test results. A trick might appear to succeed because of quirks in the environment rather than an actual vulnerability (a false positive), or it might fail due to an unrelated system update that blocks the exploit (a false negative). In both cases, the conclusions drawn from the test cannot be trusted. This is especially problematic in workflows like coordinated vulnerability disclosure, where researchers and vendors must independently verify the exploit under identical conditions, or in compliance audits that require consistent, repeatable testing.
+The trick lifecycle begins on the host, where the user selects a trick and provides a set of configurations to evaluate. The Houdini CLI sends this information to the Flask server, which forwards the request into the virtual machine via an HTTP API. Inside the VM, the trick listener receives the configuration and prepares the Docker container. Docker is used to build the container image using the specified Dockerfile, then run the container with the flags defined in the configuration file. This ensures that the environment within the container is exactly as described, with version-pinned binaries and well-defined privilege boundaries.
 
-To eliminate these risks, Houdini is designed with a tightly controlled execution environment. All critical components like Docker, runc, and the Linux kernel are version-pinned. Their binaries are precompiled and injected into the VM using an overlay filesystem, bypassing reliance on external package managers or distribution-level dependencies. This ensures that the exact versions of all runtime components are known and fixed.
+Once the container is launched, the trick script executes automatically inside the container. During execution, the script performs its predefined test logic and reports its outcome by printing a success or failure message to standard output. The trick listener monitors the container’s output and collects the final result, along with any standard error messages and the container's exit code. These results are then sent back to the Flask server on the host, which tags them with the relevant configuration metadata and stores them in a structured log format for later analysis.
 
-Additionally, Houdini builds its guest environment using Buildroot, a minimalist embedded Linux build system. This allows precise control over every component included in the VM. The result is a clean, self-contained execution environment that avoids the sources of nondeterminism commonly found in general-purpose distributions, such as background services, automatic updates, or untracked dependencies.
+To guarantee consistency and isolation, each trick is executed in a freshly booted QEMU virtual machine that uses a clean Buildroot-generated image. This eliminates state sharing between tests and prevents contamination from previous runs. No background services, daemons, or user-modifiable system components are present in the guest image, further ensuring that results are solely attributable to the test configuration. Because no persistent state is carried between executions, the test environment is fully reset each time, enabling strict reproducibility and simplifying debugging. This design guarantees that the observed behavior reflects the actual impact of the container configuration under test, free from side effects introduced by prior tests or host-level interactions.
 
-In summary, Houdini’s design guarantees that a trick executed today will behave the same way when executed days, weeks, or months later, provided that the same version-pinned environment is used. This reliability is critical for evaluating security vulnerabilities, verifying patches, performing longitudinal studies, and conducting reproducible research. By enforcing a deterministic testbed, Houdini isolates the cause of behavioral differences to the trick logic or configuration itself—never to hidden changes in the surrounding infrastructure.
+
+\section{Version Pinning}
+
+To ensure reproducibility and enable systematic regression testing, Houdini enforces strict control over the versions of all critical software components involved in test execution. Container behavior can change significantly between versions of Docker, runc, or the Linux kernel, even when the container configuration itself remains unchanged. To eliminate variability caused by underlying software drift, Houdini relies on a version pinning strategy that explicitly fixes the versions of all major runtime components.
+
+Each test case specifies exact versions of Docker, runc, and the Linux kernel. These components are precompiled and stored in a local cache, ensuring that the same binaries are used across repeated runs. For example, if a trick is meant to evaluate a vulnerability present in runc 1.0.0-rc2 but fixed in 1.1.12, Houdini will use the exact corresponding runc binary for each test case without relying on package managers or internet downloads. Similarly, different versions of Docker (e.g., 20.10.3, 23.0.1, or 27.0.3) can be tested across the same trick logic to assess behavioral drift or identify regressions.
+
+These precompiled binaries are injected into the guest VM using an overlay filesystem. Rather than rebuilding the entire root filesystem for each test, Houdini layers the required binaries over the static Buildroot image. This technique allows different test cases to share a common base environment while customizing their runtime stack independently. Overlay injection ensures that the guest VM sees only the specified versions of the relevant tools, regardless of what is installed on the host.
+
+The guest operating system itself is built using Buildroot, a minimalist Linux build system that allows fine-grained control over the contents of the root filesystem. Houdini uses Buildroot to construct deterministic VM images that contain only the essential components needed for trick execution. This eliminates potential sources of nondeterminism that are common in general-purpose distributions, such as automatic updates, dependency resolution, and unpredictable background services.
+
+By combining precompiled runtime components, overlay injection, and deterministic Buildroot-generated VMs, Houdini creates a fully controlled execution environment. This infrastructure ensures that any changes in trick behavior can be confidently attributed to intentional differences in configuration or runtime version—not to hidden changes in the surrounding software stack. It also enables robust regression testing, where the same trick is executed across a range of versions to observe how security guarantees evolve over time. This approach was particularly useful in the evaluation of CVE-2024-21626, where Houdini revealed that the vulnerability was present in runc versions earlier than those initially reported in the official CVE disclosure.
+
+
+\section{Test Matrix Design}
+
+Houdini is designed to support systematic and large-scale container security testing through a declarative test matrix model. Instead of requiring users to write custom scripts for each test case, Houdini allows users to define a matrix of configuration options that are automatically expanded into individual test cases. This approach simplifies the process of specifying and managing complex experiments, reduces manual effort, and improves coverage across different isolation and privilege configurations.
+
+Each trick execution is defined by a set of configuration "knobs" that control how the container is launched. These knobs include Linux capabilities (e.g., \texttt{CAP\_SYS\_ADMIN}, \texttt{CAP\_SYS\_PTRACE}), namespace modes (such as \texttt{--pid=host} or \texttt{--net=host}), AppArmor profiles (e.g., \texttt{unconfined} or \texttt{docker-default}), seccomp profiles, user identity (root vs. non-root), and Docker flags like \texttt{--privileged}, \texttt{--read-only}, or volume mounts. Users specify the set of values they wish to test for each knob using a simple configuration format, typically YAML or JSON.
+
+Once specified, Houdini automatically generates the Cartesian product of all parameter combinations, pairing each with the target trick and runtime version. For example, if a user wants to test a single trick across 3 Docker versions, 2 AppArmor profiles, and 2 sets of capabilities, Houdini will automatically generate 12 distinct test cases (3 × 2 × 2), each representing a unique configuration. This process eliminates the need for manual duplication and ensures that all combinations are systematically evaluated.
+
+This declarative model significantly enhances scalability. Rather than managing each test manually, users can define broad sets of scenarios with a few lines of configuration. Houdini’s internal scheduler then handles the execution of each test case in a clean, isolated virtual machine, capturing results independently. This approach enables researchers to explore how different isolation settings interact, detect edge cases, and identify configurations that break expected security boundaries.
+
+By abstracting test case specification into a declarative matrix, Houdini provides a scalable and maintainable framework for container security testing. It empowers users to conduct extensive coverage experiments with minimal manual configuration, while preserving precision and reproducibility in each individual test.
+
+
+\section{Isolation and Safety Mechanisms}
+
+Houdini is explicitly designed to safely execute potentially dangerous or privilege-escalating container workloads without risking the security or stability of the host system. To achieve this, it enforces strict isolation through a combination of virtual machine separation, containment policies, and runtime safeguards.
+
+All trick executions occur inside a QEMU-based virtual machine, which serves as a hardware-level boundary between the test environment and the host. Unlike approaches that rely on Linux containers alone, this VM-level separation guarantees that even if a container successfully breaks out of its sandbox, it remains confined within the virtualized guest. This defense-in-depth model protects the host from both known and unknown container escape vulnerabilities, ensuring that test payloads cannot influence or damage the system running Houdini itself.
+
+Houdini further avoids any direct linkage between the host and the guest environment. No host directories are mounted into the guest, and no namespaces are shared between the host and VM. Containers are launched entirely within the guest’s user, mount, PID, and network namespaces. This means that containers inside the VM have no visibility into host processes, filesystems, or resources. Features such as \texttt{--pid=host} only apply within the context of the VM, and never bridge to the real host.
+
+To empirically verify that host access is not possible, Houdini incorporates a canary mechanism. During VM boot, a simulated host-accessible path is defined (e.g., a file or directory that mimics a mounted host volume). The trick under test may attempt to write to this path or read from it as part of the test logic. If the container can successfully access this canary, it indicates a misconfiguration or a potential escape vector. In practice, Houdini’s isolation model prevents such access unless the VM itself has been misconfigured, providing an additional layer of runtime validation.
+
+Together, these mechanisms enforce strong host isolation and make Houdini a safe platform for evaluating security-critical container behavior. By containing tests within a tightly scoped virtual environment, it ensures that no trick—malicious or accidental—can compromise the integrity of the host system.
+
+
+\section{Automation and Execution Pipeline}
+
+Houdini is designed to operate as a fully automated and repeatable test execution framework. Once a user specifies the desired trick and configuration matrix, the system takes over and handles all stages of test orchestration without requiring further manual intervention. This fully unattended execution pipeline reduces the user burden and enables large-scale evaluations to proceed with minimal effort.
+
+Each test case is executed in isolation within its own QEMU virtual machine. The VMs are launched one at a time in a serialized fashion—Houdini does not currently support parallel execution. While this limits overall throughput, it offers a crucial benefit: predictability. Serial execution ensures that each test runs in a clean environment free from interference by other tasks, removing concurrency as a source of nondeterminism.
+
+To enforce repeatability, Houdini initializes a fresh VM for every single test case. The guest image is regenerated using a minimal Buildroot system, and no state from previous runs is carried over. This guarantees that the environment is identical each time a trick is executed. Whether running a test for the first time or rerunning it weeks later with the same configuration, the outcome will be determined solely by the logic of the trick and the versions of the software under test—not by stale filesystem state, cached data, or unpredictable side effects.
+
+This strict separation and automation pipeline allow users to queue hundreds or thousands of test cases and walk away, confident that results will be recorded consistently and reliably. Logs are saved automatically, configuration metadata is attached to every result, and errors are surfaced clearly for debugging. In effect, Houdini abstracts away the operational complexity of container security testing, allowing researchers and engineers to focus on analysis rather than setup and execution.
+
+
+\section{Transparency and Debuggability}
+
+Houdini is designed not only to execute tests reliably, but also to make results easy to interpret and debug. To support transparency and effective diagnosis, the framework implements structured logging, rich metadata tagging, and deterministic evaluation criteria for every test.
+
+Each test execution generates a structured log file that includes the container's standard output, standard error, exit code, and a timestamped record of the configuration parameters used. These logs are stored in a standardized format and organized by test ID, making it straightforward to trace the provenance of any result. Whether a trick passed, failed, or encountered an unexpected runtime error, the corresponding log provides clear visibility into what occurred during execution.
+
+Houdini also tags every test result with its full configuration metadata. This includes the container runtime version, kernel version, Docker flags, capabilities, namespace modes, and any AppArmor or seccomp profiles in effect. These tags are recorded alongside the test result, enabling automated analysis, filtering, and regression tracking. For example, a user can easily compare how the same trick behaves under different runc versions or with different namespace settings, based on the metadata attached to each result.
+
+While the default mode is fully automated, Houdini also supports optional interactive inspection. Users can choose to pause execution at specific stages, such as before launching the container or after the trick completes. This allows them to manually inspect the state of the VM or container, check file system contents, or rerun the trick interactively for more detailed debugging.
+
+Finally, each trick is written to emit a deterministic pass or fail outcome based on runtime observations. For instance, a trick might check for the presence of a specific file, the ability to signal another process, or the success of a privilege escalation attempt. These conditions are embedded in the trick logic itself, ensuring that the result of each test is consistent and reproducible across runs. By combining clear pass/fail semantics with detailed logs and metadata, Houdini provides a transparent and developer-friendly environment for security evaluation.
+
+\section{Security Design}
+
+A central aspect of Houdini's architecture is its emphasis on safe execution of potentially harmful container workloads. The primary security boundary is enforced at the level of a QEMU virtual machine, which isolates each test from the host system using hardware-level virtualization. This boundary is sufficient for Houdini’s threat model, which assumes that container workloads may attempt to exploit kernel vulnerabilities or escalate privileges within the guest. By design, no test has direct access to the host’s filesystem, namespaces, or process tree. Even if a trick succeeds in breaking out of its container, it only reaches the VM environment, which is ephemeral and isolated. Furthermore, no host-mounted volumes or devices are exposed to the guest, and Houdini does not rely on nested virtualization or host-provided namespaces. This model ensures that trick execution remains safely contained, protecting both the host and other tests from compromise.
+
+\section{Extensibility}
+
+Houdini is designed to be modular and extensible, allowing security researchers to easily add new tricks, runtimes, or configuration parameters. Each trick is defined by a set of modular files: a Dockerfile, a configuration file, and a script. Adding a new trick simply requires placing these files in a new subdirectory and registering the trick in the Houdini CLI. Similarly, new runtime versions—such as a different version of Docker, runc, or the Linux kernel—can be added to Houdini’s local cache, after which they become available as selectable options in the test matrix. While the current implementation focuses on Docker and runc, the system is structured in a way that would allow integration of other OCI-compliant runtimes like \texttt{crun} or \texttt{youki} with relatively few changes. This modularity ensures that Houdini can evolve alongside the container ecosystem and be used to evaluate future attack surfaces or isolation strategies with minimal developer effort.
+
+\section{Buildroot Customization and Guest Environment Design}
+
+Houdini's guest virtual machine is built using Buildroot, a minimalist embedded Linux build system that allows tight control over the software included in the image. This customization is critical for maintaining determinism, minimizing attack surface, and reducing boot time. The Buildroot image includes only the essential components required for container execution and trick evaluation. These include a statically linked BusyBox shell, the Docker daemon and CLI (injected via overlay), a Python interpreter, curl for HTTP communication, and a lightweight init system. 
+
+Deliberate trade-offs are made to exclude non-essential services such as SSH, udev, systemd, or networking daemons, which could introduce nondeterministic behavior or additional complexity. Instead, the VM is initialized with a fixed set of devices and predictable kernel logs, enabling stable trick execution. Statically linking utilities where possible simplifies debugging by avoiding dynamic library mismatches and dependency issues across test runs. The result is a clean, lightweight VM that boots quickly and behaves identically across repeated invocations, serving as a robust platform for empirical security testing.
+
+\section{Error Handling and Recovery}
+
+Houdini includes built-in mechanisms to detect and handle failures at each stage of test execution. If a VM fails to boot within a predefined timeout, the test is automatically marked as failed and the error is logged with a timestamp and diagnostic message. Similarly, if Docker fails to start inside the guest—due to misconfiguration, missing binaries, or runtime incompatibilities—the failure is detected by the trick listener and reported back to the host as an infrastructure-level error.
+
+If the trick script itself crashes or exits unexpectedly, Houdini captures the exit code, standard output, and standard error of the container process. These artifacts are stored in structured logs, allowing users to distinguish between trick-level failures and broader environment issues. For non-critical errors such as missing config fields or malformed input, Houdini logs a warning and skips execution of the invalid test case. In all cases, error metadata is retained alongside test results for later review.
+
+Although Houdini does not currently support automatic retries, its deterministic and stateless design makes re-running failed cases straightforward. Users can selectively rerun individual test IDs using the CLI, ensuring minimal overhead when diagnosing flakiness or debugging regressions.
+
+\section{Configuration Validation and Sanity Checks}
+
+Before executing any test, Houdini performs a series of pre-run validation checks to ensure the integrity and completeness of the user-provided configuration. These include verifying that all required trick files are present (configuration file, Dockerfile, and script), that the specified Docker and runc versions exist in the local binary cache, and that configuration parameters such as capability names, AppArmor profiles, and namespace flags are syntactically valid.
+
+The CLI also checks for duplicate or conflicting configurations, such as attempting to run a test with both \texttt{--privileged} and a restricted seccomp profile. If such conflicts are detected, the system emits a warning and skips the invalid case. Users are also warned if required components (e.g., QEMU, KVM, or Buildroot toolchain) are not installed or misconfigured on the host system.
+
+These validation steps are critical for preventing wasted test runs, simplifying troubleshooting, and maintaining the integrity of large-scale evaluations. By catching errors early in the pipeline, Houdini ensures that only well-formed and meaningful test cases are executed.
+
+\section{Interface and User Experience Design}
+
+Houdini provides a command-line interface (CLI) as its primary mode of interaction. The CLI is designed to balance flexibility with usability, allowing both simple and advanced users to manage trick execution workflows efficiently. Common commands include \texttt{houdini run} to execute a trick, \texttt{houdini matrix} to expand a configuration file into concrete test cases, and \texttt{houdini rerun} to re-execute failed or inconclusive tests by test ID. Each command provides contextual feedback, including progress indicators, error summaries, and log file locations.
+
+The experiment configuration itself is defined declaratively using a YAML-based format that is human-readable and easy to edit. Users can specify default settings at the global level and override them for individual test cases as needed. This model reduces redundancy and simplifies management of large matrices. 
+
+Test results are presented in a structured, color-coded table that highlights pass/fail status, runtime versions, and key configuration flags. Logs are accessible by test ID and organized in a predictable directory structure, allowing quick navigation and review. Overall, Houdini’s interface is designed to support transparency, traceability, and low-friction experimentation for researchers and engineers.
+
+
 
 \section{Runtime Injection via OverlayFS}
 
@@ -55,26 +143,55 @@ Rather than relying on Buildroot’s package infrastructure to download and inst
 
 \section{Preventing Environmental Drift}
 
-Environmental drift refers to unintentional changes in the system that can affect the outcome of container-based tests. These changes may include automatic updates to the operating system, differences in kernel versions, updated system libraries, or changes in container runtime behavior. Even when a test script remains the same, such background variation can cause container behavior to differ between runs—leading to inconsistent or misleading results.
+Environmental drift refers to unintentional changes in the system that can affect the outcome of container-based tests. These changes may include automatic updates to the operating system, differences in kernel versions, updated system libraries, or changes in container runtime behavior. Even when a test script remains the same, such background variation can cause container behavior to differ between runs, leading to inconsistent or misleading results.
 
 This is a critical concern for security testing, where consistency is essential. Without environmental stability, researchers may encounter false positives, where a trick appears to succeed because of an incidental change, or false negatives, where a real vulnerability is masked by a system-level patch or configuration shift. In either case, the test results become untrustworthy, and any security claims based on those results may be invalid.
 
-To address this, Houdini is designed to eliminate sources of environmental drift by creating a fully version-controlled, deterministic testing environment. All critical components that influence container behavior—including the Linux kernel, Docker engine, and runc runtime—are manually sourced, precompiled, and injected into the root filesystem using an overlay filesystem. This ensures that Houdini uses only explicitly specified versions of each component, independent of host updates or package manager behavior.
+To address this, Houdini is designed to eliminate sources of environmental drift by creating a fully version-controlled, deterministic testing environment. All critical components that influence container behavior, including the Linux kernel, Docker engine, and runc runtime are manually sourced, precompiled, and injected into the root filesystem using an overlay filesystem. This ensures that Houdini uses only explicitly specified versions of each component, independent of host updates or package manager behavior.
 
 This design choice was necessary because many historical versions of Docker and runc are either unavailable through Buildroot’s package system or fail to build due to missing dependencies or upstream changes. By bypassing the package infrastructure and directly injecting verified binaries, Houdini achieves a consistent and reproducible runtime environment across all test sessions.
 
 Additionally, Houdini uses Buildroot to generate a minimal, static guest operating system that excludes background services, update agents, or untracked dependencies that could introduce nondeterminism. The virtual machine is launched without networking to prevent environmental noise from DNS, package mirrors, or remote services. Only a single, tightly scoped communication channel is exposed to the host through a QEMU user-mode forwarded port used for reporting results.
 
-Together, these design decisions ensure that Houdini provides a frozen, deterministic environment where test outcomes are reproducible over time. This stability is especially important for longitudinal analysis, vulnerability tracking, patch verification, and reproducible research—where changes in the results must reflect actual differences in the tested logic, not unintended changes in the surrounding system.
+Together, these design decisions ensure that Houdini provides a frozen, deterministic environment where test outcomes are reproducible over time. This stability is especially important for longitudinal analysis, vulnerability tracking, patch verification, and reproducible research, where changes in the results must reflect actual differences in the tested logic, not unintended changes in the surrounding system.
 
-\subsection{Determinism vs. Reproducibility}
+\section{Support for Custom Kernels}
 
-While determinism ensures that a given input will yield the same output under identical conditions, reproducibility additionally requires that the environment itself remain stable over time. Houdini addresses both concerns: determinism is enforced by controlling the trick’s logic, while reproducibility is achieved through version pinning, overlay-based injection, and hash verification.
+Houdini supports the use of custom Linux kernel builds, enabling researchers to evaluate container behavior on non-standard or experimental kernels. This is particularly useful for testing scenarios that require kernel features not available in mainline releases, or for reproducing issues on distribution-specific kernels.
+
+Users can specify a custom kernel image (bzImage) to be used when launching the QEMU virtual machine. Instead of selecting a precompiled kernel from Houdini’s internal cache, the user provides a path to an externally built kernel through the CLI or configuration file. Houdini will boot the VM with this specified kernel while keeping the rest of the guest environment unchanged.
+
+This feature allows full control over the kernel used during testing, including:
+
+Custom-compiled kernels with modified configuration options.
+
+Vendor-patched or downstream distribution kernels.
+
+Legacy kernels for historical reproduction.
+
+The guest root filesystem, Docker engine, and runc version remain consistent regardless of the selected kernel, ensuring that observed behavior differences are attributable solely to the kernel in use. This modularity supports high-fidelity experimentation without altering the test orchestration pipeline.
+
+To preserve safety, custom kernels are still booted inside isolated QEMU virtual machines. This ensures that even if the custom kernel is unstable or includes regressions, it cannot affect the host system.
+
+This flexibility makes Houdini a valuable platform for kernel-centric container security research, where testing across a range of kernel versions and configurations is essential.
+
+\section{Multi-Runtime Support}
+
+Houdini is designed to support multiple container runtimes, recognizing that the behavior of container isolation features may vary significantly between runtime implementations. While Docker commonly defaults to \texttt{runc}, the Open Container Initiative (OCI) standard permits alternative runtimes that comply with the OCI runtime specification. To ensure comprehensive testing coverage and enable comparisons across runtimes, Houdini includes support for both \texttt{runc} and \texttt{crun}, with a modular design that facilitates the integration of additional runtimes in the future.
+
+Each runtime is precompiled and stored in Houdini’s local binary cache, just like Docker and kernel versions. When executing a test, Houdini injects the selected runtime into the guest virtual machine using its overlay filesystem. The trick configuration specifies the desired runtime, and Houdini ensures that only the corresponding binary is present in the guest environment during test execution. This guarantees that observed behavior reflects the exact runtime under test and is not influenced by any system defaults.
+
+The current implementation includes support for \texttt{runc}, the default Docker runtime, and \texttt{crun}, a high-performance alternative developed by the Open Container Initiative. These runtimes can be swapped per test case, allowing users to evaluate how different runtime implementations handle security boundaries such as capabilities, seccomp profiles, or namespace interactions.
+
+The runtime selection is fully configurable via Houdini’s YAML and Python-based configuration models. In matrix mode, users can easily define a list of runtimes to test, and Houdini will generate test cases across all specified versions. For example, users can observe how a trick behaves when executed under both \texttt{runc} and \texttt{crun}, using the same container image, kernel version, and security flags.
+
+The system is structured to allow the addition of other OCI-compliant runtimes, such as \texttt{youki} or \texttt{Kata Containers}, with minimal changes. New runtimes can be added to the local cache and referenced in trick configurations just like existing ones. This extensibility ensures that Houdini remains adaptable to changes in the container runtime landscape and can be used to validate the correctness and security of emerging runtime implementations.
+
+By supporting multiple runtimes, Houdini empowers researchers to perform comparative analysis, detect behavioral regressions, and evaluate implementation differences that may affect container confinement. This capability is critical for ensuring that container security claims hold consistently across the diverse and evolving set of OCI runtimes.
 
 
-\subsection{Ephemeral VM Lifecycle as a Defense}
+\section{Limitations}
 
-Houdini’s architecture launches a clean VM for each test. Even if a trick succeeds in compromising the guest kernel or container runtime, the damage is limited to that ephemeral instance. The VM is destroyed upon test completion, and its state does not persist. This provides a form of temporal isolation that complements spatial isolation, making persistence and lateral movement unfeasible for attackers.
-
+While Houdini offers a robust foundation for reproducible container security testing, it currently has several limitations. First, it does not support parallel execution; tests are run sequentially to guarantee isolation and avoid concurrency-related nondeterminism. This serialized execution model simplifies debugging and analysis but can be a bottleneck for very large-scale evaluations. Second, Houdini’s runtime support is presently limited to Docker and runc. While the system is extensible, it does not yet include out-of-the-box support for other runtimes like \texttt{crun} or \texttt{youki}, which limits its coverage of the broader container landscape. Finally, Houdini assumes a Linux-based host system with QEMU and KVM support, which may restrict portability to some environments such as macOS or Windows. These limitations represent areas for future development as the framework matures.
 
 \end{doublespace}

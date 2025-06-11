@@ -11,7 +11,11 @@
 \usepackage{enumitem}
 \usepackage{hyperref}
 \usepackage{listings}
-\usepackage{xcolor}
+\usepackage{minted}
+\usepackage{amsmath}  % For align, varnothing
+\usepackage{amssymb}  % For math symbols like varnothing
+\usepackage{listings} % For lstlisting
+\usepackage{xcolor}   % For listing background color
 \usepackage{adjustbox}
 \usepackage{multirow}
 \usepackage{hyperref}
@@ -28,8 +32,10 @@
 	\input{sections/titlepage.tex}
 	\tableofcontents
 	\printglossary[type=acronym, title=Nomenclature]
+	\input{sections/chapter1-introduction.tex}
 	\input{sections/chapter2-background.tex}
 	\input{sections/chapter7-design.tex}
+	\input{sections/chapter8-implementation.tex}
 	\input{sections/chapter8-evaluation.tex}
 	\input{sections/chapter9-case-study.tex}
 
