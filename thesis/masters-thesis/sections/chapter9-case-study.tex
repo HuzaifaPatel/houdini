@@ -5,7 +5,7 @@
 
 
 
-\subsection{Case Study 1: Evaluating the accuracy of CVE-2024-21626}
+\section{Evaluating the accuracy of CVE-2024-21626}
 
 CVE-2024-21626 \cite{runc-cve-2024-21626} is a container escape vulnerability in runc, the low-level container runtime used by Docker and other container engines. It allows a malicious container to escape its isolation and execute arbitrary commands on the host system.
 
@@ -85,7 +85,7 @@ This discrepancy highlights a recurring issue in vulnerability disclosure proces
 \end{table}
 
 
-\subsection{Case Study 2}
+\section{Evaluating Host Process Manipulation}
 
 
 In this evaluation, we examine whether a Docker container running as a non-privileged user with \texttt{UID 1000} can interact with and manipulate host processes that are also owned by \texttt{UID 1000}. Under a default Docker configuration, the PID namespace provides process isolation by restricting a container's visibility and access to processes outside its own namespace. However, when the container is launched with the \texttt{--pid=host} flag, it shares the host’s PID namespace, allowing it to enumerate and interact with host processes. This configuration effectively bypasses one of the core isolation mechanisms provided by containers. To assess the security implications of this namespace sharing, we investigate whether process-level interactions, such as sending signals or attaching debuggers are permitted between the container and host processes when UID ownership is aligned. The testing environment for this case study is in Table~\ref{table:case2env}.
@@ -225,7 +225,7 @@ This case study highlights the complexity of security policies in containerized 
 
 
 
-\subsection{Case Study 3 - Evaluating Docker Privileged Port Forwarding Restrictions}
+\section{Evaluating Docker Privileged Port Forwarding Restrictions}
 
 In this case study, we evaluate Docker's network isolation mechanisms to determine how well they enforce privileged port binding restrictions. Starting from Docker version 20.03, unprivileged ports start at 0 instead of 1024, effectively removing the need for root to bind to privileged ports. Table ~\ref{tab:port-binding-pre-20.03} presents the results of this change.
 
@@ -314,7 +314,7 @@ This case study also demonstrates a clear example of configuration drift arising
 
 
 
-\subsection{Case Study 4 - Evaluating ptrace Enforcement Across Linux Distributions}
+\section{Evaluating ptrace Enforcement Across Linux Distributions}
 
 To assess the effectiveness of Linux kernel mechanisms in enforcing process isolation within containerized environments, we conducted a series of controlled experiments targeting the ptrace system call under various configurations. These experiments were designed to evaluate how different kernel versions, Yama security module settings, and process capabilities affect the ability of a containerized process to trace other processes, both inside and outside its container boundary.
 

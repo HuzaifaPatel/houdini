@@ -2,8 +2,6 @@
 \begin{doublespace}
 \chapter{Design}
 
-\section{Introduction}
-
 The design of Houdini is guided by a set of core principles aimed at enabling reliable, large-scale testing of container security confinement. At its core, Houdini seeks to ensure \textbf{reproducibility} and \textbf{determinism}, so that each test yields the same result when run under identical conditions, and behaves consistently across time and environments. It enforces strong \textbf{host isolation} by executing potentially dangerous container workloads inside tightly controlled virtual machines, preventing any impact on the host system. The framework is built to support \textbf{flexibility across configurations}, allowing users to test a wide range of Docker flags, Linux capabilities, AppArmor profiles, and runtime versions. Despite its serialized test execution, Houdini is designed with \textbf{scalability} in mind through automation and declarative input modeling, enabling large test matrices to be evaluated with minimal manual effort. It also emphasizes \textbf{performance} by reducing overhead through lightweight virtual machines and precompiled binaries. Finally, Houdini prioritizes \textbf{transparency and debuggability} by logging all configuration inputs and test results in a structured format, enabling users to trace and interpret outcomes with confidence. The following sections describe how each of these design goals is achieved through Houdini's architecture and implementation.
 
 
@@ -124,13 +122,6 @@ Houdini's guest virtual machine is built using Buildroot, a minimalist embedded 
 
 Deliberate trade-offs are made to exclude non-essential services such as SSH, udev, systemd, or networking daemons, which could introduce nondeterministic behavior or additional complexity. Instead, the VM is initialized with a fixed set of devices and predictable kernel logs, enabling stable trick execution. Statically linking utilities where possible simplifies debugging by avoiding dynamic library mismatches and dependency issues across test runs. The result is a clean, lightweight VM that boots quickly and behaves identically across repeated invocations, serving as a robust platform for empirical security testing.
 
-\section{Error Handling and Recovery}
-
-Houdini includes built-in mechanisms to detect and handle failures at each stage of test execution. If a VM fails to boot within a predefined timeout, the test is automatically marked as failed and the error is logged with a timestamp and diagnostic message. Similarly, if Docker fails to start inside the guest—due to misconfiguration, missing binaries, or runtime incompatibilities—the failure is detected by the trick listener and reported back to the host as an infrastructure-level error.
-
-If the trick script itself crashes or exits unexpectedly, Houdini captures the exit code, standard output, and standard error of the container process. These artifacts are stored in structured logs, allowing users to distinguish between trick-level failures and broader environment issues. For non-critical errors such as missing config fields or malformed input, Houdini logs a warning and skips execution of the invalid test case. In all cases, error metadata is retained alongside test results for later review.
-
-Although Houdini does not currently support automatic retries, its deterministic and stateless design makes re-running failed cases straightforward. Users can selectively rerun individual test IDs using the CLI, ensuring minimal overhead when diagnosing flakiness or debugging regressions.
 
 \section{Configuration Validation and Sanity Checks}
 
@@ -139,6 +130,7 @@ Before executing any test, Houdini performs a series of pre-run validation check
 The CLI also checks for duplicate or conflicting configurations, such as attempting to run a test with both \texttt{--privileged} and a restricted seccomp profile. If such conflicts are detected, the system emits a warning and skips the invalid case. Users are also warned if required components (e.g., QEMU, KVM, or Buildroot toolchain) are not installed or misconfigured on the host system.
 
 These validation steps are critical for preventing wasted test runs, simplifying troubleshooting, and maintaining the integrity of large-scale evaluations. By catching errors early in the pipeline, Houdini ensures that only well-formed and meaningful test cases are executed.
+
 
 \section{Interface and User Experience Design}
 
