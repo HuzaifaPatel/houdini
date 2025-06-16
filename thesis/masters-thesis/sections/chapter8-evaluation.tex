@@ -2,35 +2,19 @@
 \begin{doublespace}
 \chapter{Evaluation}
 
-\begin{enumerate}
-    \item \textbf{Reproducibility Across Machines} \\
-    Run the same trick and configuration on two different machines (e.g., different CPU architectures or hardware specs) and verify that the output is identical.
+To validate Houdini’s effectiveness as a container security testing framework, we designed a diverse set of evaluations that reflect its core goals: reproducibility, scalability, performance, isolation, extensibility, and robustness. These tests were conducted to ensure that Houdini performs consistently across various environments and use cases, while also remaining resilient to edge cases and user modifications.
 
-    \item \textbf{Reproducibility Across Time with Version Pinning} \cmark \\
-    Re-run a pinned Docker, kernel, and runc configuration at a later time to ensure consistent results, demonstrating Houdini's ability to reproduce experiments reliably.
+We first assess reproducibility, a foundational principle of Houdini, by executing identical tests across machines with different hardware specifications. This verifies that test outcomes are not tied to the underlying system architecture. Additionally, we verify reproducibility over time by pinning the Docker, kernel, and runc versions and rerunning the same configurations after a delay. This demonstrates Houdini’s ability to deliver stable and consistent results, even as the underlying system evolves.
 
-    \item \textbf{Scalability via Bulk Execution} \cmark \\
-    Execute a large batch of tricks (e.g., 32) across multiple configurations in one session. Measure runtime, memory usage, and failure rates to assess Houdini’s batch execution capabilities.
+To evaluate scalability, we run a large batch of tricks—up to 32—across multiple configurations in a single session. This allows us to measure runtime, memory usage, and failure rates, offering insight into Houdini’s performance under load. Complementing this, we conduct performance benchmarking by timing the full lifecycle of a trick, including virtual machine boot, container setup, and result capture. These times are compared against manual baseline executions to quantify Houdini’s overhead.
 
-    \item \textbf{Performance Benchmarking} \cmark \\
-    Measure the end-to-end time it takes Houdini to execute a single trick, including VM boot, container launch, and result collection. Compare this to a manually executed baseline outside Houdini.
+Host isolation is validated through a deliberately malicious trick designed to attempt writes to host-accessible paths. Success is defined by the inability of this containerized code to affect the physical host, confirming that Houdini’s use of QEMU-based virtual machines effectively enforces strong isolation.
 
-    \item \textbf{Host Isolation Validation} \cmark \\
-    Run a deliberately malicious trick (e.g., attempting to write to host directories) and verify that the host remains secure, demonstrating that Houdini’s use of VMs effectively isolates test environments.
+We also test fault tolerance by introducing failure-prone or crash-inducing tricks, such as those containing segmentation faults or infinite loops. Houdini is expected to detect and log these failures without halting the broader test suite. This capability is crucial for reliable large-scale testing.
 
-    \item \textbf{Fault Tolerance and Crash Recovery} \\
-    Introduce failing or crashing tricks (e.g., segmentation faults, infinite loops) and confirm that Houdini logs the failure and continues running subsequent tests without interruption.
+Next, we examine version variability support by constructing a test matrix of Docker, runc, and Linux kernel versions. Successful execution of tricks across this matrix demonstrates Houdini’s compatibility and robustness in diverse runtime environments. Finally, we assess extensibility by integrating a new, custom-developed trick that probes for a specific capability or syscall. The ease of adding and running the new test without modifying core framework logic showcases Houdini’s modular design and developer-friendly architecture.
 
-    \item \textbf{Version Variability Support} \cmark \\
-    Create a test matrix across different combinations of Docker, runc, and kernel versions. Confirm that Houdini successfully builds and runs tricks across all variations.
-
-    \item \textbf{Extensibility Test} \cmark \\
-    Develop a new custom trick (e.g., testing for a capability or syscall) and integrate it into Houdini. Measure the effort and steps needed to add and run it without modifying the core logic.
-
-    \item \textbf{CI Integration Test} \\
-    Integrate Houdini into a CI/CD system such as GitHub Actions or GitLab CI. Trigger it on container configuration changes and assess its stability and reporting in an automated pipeline.
-\end{enumerate}
-
+Together, these evaluations provide strong evidence that Houdini is a comprehensive, reproducible, and scalable framework for conducting container security experiments across diverse conditions.
 
 \section{Reproducibility Across Time with Version Pinning}
 
@@ -651,7 +635,7 @@ Houdini was tested with 73 different Docker versions and 20 versions of runc, al
 
 \section{Performance Benchmarking}
 
-\subsubsection{Understanding Time Metrics in Microbenchmarking}
+\subsection{Understanding Time Metrics in Microbenchmarking}
 
 In performance benchmarking, especially in systems research and software profiling, several time-based metrics are commonly used to assess how a program or process utilizes computing resources. These include wall clock time, user time, system time, and CPU utilization. Each of these captures a different aspect of execution behavior and provides insight into how efficiently a task runs.
 

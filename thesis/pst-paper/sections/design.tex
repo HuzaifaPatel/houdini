@@ -1,6 +1,8 @@
 \section{Design}
 \label{sec:design}
 
+\todo{What was the reason behind using a QEMU VM?}
+
 \houdini is built using Python 3 and leverages a QEMU VM to provide a controlled testing environment for container security validation. Instead of running containers directly on the host system, \houdini starts a dedicated VM, ensuring that any security tests remain isolated and do not affect the host system. Dedicated VMs also help ensure test reproducibility. Within the \houdini configuration, specific versions of Docker, the Linux kernel, and runc can be requested and installed into the VM\footnote{While \houdini currently only works with Docker containers, we expect that other container runtimes would be straightforward to support given that most have some degree of Docker compatibility.}. The VM is created with the help of Buildroot\cite{buildroot}, which enables the construction of minimal, reproducible Linux environments. 
 %tailored for security testing. 
 This granularity in configuration enables our goal of easily testing how different kernel and container runtime versions impact policy enforcement. It also enables regression testing across versions to detect when security behavior changes unexpectedly.
@@ -10,6 +12,8 @@ At the core of \houdini's architecture (see Figure~\ref{fig:state-machine}), a P
 When a trick is initiated, the Flask server exposes an endpoint that the \houdini client on the host uses to send a request containing the container configuration and the test logic to execute. The server then transmits this data into the guest VM. Inside the VM, a listener service receives this request, parses the configuration, and launches a container with the specified settings. The trick code is then executed within the container. Once execution is complete, the listener inside the VM collects the results, and sends them back to the Flask server. The Flask server then responds to the original request with the results, allowing the host to log the outcome.
 
 If \houdini were compromised during testing, it would not necessarily pose a threat to the host system due to the design of the testing environment. \houdini is intentionally designed to operate within a controlled, containerized environment inside a VM. This means that even if a trick were to exploit a vulnerability within the containerized environment, the impact would be contained within the VM, isolated from the host system and other containers. While the VM's primary purpose here is to provide a consistent testing environment, it also serves as an additional layer of security.
+
+\todo{Fix Figure I. It is slightly cut off on the bottom}
 
 \begin{figure}[h]
   \includegraphics[width=1\linewidth]{figs/designNew.pdf}

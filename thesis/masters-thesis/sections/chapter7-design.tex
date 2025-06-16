@@ -74,6 +74,19 @@ To empirically verify that host access is not possible, Houdini incorporates a c
 Together, these mechanisms enforce strong host isolation and make Houdini a safe platform for evaluating security-critical container behavior. By containing tests within a tightly scoped virtual environment, it ensures that no trick—malicious or accidental—can compromise the integrity of the host system.
 
 
+\section{Motivation for Virtualized Execution}
+
+A central architectural decision in Houdini is to execute all container tests inside a lightweight virtual machine, rather than directly on the host system. This approach is primarily motivated by the need for environmental control, cross-system reproducibility, and kernel-level flexibility.
+
+First, running inside a VM ensures a **clean and deterministic environment**. Houdini uses a minimal Buildroot-based Linux system as its virtualized testbed, which eliminates the variability and complexity commonly found in general-purpose operating systems. This avoids interference from background services, user-installed software, or automatic updates, thereby reducing noise in test outcomes and ensuring that any observed behavior is solely due to the container configuration under test.
+
+Second, virtualization enables **reproducibility across different machines and over time**. Because the virtual machine is booted from a fixed kernel image and root filesystem, the entire runtime environment remains identical regardless of the underlying host. This makes it possible to compare results across test runs and systems with confidence, knowing that the execution context has not drifted. Such consistency is essential for empirically validating container security guarantees, especially when fine-grained differences in runtime behavior may influence security outcomes.
+
+Third, the virtual machine setup grants Houdini the ability to **precisely control the kernel version** used during testing. This is a key capability for evaluating the evolution of confinement mechanisms across different Linux releases. Houdini can boot any custom or historical kernel version without modifying the host system, enabling security researchers to assess whether a given trick succeeds or fails as a function of kernel changes alone. This capability is essential for regression testing and understanding the security implications of kernel-level patches and configuration options.
+
+Together, these properties make VM-based execution a foundational component of Houdini’s design, enabling systematic, consistent, and historically-aware container security testing.
+
+
 \section{Automation and Execution Pipeline}
 
 Houdini is designed to operate as a fully automated and repeatable test execution framework. Once a user specifies the desired trick and configuration matrix, the system takes over and handles all stages of test orchestration without requiring further manual intervention. This fully unattended execution pipeline reduces the user burden and enables large-scale evaluations to proceed with minimal effort.

@@ -10,244 +10,282 @@
 \providecommand\@istfilename[1]{}
 \@istfilename{thesis.ist}
 \@glsorder{word}
+\@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{5}{chapter.1}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\citation{CIS}
+\citation{henning2000spec}
+\citation{10.1007/978-3-642-18206-8_1}
+\@writefile{toc}{\contentsline {section}{\numberline {1.1}Contributions}{7}{section.1.1}\protected@file@percent }
+\citation{clair}
+\@writefile{toc}{\contentsline {section}{\numberline {1.2}The Container Confinement Problem}{8}{section.1.2}\protected@file@percent }
+\citation{findlay2021bpfcontain}
+\@writefile{toc}{\contentsline {section}{\numberline {1.3}Motivation}{9}{section.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.1}Example Applications of Houdini}{10}{subsection.1.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.2}Design Goals}{12}{subsection.1.3.2}\protected@file@percent }
+\newlabel{dg:repro}{{1}{12}{Design Goals}{Item.1}{}}
+\newlabel{dg:container}{{2}{12}{Design Goals}{Item.2}{}}
+\newlabel{dg:test}{{3}{12}{Design Goals}{Item.3}{}}
+\newlabel{dg:failures}{{4}{12}{Design Goals}{Item.4}{}}
 \citation{meier2008ibm}
 \citation{bauman2015survey}
-\@writefile{toc}{\contentsline {chapter}{\numberline {1}Background}{5}{chapter.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Background \& Related Work}{13}{chapter.2}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \citation{bauman2015survey}
 \citation{graziano2011performance}
 \citation{kvmcpuschedule}
 \citation{10.1145/2775111}
-\@writefile{toc}{\contentsline {section}{\numberline {1.1}Type 1 Hypervisor}{6}{section.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.2}Type 2 Hypervisor}{6}{section.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.3}Problems With Type 1 \& Type 2 Hypervisor Classifications}{6}{section.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Type 1 Hypervisor}{14}{section.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Type 2 Hypervisor}{14}{section.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Problems With Type 1 \& Type 2 Hypervisor Classifications}{14}{section.2.3}\protected@file@percent }
 \citation{10.1145/2775111}
 \citation{10.1145/2775111}
 \citation{10.1145/2775111}
-\@writefile{toc}{\contentsline {section}{\numberline {1.4}Native Hypervisor}{7}{section.1.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.5}Emulation Hypervisor}{7}{section.1.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.6}Why do we have run Docker with sudo?}{7}{section.1.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.7}cgroups}{8}{section.1.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.8}namespaces}{8}{section.1.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.9}Linux capabilties}{9}{section.1.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.10}Seccomp (Secure Computing Mode)}{10}{section.1.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.11}App Armor (Application Armor)}{10}{section.1.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.12}selinux}{11}{section.1.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.13}YAMA}{11}{section.1.13}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1.1}{\ignorespaces Yama \texttt  {ptrace\_scope} Settings}}{13}{table.1.1}\protected@file@percent }
-\newlabel{tab:yama-settings}{{1.1}{13}{Yama \texttt {ptrace\_scope} Settings}{table.1.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.14}Kernel Implementation}{14}{section.1.14}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.15}Enforcement of \texttt  {ptrace\_scope}}{15}{section.1.15}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.16}\texttt  {ptrace\_scope} Settings}{15}{section.1.16}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {2}Design}{16}{chapter.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}Native Hypervisor}{15}{section.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.5}Emulation Hypervisor}{15}{section.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.6}Why do we have run Docker with sudo?}{15}{section.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.7}cgroups}{16}{section.2.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.8}namespaces}{16}{section.2.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.9}Linux capabilties}{17}{section.2.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.10}Seccomp (Secure Computing Mode)}{18}{section.2.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.11}App Armor (Application Armor)}{18}{section.2.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.12}selinux}{19}{section.2.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.13}YAMA}{19}{section.2.13}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Yama \texttt  {ptrace\_scope} Settings}}{21}{table.2.1}\protected@file@percent }
+\newlabel{tab:yama-settings}{{2.1}{21}{Yama \texttt {ptrace\_scope} Settings}{table.2.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.14}Kernel Implementation}{22}{section.2.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.15}Enforcement of \texttt  {ptrace\_scope}}{23}{section.2.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.16}\texttt  {ptrace\_scope} Settings}{23}{section.2.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.17}Related Work}{23}{section.2.17}\protected@file@percent }
+\citation{trivy}
+\citation{clair}
+\citation{docker_bench}
+\citation{kube_bench}
+\citation{circleci}
+\citation{shu2017study}
+\citation{CIS}
+\citation{abdoul2018novel}
+\citation{vmware2018escape}
+\citation{virtualbox2017bugs}
+\citation{mds2019attack}
+\citation{severed2018}
+\citation{heckler2024}
+\citation{chromezeroday}
+\citation{macossandboxescape}
+\citation{chromiumsandboxescape}
+\citation{crushftpsandboxescape}
+\citation{judge0sandboxescape}
+\citation{vm2sandboxescape}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Design}{28}{chapter.3}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {2.1}Introduction}{16}{section.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.2}System Architecture}{17}{section.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.3}Trick Lifecycle and Execution Flow}{18}{section.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.4}Version Pinning}{20}{section.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.5}Test Matrix Design}{21}{section.2.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.6}Isolation and Safety Mechanisms}{23}{section.2.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.7}Automation and Execution Pipeline}{24}{section.2.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.8}Transparency and Debuggability}{25}{section.2.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.9}Security Design}{26}{section.2.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.10}Extensibility}{26}{section.2.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.11}Buildroot Customization and Guest Environment Design}{27}{section.2.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.12}Error Handling and Recovery}{28}{section.2.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.13}Configuration Validation and Sanity Checks}{28}{section.2.13}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.14}Interface and User Experience Design}{29}{section.2.14}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.15}Runtime Injection via OverlayFS}{30}{section.2.15}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.16}Preventing Environmental Drift}{30}{section.2.16}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.17}Support for Custom Kernels}{32}{section.2.17}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.18}Multi-Runtime Support}{33}{section.2.18}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.19}Limitations}{34}{section.2.19}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Implementation}{35}{chapter.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Introduction}{28}{section.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}System Architecture}{29}{section.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Trick Lifecycle and Execution Flow}{30}{section.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Version Pinning}{32}{section.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}Test Matrix Design}{33}{section.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.6}Isolation and Safety Mechanisms}{35}{section.3.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.7}Motivation for Virtualized Execution}{36}{section.3.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.8}Automation and Execution Pipeline}{37}{section.3.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.9}Transparency and Debuggability}{38}{section.3.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.10}Security Design}{39}{section.3.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.11}Extensibility}{40}{section.3.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.12}Buildroot Customization and Guest Environment Design}{40}{section.3.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.13}Error Handling and Recovery}{41}{section.3.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.14}Configuration Validation and Sanity Checks}{42}{section.3.14}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.15}Interface and User Experience Design}{42}{section.3.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.16}Runtime Injection via OverlayFS}{43}{section.3.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.17}Preventing Environmental Drift}{43}{section.3.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.18}Support for Custom Kernels}{45}{section.3.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.19}Multi-Runtime Support}{46}{section.3.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.20}Limitations}{47}{section.3.20}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementation}{48}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Trick Structure Overview}{35}{section.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}YAML-Based Trick Definition}{35}{section.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}Configuration File}{36}{section.3.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Configuration file for a default Docker out-of-the-box security setting.}}{38}{figure.3.1}\protected@file@percent }
-\newlabel{fig:configuration-file}{{3.1}{38}{Configuration file for a default Docker out-of-the-box security setting}{figure.3.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.4}Trick Script}{38}{section.3.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Example trick implementation that checks for read access to \texttt  {/etc/shadow}.}}{40}{figure.3.2}\protected@file@percent }
-\newlabel{fig:trick-script}{{3.2}{40}{Example trick implementation that checks for read access to \texttt {/etc/shadow}}{figure.3.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.5}Dockerfile}{40}{section.3.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Example Dockerfile used to prepare the container environment for a Python-based trick.}}{42}{figure.3.3}\protected@file@percent }
-\newlabel{fig:dockerfile-example}{{3.3}{42}{Example Dockerfile used to prepare the container environment for a Python-based trick}{figure.3.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.6}Python-Based Parameter Expansion Mode}{42}{section.3.6}\protected@file@percent }
-\newlabel{lst:apparmor-trick}{{3.1}{42}{Trick parameter sets defined in Python}{lstlisting.3.1}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.1}Trick parameter sets defined in Python}{42}{lstlisting.3.1}\protected@file@percent }
-\newlabel{lst:docker-combinations}{{3.2}{44}{Generated Docker run commands from Cartesian expansion}{lstlisting.3.2}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.2}Generated Docker run commands from Cartesian expansion}{44}{lstlisting.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.7}Execution Pipeline}{45}{section.3.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.8}Example Trick: Shadow File Access}{46}{section.3.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.9}Flask Server Integration}{47}{section.3.9}\protected@file@percent }
-\newlabel{lst:server-status}{{3.3}{48}{Server health check endpoint}{lstlisting.3.3}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.3}Server health check endpoint}{48}{lstlisting.3.3}\protected@file@percent }
-\newlabel{lst:version-status}{{3.4}{48}{Runtime version information endpoint}{lstlisting.3.4}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.4}Runtime version information endpoint}{48}{lstlisting.3.4}\protected@file@percent }
-\newlabel{lst:run-trick}{{3.5}{48}{Trick execution endpoint}{lstlisting.3.5}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.5}Trick execution endpoint}{48}{lstlisting.3.5}\protected@file@percent }
-\newlabel{lst:run-command}{{3.6}{49}{Run shell command in VM}{lstlisting.3.6}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.6}Run shell command in VM}{49}{lstlisting.3.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.10}Trick Listener and Trick Execution Logic}{50}{section.3.10}\protected@file@percent }
-\newlabel{lst:cleanup-container}{{3.7}{50}{Container cleanup}{lstlisting.3.7}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.7}Container cleanup}{50}{lstlisting.3.7}\protected@file@percent }
-\newlabel{lst:docker-build}{{3.8}{51}{Docker image build step}{lstlisting.3.8}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.8}Docker image build step}{51}{lstlisting.3.8}\protected@file@percent }
-\newlabel{lst:container-run}{{3.9}{51}{Container launch logic}{lstlisting.3.9}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.9}Container launch logic}{51}{lstlisting.3.9}\protected@file@percent }
-\newlabel{lst:monitor-output}{{3.10}{52}{Container monitoring and result capture}{lstlisting.3.10}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.10}Container monitoring and result capture}{52}{lstlisting.3.10}\protected@file@percent }
-\newlabel{lst:pseudocode-parse-trick}{{3.11}{53}{Pseudocode for Trick Execution}{lstlisting.3.11}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.11}Pseudocode for Trick Execution}{53}{lstlisting.3.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.11}Version Reporting Endpoint}{53}{section.3.11}\protected@file@percent }
-\newlabel{lst:version-status}{{3.12}{54}{Version reporting logic for /version-status}{lstlisting.3.12}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.12}Version reporting logic for /version-status}{54}{lstlisting.3.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.12}Dynamic Runtime Dispatch}{55}{section.3.12}\protected@file@percent }
-\newlabel{lst:runtime-param}{{3.13}{56}{Runtime as a configurable test parameter in matrix mode}{lstlisting.3.13}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.13}Runtime as a configurable test parameter in matrix mode}{56}{lstlisting.3.13}\protected@file@percent }
-\newlabel{lst:get-crun}{{3.14}{56}{Injecting crun into the Buildroot overlay}{lstlisting.3.14}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.14}Injecting crun into the Buildroot overlay}{56}{lstlisting.3.14}\protected@file@percent }
-\newlabel{lst:runtime-docker-run}{{3.15}{57}{Runtime applied during container launch}{lstlisting.3.15}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.15}Runtime applied during container launch}{57}{lstlisting.3.15}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.13}Trick Parameter Expansion Logic}{57}{section.3.13}\protected@file@percent }
-\newlabel{lst:matrix-expansion}{{3.16}{58}{Generating and iterating over parameter combinations}{lstlisting.3.16}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.16}Generating and iterating over parameter combinations}{58}{lstlisting.3.16}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.14}Security Considerations in Host-Level Code}{59}{section.3.14}\protected@file@percent }
-\newlabel{lst:docker-login}{{3.17}{59}{Logging into Docker Hub to bypass image build limits}{lstlisting.3.17}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.17}Logging into Docker Hub to bypass image build limits}{59}{lstlisting.3.17}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.15}Virtual Machine Setup and Execution}{60}{section.3.15}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.15.1}Purpose of Virtualization}{60}{subsection.3.15.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.15.2}QEMU Execution Command}{61}{subsection.3.15.2}\protected@file@percent }
-\newlabel{lst:start-vm}{{3.18}{61}{Python method to start the QEMU VM in Houdini}{lstlisting.3.18}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.18}Python method to start the QEMU VM in Houdini}{61}{lstlisting.3.18}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.15.3}Key VM Configuration Options}{61}{subsection.3.15.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.15.4}Lifecycle of a Virtual Machine}{62}{subsection.3.15.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Evaluation}{64}{chapter.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Trick Structure Overview}{48}{section.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}YAML-Based Trick Definition}{48}{section.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Configuration File}{49}{section.4.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Configuration file for a default Docker out-of-the-box security setting.}}{51}{figure.4.1}\protected@file@percent }
+\newlabel{fig:configuration-file}{{4.1}{51}{Configuration file for a default Docker out-of-the-box security setting}{figure.4.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Trick Script}{51}{section.4.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Example trick implementation that checks for read access to \texttt  {/etc/shadow}.}}{53}{figure.4.2}\protected@file@percent }
+\newlabel{fig:trick-script}{{4.2}{53}{Example trick implementation that checks for read access to \texttt {/etc/shadow}}{figure.4.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Dockerfile}{53}{section.4.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Example Dockerfile used to prepare the container environment for a Python-based trick.}}{55}{figure.4.3}\protected@file@percent }
+\newlabel{fig:dockerfile-example}{{4.3}{55}{Example Dockerfile used to prepare the container environment for a Python-based trick}{figure.4.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}Python-Based Parameter Expansion Mode}{55}{section.4.6}\protected@file@percent }
+\newlabel{lst:apparmor-trick}{{4.1}{55}{Trick parameter sets defined in Python}{lstlisting.4.1}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.1}Trick parameter sets defined in Python}{55}{lstlisting.4.1}\protected@file@percent }
+\newlabel{lst:docker-combinations}{{4.2}{57}{Generated Docker run commands from Cartesian expansion}{lstlisting.4.2}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.2}Generated Docker run commands from Cartesian expansion}{57}{lstlisting.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.7}Execution Pipeline}{58}{section.4.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.8}Example Trick: Shadow File Access}{59}{section.4.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.9}Flask Server Integration}{60}{section.4.9}\protected@file@percent }
+\newlabel{lst:server-status}{{4.3}{61}{Server health check endpoint}{lstlisting.4.3}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.3}Server health check endpoint}{61}{lstlisting.4.3}\protected@file@percent }
+\newlabel{lst:version-status}{{4.4}{61}{Runtime version information endpoint}{lstlisting.4.4}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.4}Runtime version information endpoint}{61}{lstlisting.4.4}\protected@file@percent }
+\newlabel{lst:run-trick}{{4.5}{61}{Trick execution endpoint}{lstlisting.4.5}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.5}Trick execution endpoint}{61}{lstlisting.4.5}\protected@file@percent }
+\newlabel{lst:run-command}{{4.6}{62}{Run shell command in VM}{lstlisting.4.6}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.6}Run shell command in VM}{62}{lstlisting.4.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.10}Trick Listener and Trick Execution Logic}{63}{section.4.10}\protected@file@percent }
+\newlabel{lst:cleanup-container}{{4.7}{63}{Container cleanup}{lstlisting.4.7}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.7}Container cleanup}{63}{lstlisting.4.7}\protected@file@percent }
+\newlabel{lst:docker-build}{{4.8}{64}{Docker image build step}{lstlisting.4.8}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.8}Docker image build step}{64}{lstlisting.4.8}\protected@file@percent }
+\newlabel{lst:container-run}{{4.9}{64}{Container launch logic}{lstlisting.4.9}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.9}Container launch logic}{64}{lstlisting.4.9}\protected@file@percent }
+\newlabel{lst:monitor-output}{{4.10}{65}{Container monitoring and result capture}{lstlisting.4.10}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.10}Container monitoring and result capture}{65}{lstlisting.4.10}\protected@file@percent }
+\newlabel{lst:pseudocode-parse-trick}{{4.11}{66}{Pseudocode for Trick Execution}{lstlisting.4.11}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.11}Pseudocode for Trick Execution}{66}{lstlisting.4.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.11}Version Reporting Endpoint}{66}{section.4.11}\protected@file@percent }
+\newlabel{lst:version-status}{{4.12}{67}{Version reporting logic for /version-status}{lstlisting.4.12}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.12}Version reporting logic for /version-status}{67}{lstlisting.4.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.12}Dynamic Runtime Dispatch}{68}{section.4.12}\protected@file@percent }
+\newlabel{lst:runtime-param}{{4.13}{69}{Runtime as a configurable test parameter in matrix mode}{lstlisting.4.13}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.13}Runtime as a configurable test parameter in matrix mode}{69}{lstlisting.4.13}\protected@file@percent }
+\newlabel{lst:get-crun}{{4.14}{69}{Injecting crun into the Buildroot overlay}{lstlisting.4.14}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.14}Injecting crun into the Buildroot overlay}{69}{lstlisting.4.14}\protected@file@percent }
+\newlabel{lst:runtime-docker-run}{{4.15}{70}{Runtime applied during container launch}{lstlisting.4.15}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.15}Runtime applied during container launch}{70}{lstlisting.4.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.13}Trick Parameter Expansion Logic}{70}{section.4.13}\protected@file@percent }
+\newlabel{lst:matrix-expansion}{{4.16}{71}{Generating and iterating over parameter combinations}{lstlisting.4.16}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.16}Generating and iterating over parameter combinations}{71}{lstlisting.4.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.14}Security Considerations in Host-Level Code}{72}{section.4.14}\protected@file@percent }
+\newlabel{lst:docker-login}{{4.17}{72}{Logging into Docker Hub to bypass image build limits}{lstlisting.4.17}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.17}Logging into Docker Hub to bypass image build limits}{72}{lstlisting.4.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.15}Virtual Machine Setup and Execution}{73}{section.4.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.15.1}Purpose of Virtualization}{73}{subsection.4.15.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.15.2}QEMU Execution Command}{74}{subsection.4.15.2}\protected@file@percent }
+\newlabel{lst:start-vm}{{4.18}{74}{Python method to start the QEMU VM in Houdini}{lstlisting.4.18}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.18}Python method to start the QEMU VM in Houdini}{74}{lstlisting.4.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.15.3}Key VM Configuration Options}{74}{subsection.4.15.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.15.4}Lifecycle of a Virtual Machine}{75}{subsection.4.15.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Evaluation}{77}{chapter.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Reproducibility Across Time with Version Pinning}{65}{section.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Experimental Setup}{66}{subsection.4.1.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Virtual Machine Experimental Configuration}}{66}{table.4.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Version-Pinned Components}}{67}{table.4.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Reproducibility Verification Across Time}}{67}{table.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}AppArmor Enforcement Trick Logic}{67}{subsection.4.1.2}\protected@file@percent }
-\newlabel{lst:apparmor-trick}{{4.1}{68}{AppArmor Enforcement Trick Script}{lstlisting.4.1}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.1}AppArmor Enforcement Trick Script}{68}{lstlisting.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Initial Execution (\( T_0 \))}{68}{subsection.4.1.3}\protected@file@percent }
-\newlabel{lst:run-apparmor-trick}{{4.2}{68}{Running the AppArmor Trick in a Container}{lstlisting.4.2}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.2}Running the AppArmor Trick in a Container}{68}{lstlisting.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.4}Re-run Execution (\( T_1 \))}{69}{subsection.4.1.4}\protected@file@percent }
-\newlabel{lst:run-apparmor-trick-t1}{{4.3}{69}{Running the AppArmor Trick in a Container (\( T_1 \))}{lstlisting.4.3}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.3}Running the AppArmor Trick in a Container (\( T_1 \))}{69}{lstlisting.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.5}Reproducibility Metric}{69}{subsection.4.1.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.6}False Indicators of Reproducibility}{69}{subsection.4.1.6}\protected@file@percent }
-\newlabel{lst:invariant-trick}{{4.4}{70}{Trick that is invariant to environment changes}{lstlisting.4.4}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.4}Trick that is invariant to environment changes}{70}{lstlisting.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.7}Conclusion}{70}{subsection.4.1.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Reproducibility Across Machines}{71}{section.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Purpose and Motivation}{71}{subsection.4.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Experimental Design}{71}{subsection.4.2.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Comparison of Machine A and Machine B}}{71}{table.4.4}\protected@file@percent }
-\newlabel{tab:machine-comparison}{{4.4}{71}{Comparison of Machine A and Machine B}{table.4.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Tricks Used}{72}{subsection.4.2.3}\protected@file@percent }
-\newlabel{lst:escape-trick}{{4.5}{72}{Trick Configuration Parameters}{lstlisting.4.5}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.5}Trick Configuration Parameters}{72}{lstlisting.4.5}\protected@file@percent }
-\newlabel{lst:escape-trick}{{4.6}{72}{Trick Configuration Parameters}{lstlisting.4.6}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.6}Trick Configuration Parameters}{72}{lstlisting.4.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.4}Results}{73}{subsection.4.2.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.5}{\ignorespaces Reproducibility Comparison Across Machines}}{73}{table.4.5}\protected@file@percent }
-\newlabel{tab:reproducibility-results}{{4.5}{73}{Reproducibility Comparison Across Machines}{table.4.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.5}Threats to Reproducibility (and Why They Don't Apply)}{73}{subsection.4.2.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.6}Conclusion}{74}{subsection.4.2.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Host Isolation Validation}{74}{section.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}Threat Model}{75}{subsection.4.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.2}Malicious Trick Description}{76}{subsection.4.3.2}\protected@file@percent }
-\newlabel{lst:escape-trick}{{4.7}{76}{Escape Trick: Simulated Write to Host-Mounted Path}{lstlisting.4.7}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.7}Escape Trick: Simulated Write to Host-Mounted Path}{76}{lstlisting.4.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.3}Execution Inside the VM}{77}{subsection.4.3.3}\protected@file@percent }
-\newlabel{lst:escape-trick}{{4.8}{77}{Escape Trick: Simulated Write to Host-Mounted Path}{lstlisting.4.8}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.8}Escape Trick: Simulated Write to Host-Mounted Path}{77}{lstlisting.4.8}\protected@file@percent }
-\newlabel{lst:escape-trick}{{4.9}{77}{Escape Trick: Simulated Write to Host-Mounted Path}{lstlisting.4.9}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.9}Escape Trick: Simulated Write to Host-Mounted Path}{77}{lstlisting.4.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.4}Implications of Shared Folders}{78}{subsection.4.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.5}Baseline Comparison: Without VM Isolation}{78}{subsection.4.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Reproducibility Across Time with Version Pinning}{78}{section.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Experimental Setup}{79}{subsection.5.1.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Virtual Machine Experimental Configuration}}{79}{table.5.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.2}{\ignorespaces Version-Pinned Components}}{79}{table.5.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.3}{\ignorespaces Reproducibility Verification Across Time}}{80}{table.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}AppArmor Enforcement Trick Logic}{80}{subsection.5.1.2}\protected@file@percent }
+\newlabel{lst:apparmor-trick}{{5.1}{80}{AppArmor Enforcement Trick Script}{lstlisting.5.1}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.1}AppArmor Enforcement Trick Script}{80}{lstlisting.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}Initial Execution (\( T_0 \))}{81}{subsection.5.1.3}\protected@file@percent }
+\newlabel{lst:run-apparmor-trick}{{5.2}{81}{Running the AppArmor Trick in a Container}{lstlisting.5.2}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.2}Running the AppArmor Trick in a Container}{81}{lstlisting.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.4}Re-run Execution (\( T_1 \))}{81}{subsection.5.1.4}\protected@file@percent }
+\newlabel{lst:run-apparmor-trick-t1}{{5.3}{82}{Running the AppArmor Trick in a Container (\( T_1 \))}{lstlisting.5.3}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.3}Running the AppArmor Trick in a Container (\( T_1 \))}{82}{lstlisting.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.5}Reproducibility Metric}{82}{subsection.5.1.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.6}False Indicators of Reproducibility}{82}{subsection.5.1.6}\protected@file@percent }
+\newlabel{lst:invariant-trick}{{5.4}{82}{Trick that is invariant to environment changes}{lstlisting.5.4}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.4}Trick that is invariant to environment changes}{82}{lstlisting.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.7}Conclusion}{83}{subsection.5.1.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Reproducibility Across Machines}{84}{section.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Purpose and Motivation}{84}{subsection.5.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}Experimental Design}{84}{subsection.5.2.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.4}{\ignorespaces Comparison of Machine A and Machine B}}{84}{table.5.4}\protected@file@percent }
+\newlabel{tab:machine-comparison}{{5.4}{84}{Comparison of Machine A and Machine B}{table.5.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}Tricks Used}{85}{subsection.5.2.3}\protected@file@percent }
+\newlabel{lst:escape-trick}{{5.5}{85}{Trick Configuration Parameters}{lstlisting.5.5}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.5}Trick Configuration Parameters}{85}{lstlisting.5.5}\protected@file@percent }
+\newlabel{lst:escape-trick}{{5.6}{85}{Trick Configuration Parameters}{lstlisting.5.6}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.6}Trick Configuration Parameters}{85}{lstlisting.5.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.4}Results}{86}{subsection.5.2.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.5}{\ignorespaces Reproducibility Comparison Across Machines}}{86}{table.5.5}\protected@file@percent }
+\newlabel{tab:reproducibility-results}{{5.5}{86}{Reproducibility Comparison Across Machines}{table.5.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.5}Threats to Reproducibility (and Why They Don't Apply)}{86}{subsection.5.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.6}Conclusion}{87}{subsection.5.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Host Isolation Validation}{87}{section.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Threat Model}{88}{subsection.5.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Malicious Trick Description}{89}{subsection.5.3.2}\protected@file@percent }
+\newlabel{lst:escape-trick}{{5.7}{89}{Escape Trick: Simulated Write to Host-Mounted Path}{lstlisting.5.7}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.7}Escape Trick: Simulated Write to Host-Mounted Path}{89}{lstlisting.5.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.3}Execution Inside the VM}{90}{subsection.5.3.3}\protected@file@percent }
+\newlabel{lst:escape-trick}{{5.8}{90}{Escape Trick: Simulated Write to Host-Mounted Path}{lstlisting.5.8}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.8}Escape Trick: Simulated Write to Host-Mounted Path}{90}{lstlisting.5.8}\protected@file@percent }
+\newlabel{lst:escape-trick}{{5.9}{90}{Escape Trick: Simulated Write to Host-Mounted Path}{lstlisting.5.9}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.9}Escape Trick: Simulated Write to Host-Mounted Path}{90}{lstlisting.5.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.4}Implications of Shared Folders}{91}{subsection.5.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.5}Baseline Comparison: Without VM Isolation}{91}{subsection.5.3.5}\protected@file@percent }
 \citation{venom}
 \citation{spectre}
 \citation{zombieload}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.6}Consideration of VM Escape Attacks}{80}{subsection.4.3.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.7}Scope and Limitations}{81}{subsection.4.3.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.8}Conclusion}{81}{subsection.4.3.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Extensibility Evaluation}{82}{section.4.4}\protected@file@percent }
-\newlabel{lst:escape-trick}{{4.10}{82}{Trick Configuration Parameters}{lstlisting.4.10}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.10}Trick Configuration Parameters}{82}{lstlisting.4.10}\protected@file@percent }
-\newlabel{lst:escape-trick}{{4.11}{83}{Trick Configuration Parameters}{lstlisting.4.11}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.11}Trick Configuration Parameters}{83}{lstlisting.4.11}\protected@file@percent }
-\newlabel{lst:escape-trick}{{4.12}{84}{Trick Configuration Parameters}{lstlisting.4.12}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.12}Trick Configuration Parameters}{84}{lstlisting.4.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.5}Version Variability Support}{85}{section.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.6}Consideration of VM Escape Attacks}{93}{subsection.5.3.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.7}Scope and Limitations}{94}{subsection.5.3.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.8}Conclusion}{94}{subsection.5.3.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Extensibility Evaluation}{95}{section.5.4}\protected@file@percent }
+\newlabel{lst:escape-trick}{{5.10}{95}{Trick Configuration Parameters}{lstlisting.5.10}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.10}Trick Configuration Parameters}{95}{lstlisting.5.10}\protected@file@percent }
+\newlabel{lst:escape-trick}{{5.11}{96}{Trick Configuration Parameters}{lstlisting.5.11}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.11}Trick Configuration Parameters}{96}{lstlisting.5.11}\protected@file@percent }
+\newlabel{lst:escape-trick}{{5.12}{97}{Trick Configuration Parameters}{lstlisting.5.12}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.12}Trick Configuration Parameters}{97}{lstlisting.5.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.5}Version Variability Support}{98}{section.5.5}\protected@file@percent }
 \gdef \LT@i {\LT@entry 
     {1}{126.61101pt}\LT@entry 
     {1}{100.15825pt}\LT@entry 
     {1}{97.75826pt}\LT@entry 
     {1}{69.3055pt}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.6}{Docker and runc Versions Validated with Houdini}}{86}{table.4.6}\protected@file@percent }
-\newlabel{tab:docker-runc-validated}{{4.6}{86}{Docker and runc Versions Validated with Houdini}{table.4.6}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Conclusion}{89}{section*.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.6}Performance Benchmarking}{89}{section.4.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Understanding Time Metrics in Microbenchmarking}{89}{section*.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6.1}Microbenchmark}{90}{subsection.4.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Making the Root Filesystem}{90}{section*.11}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.7}{\ignorespaces Performance Metrics for \texttt  {mkfs} Stage}}{91}{table.4.7}\protected@file@percent }
-\newlabel{tab:mkfs-performance}{{4.7}{91}{Performance Metrics for \texttt {mkfs} Stage}{table.4.7}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Booting the Virtual Machine}{91}{section*.12}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.8}{\ignorespaces Performance Metrics for VM Boot}}{92}{table.4.8}\protected@file@percent }
-\newlabel{tab:vm-boot-performance}{{4.8}{92}{Performance Metrics for VM Boot}{table.4.8}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Building the Docker Image}{92}{section*.13}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.9}{\ignorespaces Performance Metrics for Docker Image Build (Cold Start)}}{93}{table.4.9}\protected@file@percent }
-\newlabel{tab:docker-build-performance}{{4.9}{93}{Performance Metrics for Docker Image Build (Cold Start)}{table.4.9}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Running a Trick in Docker}{93}{section*.14}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.10}{\ignorespaces Your Caption}}{94}{table.4.10}\protected@file@percent }
-\newlabel{tab:your-label}{{4.10}{94}{Your Caption}{table.4.10}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Baseline Comparison Outside Houdini}{94}{section*.15}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.11}{\ignorespaces Performance Metrics for Manually Executed Baseline}}{94}{table.4.11}\protected@file@percent }
-\newlabel{tab:baseline-manual}{{4.11}{94}{Performance Metrics for Manually Executed Baseline}{table.4.11}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.7}Batch Trick Execution}{95}{section.4.7}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.12}{\ignorespaces Performance Metrics for Batch Execution of 32 Tricks}}{95}{table.4.12}\protected@file@percent }
-\newlabel{tab:batch-execution}{{4.12}{95}{Performance Metrics for Batch Execution of 32 Tricks}{table.4.12}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.8}Scalability via Bulk Execution}{95}{section.4.8}\protected@file@percent }
-\newlabel{lst:escape-trick}{{4.13}{96}{Trick Configuration Parameters}{lstlisting.4.13}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {4.13}Trick Configuration Parameters}{96}{lstlisting.4.13}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.8.1}Result Integrity and Logging}{96}{subsection.4.8.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.8.2}Scalability Limits}{97}{subsection.4.8.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.8.3}Conclusion}{97}{subsection.4.8.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.6}{Docker and runc Versions Validated with Houdini}}{99}{table.5.6}\protected@file@percent }
+\newlabel{tab:docker-runc-validated}{{5.6}{99}{Docker and runc Versions Validated with Houdini}{table.5.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Conclusion}{102}{section*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.6}Performance Benchmarking}{102}{section.5.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.1}Understanding Time Metrics in Microbenchmarking}{102}{subsection.5.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.2}Microbenchmark}{103}{subsection.5.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Making the Root Filesystem}{103}{section*.10}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.7}{\ignorespaces Performance Metrics for \texttt  {mkfs} Stage}}{104}{table.5.7}\protected@file@percent }
+\newlabel{tab:mkfs-performance}{{5.7}{104}{Performance Metrics for \texttt {mkfs} Stage}{table.5.7}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Booting the Virtual Machine}{104}{section*.11}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.8}{\ignorespaces Performance Metrics for VM Boot}}{105}{table.5.8}\protected@file@percent }
+\newlabel{tab:vm-boot-performance}{{5.8}{105}{Performance Metrics for VM Boot}{table.5.8}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Building the Docker Image}{105}{section*.12}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.9}{\ignorespaces Performance Metrics for Docker Image Build (Cold Start)}}{106}{table.5.9}\protected@file@percent }
+\newlabel{tab:docker-build-performance}{{5.9}{106}{Performance Metrics for Docker Image Build (Cold Start)}{table.5.9}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Running a Trick in Docker}{106}{section*.13}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.10}{\ignorespaces Your Caption}}{107}{table.5.10}\protected@file@percent }
+\newlabel{tab:your-label}{{5.10}{107}{Your Caption}{table.5.10}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Baseline Comparison Outside Houdini}{107}{section*.14}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.11}{\ignorespaces Performance Metrics for Manually Executed Baseline}}{107}{table.5.11}\protected@file@percent }
+\newlabel{tab:baseline-manual}{{5.11}{107}{Performance Metrics for Manually Executed Baseline}{table.5.11}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.7}Batch Trick Execution}{108}{section.5.7}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.12}{\ignorespaces Performance Metrics for Batch Execution of 32 Tricks}}{108}{table.5.12}\protected@file@percent }
+\newlabel{tab:batch-execution}{{5.12}{108}{Performance Metrics for Batch Execution of 32 Tricks}{table.5.12}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.8}Scalability via Bulk Execution}{108}{section.5.8}\protected@file@percent }
+\newlabel{lst:escape-trick}{{5.13}{109}{Trick Configuration Parameters}{lstlisting.5.13}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {5.13}Trick Configuration Parameters}{109}{lstlisting.5.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.8.1}Result Integrity and Logging}{109}{subsection.5.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.8.2}Scalability Limits}{110}{subsection.5.8.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.8.3}Conclusion}{110}{subsection.5.8.3}\protected@file@percent }
 \citation{runc-cve-2024-21626}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Case Studies}{98}{chapter.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Case Studies}{111}{chapter.6}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.0.1}Case Study 1: Evaluating the accuracy of CVE-2024-21626}{98}{subsection.5.0.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.0.2}Case Study 2}{100}{subsection.5.0.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.0.3}Case Study 3 - Evaluating Docker Privileged Port Forwarding Restrictions}{103}{subsection.5.0.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.0.1}Case Study 1: Evaluating the accuracy of CVE-2024-21626}{111}{subsection.6.0.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.0.2}Case Study 2}{113}{subsection.6.0.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.0.3}Case Study 3 - Evaluating Docker Privileged Port Forwarding Restrictions}{116}{subsection.6.0.3}\protected@file@percent }
 \bibstyle{unsrt}
 \bibdata{refs}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.0.4}Case Study 4 - Evaluating ptrace Enforcement Across Linux Distributions}{105}{subsection.5.0.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces runc and crun Versions Against CVE-2024-21626}}{106}{table.5.1}\protected@file@percent }
-\newlabel{tab:cve201626}{{5.1}{106}{runc and crun Versions Against CVE-2024-21626}{table.5.1}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.2}{\ignorespaces Case Study 2 Testing Environment}}{107}{table.5.2}\protected@file@percent }
-\newlabel{table:case2env}{{5.2}{107}{Case Study 2 Testing Environment}{table.5.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.3}{\ignorespaces Ability for Containers to Interact with Host Processes Across Yama Settings (Ubuntu Kernel 6.8.12)}}{107}{table.5.3}\protected@file@percent }
-\newlabel{tab:combined-pid-namespace-security}{{5.3}{107}{Ability for Containers to Interact with Host Processes Across Yama Settings (Ubuntu Kernel 6.8.12)}{table.5.3}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.4}{\ignorespaces *}}{107}{table.5.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5.5}{\ignorespaces Ability for a container to bind to privileged ports}}{107}{table.5.5}\protected@file@percent }
-\newlabel{tab:port-binding-pre-20.03}{{5.5}{107}{Ability for a container to bind to privileged ports}{table.5.5}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.6}{\ignorespaces *}}{107}{table.5.6}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5.7}{\ignorespaces ptrace Behavior Across Distributions with Default Yama Scopes}}{108}{table.5.7}\protected@file@percent }
-\newlabel{tab:ptrace-default-yama}{{5.7}{108}{ptrace Behavior Across Distributions with Default Yama Scopes}{table.5.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.0.4}Case Study 4 - Evaluating ptrace Enforcement Across Linux Distributions}{118}{subsection.6.0.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces runc and crun Versions Against CVE-2024-21626}}{119}{table.6.1}\protected@file@percent }
+\newlabel{tab:cve201626}{{6.1}{119}{runc and crun Versions Against CVE-2024-21626}{table.6.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.2}{\ignorespaces Case Study 2 Testing Environment}}{120}{table.6.2}\protected@file@percent }
+\newlabel{table:case2env}{{6.2}{120}{Case Study 2 Testing Environment}{table.6.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.3}{\ignorespaces Ability for Containers to Interact with Host Processes Across Yama Settings (Ubuntu Kernel 6.8.12)}}{120}{table.6.3}\protected@file@percent }
+\newlabel{tab:combined-pid-namespace-security}{{6.3}{120}{Ability for Containers to Interact with Host Processes Across Yama Settings (Ubuntu Kernel 6.8.12)}{table.6.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.4}{\ignorespaces *}}{120}{table.6.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6.5}{\ignorespaces Ability for a container to bind to privileged ports}}{120}{table.6.5}\protected@file@percent }
+\newlabel{tab:port-binding-pre-20.03}{{6.5}{120}{Ability for a container to bind to privileged ports}{table.6.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.6}{\ignorespaces *}}{120}{table.6.6}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6.7}{\ignorespaces ptrace Behavior Across Distributions with Default Yama Scopes}}{121}{table.6.7}\protected@file@percent }
+\newlabel{tab:ptrace-default-yama}{{6.7}{121}{ptrace Behavior Across Distributions with Default Yama Scopes}{table.6.7}{}}
 \bibcite{venom}{1}
 \bibcite{spectre}{2}
 \bibcite{zombieload}{3}
 \bibcite{runc-cve-2024-21626}{4}
-\gdef \@abspage@last{110}
+\gdef \@abspage@last{123}
