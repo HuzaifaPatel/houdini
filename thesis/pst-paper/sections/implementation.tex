@@ -1,7 +1,7 @@
 \section{Implementation}
 \label{sec:implementation}
 
-Tricks are divided into three separate files: a configuration file, a trick file, and a Dockerfile. Each \houdini trick begins with a configuration file (see \Cref{lst:configuration-file}), which contains the Docker container's settings and environment configuration. The configuration file defines various Docker-specific parameters that are directly fed to the Docker API to start a container with the desired settings. Once the configuration is parsed, \houdini communicates these settings to the Docker API, using Docker's docker run command to initiate the container with these parameters. Control over the version and configuration ensures that the container is launched identically at every run which makes it easier to test and replicate environments.
+Tricks are divided into three separate files: a configuration file, a trick file, and a Dockerfile. Each \houdini trick begins with a configuration file (see \Cref{lst:configuration-file}), which contains the Docker container's settings and environment configuration. The configuration file defines various Docker-specific parameters that are directly fed to the Docker API to start a container with the desired settings. Once the configuration is parsed, \houdini communicates these settings to the Docker API, using Docker's run command to initiate the container with these parameters. Control over the version and configuration ensures that the container is launched identically at every run which makes it easier to test and replicate environments.
 
 
 \begin{listing}[h]
