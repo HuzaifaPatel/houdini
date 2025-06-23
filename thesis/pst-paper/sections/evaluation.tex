@@ -170,6 +170,10 @@ Our objective here is to investigate how various security flags interact with ea
     \item \texttt{apparmor=docker-default}
 \end{itemize}
 
+The five selected flags were chosen to isolate the minimum privileges required for a container to interact with host processes. The --pid=host flag allows the container to see host processes, while CAP\_KILL and CAP\_SYS\_PTRACE enable it to send signals and attach debuggers, respectively. The --privileged flag serves as a reference point for unrestricted access, and apparmor=docker-default demonstrates how mandatory access controls can block these interactions.
+
+Other flags, such as those affecting network, IPC, or mount namespaces, were not included because they do not impact process-level interactions. Broad capabilities like CAP\_SYS\_ADMIN were also excluded to avoid unnecessary privilege. These five flags were selected because they are narrowly focused and directly relevant to interacting with host processes. 
+
 The evaluation began by assessing whether a container launched with \texttt{--pid=host} could list host processes using \texttt{ps aux}. As expected, the container displayed all processes running on the host, confirming that sharing the host PID namespace fully exposes the host's process table to the container.
 
 Following this, we tested whether a container process could send a \texttt{SIGKILL} signal to a host process owned by \texttt{UID 1000}. The container was launched with \texttt{--pid=host}, allowing it to see and interact with host processes. Despite not being granted \texttt{CAP\_KILL}, the signal was successfully delivered. This is because by default, both processes share the same UID and PID namespace, and under standard Linux permission checks, a process can send signals to another process it owns by UID without requiring special capabilities. However, if the target host process is owned by a different UID (another non-root user), \texttt{CAP\_KILL} is required for the signal to be delivered. That capability must also be effective in the user namespace of the target process. Similarly, signaling host processes owned by \texttt{UID 0} remains restricted even with \texttt{CAP\_KILL}, unless the container process itself is also running as root.
@@ -184,15 +188,7 @@ It is also important to note that granting capabilities such as \texttt{CAP\_KIL
 
 We note that the explanation above was derived after substantial amount of testing and analysis. The Docker documentation alone does not clarify this behavior. Instead, users are expected to understand both the Docker tooling and the underlying Linux kernel security model to correctly select these flags. 
 
-%% When the container shares the same user namespace as the host (or has aligned UID mappings), and the container process runs under the same UID as the host processes, it can bypass security restrictions that would normally prevent such interactions. In this case, the container may be able to perform operations like sending signals or attaching debuggers to host processes, even without elevated capabilities like \texttt{CAP\_KILL} or \texttt{CAP\_SYS\_PTRACE}. These capabilities, which are typically required for such actions, are not necessary when the container and host share UID mappings, as the container process is considered the same user as the host processes it targets.
-
 This case study highlights a core strength of \houdini, which is its ability to systematically explore and identify the least privilege for a given operation. By allowing users to declaratively modify container configurations, \houdini makes it easy to test a wide range of privilege combinations in a repeatable and automated way. Instead of relying on trial and error or defaulting to the overly permissive \texttt{--privileged} mode, users can incrementally grant permissions and observe the effect of each change. \houdini thus enables security practitioners, developers, and researchers to precisely determine the minimum set of permissions required for a given trick to succeed. As a result, \houdini not only serves as a testing framework for container escapes and misconfigurations, but also as a practical tool for privilege minimization and hardening container deployments.
-
-%This case study highlights the complexity of security policies in containerized environments, highlighting that the runtime behavior of security configurations is not always straightforward or predictable. While administrators may configure a container with \texttt{--pid=host} to enable the container to monitor host processes, there is an assumption that certain operations, such as sending signals or attaching debuggers remain restricted. However, these assumptions may not hold at runtime due to the interplay of various factors such as user namespaces and UID mappings.
-
-
-
-%The non-trivial nature of these runtime behaviors is why houdini performs empirical tests to validate configurations. By simulating real-world interactions between the container and host processes, it can identify whether these configurations inadvertently allow unauthorized actions. If the container can perform actions it should not be able to, despite policy expectations, this exposes a gap between the intended security policy and its actual enforcement at runtime.
 
 \FloatBarrier
 {\captionsetup{font=footnotesize}
