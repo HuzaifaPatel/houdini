@@ -26,14 +26,12 @@ This discrepancy highlights a recurring issue in vulnerability disclosure proces
 
 \begin{table}[h!]
     \centering
-    \caption{runc and crun Versions Against CVE-2024-21626}
+    \caption{runc versions against CVE-2024-21626}
     \label{tab:cve201626}
     \resizebox{\columnwidth}{!}{%
         \begin{tabular}{l|l|c|c}
             \hline
             \textbf{Docker Version} & \textbf{Runtime Version} & \textbf{Leaked FD} & \textbf{Exploit Success} \\
-            \hline
-            \multicolumn{4}{|c|}{\textbf{runc}} \\
             \hline
             - & runc 0.0.9 & - & \xmark \\
             1.12.0 & runc 1.0.0-rc1 & /proc/self/fd/4 & \cmark \\
@@ -53,32 +51,6 @@ This discrepancy highlights a recurring issue in vulnerability disclosure proces
             - & runc 1.1.12 & - & \xmark \\
             - & runc 1.1.13 & - & \xmark \\
             - & runc 1.1.14 & - & \xmark \\
-            \hline
-            \multicolumn{4}{|c|}{\textbf{crun}} \\
-            \hline
-            - & crun 0.15 & - & \xmark \\
-            - & crun 0.17 & - & \xmark \\
-            - & crun 1.0.0 & - & \xmark \\
-            - & crun 1.2.0 & - & \xmark \\
-            - & crun 1.3.0 & - & \xmark \\
-            - & crun 1.5.0 & - & \xmark \\
-            - & crun 1.6.0 & - & \xmark \\
-            - & crun 1.7.0 & - & \xmark \\
-            - & crun 1.8.0 & - & \xmark \\
-            - & crun 1.9.0 & - & \xmark \\
-            - & crun 1.10.0 & - & \xmark \\
-            - & crun 1.11 & - & \xmark \\
-            - & crun 1.12 & - & \xmark \\
-            - & crun 1.13 & - & \xmark \\
-            - & crun 1.14 & - & \xmark \\
-            - & crun 1.15 & - & \xmark \\
-            - & crun 1.16 & - & \xmark \\
-            - & crun 1.17 & - & \xmark \\
-            - & crun 1.18 & - & \xmark \\
-            - & crun 1.19 & - & \xmark \\
-            - & crun 1.20 & - & \xmark \\
-            - & crun 1.21 & - & \xmark \\
-
             \hline
         \end{tabular}
     }
@@ -256,11 +228,11 @@ For example, administrators might configure a container to be restricted from bi
 
 Once again, Houdini helps identify these gaps by systematically testing container configurations across different Docker versions. By running different Docker versions and security policies, Houdini verifies whether containers are correctly enforcing the intended restrictions on privileged port binding. For instance, Houdini could test whether containers configured to prevent binding to privileged ports are still able to bind to those ports in Docker versions 20.03 or later, where the security model has changed. If a container running with Docker 20.03 or newer can bind to privileged ports despite the configuration specifying otherwise, Houdini will detect this discrepancy and highlight the gap between the intended policy and actual enforcement.
 
-%This set of experiments evaluates how Docker's privilege model for binding to privileged ports (i.e., ports below 1024) has evolved across versions. Traditionally, binding to privileged ports required root access or the NET\_BIND\_SERVICE capability. However, newer versions of Docker introduced support for binding to these ports even in rootless containers, provided the necessary capability is explicitly granted.
+This set of experiments evaluates how Docker's privilege model for binding to privileged ports (i.e., ports below 1024) has evolved across versions. Traditionally, binding to privileged ports required root access or the NET\_BIND\_SERVICE capability. However, newer versions of Docker introduced support for binding to these ports even in rootless containers, provided the necessary capability is explicitly granted.
 
-%By testing various combinations of user privileges (root vs. rootless) and capability settings across multiple Docker versions, this case study reveals which configurations are sufficient and which are excessive for achieving the goal of binding to a low-numbered port. It demonstrates that in modern Docker versions (23.0.0+), it is no longer necessary to run as root or grant all privileges to perform this operation. Instead, a least-privileged approach using a rootless container with NET\_BIND\_SERVICE is sufficient.
+By testing various combinations of user privileges (root vs. rootless) and capability settings across multiple Docker versions, this case study reveals which configurations are sufficient and which are excessive for achieving the goal of binding to a low-numbered port. It demonstrates that in modern Docker versions (23.0.0+), it is no longer necessary to run as root or grant all privileges to perform this operation. Instead, a least-privileged approach using a rootless container with NET\_BIND\_SERVICE is sufficient.
 
-%This case study shows that \houdini can empower Docker users to avoid unnecessary elevation of privileges, particularly avoiding full root access or the use of the --privileged flag, both of which expose containers to a broader attack surface. Houdini enables this kind of analysis by systematically testing Docker configurations and identifying the minimum set of privileges required for a given operation, helping developers and administrators adopt safer, more secure defaults.
+This case study shows that Houdini can empower Docker users to avoid unnecessary elevation of privileges, particularly avoiding full root access or the use of the --privileged flag, both of which expose containers to a broader attack surface. Houdini enables this kind of analysis by systematically testing Docker configurations and identifying the minimum set of privileges required for a given operation, helping developers and administrators adopt safer, more secure defaults.
 
 This case study also demonstrates a clear example of configuration drift arising not from explicit changes made by administrators, but from underlying changes in the Docker runtime itself. As Docker evolves, fundamental shifts in its privilege model, such as the redefinition of which ports are considered privileged and the removal of the NET\_BIND\_SERVICE requirement for certain operations can silently undermine previously established security policies. Even if an organization maintains the same container configuration and security policies, upgrading Docker to a newer version can inadvertently expand container capabilities, allowing behaviors that were once restricted. This version-induced drift can lead to a false sense of security, where administrators believe containers are still confined by earlier policy expectations, when in fact those policies are no longer fully enforced.
 

@@ -170,9 +170,9 @@ Our objective here is to investigate how various security flags interact with ea
     \item \texttt{apparmor=docker-default}
 \end{itemize}
 
-The five selected flags were chosen to isolate the minimum privileges required for a container to interact with host processes. The --pid=host flag allows the container to see host processes, while CAP\_KILL and CAP\_SYS\_PTRACE enable it to send signals and attach debuggers, respectively. The --privileged flag serves as a reference point for unrestricted access, and apparmor=docker-default demonstrates how mandatory access controls can block these interactions.
+The five selected flags were chosen to isolate the minimum privileges required for a container to interact with host processes. The \texttt{--pid=host} flag allows the container to see host processes, while \texttt{CAP\_KILL} and \texttt{CAP\_SYS\_PTRACE} enable it to send signals and attach debuggers, respectively. The \texttt{--privileged} flag serves as a reference point for unrestricted access, and AppArmor's \texttt{docker-default} demonstrates how mandatory access controls can block these interactions.
 
-Other flags, such as those affecting network, IPC, or mount namespaces, were not included because they do not impact process-level interactions. Broad capabilities like CAP\_SYS\_ADMIN were also excluded to avoid unnecessary privilege. These five flags were selected because they are narrowly focused and directly relevant to interacting with host processes. 
+Other flags, such as those affecting network, IPC, or mount namespaces, were not included because they do not impact process-level interactions. Broad capabilities like \texttt{CAP\_SYS\_ADMIN} were also excluded to avoid unnecessary privilege.
 
 The evaluation began by assessing whether a container launched with \texttt{--pid=host} could list host processes using \texttt{ps aux}. As expected, the container displayed all processes running on the host, confirming that sharing the host PID namespace fully exposes the host's process table to the container.
 

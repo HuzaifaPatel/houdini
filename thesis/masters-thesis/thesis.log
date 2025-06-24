@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  17 JUN 2025 10:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.3.30)  20 JUN 2025 21:14
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -898,7 +898,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.35 ...ine {3.10}Extensibility}{41}{section.3.10}
+l.35 ...uest Environment Design}{41}{section.3.10}
                                                   % [1
 
 ] [2])
@@ -912,7 +912,7 @@ l.35 ...ine {3.10}Extensibility}{41}{section.3.10}
 [4
 
 ] (./thesis.lof
-Overfull \hbox (3.67348pt too wide) in paragraph at lines 6--6
+Overfull \hbox (3.67348pt too wide) in paragraph at lines 7--7
  [][] [][]\OT1/cmr/m/n/12 Example trick im-ple-men-ta-tion that checks for read
  ac-cess to \OT1/cmtt/m/n/12 /etc/shadow\OT1/cmr/m/n/12 .[] [][]  
  []
@@ -1142,18 +1142,30 @@ LaTeX Warning: Citation `vm2sandboxescape' on page 29 undefined on input line 1
 Chapter 3.
 [30
 
-] [31] [32] [33] [34]
-Overfull \hbox (4.10115pt too wide) in paragraph at lines 53--54
+] [31]
+
+pdfTeX warning: pdflatex (file ./figures/design.pdf): PDF inclusion: found PDF 
+version <1.7>, but at most version <1.5> allowed
+<figures/design.pdf, id=634, 361.35pt x 216.81pt>
+File: figures/design.pdf Graphic file (type pdf)
+<use figures/design.pdf>
+Package pdftex.def Info: figures/design.pdf  used on input line 24.
+(pdftex.def)             Requested size: 433.62001pt x 260.174pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[32] [33 <./figures/design.pdf>] [34]
+Overfull \hbox (4.10115pt too wide) in paragraph at lines 44--45
 \OT1/cmr/m/n/12 the con-tainer is launched. These knobs in-clude Linux ca-pa-bi
 l-i-ties (e.g., \OT1/cmtt/m/n/12 CAP[]SYS[]ADMIN\OT1/cmr/m/n/12 ,
  []
 
-[35] [36] [37] [38] [39] [40] [41] [42] [43] [44] [45] [46] [47] [48] [49])
-(./sections/chapter8-implementation.tex [50]
+[35] [36] [37] [38] [39] [40] [41] [42] [43] [44] [45] [46] [47] [48])
+(./sections/chapter8-implementation.tex [49]
 Chapter 4.
-[51
+[50
 
-] [52] [53] [54]
+] [51] [52] [53]
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 )
@@ -1164,7 +1176,7 @@ LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmtt.fd
 File: ts1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
-) [55] [56] [57]
+) [54] [55] [56]
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 )
@@ -1173,7 +1185,7 @@ File: lstlang1.sty 2023/02/27 1.9 listings language file
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
 nput line 147.
- [58]
+ [57]
 Overfull \hbox (0.82645pt too wide) in paragraph at lines 183--184
 []\OT1/cmr/m/n/12 Since $\OMS/cmsy/m/n/12 jP[]j \OT1/cmr/m/n/12 = \OMS/cmsy/m/n
 /12 jP[]j \OT1/cmr/m/n/12 = \OMS/cmsy/m/n/12 jP[]j \OT1/cmr/m/n/12 = \OMS/cmsy/
@@ -1182,14 +1194,14 @@ $\OMS/cmsy/m/n/12 jP[]j \OT1/cmr/m/n/12 = \OMS/cmsy/m/n/12 jP[]j \OT1/cmr/m/n/1
 2 =
  []
 
-[59] [60] [61] [62]
+[58] [59] [60] [61]
 Overfull \hbox (28.58401pt too wide) in paragraph at lines 259--260
 []\OT1/cmr/m/n/12 Among the core end-points ex-posed by the server are \OT1/cmt
 t/m/n/12 /run-trick\OT1/cmr/m/n/12 , \OT1/cmtt/m/n/12 /run-command-in-vm\OT1/cm
 r/m/n/12 ,
  []
 
-[63]
+[62]
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
 (Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 263.
 
@@ -1198,7 +1210,7 @@ Overfull \hbox (5.73148pt too wide) in paragraph at lines 272--273
  It ex-e-cutes shell com-mands us-ing Python's \OT1/cmtt/m/n/12 subprocess
  []
 
-[64] [65] [66] [67] [68] [69] [70] [71]
+[63] [64] [65] [66] [67] [68] [69] [70]
 LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 4
 79.
 
@@ -1212,78 +1224,77 @@ Overfull \hbox (172.67894pt too wide) in paragraph at lines 481--482
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-[72] [73] [74] [75] [76] [77]) (./sections/chapter8-evaluation.tex [78]
-[79]
+[71] [72] [73] [74] [75] [76]) (./sections/chapter8-evaluation.tex [77]
+[78]
 Chapter 5.
-[80
+[79
 
 ]
 Overfull \hbox (2.0738pt too wide) in paragraph at lines 15--15
 []\OT1/cmr/bx/n/17.28 Reproducibility Across Time with Ver-sion Pin-
  []
 
-[81] [82] [83] [84] [85]
-Overfull \hbox (15.07994pt too wide) in paragraph at lines 168--181
+[80] [81] [82] [83] [84]
+Overfull \hbox (15.07994pt too wide) in paragraph at lines 166--179
  [][] 
  []
 
-[86]
+[85]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[87] [88] [89] [90] [91] [92] [93] [94] [95] [96] [97] [98] [99] [100] [101]
-[102] [103] [104] [105] [106] [107]
+[86] [87] [88] [89] [90] [91] [92] [93] [94] [95] [96] [97] [98] [99] [100]
+[101] [102] [103] [104] [105]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[108]
-Overfull \hbox (16.7267pt too wide) in paragraph at lines 803--804
+[106]
+Overfull \hbox (16.7267pt too wide) in paragraph at lines 786--787
 \OT1/cmr/m/n/12 To eval-u-ate scal-a-bil-ity, we con-structed a batch con-sist-
 ing of 32 dis-tinct trick-configuration
  []
 
-[109] [110]) (./sections/chapter9-case-study.tex [111]
+[107] [108]) (./sections/chapter9-case-study.tex [109]
 Chapter 6.
-[112
+[110
 
 ]
 
-LaTeX Warning: Float too large for page by 28.57605pt on input line 85.
-
-
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[113]
+[111]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-LaTeX Warning: Reference `tab:pid-namespace-security' on page 114 undefined on 
-input line 108.
+LaTeX Warning: Reference `tab:pid-namespace-security' on page 112 undefined on 
+input line 80.
 
 
-LaTeX Warning: Reference `tab:pid-namespace-security' on page 114 undefined on 
-input line 108.
+LaTeX Warning: Reference `tab:pid-namespace-security' on page 112 undefined on 
+input line 80.
 
-[114] [115] [116]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Overfull \hbox (85.8072pt too wide) in paragraph at lines 237--248
+[112] [113] [114] [115]
+Overfull \hbox (85.8072pt too wide) in paragraph at lines 209--220
  [][] 
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[117]
-Overfull \hbox (40.85039pt too wide) in paragraph at lines 255--256
+[116]
+Overfull \hbox (40.85039pt too wide) in paragraph at lines 227--228
 \OT1/cmr/m/n/12 bind-ing to priv-i-leged ports, but if Docker is run-ning a ver
 -sion where the NET[]BIND[]SERVICE
  []
 
-[118]) (./thesis.bbl [119] [120] [121] [122]
+[117]
+Overfull \hbox (7.5285pt too wide) in paragraph at lines 233--234
+\OT1/cmr/m/n/12 stead, a least-privileged ap-proach us-ing a root-less con-tain
+er with NET[]BIND[]SERVICE
+ []
+
+[118]) (./thesis.bbl [119]
 Underfull \hbox (badness 4531) in paragraph at lines 4--8
 []\OT1/cmr/m/n/12 CrowdStrike.  VENOM: Vir-tu-al-ized En-vi-ron-ment Ne-glected
  Op-er-a-tions
@@ -1295,7 +1306,7 @@ Underfull \hbox (badness 8094) in paragraph at lines 4--8
 / / www . crowdstrike . com / blog /
  []
 
-) [123
+) [120
 
 ] (./thesis.aux)
  ***********
@@ -1310,11 +1321,11 @@ LaTeX Warning: There were undefined references.
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: F9FE970697D109A3D14BB9502E983F47;17222.
+(rerunfilecheck)             Checksum: 6AB3CB017F1918C3A0032A4F813B3B91;15583.
  ) 
 Here is how much of TeX's memory you used:
- 21971 strings out of 476182
- 358722 string characters out of 5795595
+ 21961 strings out of 476182
+ 358666 string characters out of 5795595
  2741975 words of memory out of 5000000
  42923 multiletter control sequences out of 15000+600000
  574595 words of font info for 98 fonts, out of 8000000 for 9000
@@ -1344,10 +1355,10 @@ ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/
 fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on thesis.pdf (124 pages, 527287 bytes).
+Output written on thesis.pdf (121 pages, 555184 bytes).
 PDF statistics:
- 1745 PDF objects out of 2073 (max. 8388607)
- 1553 compressed objects within 16 object streams
- 650 named destinations out of 1000 (max. 500000)
- 721 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1718 PDF objects out of 1728 (max. 8388607)
+ 1520 compressed objects within 16 object streams
+ 640 named destinations out of 1000 (max. 500000)
+ 662 words of extra memory for PDF output out of 10000 (max. 10000000)
 

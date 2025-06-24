@@ -8,7 +8,7 @@ We first assess reproducibility, a foundational principle of Houdini, by executi
 
 To evaluate scalability, we run a large batch of tricks (up to 32) across multiple configurations in a single session. This allows us to measure runtime, memory usage, and failure rates, which offers insight into Houdini’s performance under load. Complementing this, we conduct performance benchmarking by timing the full lifecycle of a trick, including VM boot, container setup, and result capture. These times are compared against manual baseline executions to quantify Houdini’s overhead.
 
-Host isolation is validated through a deliberately malicious trick designed to attempt writes to host-accessible paths. Success is defined by the inability of this containerized code to affect the physical host.
+Host isolation is validated through a deliberately malicious trick designed to attempt writes to physical host-accessible paths. Success in this specific evaluation is defined by the inability of the containerized code to affect the physical host.
 
 Next, we examine version variability support by constructing a test matrix of Docker, runc, and Linux kernel versions. Successful execution of tricks across this matrix demonstrates Houdini’s compatibility and robustness in diverse runtime environments. Finally, we assess extensibility by integrating a newly developed trick that probes for a specific capability. The ease of adding and running the new test without modifying core framework logic showcases Houdini’s modular design and developer-friendly architecture.
 
@@ -93,7 +93,7 @@ docker run --rm myimage /apparmor_check.sh
 \noindent\textbf{Result:} Trick passed
 
 
-At time \( T_1 \), after a delay, the Buildroot image was rebuilt using the same configuration and the same overlay directory. This ensured that all injected binaries were identical to those used at \( T_0 \). All component hashes matched the entries in \texttt{version\_manifest.txt}, confirming no binary drift had occurred. The container was again executed using the same AppArmor trick.
+At time \( T_1 \), after a delay, the Buildroot image was rebuilt using the same configuration and the same overlay directory. This ensured that all injected binaries were identical to those used at \( T_0 \). All hashes matched the entries from \( T_0 \), confirming no binary drift had occurred. The container was again executed using the same AppArmor trick.
 
 \begin{lstlisting}[language=bash, caption={Running the AppArmor Trick in a Container (\( T_1 \))}, label={lst:run-apparmor-trick-t1}, numbers=left, numberstyle=\tiny, stepnumber=1, frame=single, breaklines=true, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\footnotesize, showspaces=false, showstringspaces=false]
 docker run --rm myimage /apparmor_check.sh
@@ -101,7 +101,7 @@ docker run --rm myimage /apparmor_check.sh
 
 \noindent\textbf{Result:} Trick passed
 
-\subsection{Reproducibility Metric}
+This experiment shows that Houdini can consistently reproduce results over time, making it a reliable tool for long-term and repeatable security testing. By locking in the versions of all key components, checking file integrity, and using a security-sensitive trick, Houdini avoids false consistency and detects real changes when they occur. While this test used an AppArmor enforcement check, the same approach can be used for more complex security tests like checking for exploits where stable and repeatable results are essential.
 
 We define a basic reproducibility metric \( R \) as the percentage of test cases for which the result at time \( T_0 \) matched the result at time \( T_1 \):
 
@@ -127,8 +127,6 @@ else
     echo "Trick failed"
 fi
 \end{lstlisting}
-
-This experiment shows that Houdini can consistently reproduce results over time, making it a reliable tool for long-term and repeatable security testing. By locking in the versions of all key components, checking file integrity, and using a security-sensitive trick, Houdini avoids false consistency and detects real changes when they occur. While this test used an AppArmor enforcement check, the same approach can be used for more complex security tests like checking for exploits, verifying patches, or running compliance checks where stable and repeatable results are essential.
 
 
 
@@ -207,7 +205,7 @@ else:
     print("Trick failed")
 \end{lstlisting}
 
-On both machines, both tricks produced identical output, exited with code 0, and showed no variation in stdout or stderr. Each trick was executed five times to validate consistency across repeated trials. Houdini’s internal logs containing output matched exactly across runs. For the write-read trick, the generated file was hashed inside the VM using SHA256, with all outputs matching across machines. Minor timing fluctuations (±0.01s) were observed but had no effect on correctness. These findings confirm that Houdini's virtualized execution environment abstracts away hardware variability, providing strong guarantees of reproducibility.
+On both machines, both tricks produced identical output and showed no variation in stdout. Houdini’s internal logs containing output matched exactly across runs. For the write-read trick, the generated file was hashed inside the VM using SHA256, with all outputs matching across machines. Minor timing fluctuations (±0.01s) were observed but had no effect on correctness. These findings confirm that Houdini's virtualized execution environment abstracts away hardware variability, providing strong guarantees of reproducibility.
 
 \begin{table}[h]
 \centering
@@ -225,16 +223,15 @@ CPU Utilization & 4\% & 4\% & None \\
 \end{tabular}
 \end{table}
 
-These results validate that Houdini’s use of virtualized environments and consistent root filesystems allows deterministic test logic to execute identically across heterogeneous hosts. By isolating each trick in a self-contained VM, Houdini ensures trick behavior remains invariant, enabling reliable cross-system comparison and reproducibility. This strengthens confidence in test outcomes even when hardware parity cannot be assumed, supporting reproducibility across research labs, institutions, and hardware platforms.
+These results validate that Houdini’s use of virtualized environments and consistent root filesystems allows deterministic test logic to execute identically across hosts. By isolating each trick in a self-contained VM, Houdini ensures trick behavior remains invariant, enabling reliable cross-system comparison and reproducibility. This strengthens confidence in test outcomes even when the hardware cannot be assumed.
 
-\subsection{Threats to Reproducibility (Why They Don't Apply)}
 One potential concern in cross-machine testing is that physical host-level kernel settings, such as security modules, sysctl values, or namespace policies could leak into or interfere with the VM and affect test behavior. For example, Linux’s Yama security module controls ptrace restrictions via the ptrace\_scope sysctl, which varies across distributions. On a typical Ubuntu host, ptrace\_scope may default to 1 (restricted), while hardened environments might use 2 or 3, disallowing debugging even with capabilities.
 
-However, Houdini’s design explicitly mitigates this threat. All tests are executed inside a Buildroot-based VM that runs its own Linux kernel, fully isolated from the host. Host kernel modules like Yama are not visible or inherited by the guest kernel. This means even if Machine A has ptrace\_scope=3 and Machine B uses the default 1, the guest VM will behave identically as long as the guest kernel is built without Yama, or with consistent defaults. Houdini controls the kernel config and root filesystem in the guest environment, ensuring uniform policy enforcement across machines.
+However, Houdini’s design explicitly mitigates this threat. All tests are executed inside a QEMU VM that runs its own Linux kernel, fully isolated from the host. Host kernel modules like Yama are not visible or inherited by the guest kernel. This means even if Machine A has ptrace\_scope=3 and Machine B uses the default 1, the VM loaded into Machine A will behave identically as the VM in Machine B. Houdini controls the kernel config and root filesystem in the guest environment, ensuring uniform policy enforcement across machines.
 
-More generally, no physical host-level AppArmor profiles, SELinux settings, or LSM configurations apply inside the VM. Even sysctl values, such as those affecting networking, file descriptor limits, or namespaces are isolated to the VM’s kernel and cannot be influenced by the host. As a result, machine-specific hardening policies do not affect the determinism of trick execution.
+More generally, no physical host-level AppArmor profiles, SELinux settings, or LSM configurations apply inside the VM. Even sysctl values, such as those affecting networking, file descriptor limits, or namespaces are isolated to the VM’s kernel and cannot be influenced by the physical host. As a result, machine-specific hardening policies do not affect the determinism of trick execution.
 
-This design choice is central to Houdini’s reproducibility goal: by treating the guest VM as a sealed, deterministic black box, it ensures that only explicitly configured inputs like Docker version, kernel version, and trick code affect outcomes. Host-level variation is fully abstracted away.
+This design choice is central to Houdini’s reproducibility goal: by treating the guest VM as a sealed, deterministic black box, it ensures that only explicitly configured inputs like Docker version, kernel version, runc version, and trick code affects outcome.
 
 
 
@@ -275,22 +272,9 @@ To assess this, we use a controlled test: a container attempts to write to a fil
 
 While this approach cannot detect deeper issues such as hypervisor vulnerabilities, low-level device exploits, or side-channel attacks, it is well-suited for detecting more common and operational misconfigurations. In real-world scenarios, these kinds of setup errors are often the cause of unintended host exposure. Thus, this method offers a practical way to confirm that Houdini’s default setup maintains strong separation between the host and guest environments.
 
-A full formal security analysis—including techniques like fuzzing, symbolic execution, or hypervisor introspection—would provide deeper coverage but is out of scope for this work.
+A full formal security analysis, including techniques like fuzzing, symbolic execution, or hypervisor introspection would provide deeper coverage but is out of scope for this specific evaluation.
 
-
-\subsection{Threat Model}
-
-The threat model for this evaluation assumes that the attacker has full control over arbitrary code executed inside a container running within Houdini’s VM. This reflects a realistic scenario where untrusted or potentially malicious container workloads are tested to evaluate security boundaries. The attacker may attempt to exploit kernel vulnerabilities, access unintended resources, or perform file system operations that target the host. Typical actions include attempting to write to host-mounted directories, reading sensitive data, or interacting with other host processes.
-
-However, the attacker’s capabilities are strictly confined to the VM. They have no access to the physical host machine, nor are they granted elevated privileges beyond what is available inside the containerized guest. The container may share namespaces with the host, and the kernel it interacts with is the one booted inside the VM, not the host kernel.
-
-However, in Houdini’s design, these namespace-sharing configurations are restricted to the context of the VM only. That is, even if a container is launched with \texttt{--pid=host}, it shares the PID namespace only with the VM, not the physical host. Likewise, shared network or IPC namespaces remain confined to the QEMU instance. This ensures that while Houdini supports evaluation of shared-namespace behavior, any unintended access or compromise remains sandboxed inside the VM. The attacker cannot affect the physical host’s kernel or global namespaces, and cannot persist beyond the lifecycle of the VM.
-
-The goal of this threat model is to validate that Houdini can safely execute such container scenarios without compromising the integrity of the physical host. Even if the attacker succeeds in exploiting the container or VM environment, the outer boundary provided by QEMU must prevent any direct impact on the host.
-
-\subsection{Malicious Trick Description}
-
-We designed a trick to evaluate whether a container running inside Houdini's VM can access the physical host system. This test simulates an escape attempt by trying to write to a file path that would typically point to a shared folder if one were configured.
+We designed a trick (see Listing~\ref{lst:escape-trick}) to evaluate whether a container running inside Houdini's VM can access the physical host system. This test simulates an escape attempt by trying to write to a file path that would typically point to a shared folder if one were configured.
 
 \begin{lstlisting}[language=bash, caption={Escape Trick: Simulated Write to Host-Mounted Path}, label={lst:escape-trick}, numbers=left, numberstyle=\tiny, stepnumber=1, frame=single, breaklines=true, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\footnotesize, showspaces=false, showstringspaces=false]
 #!/bin/sh
@@ -308,10 +292,7 @@ else
 fi
 \end{lstlisting}
 
-
-\subsection{Execution Inside the VM}
-
-The container was executed inside a QEMU-based Buildroot VM that does not expose any host directories and uses no shared folders. The container was started using the following command:
+As always, the container was executed inside a QEMU VM that does not expose any host directories and uses no shared folders. The container was started using the following command:
 
 \begin{lstlisting}[language=bash, caption={Escape Trick: Simulated Write to Host-Mounted Path}, label={lst:escape-trick}, numbers=left, numberstyle=\tiny, stepnumber=1, frame=single, breaklines=true, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\footnotesize, showspaces=false, showstringspaces=false]
 docker run --rm alpine /host_escape_trick.sh
@@ -326,11 +307,9 @@ Trick failed: No host write access.
 
 No file named \texttt{hacked.txt} appeared on the physical host, confirming that the simulated attack was fully contained within the VM.
 
-\subsection{Implications of Shared Folders}
-
 While shared folders are a common method for transferring files between a VM and its physical host, their use inherently weakens the isolation boundary. If a container within the VM has access to a host-mounted directory, it may write or overwrite files that become visible outside the VM. This creates a deliberate escape route that must be managed with caution.
 
-However, Houdini avoids this problem entirely by not relying on shared folders for interprocess communication or result reporting of tricks. This is because Houdini uses a lightweight Flask-based HTTP server running on the host. When a trick completes execution inside the VM, it sends its result, such as pass/fail status or diagnostic output back to the host via an HTTP POST request over a user-mode QEMU network port.
+However, Houdini avoids this problem entirely by not relying on shared folders for interprocess communication or result reporting of tricks. As mentioned prior, this is because Houdini uses a lightweight Flask-based HTTP server running on the host. When a trick completes execution inside the VM, it sends its result, such as pass/fail status or diagnostic output back to the host via an HTTP POST request over a user-mode QEMU network port.
 
 This design has several advantages:
 \begin{itemize}
@@ -338,6 +317,20 @@ This design has several advantages:
     \item It decouples file I/O from test reporting, reducing the attack surface.
     \item It enables fine-grained control over what data leaves the VM and how it is structured.
 \end{itemize}
+
+
+This experiment confirms that Houdini provides strong host isolation by default. Malicious trick code that attempts to write to host-accessible paths is safely confined within the VM. The inclusion of a clearly defined threat model ensures that the assumptions and limits of containment are well-scoped. Furthermore, the use of a Flask-based communication channel, rather than shared folders, enhances isolation by avoiding any direct file-based interaction between the guest and host. Overall, Houdini’s VM-based architecture combined with controlled, network-based result reporting offers a secure foundation for container security testing.
+
+
+\subsection{Threat Model}
+
+The threat model for this evaluation assumes that the attacker has full control over arbitrary code executed inside a container running within the VM. This reflects a realistic scenario where untrusted or potentially malicious container workloads are tested to evaluate security boundaries. The attacker may attempt to exploit kernel vulnerabilities, access unintended resources, or perform file system operations that target the host. Typical actions include attempting to write to host-mounted directories, reading sensitive data, or interacting with other host processes.
+
+However, the attacker’s capabilities are strictly confined to the VM. They have no access to the physical host machine, nor are they granted elevated privileges beyond what is available inside the containerized guest. The container may share namespaces with the host, and the kernel it interacts with is the one booted inside the VM, not the host kernel.
+
+However, in Houdini’s design, these namespace-sharing configurations are restricted to the context of the VM only. That is, even if a container is launched with \texttt{--pid=host}, it shares the PID namespace only with the VM, not the physical host. Likewise, shared network or IPC namespaces remain confined to the QEMU instance. This ensures that while Houdini supports evaluation of shared-namespace behavior, any unintended access or compromise remains sandboxed inside the VM. The attacker cannot affect the physical host’s kernel, and cannot persist beyond the lifecycle of the VM.
+
+The goal of this threat model is to validate that Houdini can safely execute such container scenarios without compromising the integrity of the physical host. Even if the attacker succeeds in exploiting the container or VM environment, the outer boundary provided by QEMU must prevent any direct impact on the physical host.
 
 \subsection{Baseline Comparison: Without VM Isolation}
 
@@ -351,7 +344,7 @@ In contrast, Houdini enforces a strict boundary between the containerized worklo
 
 Additionally, Houdini’s architecture ensures that test environments are short lasting. Each container runs inside a fresh VM instance with no persistence beyond the test lifecycle. This further reduces risk by eliminating opportunities for long-term compromise or lateral movement.
 
-Ultimately, this baseline comparison shows that Houdini provides a stronger isolation guarantee than conventional Docker deployments. By decoupling the guest environment from the host through virtualization, Houdini limits the radius of potential container exploits and enforces a security boundary that is significantly harder to breach.
+Ultimately, this baseline comparison shows that Houdini provides a stronger isolation guarantee than conventional Docker deployments. By decoupling the guest environment from the host through virtualization, Houdini limits the potential for container exploits and enforces a security boundary that is significantly harder to breach.
 
 \subsection{Consideration of VM Escape Attacks}
 
@@ -362,16 +355,6 @@ Several high-profile vulnerabilities demonstrate the feasibility of VM escapes. 
 Houdini is not designed to test the security of QEMU or the underlying hypervisor. However, its architecture incorporates multiple safeguards that reduce the risk and impact of VM escape attempts. First, Houdini uses QEMU in user-mode without access to host hardware, kernel modules, or direct device passthrough. Second, the guest OS is a minimal Buildroot-based system, which avoids unnecessary services, drivers, and user-facing software that could be exploited from within the container. Third, common high-risk configurations such as shared folders, USB passthrough, or dynamic device mounting are explicitly avoided.
 
 While no virtualized system is immune to escape-class vulnerabilities, Houdini's design adheres to best practices for secure VM isolation. Its architecture limits exposure to known escape vectors, confines all container execution to a disposable environment, and avoids risky host-guest integration mechanisms. These decisions ensure that even in the presence of an unknown or unpatched vulnerability, the practical risk to the physical host remains minimal.
-
-
-
-\subsection{Scope and Limitations}
-
-This evaluation focuses on validating Houdini’s host isolation guarantees through simulated behavior rather than active exploitation. By design, Houdini does not expose any part of the physical host to the VM, making true host access attempts infeasible without deliberately weakening the environment. As such, the trick used here serves as a canary. It simulates a write to a host-mounted path that would only succeed if isolation were broken through misconfiguration or unexpected leakage. While this approach cannot detect low-level hypervisor vulnerabilities or advanced VM escape techniques, it effectively confirms that Houdini’s default configuration does not expose host resources through typical container mechanisms. Stronger adversarial testing, such as injecting known hypervisor exploits or performing fuzzing against QEMU interfaces, is beyond the scope of this evaluation but would complement this work in future studies.
-
-\subsection{Conclusion}
-
-This experiment confirms that Houdini provides strong host isolation by default. Malicious trick code that attempts to write to host-accessible paths is safely confined within the VM. The inclusion of a clearly defined threat model ensures that the assumptions and limits of containment are well-scoped. Furthermore, the use of a Flask-based communication channel, rather than shared folders, enhances isolation by avoiding any direct file-based interaction between the guest and host. Overall, Houdini’s VM-based architecture combined with controlled, network-based result reporting offers a robust and secure foundation for container security testing.
 
 
 
@@ -800,7 +783,7 @@ CPU utilization         & 4\% \\
 
 \section{Scalability via Bulk Execution}
 
-To evaluate scalability, we constructed a batch consisting of 32 distinct trick-configuration pairs. Each trick was executed in a fresh QEMU VM using a consistent Buildroot image, Docker version, and Linux kernel (v6.0). The test matrix spanned multiple combinations of runtime flags and container configurations to simulate realistic usage patterns in regression testing.
+To evaluate scalability, we constructed a batch consisting of 32 distinct trick-configuration pairs. Each trick was executed in a fresh QEMU VM using a consistent Buildroot image, Docker version, and Linux kernel (v6.0). The test matrix covered different combinations of runtime flags and container settings to reflect real-world usage during regression testing.
 
 \begin{lstlisting}[language=bash, caption={Trick Configuration Parameters}, label={lst:escape-trick}, numbers=left, numberstyle=\tiny, stepnumber=1, frame=single, breaklines=true, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\footnotesize, showspaces=false, showstringspaces=false]
 pid_mode = [None, "--pid=host"]
@@ -809,7 +792,7 @@ cap_sys_ptrace = [False, True]
 privileged_opts = [False, True]
 \end{lstlisting}
 
-Houdini’s batch system accepted this matrix as a single declarative input and automatically expanded it into 32 independent tasks. Each task was queued, isolated in its own VM, and executed without manual intervention. The entire batch completed successfully in a single uninterrupted session, confirming the framework’s ability to handle moderate-scale workloads without user supervision.
+Houdini’s batch system accepted this matrix as a single declarative input and automatically expanded it into 32 independent tasks. Each task was queued and executed without manual intervention. The entire batch completed successfully in a single uninterrupted session, confirming the framework’s ability to handle moderate-scale workloads without user supervision.
 
 Throughout the bulk execution of 32 trick-configuration pairs, Houdini successfully generated a separate log file for each individual test. Each log captured the complete stdout output as well as the full Docker command used to launch the container (including all runtime flags). For example:
 
@@ -822,7 +805,7 @@ All logs were uniquely named based on the trick and configuration, stored in a s
 
 This logging mechanism supports both debugging and reproducibility, as each file serves as a self-contained record of the execution. Moreover, the trick output in every log matched the expected behavior for its configuration, affirming the functional correctness of the batch.
 
-While this evaluation involved 32 trick-configuration pairs, Houdini’s architecture does not impose a hard-coded upper limit on batch size. The system is designed to accept arbitrarily large test matrices and automatically expand and schedule each test. In principle, Houdini can scale to hundreds or even thousands of tasks, depending on available system resources.
+While this evaluation involved 32 trick-configuration pairs, Houdini’s architecture does not impose a hard-coded upper limit on batch size. The system is designed to accept arbitrarily large test matrices and automatically expand and schedule each test. In principle, Houdini can scale to hundreds or even thousands of tasks.
 
 This evaluation confirms that Houdini meets its scalability goal. The system can reliably orchestrate dozens of isolated tests in a single batch, automatically handling setup, teardown, and result collection. As the matrix of container configurations continues to grow with new software versions and security flags, this scalability ensures that Houdini remains suitable for long-term and large-scale security regression testing.
 

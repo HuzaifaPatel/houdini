@@ -345,6 +345,11 @@ INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmtt12.tfm
 INPUT ./sections/chapter7-design.tex
 INPUT ./sections/chapter7-design.tex
 INPUT sections/chapter7-design.tex
+INPUT ./figures/design.pdf
+INPUT ./figures/design.pdf
+INPUT ./figures/design.pdf
+INPUT ./figures/design.pdf
+INPUT ./figures/design.pdf
 INPUT ./sections/chapter8-implementation.tex
 INPUT ./sections/chapter8-implementation.tex
 INPUT sections/chapter8-implementation.tex
