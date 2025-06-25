@@ -7,7 +7,7 @@ Tricks are divided into three separate files: a configuration file, a trick file
 \begin{listing}[h]
   \caption{Configuration file for a default Docker out-of-the-box security settings applied when a container is launched.}
   \label{lst:configuration-file}
-  \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
+  \begin{minted}[frame=lines,framesep=2mm, fontsize=\footnotesize, breaklines=true]{yaml}
     name: out-of-the-box docker configuration
     dockerfile:
       - path: Dockerfile
@@ -44,7 +44,7 @@ The second component is the trick implementation, which can be written in any pr
 \begin{listing}[h]
   \caption{Example trick implementation}\label{lst:pythonfile}
   \label{lst:example-trick-implementation}
-  \begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{yaml}
+  \begin{minted}[frame=lines,framesep=2mm, fontsize=\footnotesize, breaklines=true]{yaml}
     import os
 
     def check_shadow_access():

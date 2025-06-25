@@ -81,14 +81,13 @@ The security assumption outlined in the CVE is that the vulnerability exists onl
 \begin{listing}[h!]
 \caption{Trick Implementation for Case Study I}
 \label{lst:pythoncase1}
-\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{bash}
+\begin{minted}[frame=lines,framesep=2mm, fontsize=\footnotesize, breaklines=true]{bash}
 #!/bin/bash
 relative_path='../../../../../'
 target_file='houdini/tricks/HostMount/61240abcc5412ab'
 
 if cd "$relative_path" 2>/dev/null; then
     echo "Successfully changed directory to: $(pwd)"
-
     if [ -f "$target_file" ]; then
         echo "File found: $target_file"
     else
@@ -108,13 +107,11 @@ else
             ;;
     esac
 fi
-
 echo "Docker version:"
 docker --version || echo "Docker not found"
 
 echo "runc version:"
 runc --version || echo "runc not found"
-
 \end{minted}
 \end{listing}
 
@@ -123,7 +120,7 @@ runc --version || echo "runc not found"
 \begin{listing}[h!]
 \caption{Dockerfile for Case Study I}
 \label{lst:dockerfile}
-\begin{minted}[frame=lines,framesep=2mm, fontsize=\scriptsize, breaklines=true]{dockerfile}
+\begin{minted}[frame=lines,framesep=2mm, fontsize=\footnotesize, breaklines=true]{dockerfile}
 FROM ubuntu:16.04
 WORKDIR /proc/self/fd/4
 COPY host_mount.sh /host_mount.sh
