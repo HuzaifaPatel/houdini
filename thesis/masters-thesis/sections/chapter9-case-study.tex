@@ -290,6 +290,14 @@ This case study also demonstrates a clear example of configuration drift arising
 
 To assess the effectiveness of Linux kernel mechanisms in enforcing process isolation within containerized environments, we conducted a series of controlled experiments targeting the ptrace system call under various configurations. These experiments were designed to evaluate how different kernel versions, Yama security module settings, and process capabilities affect the ability of a containerized process to trace other processes, both inside and outside its container boundary.
 
+To conduct this study, we used Houdini to run a standardized trick that attempts to use ptrace(PTRACE\_ATTACH) inside a Docker container. The experiments were run across 10 major Linux distributions, covering kernel versions ranging from 2.6.32 to 6.8. Each distribution was tested using its default Yama ptrace\_scope setting, as found in /proc/sys/kernel/yama/ptrace\_scope. For each configuration, we tested the behavior both with and without CAP\_SYS\_PTRACE, isolating the influence of this capability on tracing permissions.
+
+Each test followed the same methodology. A container was launched with a known configuration, and a background process was started within it. The container then attempted to attach to this process using ptrace. A successful or failed attempt was recorded based on the return code of the ptrace system call and the associated error message.
+
+The results, summarized in Table~\ref{tab:ptrace-default-yama}, reveal strong correlations between the default Yama scope and ptrace enforcement. Distributions using Yama scope 1, such as Ubuntu 22.04, Ubuntu 24.04, Debian 12, and Arch Linux, restricted ptrace to processes with the same UID, unless CAP\_SYS\_PTRACE was present. In these systems, removing the capability consistently caused the ptrace attempt to fail, indicating correct enforcement. In contrast, distributions that default to Yama scope 0, such as Debian 8, Alpine 3.19, and CentOS 6, allowed tracing even without CAP\_SYS\_PTRACE, which poses a potential security risk. Fedora 40, which defaults to Yama scope 2, exhibited the strictest behavior: ptrace failed in all test cases, even when the container was granted CAP\_SYS\_PTRACE, demonstrating a highly restrictive enforcement model. These results also confirm that the kernel version alone is not sufficient to predict ptrace behavior; the default Yama configuration plays a critical role.
+
+Overall, this case study highlights the lack of uniformity in ptrace enforcement across Linux distributions.
+
 \begin{table*}[!htbp]
     \centering
     \caption{ptrace Behavior Across Distributions with Default Yama Scopes}
