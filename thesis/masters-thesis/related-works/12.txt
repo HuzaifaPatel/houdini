@@ -1,0 +1,9 @@
+https://dl.acm.org/doi/pdf/10.1145/3429885.3429966
+
+Container Hardening Through Automated Seccomp Profiling
+
+Goal: generate custom Seccomp profiles for arbitrary containerized application
+
+Implementation: make use of eBPF tracing capabilities to hook a given syscall.
+
+Removing a syscall from a Seccomp profile should be done with extra caution since it may damage some functionalities. In order to prevent this, all the functionalities should be tested beforehand to ensure that everything is working as expected. They don't have a way to do this. Houdini can be used to do this though

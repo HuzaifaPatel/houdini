@@ -1,0 +1,21 @@
+https://ieeexplore-ieee-org.proxy.library.carleton.ca/stamp/stamp.jsp?tp=&arnumber=7346869
+
+We look at the paper Securing the infrastructure and the workloads of linux containers.
+
+Problem Statement: Containers lack strong isolation compared to virtual machines (VMs).
+
+LiCShield is a framework that:
+
+	Automatically traces container behavior in a test environment.
+
+	Generates AppArmor profiles for both the host and the container workloads.
+
+	Aims to block any activity not observed during pre-production testing.
+
+Creates Apparmor profiles based on dynamic execution of containers
+
+Rather than statically blocking unknown behavior, we can use Houdini to validate whether containers can escape or escalate privileges in real-world scenarios. This gives practical assurance that restrictions work.
+
+look at the stages of the container lifecycle.
+
+Taxonomy of threats (Table 1), which we can cite for Houdini. I would put this in the background and design sections. Houdini is designed to test for exactly these kinds of attacks, but from a detection and validation standpoint rather than a prevention one.

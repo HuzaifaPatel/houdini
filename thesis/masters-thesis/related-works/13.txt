@@ -1,0 +1,29 @@
+this one is not part of the list. I did it by accident.
+
+https://arxiv.org/pdf/2006.02932
+
+Vulnerability Analysis of 2500 Docker Hub Images
+
+Provide an up-to-date snapshot of container security across different image types
+
+Docker Hub contains over 3.5 million images, but many may be outdated or vulnerable
+
+
+IMPLEMENTATION:
+
+Analyzed 2,500 images from Docker Hub
+
+Used open-source vulnerability scanners called Clair.
+
+EVALUATION
+
+82% of certified images had at least one high/critical vulnerability.
+
+Official images were the most secure. 45.9% had high/critical vulnerabilities.
+
+Community images had the highest average vulnerabilities
+
+Only 17.8% of images had no vulnerabilities.
+
+
+Houdini can be used to test these images based on the CVEs given.

@@ -1,0 +1,49 @@
+https://dl.acm.org/doi/pdf/10.1145/3058060.3058085?casa_token=3efqyvTgGZcAAAAA:KbxBHDjpmlSrApK_c_8SqQo_4pqoOFWRf5DtBfjsZQZIQmaGjk2V9b8EU-SpPsUqKD1E_T8H95QIysw
+
+A Defense Method against Docker Escape Attack 
+
+Motivation & Problem
+
+	Containers share the host kernel, making them vulnerable to kernel-level exploits.
+
+	Existing security mechanisms like cgroups, namespaces, and seccomp are insufficient to detect or prevent escape via 0-day vulnerabilities
+
+
+
+Proposed a detection tool that:
+
+	Uses pstree and /proc/PID/ns to gather process metadata.
+
+	Compares namespace ID (NSID) of each process to the container's init process.
+
+	Flags and kills processes with mismatched NSIDs (potential escape shells).
+
+this tool checks for namespace mismatches
+
+
+
+The authors tested their tool on:
+
+CVE-2014-0038 (heap overflow)
+
+CVE-2016-5195 (Dirty COW), specifically when used to switch namespaces
+
+In both cases, the exploit triggered a namespace mismatch, so the tool detected and killed the rogue shell process.
+
+Both attacks were successfully detected using the namespace inspection method.
+
+
+
+Houdini could:
+
+	Include the CVEs as a trick
+
+	Run it inside a Docker container under various kernel versions,
+
+	Check whether it causes unexpected host-level behavior (e.g., modifies /etc/passwd),
+
+	Log which kernel/runc/docker versions are vulnerable,
+
+	Avoid any real harm because everything runs inside a disposable VM.
+
+	only downside is that it cannot prevent it from happening. It can only detect it

@@ -1,0 +1,33 @@
+https://drive.google.com/file/d/1Dp30xN-V7mvuGxOkXagu1wxCl_08Zcnn/view
+
+Whispers Between the Containers: High-capacity Covert Channel Attacks in Docker
+
+The paper explores the ways that containers can secretly communicate or leak data, even when isolated AKA covert channels.
+
+Demonstrates that strict container isolation isn’t sufficient to prevent information leakage.
+
+Introduces five different high-capacity covert channel techniques:
+
+	CPU Load Modulation
+	Cache-Based Covert Channels
+	Disk I/O Delay Signaling
+	Memory Bus Contention
+	File Lock Contention
+
+Proves that even with Docker's default isolation (namespaces, cgroups), containers can still communicate secretly by exploiting shared physical resources.
+
+
+Attack Scenarios
+
+Each attack involves a sender container (which sends secret data) and a receiver container (which decodes that data), despite no direct communication being allowed.
+
+Sender container encodes bits into resource usage patterns (e.g., CPU load spikes).
+Receiver container decodes bits by measuring performance changes (e.g., longer CPU latency).
+it's basically talking about side-channel attacks
+
+use docker architecture diagram in my thesis (in the background)
+also use capabilities diagram in my thesis (in the background)
+
+
+
+covert channels are always a possiblity and difficuly to protect.

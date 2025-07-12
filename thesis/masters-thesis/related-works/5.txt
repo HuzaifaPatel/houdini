@@ -1,0 +1,33 @@
+https://dl.acm.org/doi/pdf/10.1145/3274694.3274720
+
+A Measurement Study on Linux Container Security: Atacks and Countermeasures
+
+this is a measurements paper
+
+In this paper, they perform a measurement study on Linux container security using real exploits that may be launched to attack containers
+
+First, they manually collect an attack dataset including 223 exploits that may be misused to attack the container platform.
+
+key observation is that since container is mainly protected by the security mechanisms that have been integrated in the Linux kernel, many exploits that work on the Linux platform may be theoretically effective on attacking the container platform too.
+
+Contributions
+
+They manually create an exploit dataset containing 223 exploits against container solutions.
+
+They study the effectiveness of existing container security by manually executing 88 typical exploits on original Linux
+platform and on the container platform. They find that more than half (56.82%) of the exploits are still effective on the container
+platform.
+
+
+
+kernel security mechanisms play a more important role on blocking the privilege escalation attacks than the container mechanisms
+
+They observe that the kernel security mechanisms may mutually affect one another. Improper configuration of these kernel security mechanisms may impair their protective capability. For example, a loose Capability policy might disable a strict Seccomp configuration. We saw this with Houdini. For example, we found that enabling the privilidged flag disables the default-docker apparmor profile in Docker containers.
+
+In total, they find 50 (56.82%) exploits are still effective on the container platform with the default configuration set by Docker.
+
+
+Houdini could have been used to evalaute the CVE's that the authors tested to find out if the exploits are effective on default configured Docker containers.
+
+
+THIS IS GOOD FOR THE MOTIVATION

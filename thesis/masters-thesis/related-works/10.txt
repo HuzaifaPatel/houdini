@@ -1,0 +1,26 @@
+https://www.usenix.org/system/files/raid20-ghavamnia.pdf
+
+Confine: Automated System Call Policy Generation for Container Attack Surface Reduction
+
+
+System named Confine that takes a container image as its input and generates a customized system call policy as output
+
+identified which system calls can be used to exploit each CVE
+
+Generate restrictive Seccomp system call policies for Docker containers without requiring workload-based training.
+
+
+PROBLEM
+
+The Linux kernel exposes hundreds of system calls, but most are unused by any specific application—yet still accessible.
+Containers share the host OS kernel, so any kernel vulnerability can lead to container escapes and host compromise.
+
+EVALUATION
+
+Dataset: 150 publicly available Docker images.
+Disabled 145+ system calls (out of 326) in over 50% of containers.
+Best case: 219 syscalls disabled; worst case: at least 100 disabled.
+
+Confine mitigated 51 CVEs not handled by Docker's default policy.
+
+All but 4 containers worked correctly after applying the generated syscall policy.

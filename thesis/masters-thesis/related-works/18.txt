@@ -1,0 +1,7 @@
+https://arxiv.org/pdf/2302.10366
+
+Programmable System Call Security with eBPF
+
+we create a new Seccomp eBPF program type, exposing, modifying or creating new eBPF helper functions to safely manage filter state, access kernel and user state, and utilize synchronization primitives.
+
+The paper introduces YAMA, a new system designed to be:

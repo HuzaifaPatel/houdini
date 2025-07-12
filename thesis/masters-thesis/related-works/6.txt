@@ -1,0 +1,48 @@
+https://www.usenix.org/system/files/conference/usenixsecurity18/sec18-sun.pdf
+
+Security Namespace: Making Linux Security Frameworks Available to Containers
+
+This paper introduces the concept of security namespaces, a kernel abstraction that allows containers to use kernel security frameworks (like AppArmor and IMA) independently of the host, giving them control over their own security policies. 
+
+PROBLEM
+
+Existing Linux security frameworks (e.g., AppArmor, IMA) are global and mandatory, which makes them incompatible with containers that need isolated security policies.
+
+They want to separate the security namespaces so that each container can control its own security, without interfering with the host or other containers.
+
+Right now, the host sets one global policy for AppArmor and IMA, and all containers inherit that single policy.
+
+DESIGN
+
+A new abstraction allowing per-container security instances of AppArmor and IMA.
+
+IMPLEMENTATION
+
+Small kernel modifications (1.1K–1.5K LOC).
+
+EVALUATION
+
+IMA Namespace Tests:
+
+Containers created their own IMA policies (e.g., only allow signed code).
+
+They tried running bad code (unsigned, tampered, unknown).
+
+Result: The container blocked the bad code using its own policy.
+
+They also tested whether containers could bypass host policy. They couldn’t, the host's IMA still enforced its own rules.
+
+
+AppArmor Namespace Tests:
+
+They took 20 programs with existing AppArmor profiles (like Firefox, MySQL, Apache).
+
+Ran them inside containers with those profiles.
+
+Result: 16 out of 20 ran with both the host and container AppArmor profiles at the same time, which is something not possible before.
+
+For the 4 that conflicted, the policy engine warned them in advance, avoiding runtime errors.
+
+
+
+HOUDINI WOULD BREAK THE COMPATAIBLITY WITH THIS DESIGN THE PAPER. WE BUILT IT THIS WAY. IT'S BUILT FOR LINUX. SYSTEM LAYER REPLACEMENTS (THIS PAPER) WOULD REARCHITECT HOUDINI.

@@ -1,0 +1,40 @@
+https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9031195
+
+Docker Container Security in Cloud Computing
+
+Since modern development relies heavily on reusing these pre-built images, there's an increased risk that vulnerabilities or malicious content could be introduced into applications.
+
+CONTRIBUTIONS
+
+CI/CD PIPELINE INTEGRATION
+
+	Multi-stage CI/CD pipeline is proposed and implemented using AWS infrastructure to perform layered static vulnerability scanning.
+
+Dynamic Analysis API Service
+
+	An API tool is developed to conduct dynamic behavioral analysis of Docker images
+
+
+CI/CD Evaluation:
+
+	Assesses whether their automated CI/CD pipeline correctly flags or allows Docker images based on vulnerability scans and policy rules.
+
+	They tested two Docker projects:
+
+		PostgreSQL 11: A database image expected to be secure.
+
+		Nginx Website: A sample web server image known to have vulnerabilities.
+
+	Clair flagged the nginx image with 143 vulnerabilities, but since they didn’t exceed the high severity threshold, it passed.
+	Anchore blocked the nginx image due to Dockerfile policy violations, while the PostgreSQL image passed all checks and was published.
+
+
+Dynamic Analysis API Service
+
+	An API tool is developed to conduct dynamic behavioral analysis of Docker images.
+
+	They tested official images (ubuntu, python, nginx, etc.) and known malicious ones (buamod/eicar, zoolu2/jauto).
+
+	VirusTotal scans correctly flagged the malicious images.
+
+	Dynamic analysis was used for this 	

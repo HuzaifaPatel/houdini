@@ -21,7 +21,7 @@ In this paper, we describe Houdini, the first test suite for verifying container
 This paper makes the following contributions:
 \begin{itemize}
     \item Defines container confinement and its associated challenges.
-    \item Introduces \textit{Houdini}, a modular framework for testing container security.
+    \item Introduces Houdini, a modular framework for testing container security.
     \item Demonstrates Houdini’s ability to detect security issues, misconfigurations, and inconsistencies in container confinement.
 \end{itemize}
 
@@ -64,17 +64,8 @@ Container security is often discussed in terms of theoretical guarantees, with m
 
 \noindent\textbf{Detect security drift over time:} One of the challenges in maintaining secure containerized environments is configuration drift. Security settings applied during container initialization may be inadvertently changed through image updates, runtime automation, or infrastructure changes. Houdini can be set up to periodically re-evaluate security policies, making it possible to detect when the system diverges from its originally intended security posture. This allows for the timely remediation of regressions that could otherwise go unnoticed. Configuration drift does not only arise from explicit policy changes, but also from underlying updates to system components such as the Linux kernel, Docker, or runc. Even when container configurations and security policies remain unchanged, an upgrade to the kernel or container runtime can subtly alter the enforcement of isolation primitives, security defaults, or available capabilities. For example, a new kernel version may modify the behavior of namespaces, cgroups, or seccomp filters; a Docker update may introduce new features or alter default permissions.
 
-\subsection{Design Goals}
-In order to support the use cases mentioned above, we designed Houdini with the following goals:
+\section{Related Publication}
 
-\begin{enumerate}
-  \item \label{dg:repro}\textit{Reproducible Results.} A key goal of Houdini is to ensure that tests yield consistent and repeatable results. By controlling system variables and maintaining a structured testing environment, Houdini allows researchers and practitioners to compare results across different system configurations and security policies.
-
-  \item \label{dg:container}\textit{Separation from the Host.} Houdini is designed to run tests inside a controlled containerized environment within a virtual machine (VM), ensuring that even if a trick triggers a security vulnerability, it does not compromise the host system running the tests. This design choice enhances the safety of security evaluations, preventing unintended side effects on the underlying infrastructure.
-
-  \item \label{dg:test}\textit{Test Case Expressiveness.} Houdini tricks should be maximally expressive, such that some combination of steps can be used to achieve and test any desired result. It should be possible to define a new Houdini trick and modify existing tricks without modifying the Houdini binary. Moreover, it should be clear from reading a defined trick precisely what steps are involved, the consequences of each step passing or failing, and the overall nature of the exploit being tested.
-
-  \item \label{dg:failures}\textit{Focus on Observing Failures, Not Preventing Them.} Houdini is built to identify security weaknesses rather than defend against attacks.
-\end{enumerate}
+The majority of the content presented in this thesis has been published as a peer-reviewed publication and accepted for publication, respectively. Both publications were written primarily by the author of this thesis, Huzaifa Patel under the supervision of his supervisor Dr. David Barrera, and Dr. Anil Somayaji who both played a crucial role in supervising the publications.
 
 \end{doublespace}

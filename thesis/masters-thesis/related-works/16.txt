@@ -1,0 +1,20 @@
+https://www.usenix.org/system/files/usenixsecurity23-he.pdf
+
+Cross Container Attacks: The Bewildered eBPF on Clouds
+
+Conducted real-world attacks using only valid eBPF programs (no kernel bugs exploited)
+
+
+They created a special tool using eBPF, called a snoop tool, that helps attackers find important processes (like cron, bash, or sshd) running outside the container, but in a VM.
+
+They showed how to hijack those processes and escape the container
+
+They ran these attacks on real cloud services and found many of them were vulnerable
+
+EVALUATION
+
+They tested 11 real online coding platforms, 5 of them could be attacked.
+
+They tested 4 major cloud providers, 3 had vulnerable Kubernetes clusters.
+
+They found that about 2.5% of Docker containers had settings that allow eBPF attacks.

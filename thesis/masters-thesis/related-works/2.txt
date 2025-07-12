@@ -1,0 +1,41 @@
+https://sci-hub.se/10.1109/scc.2016.123
+
+this was a short 4 page paper
+
+Highlights Denial of Service (DoS) attacks as a major threat.
+
+Proposes practical methods to mitigate DoS risks in Docker environments.
+
+they argue that cgroups help limit CPU, memory, I/O, essential against DoS, but don’t isolate containers fully.
+
+they proposed DoS Mitigation technique:
+
+	Test Case 1: Limit memory using -m=512mb in docker run (Prevents containers from consuming all host memory)
+
+	Test Case 2: Use default memory limit in /etc/default/docker.
+
+	Test Case 3: Apply a system-wide container limit when no memory limit is set.
+
+Evaluation
+
+Sample Attack Code (DoS Examples)
+
+Listing 1: Memory exhaustion using infinite malloc.
+Listing 2: CPU exhaustion by computing prime numbers in a loop.
+
+
+How Houdini can be used for this instead
+
+Paper’s Approach: Manually run memory and CPU-exhausting scripts inside containers with resource limits.
+
+With Houdini:
+
+Write DoS tricks (e.g. infinite malloc, heavy CPU computation).
+
+Run these automatically across many Docker versions, kernel versions, and container configs (e.g., with/without -m flag).
+
+Record which combinations allow the DoS attack to succeed and which configurations stop it.
+
+
+
+houdini can be integrated 

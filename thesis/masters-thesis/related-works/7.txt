@@ -1,0 +1,14 @@
+https://www.scitepress.org/Papers/2019/77700/77700.pdf
+
+Rule-based Security Monitoring of Containerized Workloads
+
+In this paper, they propose the use of rule-based security monitoring to increase the security level in a containerized environment using Falco and Sysdig.
+
+Sysdig (for system call capture) and Falco (for anomaly detection)
+
+The goal is to increase security visibility for containers without modifying their internals by using a host-level, rule-based system that leverages Sysdig and Falco to detect suspicious behavior via system call tracing.
+
+Scenarios tested:
+
+Detected: file access violation, unauthorized program execution, namespace breakout, network connections, kernel module load.
+Not detected: DoS attacks (needs frequency detection), buffer overflows (multi-syscall exploits).
