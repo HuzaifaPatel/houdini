@@ -616,7 +616,7 @@ Together, these metrics offer a multifaceted view of a program’s execution pro
 
 To assess the performance of Houdini’s build and setup pipeline, we independently microbenchmarked the \texttt{mkfs} stage, the process responsible for creating the root filesystem used by the VM. This stage includes both formatting the disk image and populating it with essential binaries, configuration files, and trick scripts drawn from Houdini’s overlay directory.
 
-Using the \texttt{/usr/bin/time} utility, we measured a typical execution time of \texttt{60.21 seconds}. The breakdown revealed a \textbf{user time} of 19.43 seconds and a \textbf{system time} of 45.97 seconds, resulting in an overall CPU utilization of approximately \textbf{63\%}. These figures suggest that while the operation involves meaningful computation, a significant portion of the work is I/O-bound—largely due to file copying, directory creation, and image formatting tasks.
+Using the \texttt{/usr/bin/time} utility, we measured a typical execution time of \texttt{60.21 seconds}. The breakdown revealed a \textbf{user time} of 19.43 seconds and a \textbf{system time} of 45.97 seconds, resulting in an overall CPU utilization of approximately \textbf{63\%}. These figures suggest that while the operation involves meaningful computation, a significant portion of the work is I/O-bound, largely due to file copying, directory creation, and image formatting tasks.
 
 \begin{table}[h]
 \centering
