@@ -77,7 +77,7 @@ Container Runtime & \texttt{runc} 1.1.13 \\
 \end{tabular}
 \end{table}
 
-Case study 2's results are summarized in Table~\ref{tab:pid-namespace-security}, where all pairs of flags were tested using Houdini, and where the cells show what functionality was possible when launching containers with the pair of flags intersecting the rows and columns of Table~\ref{tab:pid-namespace-security}. 
+Case study 2's results are summarized in Table~\ref{tab:combined-pid-namespace-security}, where all pairs of flags were tested using Houdini, and where the cells show what functionality was possible when launching containers with the pair of flags intersecting the rows and columns of Table~\ref{tab:combined-pid-namespace-security}. 
 
 Our objective here is to investigate how various security flags interact with each other, and to determine the minimum set of privileges required for a container to manipulate host processes. Specifically, we looked at the following flags:
 
@@ -166,7 +166,7 @@ This case study highlights the complexity of security policies in containerized 
         \hline
     \end{tabular}
     \end{adjustbox}
-    \caption*{
+    \textit{Legend:}{
         Tests run as a non-root user (UID=1000) against a host process owned by UID 1000.\\
         $\diamondsuit$ List Host Process \quad 
         $\triangle$ Send Signal to Host Process \quad 
@@ -201,7 +201,7 @@ This case study highlights the complexity of security policies in containerized 
 
 In this case study, we evaluate Docker's network isolation mechanisms to determine how well they enforce privileged port binding restrictions. Starting from Docker version 20.03, unprivileged ports start at 0 instead of 1024, effectively removing the need for root to bind to privileged ports. Table ~\ref{tab:port-binding-pre-20.03} presents the results of this change.
 
-\begin{table*}[h]
+\begin{table}
     \centering
     \caption{Ability for a container to bind to privileged ports}
     \label{tab:port-binding-pre-20.03}
@@ -217,10 +217,8 @@ In this case study, we evaluate Docker's network isolation mechanisms to determi
         25.0.0                 & \cmark                         & \cmark                              & \cmark      & \xmark           & \xmark                                      \\ \hline
         27.0.1                 & \cmark                         & \cmark                              & \cmark      & \xmark           & \xmark                                      \\ \hline
     \end{tabular}
-    \caption*{
-        Note: A non-root user implies a user account that does not have administrative privileges, (not root-less Docker).
-    }
-\end{table*}
+        \textit{Legend}{A non-root user implies a user account that does not have administrative privileges, and not root-less Docker.}
+\end{table}
 
 This case study highlights how discrepancies between Docker versions in handling privileged port binding can create gaps between administrators' intended confinement policies and actual enforcement. A change in Docker's handling of binding to privileged ports, such as the removal of the NET\_BIND\_SERVICE requirement starting from Docker 20.03, may allow containers to bypass restrictions even when policies are set to prevent it. 
 

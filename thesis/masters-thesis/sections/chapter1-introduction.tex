@@ -68,18 +68,9 @@ Container security is often discussed in terms of theoretical guarantees, with m
 
 \noindent\textbf{Detect security drift over time:} One of the challenges in maintaining secure containerized environments is configuration drift. Security settings applied during container initialization may be inadvertently changed through image updates, runtime automation, or infrastructure changes. Houdini can be set up to periodically re-evaluate security policies, making it possible to detect when the system diverges from its originally intended security posture. This allows for the timely remediation of regressions that could otherwise go unnoticed. Configuration drift does not only arise from explicit policy changes, but also from underlying updates to system components such as the Linux kernel, Docker, or runc. Even when container configurations and security policies remain unchanged, an upgrade to the kernel or container runtime can subtly alter the enforcement of isolation primitives, security defaults, or available capabilities. For example, a new kernel version may modify the behavior of namespaces, cgroups, or seccomp filters; a Docker update may introduce new features or alter default permissions.
 
-\section{Research Questions}
-
-In this thesis, we aim to find out the answer to the following research questions:
-
-\begin{itemize}
-  \item \textbf{Research Question 1:} To what extent do container security mechanisms (e.g., seccomp, AppArmor, cgroups) behave consistently across different versions of Docker, runc, and Linux kernels?
-  \item \textbf{Research Question 2:} Can Houdini provide a reproducible testing environment for container security that yields consistent results across different hosts and system configurations?
-  \item \textbf{Research Question 3:} How do different combinations of Docker, runc, and kernel versions affect the enforceability of container security policies?
-\end{itemize}
 
 \section{Related Publication}
 
-The majority of the content presented in this thesis has been published as a peer-reviewed publication and accepted for publication, respectively. Both publications were written primarily by the author of this thesis, Huzaifa Patel under the supervision of his supervisor Dr. David Barrera, and Dr. Anil Somayaji who both played a crucial role in supervising the publications.
+The majority of the content presented in this thesis has been published in a peer-reviewed venue and accepted for publication \cite{houdini}. The research, design, implementation, and testing of the Houdini framework were carried out by the author, Huzaifa Patel. Huzaifa also solely authored the Houdini software and took primary responsibility for writing the publication. This work was conducted under the supervision of Dr. David Barrera and Dr. Anil Somayaji, who provided guidance, feedback, and support throughout the development and publication process.
 
 \end{doublespace}

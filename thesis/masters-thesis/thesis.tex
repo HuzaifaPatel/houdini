@@ -19,6 +19,7 @@
 \usepackage{adjustbox}
 \usepackage{multirow}
 \usepackage{hyperref}
+\usepackage{rotating}
 \usepackage[T1]{fontenc}
 \usepackage{tikz}
 \newcommand{\cmark}{\ding{51}} % ✔
@@ -30,7 +31,6 @@
 % \usepackage{tikzit}
 % Set margins
 \usepackage[left=1.5in, right=1in, top=1in, bottom=1in]{geometry}
-\newacronym[plural={VMs}, firstplural={virtual machines (VMs)}]{vm}{VM}{virtual machine}
 \makeglossaries
 \begin{document}
 	\input{sections/titlepage.tex}
@@ -40,11 +40,13 @@
 	\printglossary[type=acronym, title=Nomenclature]
 	\input{sections/chapter1-introduction.tex}
 	\input{sections/chapter2-background.tex}
+	\input{sections/chapter3-related-work.tex}
 	\input{sections/chapter7-design.tex}
 	\input{sections/chapter8-implementation.tex}
 	\input{sections/chapter8-evaluation.tex}
 	\input{sections/chapter9-case-study.tex}
-	\input{sections/chapter10-discussion.tex}
+	\input{sections/chapter10-conclusion.tex}
+	\input{sections/chapter11-appendix.tex}
 
 	\bibliographystyle{unsrt}
 	\bibliography{refs}

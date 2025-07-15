@@ -1,0 +1,151 @@
+\fontsize{12pt}{14pt} \selectfont
+\begin{doublespace}
+\appendix
+\chapter{Details of Experimental Setup}
+
+\section{Performance Benchmarking}
+
+\subsection{Understanding Time Metrics in Microbenchmarking}
+
+In performance benchmarking, especially in systems research and software profiling, several time-based metrics are commonly used to assess how a program or process utilizes computing resources. These include wall clock time, user time, system time, and CPU utilization. Each of these captures a different aspect of execution behavior and provides insight into how efficiently a task runs.
+
+\textbf{Wall clock time}, also known as elapsed time or real time, is the total time taken from the start of a program to its completion. It includes all delays, such as waiting for I/O operations, context switches, or sleep intervals. Wall clock time is measured as the actual duration perceived by a user, typically using timestamps recorded before and after the process runs.
+
+\textbf{User time} refers to the amount of CPU time spent running code in user space. This includes the program’s own instructions and any library code it uses. It excludes time spent in the kernel or operating system. This metric is measured by the operating system and tracks how much CPU time was directly consumed by the application itself.
+
+\textbf{System time} (or kernel time) accounts for the time spent by the CPU in the operating system kernel on behalf of the program. This includes handling system calls, managing I/O, allocating memory, and other interactions with hardware or privileged OS routines. Like user time, it is reported by the operating system’s process accounting.
+
+\textbf{CPU utilization} is the percentage of total available CPU time that the process actively used during its lifetime. It is computed as the ratio of the sum of user and system time to the wall clock time. High CPU utilization indicates that the process is CPU-bound, meaning it spends most of its time doing computations. Low CPU utilization may suggest the process is I/O-bound or waiting on external events.
+
+Together, these metrics offer a multifaceted view of a program’s execution profile. They help developers identify bottlenecks, assess performance regressions, and understand whether inefficiencies stem from computation, system overhead, or external delays.
+
+
+\subsection{Microbenchmark}
+
+\subsubsection{Making the Root Filesystem}
+
+To assess the performance of Houdini’s build and setup pipeline, we independently microbenchmarked the \texttt{mkfs} stage, the process responsible for creating the root filesystem used by the VM. This stage includes both formatting the disk image and populating it with essential binaries, configuration files, and trick scripts drawn from Houdini’s overlay directory.
+
+Using the \texttt{/usr/bin/time} utility, we measured a typical execution time of \texttt{60.21 seconds}. The breakdown revealed a \textbf{user time} of 19.43 seconds and a \textbf{system time} of 45.97 seconds, resulting in an overall CPU utilization of approximately \textbf{63\%}. These figures suggest that while the operation involves meaningful computation, a significant portion of the work is I/O-bound, largely due to file copying, directory creation, and image formatting tasks.
+
+\begin{table}[h]
+\centering
+\caption{Performance Metrics for \texttt{mkfs} Stage}
+\label{tab:mkfs-performance}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Metric}         & \textbf{Value} \\
+\hline
+Wall-clock time         & 60.21 seconds \\
+User time               & 19.43 seconds \\
+System time             & 45.97 seconds \\
+CPU utilization         & 63\% \\
+\hline
+\end{tabular}
+\end{table}
+
+
+It is important to mention that the \texttt{mkfs} stage is a one-time setup cost per session. Once the filesystem image is created, it can be reused across multiple Houdini runs without needing to re-execute the build step. This reuse dramatically improves performance in iterative workflows. In other words, By avoiding redundant execution of mkfs, subsequent Houdini runs skip over this 60-second cost entirely. In large batch runs or iterative experiments, this can yield cumulative time savings of several minutes or more. However, any modification to the overlay, such as adding or updating a trick requires rerunning \texttt{mkfs} to regenerate the root filesystem and incorporate the changes.
+
+
+\subsubsection{Booting the Virtual Machine}
+
+To assess the overhead of launching Houdini’s virtual machine environment, we conducted a microbenchmark of the VM startup process. The VM is started using QEMU with a prebuilt Buildroot root filesystem and a custom Linux kernel. The system is configured to launch a shell and immediately power off after a fixed delay, ensuring consistency in measurement.
+
+We measured the total wall-clock time required to boot the VM. The benchmark was performed using the \texttt{/usr/bin/time -v} utility, capturing both user and system time. The wall-clock time for this process was approximately 28.47 seconds. The user time recorded was 3.52 seconds, while the system time was 9.38 seconds. Overall, the job utilized roughly 45\% of the CPU during execution.
+
+\begin{table}[h]
+\centering
+\caption{Performance Metrics for VM Boot}
+\label{tab:vm-boot-performance}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Metric}         & \textbf{Value} \\
+\hline
+Wall-clock time         & 28.47 seconds \\
+User time               & 3.52 seconds \\
+System time             & 9.38 seconds \\
+CPU utilization         & 45\% \\
+\hline
+\end{tabular}
+\end{table}
+
+These results indicate that the boot process introduces a moderate overhead in Houdini’s workflow, primarily due to QEMU’s emulation and the initialization of the Linux kernel and user space environment. Despite this, the startup time remains stable across multiple invocations, providing a consistent and reliable baseline for empirical testing. This microbenchmark reinforces the practicality of using QEMU as a platform for repeatable, isolated container security experiments.
+
+
+\subsubsection{Building the Docker Image}
+
+To evaluate the performance overhead of Docker image creation within the Houdini pipeline, we conducted a microbenchmark of the \texttt{docker build} process. The benchmark was executed using the \texttt{/usr/bin/time -v} utility to capture detailed runtime metrics, including user time, system time, wall-clock time, and CPU utilization.
+
+The wall-clock time to complete the initial build process was measured at approximately \texttt{1 minute and 13.04 seconds}. During this time, the process consumed \texttt{0.33 seconds} of user CPU time and \texttt{0.30 seconds} of system CPU time. The CPU utilization was reported at \texttt{0\%}, indicating that the build process was largely I/O-bound, likely due to reading files, writing intermediate layers, and performing setup tasks for the container image.
+
+\begin{table}[h]
+\centering
+\caption{Performance Metrics for Docker Image Build (Cold Start)}
+\label{tab:docker-build-performance}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Metric}         & \textbf{Value} \\
+\hline
+Wall-clock time         & 1 minute 13.04 seconds \\
+User time               & 0.33 seconds \\
+System time             & 0.30 seconds \\
+CPU utilization         & 0\% \\
+\hline
+\end{tabular}
+\end{table}
+
+
+It is important to note that this benchmark reflects the case where the Docker image did not previously exist. The initial build incurs higher latency due to downloading base layers, compiling dependencies, and writing the final image to disk. In subsequent builds where layers are cached and the image already exists locally, the build time is significantly reduced, and CPU utilization may increase due to reduced I/O waits.
+
+These results highlight that while the initial Docker build may introduce measurable delay, especially in cold-start scenarios, this cost can be mitigated through caching and reuse of previously built images. For workflows like Houdini, where consistency and speed are critical, avoiding redundant rebuilds is key to maintaining performance.
+
+
+\subsubsection{Running a Trick in Docker}
+
+To evaluate the runtime characteristics of executing a Houdini trick, we measured the performance of the command \texttt{docker run -it 504de41abf9b}. The benchmark revealed minimal resource usage, with \texttt{0.10 seconds} of user time and \texttt{0.07 seconds} of system time. The overall CPU utilization was measured at \texttt{9\%}, suggesting that the trick involved limited computation and was mostly I/O-bound.
+
+\begin{table}[h]
+\centering
+\caption{Your Caption}
+\label{tab:your-label}
+\begin{tabular}{|l|c|}  % You need \begin{tabular} before using \hline
+\hline
+\textbf{Metric} & \textbf{Value} \\
+\hline
+User time & 0.10 seconds \\
+System time & 0.07 seconds \\
+CPU utilization & 9\% \\
+\hline
+\end{tabular}
+\end{table}
+
+
+These results highlight Houdini's suitability for high-throughput, low-latency empirical testing, with minimal impact on system resources per trick execution.
+
+
+\subsubsection{Baseline Comparison Outside Houdini}
+
+To contextualize Houdini’s efficiency, we measured a baseline workflow executed manually, without the automation Houdini provides. This baseline consisted of starting the VM, building the Docker image, and executing a security trick, which were all performed via shell scripts without caching or orchestration.
+
+We used \texttt{/usr/bin/time -v} to capture system-level performance metrics. The manually executed baseline took approximately 55.70 seconds of wall-clock time, with a user time of 22.51 seconds and a system time of 18.12 seconds. The CPU utilization for this task was 73\%, indicating moderate computational activity with some idle time.
+
+\begin{table}[h]
+\centering
+\caption{Performance Metrics for Manually Executed Baseline}
+\label{tab:baseline-manual}
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Metric}         & \textbf{Value} \\
+\hline
+Wall-clock time         & 55.70 seconds \\
+User time               & 22.51 seconds \\
+System time             & 18.12 seconds \\
+CPU utilization         & 73\% \\
+\hline
+\end{tabular}
+\end{table}
+
+
+Compared to Houdini’s streamlined execution, which achieves the same test in a fraction of the time through reuse of cached artifacts and fewer manual dependencies, this demonstrates that Houdini significantly reduces runtime overhead.
+\end{doublespace}
