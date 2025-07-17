@@ -2,7 +2,7 @@
 \begin{doublespace}
 \chapter{Design}
 
-The design of Houdini is guided by a set of core principles aimed at enabling reliable, large-scale testing of container security confinement. At its core, Houdini seeks to ensure \textbf{reproducibility}, so that each test yields the same result when run under identical conditions, and behaves consistently across time and environments. This is achieved by pinning exact versions of all key components, such as the kernel, Docker, and runc—and executing each test inside a clean, stateless VM.
+The design of Houdini is guided by a set of core principles aimed at enabling reliable, large-scale testing of container security confinement. At its core, Houdini seeks to ensure \textbf{reproducibility}, so that each test yields the same result when run under identical conditions, and behaves consistently across time and environments. This is achieved by pinning exact versions of all key components, such as the kernel, Docker, and runc, and executing each test inside a clean, stateless VM.
 
 Alongside reproducibility, Houdini is also built for \textbf{scalability}. Despite running one test at a time, the framework can execute large test matrices automatically, without requiring users to script each case manually. Instead, users define test configurations declaratively, and Houdini expands them into all valid combinations and runs each as an isolated test case. This makes it easy to scale experiments across hundreds or thousands of container configurations with minimal effort.
 

@@ -3,33 +3,143 @@
 \chapter{Implementation}
 
 
-\section{Trick Structure Overview}
-
-Houdini supports two primary modes for defining and executing tricks. The first is a YAML-based approach where a single trick is fully specified through a standalone configuration file. This method is ideal for running individual tests with carefully controlled settings, making it well-suited for targeted investigations or manual debugging. The second mode is a Python-based approach that allows users to define parameter sets as lists, which Houdini expands into a Cartesian product to form a complete test matrix. For example, parameters can be defined in Python, and Houdini will automatically generate all combinations to be tested.
+Houdini supports two primary modes for defining and executing tricks. The first is a YAML-like approach where a single trick is fully specified through a standalone configuration file. This method is ideal for running individual tests with carefully controlled settings, making it well-suited for targeted investigations or manual debugging. The second mode is a Python-based approach that allows users to define parameter sets as lists, which Houdini expands into a Cartesian product to form a complete test matrix. For example, parameters can be defined in Python, and Houdini will automatically generate all combinations to be tested.
 
 
 
-\section{YAML-Based Trick Definition}
+\section{YAML-Like Trick Definition}
 
-Each trick in Houdini is composed of three modular components that work together to define and execute a container-based security test: a configuration file, a trick script, and a Dockerfile. The configuration file is a YAML document that specifies the parameters for launching the Docker container, including security-related settings such as Linux capabilities, namespace modes, AppArmor profiles, user privileges, and resource limits. These parameters are parsed by Houdini and translated directly into Docker API calls, ensuring that containers are created with precise, repeatable configurations.
+The YAML-like Trick definition is one of two ways to define a trick in Houdini. In this section, we will go through the implementation of it with real-world examples of its use.
 
-The second component is the trick script, which contains the logic of the test and is executed inside the container. Typically written in Python or Bash, this script attempts a specific action, such as reading a sensitive file, sending a signal to a process, or escalating privileges, and reports the outcome by printing a success or failure message. The semantics of what constitutes a pass or fail are entirely defined by the script, giving users full control over evaluation criteria.
+Each trick in Houdini is composed of three modular components that work together to define and execute a container-based security test: a configuration file, a trick script, and a Dockerfile. The configuration file (see~\ref{sec:configuration}) is a YAML-like document that specifies the parameters for launching the Docker container, including security-related settings such as Linux capabilities, namespace modes, AppArmor profiles, user privileges, and resource limits. These parameters are parsed by Houdini and translated directly into Docker API calls, ensuring that containers are created with precise and repeatable configurations.
 
-The final component is the Dockerfile, which builds the container image and defines the runtime environment. It includes instructions for copying the trick script into the container, installing any necessary dependencies, and specifying the base image to use. This modular architecture allows each component to be modified independently.
+The second component is the trick file (see~\ref{sec:trick_file}), which contains the logic of the test and is executed inside the container. Typically written in Python or Bash, this script attempts a specific action, such as reading a sensitive file, sending a signal to a process, or escalating privileges, and reports the outcome by printing a success or failure message or however your implementation wishes to output it. The semantics of what constitutes a pass or fail are entirely defined by the script, giving users full control over the evaluation criteria.
 
-This YAML-based approach is ideal for running single, isolated experiments with controlled configurations, making it especially useful for debugging, demonstration, or documentation purposes.
+The final component is the Dockerfile, which builds the container image and defines the runtime environment. It includes instructions for copying the trick file into the container by using the \textit{COPY} instruction/directive. We also use the Dockerfile to install any necessary dependencies, and specify the base image to use.
 
-\section{Configuration File}
+\subsection{Configuration File}
+\label{sec:configuration}
 
-Each Houdini trick begins with a configuration file, written in YAML styled format, that defines the runtime parameters used to launch the container. This file acts as the source of truth for how the container is constructed and executed. It specifies a range of Docker options including Linux capabilities (via \texttt{cap\_add} and \texttt{cap\_drop}), namespace settings (such as \texttt{pid\_mode} and \texttt{userns\_mode}), resource limits (e.g., \texttt{cpu\_shares}, \texttt{mem\_limit}), volume mounts, user identity, and security options such as AppArmor profiles or seccomp settings.
+Each Houdini trick begins with a configuration file, written in YAML-like format, that defines the runtime parameters used to launch the container. This file acts as the Docker command for how the container is constructed and executed. It specifies a range of Docker options including Linux capabilities (via \texttt{cap\_add} and \texttt{cap\_drop}), namespace settings (such as \texttt{pid\_mode} and \texttt{userns\_mode}), resource limits (e.g., \texttt{cpu\_shares}, \texttt{mem\_limit}), volume mounts, user identity, and security options such as AppArmor profiles or seccomp settings. See~\ref{fig:configuration-file} for an example.
 
-The configuration is declarative and follows a structured YAML schema that maps directly to Docker’s low-level run options. For example, if a user wants to disable privilege escalation, enable a read-only filesystem, or run the container as a non-root user with dropped capabilities, these settings can be encoded clearly in the configuration file. This abstraction allows users to focus on the security scenario being tested without needing to handcraft long and error-prone Docker command-line arguments.
+The configuration is declarative and follows a structured YAML-like schema that maps directly to Docker’s low-level run options. For example, if a user wants to disable privilege escalation, enable a read-only filesystem, or run the container as a non-root user with dropped capabilities, these settings can be encoded clearly in the configuration file. This abstraction allows users to focus on the security scenario being tested without needing to handcraft long and error-prone Docker command-line arguments.
 
-When Houdini executes a test, the CLI parses the YAML configuration and validates it before test execution begins. It checks for required fields, ensures that runtime versions and trick paths are valid, and performs consistency checks to catch errors like incompatible or conflicting flags. Once validated, the configuration is sent to the virtual machine through the host’s Flask server, where it is interpreted by the trick listener and translated into a Docker run command within the guest environment.
+When Houdini executes a test, the CLI parses the YAML-like configuration and validates it before test execution begins. It checks for required fields, ensures that runtime versions and trick paths are valid, and performs consistency checks to catch errors like incompatible or conflicting flags. Once validated, the configuration is sent to the VM through the host’s Flask server, where it is interpreted by the trick listener and translated into a Docker run command within the guest environment. 
 
-This structured approach ensures consistency and transparency. Since all configurations are encoded in a machine-readable format and logged alongside test results, they can be reproduced exactly in future runs or used as part of larger matrix-based experiments. It also supports modularity: the same configuration file can be reused across different tricks, or slightly modified to explore alternative isolation boundaries.
+The configuration file is parsed using the parse\_trick\_and\_run() function (see~\ref{fig:configuration-implementation}). This function servers as the entry point for executing a trick. This function begins by extracting the container name from the provided arguments and then checks if a container with the same name already exists on the system. If so, it terminates and removes the existing container to ensure a clean test environment and guarantee reproducibility.
 
-Below is an example of a configuration file used in Houdini. It defines a container with default Docker isolation settings and specifies the Dockerfile and trick path:
+\begin{figure}[H]
+\caption{Implementation for parsing the configuratio file}
+\label{fig:configuration-implementation}
+\begin{lstlisting}[caption={}, numbers=left, numberstyle=\tiny, stepnumber=1, breaklines=true, frame=single, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\scriptsize, showspaces=false, showstringspaces=false]
+def parse_trick_and_run(trick_data, args):
+    container_name = args.get('container_name')
+
+    check_if_container_is_running(container_name)
+
+    original_directory = os.getcwd()
+    os.chdir(trick_data['trick'][0]['path'])
+    build_docker_image(trick_data['trick'][0]['path'], container_name)
+    os.chdir(original_directory)
+    print(container_name)
+    container = run_docker_container(
+        container_name, 
+        container_name,
+        str(trick_data['docker_config'][0]['network_mode']), 
+        trick_data['docker_config'][1]['read_only'],
+        list(trick_data['docker_config'][2]['security_opt']),
+        trick_data['docker_config'][3]['pid_mode'],
+        trick_data['docker_config'][4]['cpu_shares'],
+        trick_data['docker_config'][5]['volumes'],
+        trick_data['docker_config'][6]['mem_limit'],
+        trick_data['docker_config'][7]['cpuset_cpus'],
+        trick_data['docker_config'][8]['cpu_quota'],
+        trick_data['docker_config'][9]['cpu_period'],
+        trick_data['docker_config'][10]['cap_add'],
+        trick_data['docker_config'][11]['cap_drop'],
+        trick_data['docker_config'][12]['privileged'],
+        trick_data['docker_config'][13]['user'],
+        trick_data['docker_config'][14]['pids_limit'],
+        trick_data['docker_config'][15]['ipc_mode'],
+        trick_data['docker_config'][16]['userns_mode'],
+        trick_data['trick'][0]['path']
+    )
+\end{lstlisting}
+\end{figure}
+
+After cleanup, Houdini changes its working directory to the trick path specified in the configuration. This path typically contains the Dockerfile and the trick script. It then calls build\_docker\_image(), which uses the Docker Python SDK to construct a container image from the Dockerfile. This image is tagged with the container name for easy reference. Once the image is built, Houdini proceeds to launch the container using run\_docker\_container(), passing all configuration parameters such as capabilities, network settings, user identity, namespace modes, and resource limits directly into the Docker API call. These values are extracted from the parsed configuration using key-index lookups based on the order in which they appear in the configuration file.
+
+Inside run\_docker\_container() (see~\ref{fig:running-a-docker-container-implementation}), the Docker container is created and run in detached mode with a pseudo-TTY enabled. The standard output from the container is streamed live to the console using Python’s codecs.iterdecode, which allows real-time observation of the trick’s behavior to the terminal running Houdini. In other words, this allows all the stdout from the trick file to redirect to the terminal running Houdini, so that the user can view the status of the trick.
+
+\label{fig:running-a-docker-container-implementation}
+\begin{lstlisting}[caption={Implementation for running a Docker container}, numbers=left, numberstyle=\tiny, stepnumber=1, breaklines=true, frame=single, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\scriptsize, showspaces=false, showstringspaces=false]
+def run_docker_container(image_name, container_name, network_mode, read_only, security_opt, pid_mode, cpu_shares, volumes, mem_limit, cpuset_cpus, cpu_quota, cpu_period, cap_add, cap_drop, privileged, user, pids_limit, ipc_mode, userns_mode, path):
+    client = docker.from_env()
+    container = None
+    try:
+        container = client.containers.run(
+            image=image_name,
+            name=container_name,
+            detach=True,
+            network_mode=network_mode,
+            read_only=read_only,
+            security_opt=security_opt,
+            pid_mode=pid_mode,
+            cpu_shares=cpu_shares,
+            volumes=volumes,
+            mem_limit=mem_limit,
+            cpuset_cpus=cpuset_cpus,
+            cpu_quota=cpu_quota,
+            cpu_period=cpu_period,
+            cap_add=cap_add,
+            cap_drop=cap_drop,
+            privileged=privileged,
+            user=user,
+            pids_limit=pids_limit,
+            ipc_mode=ipc_mode,
+            userns_mode=userns_mode,
+            stdout=True,
+            stderr=True,
+            tty=True,
+        )
+    except docker.errors.APIError as e:
+        print("Docker API error:", e)
+        return None
+    except docker.errors.ContainerError as e:
+        print("Docker Container error:", e)
+        return None
+    except Exception as e:
+        print("Unexpected error in run_docker_container():", e)
+        return None
+
+    print(f"Container '{container_name}' started successfully. {check_mark}")
+
+    if image_name == "cpu_shares":
+        run_program_on_vm(path)
+
+    # Attach to the container's stdout
+    for chunk in codecs.iterdecode(container.attach(stdout=True, stderr=False, stream=True, logs=False), "utf-8"):
+        sys.stdout.write(chunk)
+
+    # Wait for the container to finish
+    exit_status = container.wait()
+    
+    # Get the exit code
+    exit_code = exit_status['StatusCode']
+    print(f"Container exited with code: {exit_code}")
+    
+
+    # Check if the container exited properly
+    if exit_code == 0:
+        print("Container exited successfully.")
+    else:
+        print("Container exited with errors.")
+
+    return container
+\end{lstlisting}
+
+
+Below is an example of a configuration file used in Houdini. It defines a container with default Docker isolation settings and specifies the Dockerfile and trick path that will be used for the trick.
 
 \begin{figure}[H]
 \caption{Configuration file for a default Docker out-of-the-box security setting.}
@@ -66,13 +176,14 @@ trick:
 
 
 
-\section{Trick Script}
+\subsection{Trick File}
+\label{sec:trick_file}
 
-The trick script is the core component that defines the actual security test logic to be executed inside the container. This script is typically written in a high-level language such as Python or Bash and is copied into the container during the build process specified by the Dockerfile. Once the container is launched with the desired configuration, the trick script runs automatically and attempts a specific action, such as reading a sensitive file, accessing a kernel interface, or interacting with another process. Its purpose is to evaluate whether the container configuration enforces the intended security boundaries.
+The trick script is the core component that defines the actual security test logic to be executed inside the container. This script is typically written in a high-level language such as Python or Bash and is copied into the container during the build process specified by the Dockerfile. And, it is copied into the VM using a custom overlay filesystem script. Once the container is launched with the desired configuration, the trick script runs automatically and attempts a specific action, such as reading a sensitive file, accessing a kernel interface, or interacting with another process. Its purpose is the discretion of the implementer of the trick file .
 
-Houdini does not impose restrictions on the scripting language used, though Python and Bash are most commonly employed due to their simplicity and compatibility with minimal container environments. The scripting interface is straightforward: the script performs a predefined action and prints a result indicating whether the trick passed or failed. These results are captured via standard output by the trick listener running inside the guest virtual machine. The listener uses these outputs, along with exit codes and standard error messages, to classify the outcome of the test.
+Houdini does not impose restrictions on the scripting language used, though Python and Bash are most commonly employed due to their simplicity and compatibility with minimal container environments. The scripting interface is straightforward: the script performs a predefined action and prints a result indicating whether the trick passed or failed. These results are captured via standard output by the trick listener running inside the guest VM. The listener uses these outputs, along with exit codes to classify the outcome of the test.
 
-The evaluation criteria are entirely defined within the trick script, giving users full control over what constitutes success or failure. This flexibility allows Houdini to support a wide range of test types, from low-level privilege checks to higher-level behavioral verifications. Scripts can also emit additional diagnostic messages to aid in debugging or deeper analysis.
+The evaluation criteria are entirely defined within the trick script, giving users full control over what constitutes success or failure. This flexibility allows Houdini to support a wide range of test types, from low-level privilege checks to higher-level behavioral verifications. Scripts can also emit additional diagnostic messages to aid in debugging or deeper analysis to STDOUT.
 
 Below is an example of a simple Python trick script that tests whether the container is able to read the contents of the \texttt{/etc/shadow} file. Under standard Docker security settings, access to this file should be restricted. If the script is able to read it, the trick is considered to have passed, indicating a misconfiguration or insufficient isolation. Otherwise, it fails.
 
@@ -108,7 +219,7 @@ This example demonstrates how a trick can evaluate a specific security assumptio
 
 
 
-\section{Dockerfile}
+\subsection{Dockerfile}
 
 The Dockerfile is responsible for setting up the container's runtime environment so that the trick script can execute reliably and with all necessary dependencies. It defines how the container image is built, including the selection of a base image, the installation of packages or libraries required by the trick script, and the inclusion of the trick file itself.
 
@@ -118,9 +229,9 @@ Another essential part of the Dockerfile is copying the trick script into the co
 
 The base image is selected based on the needs of the trick. Lightweight images like Alpine Linux are often preferred for simple tests because of their small size and fast startup time. However, more feature-rich images like Debian or Python-based official images may be used when additional dependencies or language runtimes are required.
 
-Finally, the Dockerfile specifies an entrypoint or \texttt{CMD} directive to automatically run the trick script when the container launches. This ensures that the trick executes without requiring user intervention or manual commands. The entrypoint is usually a direct call to the interpreter (e.g., \texttt{python3 /houdini/trick.py}) or a shell script that wraps additional logic.
+Finally, the Dockerfile specifies an entrypoint or \texttt{CMD} directive to automatically run the trick script when the container launches. This ensures that the trick executes without requiring user intervention or manual commands. The entrypoint is usually a direct call to the interpreter (e.g., \texttt{python3 /houdini/trick.py}).
 
-The example below demonstrates a simple Dockerfile used in Houdini to run a Python-based trick. It uses the official Python image, copies the trick into the container, and sets the default command to execute the script:
+The example in~\ref{fig:dockerfile-example} demonstrates a simple Dockerfile used in Houdini to run a Python-based trick. It uses the official Python image, copies the trick from the VM to the container, and sets the default command to execute the script.
 
 \begin{figure}[H]
 \caption{Example Dockerfile used to prepare the container environment for a Python-based trick.}
@@ -140,9 +251,9 @@ CMD ["python3", "/houdini/trick.py"]
 This Dockerfile is minimal yet sufficient for running Python scripts inside a container. It illustrates the typical pattern used in Houdini to prepare containers in a consistent and reproducible manner. More complex tricks may extend this file to install additional packages, configure environment variables, or mount external resources, but the core structure remains largely the same.
 
 
-\section{Python-Based Parameter Expansion Mode}
+\section{Python-Based Expansion Definition}
 
-In addition to supporting single-trick YAML definitions, Houdini provides a Python-based mechanism to define a matrix of configurations by specifying parameters as lists. Houdini automatically expands these parameters into a Cartesian product and generates a full suite of test cases. This approach is powerful for scaling up experiments, allowing researchers to explore the interaction of various container runtime settings systematically.
+In addition to supporting single-trick YAML-like definitions, Houdini provides a Python-based mechanism to define a matrix of configurations by specifying Docker configuration parameters as lists. Houdini automatically expands these parameters into a Cartesian product and generates a full suite of test cases. This approach is powerful for scaling up experiments, allowing researchers to explore the interaction of various container runtime settings systematically.
 
 \begin{lstlisting}[language=bash, caption={Trick parameter sets defined in Python}, label={lst:apparmor-trick}, numbers=left, numberstyle=\tiny, stepnumber=1, breaklines=true, frame=single, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\footnotesize, showspaces=false, showstringspaces=false]
 pid_mode = [None, "--pid=host"]
@@ -226,37 +337,46 @@ docker run -i --user huzi --pid=host --security-opt apparmor=docker-default --pr
 
 
 
-\section{Execution Pipeline}
 
-Houdini’s execution pipeline is designed to take a user-defined trick and run it in a fully controlled and reproducible environment. The process begins on the host system, where the user selects a trick and provides its associated configuration, either through a YAML file or a Python-based matrix. Houdini’s command-line interface (CLI) parses this configuration, verifies its correctness, and prepares the test case for execution. Validation includes checking that required files exist, runtime versions are available in the local cache, and parameters such as capabilities and namespace modes are syntactically valid and logically consistent.
+\section{Flask Server}
 
-Once the configuration is validated, Houdini launches a new QEMU virtual machine using a Buildroot-generated image as the guest operating system. This virtual machine provides strong isolation, ensuring that even if a trick contains malicious logic or exploits a container escape vulnerability, the impact remains confined to the VM. During boot, the guest VM connects to a lightweight Flask server running on the host. This server acts as the communication bridge between the host and guest environments, exposing a simple HTTP API for transferring configuration data and receiving test results.
+The Flask server plays a central role in Houdini’s architecture by acting as the primary communication bridge between the physical host system and the guest VM. Once the QEMU-based Buildroot VM boots, it establishes a connection to this Flask server to initiate trick execution. The server runs as a lightweight HTTP service on the host, exposing a set of well-defined endpoints that orchestrate the full test workflow. The Flask server is automatically started with the help of a BusyBox init script (see ~\ref{lst:start-flask-server}).
 
-After the guest VM is online and connected, the Flask server sends the configuration for the trick to a persistent background service inside the VM known as the trick listener. This listener is responsible for setting up and executing the test within the guest. It begins by building the Docker image using the provided Dockerfile, copying the trick script into the container, and applying all specified configuration options such as capabilities, AppArmor profiles, and user identity.
+\begin{lstlisting}[language=python, caption={BusyBox init file that starts the Flask server}, label={lst:start-flask-server}, numbers=left, numberstyle=\tiny, stepnumber=1, breaklines=true, frame=single, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\footnotesize, showspaces=false, showstringspaces=false]
+#!/bin/sh
+# Description: Example service script
 
-Once the image is built, the container is launched with the defined Docker run settings. The trick script runs automatically inside the container, performing its test logic and writing its output to standard output and error streams. The trick listener monitors the container’s execution, capturing the exit code, output, and any diagnostic messages produced by the trick. These results are packaged together with the configuration metadata and returned to the host via the Flask server.
+PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
+DAEMON=/usr/bin/python3
+DAEMON_ARGS="/houdini/server.py"
+PIDFILE=/var/run/houdini-server.pid
+LOGFILE=/var/log/houdini-server.log
 
-On the host side, Houdini stores all test results in structured logs indexed by test ID. This log includes the full configuration, trick output, container exit status, and timestamped metadata, making it easy to trace, compare, and debug results. The entire pipeline from configuration parsing to result capture is designed to run without manual intervention, enabling users to queue and evaluate large sets of tests in a reliable and repeatable manner.
+case "$1" in
+    start)
+        echo "Starting my service..."
+        $DAEMON $DAEMON_ARGS >> $LOGFILE 2>&1 &
+        ;;
+    stop)
+        echo "Stopping houdini-server..."
+        kill $(cat $PIDFILE)
+        ;;
+    restart)
+        echo "Restarting houdini-server..."
+        $0 stop
+        sleep 1
+        $0 start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+        ;;
+esac
 
-By combining strict virtual machine isolation, automated container orchestration, and lightweight communication via Flask, Houdini provides a robust and secure pipeline for container security testing that is both scalable and transparent.
+exit 0
+\end{lstlisting}
 
-
-\section{Example Trick: Shadow File Access}
-
-To demonstrate Houdini’s end-to-end workflow, a simple example trick is provided that attempts to access the \texttt{/etc/shadow} file from inside a container. This trick is not an exploit, but rather a baseline check designed to verify that basic file system isolation is functioning correctly under the container’s security configuration. The motivation for this test lies in the sensitivity of the \texttt{/etc/shadow} file, which stores hashed system passwords and should only be accessible to privileged processes. Under standard Docker configurations, containers should be unable to read this file unless they are overly privileged or misconfigured.
-
-The expected behavior, when Docker is running in its default configuration, is that access to \texttt{/etc/shadow} will be denied. The container process should either encounter a permission error or be unable to open the file at all. This trick validates that Docker’s default isolation mechanisms, such as user identity mapping, read-only mounts, and AppArmor policies are effective in preventing unauthorized access to host-sensitive files.
-
-From a security evaluation perspective, this test serves as a sanity check. It allows users to confirm that their Houdini setup is working correctly and that the baseline container environment enforces expected isolation boundaries. If this simple trick unexpectedly passes, it indicates a serious misconfiguration that could invalidate the results of more complex security tests. As such, this example is often used as an initial test when setting up Houdini on a new host or validating a new kernel or Docker runtime version.
-
-The full implementation of the trick script is provided in Listing~\ref{fig:trick-script}, and the corresponding container configuration is shown in Listing~\ref{fig:configuration-file}. When executed inside a container, the script attempts to open and read \texttt{/etc/shadow}. If it succeeds, it prints “Trick passed”; otherwise, it prints “Trick failed.” These results are captured and logged by Houdini as part of the standard execution pipeline. This example highlights the modularity and transparency of Houdini’s trick-based testing model and illustrates how a simple action can validate critical isolation guarantees.
-
-
-\section{Flask Server Integration}
-
-The Flask server plays a central role in Houdini’s architecture by acting as the primary communication bridge between the host system and the guest virtual machine. Once the QEMU-based Buildroot VM boots, it establishes a connection to this Flask server to initiate trick execution, request runtime metadata, or receive configuration files. The server runs as a lightweight HTTP service on the host, exposing a set of well-defined endpoints that orchestrate the full test workflow.
-
-Among the core endpoints exposed by the server are \texttt{/run-trick}, \texttt{/run-command-in-vm}, and \texttt{/server-status}. The \texttt{/server-status} endpoint is used for health checking and indicates whether the Houdini server is actively running on the host. This is implemented by checking for the Python process associated with the server:
+The core endpoints exposed by the server are \texttt{/run-trick}, \texttt{/run-command-in-vm}, and \texttt{/server-status}. The \texttt{/server-status} endpoint is used for health checking and indicates whether the Houdini server is actively running on the host. This is implemented by checking for the Python process associated with the server:
 
 \begin{lstlisting}[language=python, caption={Server health check endpoint}, label={lst:server-status}, numbers=left, numberstyle=\tiny, stepnumber=1, breaklines=true, frame=single, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\footnotesize, showspaces=false, showstringspaces=false]
 @app.route('/server-status', methods=['GET'])
@@ -278,7 +398,7 @@ def version_status():
     return make_response(jsonify(versions), 200)
 \end{lstlisting}
 
-The most critical endpoint, \texttt{/run-trick}, handles the dispatching of a specific trick into the guest VM. When a request is made to this endpoint, the server loads the corresponding YAML configuration file, parses it, and executes the full Docker test pipeline. Output is captured using an in-memory stream to allow full logging of results:
+The most critical endpoint, \texttt{/run-trick}, handles the dispatching of a specific trick into the guest VM. When a request is made to this endpoint, the server loads the corresponding YAML-like configuration file, parses it, and executes the full Docker test pipeline.
 
 \begin{lstlisting}[language=python, caption={Trick execution endpoint}, label={lst:run-trick}, numbers=left, numberstyle=\tiny, stepnumber=1, breaklines=true, frame=single, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\footnotesize, showspaces=false, showstringspaces=false]
 @app.route('/run-trick/<trick_folder>/<trick>', methods=['GET'])
@@ -315,12 +435,10 @@ def run_command_in_vm():
         return jsonify({'error': str(e)}), 500
 \end{lstlisting}
 
-Together, these endpoints enable seamless interaction between the host and guest systems. They allow Houdini to manage test execution in a modular, scriptable, and reproducible manner. The server abstracts complex Docker interactions and version management behind a simple HTTP API, making it easy to integrate into larger security testing workflows.
 
+\section{Trick Listener}
 
-\section{Trick Listener and Trick Execution Logic}
-
-The trick listener is a persistent background service running inside the QEMU virtual machine. Its role is to receive trick configurations sent from the host's Flask server and execute them in a controlled, containerized environment. At the heart of this execution logic lies the \texttt{parse\_trick\_and\_run()} function, which interprets the YAML trick configuration, builds the Docker image, launches the container with specified settings, and monitors the test.
+The trick listener is a persistent background service running inside the QEMU VM. Its role is to receive trick configurations sent from the host's Flask server and execute them in a controlled, containerized environment. At the heart of this execution logic lies the \texttt{parse\_trick\_and\_run()} function, which interprets the YAML trick configuration, builds the Docker image, launches the container with specified settings, and monitors the test.
 
 The execution begins by parsing the YAML configuration file received via HTTP. This file is expected to contain two main sections: the \texttt{docker\_config} array and the \texttt{trick} dictionary. The configuration is validated to ensure all required fields exist, and the container name is extracted from the query string arguments.
 
@@ -406,169 +524,10 @@ def parse_trick_and_run(trick_data, args):
 This function glues together every step in Houdini's lifecycle: it prepares the Docker image, applies the container runtime configuration, executes the trick, and forwards the result. Its simplicity belies the modular complexity and flexibility of Houdini’s test infrastructure.
 
 
-\section{Version Reporting Endpoint}
 
-To ensure complete reproducibility and traceability of test results, Houdini exposes a dedicated endpoint called \texttt{/version-status}. This endpoint provides runtime versioning information about critical components involved in container execution: Docker, \texttt{runc}, and \texttt{docker-runc}. These version numbers are essential for researchers to accurately interpret results and replicate experiments across systems with different host configurations.
+\section{Trick Execution}
 
-When a request is made to \texttt{/version-status}, the Flask server calls a utility function named \texttt{get\_versions()}. This function executes shell commands using Python's \texttt{subprocess.check\_output()} to retrieve version strings from each runtime binary. It gracefully handles errors such as missing binaries or unexpected output formats, returning a JSON object with version strings or fallback messages.
-
-The current implementation supports Docker, \texttt{runc}, and \texttt{docker-runc}, but can be extended to include kernel versions or other runtime environments. By returning this information as part of the test log, Houdini guarantees that every trick result is linked to a precise system state, supporting accurate debugging and longitudinal analysis.
-
-Below is the code that implements this endpoint:
-
-\begin{lstlisting}[language=python, caption={Version reporting logic for /version-status}, label={lst:version-status}, numbers=left, numberstyle=\tiny, stepnumber=1, breaklines=true, frame=single, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\footnotesize, showspaces=false, showstringspaces=false]
-@app.route('/version-status', methods=['GET'])
-def version_status():
-    versions = get_versions()
-    return make_response(jsonify(versions), 200)
-
-def get_versions():
-    versions = {}
-
-    try:
-        docker_output = subprocess.check_output(["docker", "--version"], stderr=subprocess.STDOUT)
-        versions['docker'] = docker_output.decode().strip()
-    except subprocess.CalledProcessError as e:
-        versions['docker'] = f"Error: {e.output.decode().strip()}"
-    except FileNotFoundError:
-        versions['docker'] = "Docker not found"
-
-    try:
-        runc_output = subprocess.check_output(["runc", "--version"], stderr=subprocess.STDOUT)
-        versions['runc'] = runc_output.decode().strip()
-    except subprocess.CalledProcessError as e:
-        versions['runc'] = f"Error: {e.output.decode().strip()}"
-    except FileNotFoundError:
-        versions['runc'] = "runc not found"
-
-    try:
-        docker_runc_output = subprocess.check_output(["docker-runc", "--version"], stderr=subprocess.STDOUT)
-        versions['docker-runc'] = docker_runc_output.decode().strip()
-    except subprocess.CalledProcessError as e:
-        versions['docker-runc'] = f"Error: {e.output.decode().strip()}"
-    except FileNotFoundError:
-        versions['docker-runc'] = "docker-runc not found"
-
-    return versions
-\end{lstlisting}
-
-This mechanism supports Houdini’s goal of rigorous reproducibility by anchoring trick results to specific software states. Extending this logic to include kernel version detection by invoking \texttt{uname -r} would further improve the system’s ability to document host-level conditions that influence container behavior.
-
-
-
-\section{Dynamic Runtime Dispatch}
-
-Houdini supports dynamic selection of container runtimes specifically \texttt{runc} and \texttt{crun} through both YAML-based trick definitions and Python-based test matrix expansions. This flexibility allows researchers to evaluate how different low-level runtimes handle the same security configurations, offering deeper insight into runtime-specific behavior.
-
-Runtime selection is user-configurable in two ways. First, for YAML-defined tricks, the \texttt{runtime} field can be set explicitly (e.g., \texttt{crun}, \texttt{runc}) in the \texttt{docker\_config} section. Second, in matrix-driven experiments, runtime is one of the test parameters expanded using Cartesian product logic. A list of runtimes is defined in the configuration module and passed into the combination generator:
-
-\begin{lstlisting}[language=python, caption={Runtime as a configurable test parameter in matrix mode}, label={lst:runtime-param}]
-runtime = ["runc", "crun"]
-...
-def generate_combinations(config):
-    fields = [
-        ...
-        config.get("runtime") or [None]
-    ]
-    return list(itertools.product(*fields))[:MAX_TESTS]
-\end{lstlisting}
-
-At runtime, the selected container runtime binary (e.g., \texttt{crun}) is injected into the guest virtual machine (QEMU) by copying the appropriate executable into the Buildroot overlay directory \texttt{/usr/bin} before VM boot. This is done dynamically based on the version set in \texttt{houdini\_config.py}. The correct binary is fetched from a pre-extracted folder of supported runtime versions:
-
-\begin{lstlisting}[language=bash, caption={Injecting crun into the Buildroot overlay}, label={lst:get-crun}]
-get_crun_binaries() {
-    ...
-    src_crun=$(find "$extracted_folder" -type f -name "crun-*linux-amd64" | head -n 1)
-    cp "$src_crun" "${overlay_bin}/crun"
-    chmod +x "${overlay_bin}/crun"
-}
-\end{lstlisting}
-
-The Docker run command issued inside the VM includes the \texttt{--runtime} flag if a runtime is specified. This enables Houdini to test container behavior across multiple OCI runtimes within a uniform framework:
-
-\begin{lstlisting}[language=python, caption={Runtime applied during container launch}, label={lst:runtime-docker-run}]
-if isinstance(runtime, str):
-    cmd += ["--runtime", str(runtime)]
-\end{lstlisting}
-
-This modular dispatch mechanism is designed for future extensibility. Support for additional runtimes such as \texttt{youki}, \texttt{Kata Containers}, or \texttt{gVisor} can be added by extending the binary injection logic and updating the configuration schema to recognize new runtime identifiers.
-
-By making the container runtime a first-class configurable dimension in experiments, Houdini enables nuanced differential testing that can expose inconsistencies, vulnerabilities, or behavioral discrepancies across runtime implementations.
-
-
-\section{Trick Parameter Expansion Logic}
-
-Houdini supports large-scale, automated testing through its ability to expand parameterized test configurations into a full matrix of trick executions. This is achieved by defining each configuration parameter as a list, such as \texttt{pid\_mode}, \texttt{cap\_sys\_ptrace}, or \texttt{user} and computing the Cartesian product across all parameters. Each unique combination forms one specific instance of a trick to be tested.
-
-Internally, Houdini loads these parameters from Python modules corresponding to the selected trick. Using Python’s \texttt{importlib}, it dynamically loads the values from each variable into a unified configuration dictionary. Parameters not explicitly defined default to a single-item list with a \texttt{None} value to ensure uniformity during expansion.
-
-To generate the matrix, Houdini uses Python’s \texttt{itertools.product()} to compute the Cartesian product across all lists. This approach is simple, efficient, and scales well to a moderate number of parameters. Each combination is then passed into a container execution function that builds the necessary Docker run command for that configuration.
-
-To limit runtime and avoid combinatorial explosion, Houdini caps the number of generated tests using the \texttt{MAX\_TESTS} constant, which discards excess combinations if the matrix size becomes too large. This trade-off maintains a balance between thoroughness and execution feasibility.
-
-Below is a simplified pseudocode version of the expansion and execution logic, taken from Houdini’s core driver script:
-
-\begin{lstlisting}[language=python, caption={Generating and iterating over parameter combinations}, label={lst:matrix-expansion}, numbers=left, numberstyle=\tiny, stepnumber=1, breaklines=true, frame=single, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\footnotesize, showspaces=false, showstringspaces=false]
-def load_config(trick_name):
-    config_module = importlib.import_module(f"{trick_name}")
-    config = {}
-    for var in ["pid_mode", "cap_kill", "cap_sys_ptrace", 
-                "privileged_opts", "apparmor_profiles", "user",  
-                "net_bind_service", "cap_drop_all", "runtime"]:
-        config[var] = getattr(config_module, var, [None])
-    return config
-
-def generate_combinations(config):
-    fields = [
-        config.get("pid_mode"),
-        config.get("cap_kill"),
-        config.get("cap_sys_ptrace"),
-        config.get("privileged_opts"),
-        config.get("apparmor_profiles"),
-        config.get("user"),
-        config.get("net_bind_service"),
-        config.get("cap_drop_all"),
-        config.get("runtime")
-    ]
-    return list(itertools.product(*fields))[:MAX_TESTS]
-\end{lstlisting}
-
-This design enables Houdini to efficiently run comprehensive test suites with varying parameters across container runtimes, user identities, namespace modes, and Linux capabilities. It also supports extensibility, as new parameters can be added to the configuration without altering the underlying expansion logic.
-
-
-\section{Security Considerations in Host-Level Code}
-
-Houdini is designed to execute potentially dangerous container configurations and scripts in a safe and reproducible environment. To ensure host system integrity, Houdini carefully separates test execution from the host by sandboxing all container activity within a QEMU virtual machine. This isolation guarantees that even if a containerized trick exploits a misconfiguration or escapes the container runtime, it remains confined within the guest VM, protecting the host from compromise. For this reason, all subprocess executions, including Docker image builds, container runs, and file access tests are offloaded to the VM environment.
-
-This design decision also ensures that Houdini's host-side Python code does not directly interact with untrusted trick scripts or configurations. By shifting the attack surface into the VM, Houdini minimizes privilege exposure and keeps the host clean of any temporary state or Docker containers created during testing.
-
-Another key consideration is Docker Hub's rate limiting policy. Without authentication, anonymous users are restricted to a limited number of image pulls and builds per six-hour window. To avoid encountering these rate limits during large-scale test execution, Houdini requires authenticated Docker access using a personal access token. This is handled in the host logic via a login step:
-
-\begin{lstlisting}[language=python, caption={Logging into Docker Hub to bypass image build limits}, label={lst:docker-login}, numbers=left, numberstyle=\tiny, stepnumber=1, breaklines=true, frame=single, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\footnotesize, showspaces=false, showstringspaces=false]
-username = os.getenv("DOCKER_USERNAME")
-password = os.getenv("DOCKER_TOKEN")
-client = docker.from_env()
-client.login(username=username, password=password)
-\end{lstlisting}
-
-This login process ensures that authenticated API calls to Docker Hub are used when building and pulling images. It also allows users with Docker Pro or Team subscriptions to take advantage of higher rate limits and private repository access.
-
-\section{Virtual Machine Setup and Execution}
-
-Houdini runs all container-based security tests inside a QEMU virtual machine to ensure strong host isolation and reproducibility. Each virtual machine is spun up dynamically for every trick, booting into a minimal Linux distribution generated by Buildroot. This architecture isolates all container behavior from the host operating system and allows precise control over the kernel and filesystem.
-
-\subsection{Purpose of Virtualization}
-
-The use of virtualization provides several key benefits:
-\begin{itemize}
-\item \textbf{Security Isolation:} Containers cannot directly affect the host system, even if misconfigured or compromised.
-\item \textbf{Reproducibility:} A consistent environment is provided for every test, removing host system variability.
-\item \textbf{Custom Kernel Support:} Researchers can test custom kernel builds or apply experimental patches without rebooting the host.
-\end{itemize}
-
-\subsection{QEMU Execution Command}
-
-Houdini uses QEMU to run a VM with a custom kernel and root filesystem. The Python method responsible for starting the virtual machine is shown below:
+The execution of a trick in Houdini begins with the activation of a VM by using the \textit{./houdini --start\_vm}. See ~\ref{lst:start-vm} for the full QEMU command used to activate the VM.
 
 \begin{lstlisting}[language=python, caption={Python method to start the QEMU VM in Houdini}, label={lst:start-vm}, numbers=left, numberstyle=\tiny, stepnumber=1, breaklines=true, frame=single, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\footnotesize, showspaces=false, showstringspaces=false]
 def start_vm(self, kernel=get_absolute_path(f"/kernels/{KERNEL_VERSION}/arch/x86/boot/bzImage"), drive=get_absolute_path("/buildroot/output/images/rootfs.ext2")):
@@ -587,8 +546,6 @@ qemu_cmd = [
 ]
 \end{lstlisting}
 
-\subsection{Key VM Configuration Options}
-
 The following options in the QEMU command are critical to Houdini's testing workflow:
 
 \begin{itemize}
@@ -601,16 +558,14 @@ The following options in the QEMU command are critical to Houdini's testing work
 \item \texttt{-net nic} and \texttt{-net user,hostfwd}: Sets up a virtual NIC and forwards a TCP port for communication between the host and guest (e.g., for Flask server requests).
 \end{itemize}
 
-\subsection{Lifecycle of a Virtual Machine}
+During booting, the guest VM automatically connects to a lightweight Flask server running on the host with the help of a BusyBox init script. This server acts as the communication bridge between the physical host and guest environment. In other words, it exposes a simple HTTP API for transferring configuration data and receiving test results.
 
-Each trick triggers a complete VM lifecycle:
-\begin{enumerate}
-\item \textbf{Boot}: A QEMU virtual machine is started with the specified kernel and rootfs.
-\item \textbf{Connect}: A Flask server on the host communicates with a Python service inside the VM.
-\item \textbf{Execute}: The trick is executed inside the VM, typically via Docker, and output is captured.
-\item \textbf{Shutdown}: The VM is destroyed after test execution, ensuring isolation between runs.
-\end{enumerate}
+Followed by this, The execution of a Houdini trick begins on the physical host system, where the user selects a trick to run via a Bash terminal. For example, to run a trick, a user would enter \textit{./houdini --runtrick example\_trick}. Houdini’s Flask server parses this command, verifies its correctness, and prepares the test case for execution. Validation includes checking that required trick file exist, configuration file, and Dockerfile exists for that particular trick (in this case \textit{example\_trick}).
 
-This tightly controlled VM-based execution model is central to Houdini's reliability, safety, and reproducibility guarantees.
+Following a successful validation of running the command \textit{./houdini --runtrick example\_trick}, the Flask server sends the command to the trick listener. This listener is responsible for setting up and executing the test within the guest. It begins by building the Docker image using the provided Dockerfile, copying the trick script into the container, and applying all specified configurations provided by the configuration file (see \~ref{fig:running-a-docker-container-implementation}).
+
+Following this, the trick file runs automatically inside the container, performing its test logic and writing its output to standard output. The trick listener monitors the container’s execution, capturing the exit code, output, and any diagnostic messages produced by the trick. These results are packaged together and returned to the host via the Flask server.
+
+On the host side, Houdini stores all test results in structured logs indexed by test ID. This log includes the full configuration, trick output, container exit status, and timestamped metadata, making it easy to trace, compare, and debug results. The entire pipeline from configuration parsing to result capture is designed to run without manual intervention, enabling users to queue and evaluate large sets of tests in a reliable and repeatable manner.
 
 \end{doublespace}
