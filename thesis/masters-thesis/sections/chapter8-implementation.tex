@@ -2,12 +2,144 @@
 \begin{doublespace}
 \chapter{Implementation}
 
+\section{Building a VM via Buildroot}
 
-Houdini supports two modes for defining and executing tricks. The first is a YAML-like approach where a single trick is fully specified through a standalone configuration file (see~\ref{fig:configuration-file}). This method is ideal for running individual tests with carefully controlled settings, making it well-suited for targeted investigations of container confinement. The second mode is a Python-based approach that allows users to define parameter sets as lists, which Houdini expands into a Cartesian product to form a complete test matrix. For example, Docker configuration parameters can be defined in Python, and Houdini will automatically generate all combinations to be tested.
+Buildroot is an open-source tool that automates the process of building custom Linux systems, primarily for embedded or minimal environments. It simplifies the creation of a complete Linux distribution by compiling the Linux kernel, root filesystem, bootloader (if needed), and a wide range of userland tools from source. Users define their system configuration through a menu-driven interface or configuration files, specifying which components to include, which versions to use, and how the resulting image should be structured. Because it builds everything from scratch using version-pinned sources, Buildroot is ideal for producing highly reproducible and minimal Linux environments. In the context of Houdini, Buildroot enables precise control over the guest VM, ensuring that all kernel features and userland components required for container security testing are present, consistent, and isolated from host system variability.
+
+The Buildroot construction pipeline (see~\ref{fig:buildroot-construction})is a sequential process that transforms high-level system specifications into a bootable Linux image. It begins with a configuration phase, where users define the system’s architecture, target packages, kernel version, and root filesystem type using a `.defconfig` file or the menuconfig interface. Once configured, Buildroot fetches all required source code, including the Linux kernel, toolchains, and any selected userland packages, and applies patches if specified. These sources are then compiled from scratch using a cross-compilation toolchain that Buildroot generates specifically for the target architecture. As part of this process, the root filesystem is assembled by installing all compiled binaries and scripts into a staged directory. 
 
 
+To enable container runtime support in a virtualized environment, Houdini must activate several groups of kernel features beyond just namespaces and cgroups. One such group includes networking and virtualization options, which are essential for simulating realistic container deployments. Enabling kernel options like \textit{CONFIG\_VETH}, \textit{CONFIG\_BRIDGE}, \textit{CONFIG\_MACVLAN}, and \textit{CONFIG\_VXLAN} allows containers within the guest VM to create and use virtual Ethernet devices, participate in bridged networks, and simulate more complex network topologies. These features are critical when testing container isolation at the network layer or evaluating capabilities such as port forwarding, network namespaces, or virtual NICs. Similarly, \textit{CONFIG\_NETFILTER}, \textit{CONFIG\_NF\_NAT}, and related options enable firewall rules, NAT, and packet filtering within containers—capabilities that many real-world container setups rely on and which are required to run Docker’s iptables-based networking stack.
+
+In addition to networking, Houdini must support advanced filesystem operations that are frequently used by container runtimes. Docker relies heavily on layered filesystems to manage images and containers. To this end, enabling \textit{CONFIG\_OVERLAY\_FS} allows the use of OverlayFS, the default storage driver for Docker. \textit{CONFIG\_BTRFS\_FS} is included to support setups using Btrfs as an alternative union filesystem with snapshotting features. Additionally, \textit{CONFIG\_EXT2\_FS} ensures basic compatibility for traditional disk images used in Houdini’s root filesystem. Without these filesystems enabled, many containers would fail to start due to missing storage backend support.
+
+Another critical group of options revolves around virtual I/O and hypervisor support, which is essential in QEMU-based virtual machines. Enabling \textit{CONFIG\_VIRTIO\_NET}, \textit{CONFIG\_VIRTIO\_BLK}, and \textit{CONFIG\_VIRTIO\_PCI} allows the guest VM to communicate efficiently with the host through QEMU’s paravirtualized drivers. These options improve I/O performance, reduce emulation overhead, and ensure compatibility with typical QEMU virtual hardware. Without these, the guest VM may fail to boot correctly or experience degraded performance, especially during heavy I/O operations such as pulling container images or writing logs.
+
+Finally, several security and cryptographic features are enabled to mirror real-world deployments and ensure complete runtime functionality. These include \textit{CONFIG\_SECCOMP} and \textit{CONFIG\_SECCOMP\_FILTER} for syscall filtering, \textit{CONFIG\_SECURITY\_APPARMOR} for enforcing AppArmor profiles, and cryptographic primitives like \textit{CONFIG\_CRYPTO\_GCM}, \textit{CONFIG\_CRYPTO\_SEQIV}, and \textit{CONFIG\_CRYPTO\_GHASH}. Docker and runc depend on these options to enforce container restrictions and protect against kernel-level attacks. Without them, security policies such as seccomp profiles or AppArmor confinement would silently fail, leading to inaccurate or incomplete test results.
+
+\begin{longtable}{|l|l|}
+\caption{Kernel configuration options used in Houdini’s custom defconfig} \label{tab:kernel-config-categorized} \\
+\hline
+\textbf{Kernel Config Option} & \textbf{Purpose} \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{Kernel Config Option} & \textbf{Purpose} \\
+\hline
+\endhead
+
+CONFIG\_NETDEVICES & Other \\
+CONFIG\_NET\_CORE & Other \\
+CONFIG\_NAMESPACES & Namespaces \\
+CONFIG\_UTS\_NS & Namespaces \\
+CONFIG\_IPC\_NS & Namespaces \\
+CONFIG\_PID\_NS & Namespaces \\
+CONFIG\_NET\_NS & Namespaces \\
+CONFIG\_CGROUPS & Cgroups \\
+CONFIG\_CGROUP\_FREEZER & Cgroups \\
+CONFIG\_CGROUP\_DEVICE & Cgroups \\
+CONFIG\_CGROUP\_CPUACCT & Cgroups \\
+CONFIG\_CGROUP\_SCHED & Cgroups \\
+CONFIG\_CGROUP\_PERF & Cgroups \\
+CONFIG\_CGROUP\_BPF & Cgroups \\
+CONFIG\_SECCOMP & Security \\
+CONFIG\_SECCOMP\_FILTER & Security \\
+CONFIG\_KEYS & Security \\
+CONFIG\_KEY\_RETENTION & Security \\
+CONFIG\_KEY\_USAGE & Security \\
+CONFIG\_OVERLAY\_FS & Filesystem \\
+CONFIG\_VETH & Networking \\
+CONFIG\_BRIDGE & Networking \\
+CONFIG\_MACVLAN & Networking \\
+CONFIG\_IPVLAN & Networking \\
+CONFIG\_VXLAN & Networking \\
+CONFIG\_MEMCG & Cgroups \\
+CONFIG\_AUDIT & Security \\
+CONFIG\_USER\_NS & Namespaces \\
+CONFIG\_CGROUP\_PIDS & Cgroups \\
+CONFIG\_MEMCG\_SWAP & Cgroups \\
+CONFIG\_BLK\_DEV\_THROTTLING & Cgroups \\
+CONFIG\_CFS\_BANDWIDTH & Cgroups \\
+CONFIG\_IP\_NF\_TARGET\_REDIRECT & Networking \\
+CONFIG\_IP\_VS & Networking \\
+CONFIG\_IP\_VS\_NFCT & Networking \\
+CONFIG\_IP\_VS\_PROTO\_TCP & Networking \\
+CONFIG\_IP\_VS\_PROTO\_UDP & Networking \\
+CONFIG\_IP\_VS\_RR & Networking \\
+CONFIG\_SECURITY\_APPARMOR & AppArmor \\
+CONFIG\_SECURITY\_APPARMOR\_BOOTPARAM\_VALUE & AppArmor \\
+CONFIG\_BRIDGE\_VLAN\_FILTERING & Networking \\
+CONFIG\_INET\_ESP & Networking \\
+CONFIG\_NETFILTER\_XT\_MATCH\_BPF & Networking \\
+CONFIG\_CRYPTO & Crypto \\
+CONFIG\_CRYPTO\_AEAD & Crypto \\
+CONFIG\_CRYPTO\_GCM & Crypto \\
+CONFIG\_CRYPTO\_SEQIV & Crypto \\
+CONFIG\_CRYPTO\_GHASH & Crypto \\
+CONFIG\_BRIDGE\_NETFILTER & Networking \\
+CONFIG\_NETFILTER & Networking \\
+CONFIG\_NF\_CONNTRACK & Networking \\
+CONFIG\_NF\_NAT & Networking \\
+CONFIG\_NETFILTER\_ADVANCED & Networking \\
+CONFIG\_NETFILTER\_XT\_MATCH\_IPVS & Networking \\
+CONFIG\_BPF\_SYSCALL & Security \\
+CONFIG\_VLAN\_8021Q & Networking \\
+CONFIG\_DUMMY & Networking \\
+CONFIG\_NF\_NAT\_TFTP & Networking \\
+CONFIG\_NF\_CONNTRACK\_TFTP & Networking \\
+CONFIG\_BTRFS\_FS & Filesystem \\
+CONFIG\_BTRFS\_FS\_POSIX\_ACL & Filesystem \\
+CONFIG\_VIRTIO & Virtual I/O \\
+CONFIG\_VIRTIO\_NET & Virtual I/O \\
+CONFIG\_VIRTIO\_BLK & Virtual I/O \\
+CONFIG\_VIRTIO\_PCI & Virtual I/O \\
+CONFIG\_VIRTIO\_MMIO & Virtual I/O \\
+CONFIG\_EXT2\_FS & Filesystem \\
+\hline
+\end{longtable}
+
+
+
+By carefully assembling this kernel configuration, Houdini ensures that every kernel compiled through Buildroot is not only compatible with Docker and `runc`, but also remains minimal, reproducible, and isolated from host system dependencies. This tailored defconfig plays a critical role in enabling full container runtime functionality inside the guest while preserving the deterministic nature of the testbed.
+
+A key feature of Houdini’s Buildroot-based design is its use of the overlay filesystem mechanism. Buildroot allows users to inject arbitrary files into the target root filesystem through an overlay directory. Houdini takes advantage of this by maintaining a structured overlay that contains all required runtime components, custom configuration files, and initialization scripts. For example, the overlay includes statically compiled versions of Docker Engine, `runc` for each version being tested. These binaries are placed in appropriate locations such as `/usr/bin`, ensuring they are accessible at runtime within the VM without requiring package installation or network access within the guest. While Buildroot includes official packages for Docker and `runc`, Houdini deliberately avoids using them. This decision stems from the fact that many older versions of Docker and `runc` (which are critical for longitudinal security analysis) are no longer supported or even buildable within the current Buildroot ecosystem. Buildroot frequently removes or breaks compatibility with older software versions due to upstream changes, deprecated dependencies, or toolchain incompatibilities. As a result, attempting to evaluate historical versions of container runtimes using Buildroot’s native package management would lead to build failures. By embedding all required components directly into the root filesystem at build time, Houdini avoids reliance on dynamic installation, networking, or user intervention. The overlay mechanism not only simplifies the build process but also strengthens reproducibility and isolation, which are key pillars of Houdini’s design.
+
+In addition to binaries, the overlay contains service definitions and startup scripts that initialize the environment when the VM boots. One critical element is the embedded Python Flask server, which runs automatically inside the guest and listens for incoming test instructions from the host. This server enables Houdini to remotely execute "tricks" from the physical, to the VM. Configuration files, test logic, and Docker files are also placed into the overlay, ensuring they are bundled directly into the root filesystem without external dependencies.
+
+The final output of the Buildroot construction pipeline consists of a complete, bootable Linux system tailored for container security testing. Specifically, Buildroot produces two critical artifacts: a compressed Linux kernel image (`bzImage`) and a root filesystem image (e.g., `rootfs.ext2`). The `bzImage` contains the monolithic kernel with all necessary container-related features enabled, including namespaces, cgroups, AppArmor, and virtual I/O drivers. The `rootfs.ext2` image is a minimal Linux environment populated with userland tools such as BusyBox, Python 3, the embedded Flask API server, and pre-injected container runtimes like Docker and `runc`, along with all relevant test scripts and configuration files. These outputs are stored under the `output/images/` directory within the Buildroot tree and are used directly by Houdini to boot a virtual machine via QEMU. Together, they form a fully isolated and reproducible guest environment, allowing for deterministic execution of container-based tricks and security tests, independent of the host system’s configuration.
+
+
+\begin{figure}[h]
+    \label{fig:buildroot-construction}
+    \includegraphics[width=1\linewidth]{figures/buildroot-design.drawio.pdf}
+    \caption{Construction Pipeline of Buildroot}\label{fig:state-architecture}
+\end{figure}
+        
+
+\section{Houdini Client}
+
+The Houdini client is a Python-based orchestration tool that runs on the host machine and serves as the primary interface for executing tricks. It is responsible for coordinating the entire lifecycle of a test, including selecting specific versions of Docker and `runc` launching the corresponding Buildroot-based VM via QEMU, injecting prebuilt container tricks, and collecting results. The client exposes a command-line interface (CLI) that allows researchers to run tricks. Once the VM is running, the client communicates with the guest’s embedded Flask server over a forwarded network port, issuing trick execution requests and monitoring their outcome. This separation between host-side control logic and guest-side execution logic ensures that experiments remain reproducible, isolated, and portable across systems. The client also handles logging, and output parsing.
+
+\begin{figure}[H]
+\caption{Version-pinning configuration file used to control Houdini test environments}
+\label{fig:version-pinning-configuration-implementation}
+\begin{lstlisting}[caption={}, numbers=left, numberstyle=\tiny, stepnumber=1, breaklines=true, frame=single, backgroundcolor=\color{gray!10}, basicstyle=\ttfamily\scriptsize, showspaces=false, showstringspaces=false]
+RUNC_VERSION = "1.1.10"
+DOCKER_ENGINE_VERSION = "27.0.3"
+KERNEL_VERSION = "6.0"
+TRICK = "Enter_Trick_Name_Here"
+CRUN_VERSION = "1.15"
+PORT = 49153
+VM_URL = f'http://127.0.0.1:{PORT}'
+VM_RAM = 12000
+CPU_CORES = 4
+\end{lstlisting}
+\end{figure}
 
 \section{YAML-Like Trick Definition}
+
+Houdini supports two modes for defining and executing tricks. The first is a YAML-like approach where a single trick is fully specified through a standalone configuration file (see~\ref{fig:version-pinning-configuration-implementation}). This method is ideal for running individual tests with carefully controlled settings, making it well-suited for targeted investigations of container confinement. The second mode is a Python-based approach that allows users to define parameter sets as lists, which Houdini expands into a Cartesian product to form a complete test matrix. For example, Docker configuration parameters can be defined in Python, and Houdini will automatically generate all combinations to be tested.
 
 The YAML-like Trick definition is one of two ways to define a trick in Houdini. In this section, we will go through the implementation of it and provide examples of its use.
 

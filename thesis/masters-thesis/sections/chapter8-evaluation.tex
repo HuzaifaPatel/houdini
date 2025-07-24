@@ -12,7 +12,7 @@ Host isolation is validated through a deliberately malicious trick designed to a
 
 Next, we examine version variability support by constructing a test matrix of Docker, runc, and Linux kernel versions. Successful execution of tricks across this matrix demonstrates Houdini’s compatibility and robustness in diverse runtime environments. Finally, we assess extensibility by integrating a newly developed trick that probes for a specific capability. The ease of adding and running the new test without modifying core framework logic showcases Houdini’s modular design and developer-friendly architecture.
 
-\section{Reproducibility Across Time with Version Pinning}
+\section{Reproducibility Over Time with Version Pinning}
 
 This experiment evaluates Houdini’s ability to reliably reproduce test results over time using a version-pinned container environment. The purpose of this experiment is to determine whether Houdini can serve as a reliable testing framework when executed repeatedly over time under controlled, version-pinned conditions. Version pinning refers to explicitly locking the versions of software components, such as Docker, runc, and the Linux kernel, to prevent variation due to automatic updates, rebuilds, or environmental drift. Even slight changes in runtime binaries, system dependencies, or build environments can introduce behavioral drift that invalidates prior findings and undermines test integrity.
 
@@ -20,7 +20,7 @@ To test reproducibility across time, we define two time points: \( T_0 \), the i
 
 \begin{table}[H]
 \centering
-\caption{Virtual Machine Experimental Configuration}
+\caption{Virtual machine experimental configuration}
 \begin{tabular}{|l|l|}
 \hline
 \textbf{Parameter} & \textbf{Value} \\
@@ -36,7 +36,7 @@ Kernel Version & Linux 6.0 (custom build) \\
 
 \begin{table}[H]
 \centering
-\caption{Version-Pinned Components}
+\caption{Version-pinned components}
 \begin{tabular}{|l|l|}
 \hline
 \textbf{Component} & \textbf{Pinned Version} \\
@@ -52,7 +52,7 @@ To ensure binary-level consistency between runs \texttt{\( T_0 \)} and \texttt{\
 
 \begin{table}[H]
 \centering
-\caption{Reproducibility Verification Across Time}
+\caption{Reproducibility verification across time}
 \begin{tabular}{|l|c|c|}
 \hline
 \textbf{Component} & \textbf{SHA256 @ T0} & \textbf{SHA256 @ T1} \\
@@ -161,7 +161,7 @@ These tricks were executed on two different machines with distinct hardware:
 
 \begin{table}[h]
 \centering
-\caption{Comparison of Machine A and Machine B}
+\caption{Comparison of machine A and machine B}
 \label{tab:machine-comparison}
 \begin{tabular}{|l|c|c|}
 \hline
@@ -209,7 +209,7 @@ On both machines, both tricks produced identical output and showed no variation 
 
 \begin{table}[h]
 \centering
-\caption{Reproducibility Comparison Across Machines}
+\caption{Reproducibility comparison across machines}
 \label{tab:reproducibility-results}
 \begin{tabular}{|l|c|c|c|}
 \hline
@@ -479,7 +479,7 @@ This level of compatibility makes Houdini suitable not just for point-in-time se
 
 {\footnotesize
 \begin{longtable}{|p{4cm}|p{3cm}||p{3cm}|p{2cm}|}
-\caption{Docker and runc Versions Validated with Houdini} \label{tab:docker-runc-validated} \\
+\caption{Docker and runc versions validated with Houdini} \label{tab:docker-runc-validated} \\
 \hline
 \textbf{Docker Version} & \textbf{runc Version} & \textbf{Kernel Version} & \textbf{Validated} \\
 \hline
@@ -600,7 +600,7 @@ The benchmark was conducted using the \texttt{/usr/bin/time -v} utility to captu
 
 \begin{table}[ht]
 \centering
-\caption{Performance Metrics for Batch Execution of 32 Tricks}
+\caption{Performance metrics for batch execution of 32 tricks}
 \label{tab:batch-execution}
 \begin{tabular}{|l|c|}
 \hline
