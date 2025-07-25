@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.6.28)  25 JUL 2025 04:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.6.28)  25 JUL 2025 13:52
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1286,7 +1286,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.34 ...ter}{\numberline {4}Design}{49}{chapter.4}
+l.34 ...ter}{\numberline {4}Design}{47}{chapter.4}
                                                   % [1
 
 ])
@@ -1306,7 +1306,7 @@ File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
  [3
 
 ] (./thesis.lof
-Overfull \hbox (3.57048pt too wide) in paragraph at lines 14--14
+Overfull \hbox (3.57048pt too wide) in paragraph at lines 13--13
  [][] [][]\T1/cmr/m/n/12 Example trick im-ple-men-ta-tion that checks for read 
 ac-cess to \T1/cmtt/m/n/12 /etc/shadow\T1/cmr/m/n/12 .[] [][]  
  []
@@ -1321,57 +1321,47 @@ ac-cess to \T1/cmtt/m/n/12 /etc/shadow\T1/cmr/m/n/12 .[] [][]
 Chapter 1.
 [5
 
-] [6] [7]
-
-pdfTeX warning: pdflatex (file ./figures/knobs.pdf): PDF inclusion: found PDF v
-ersion <1.7>, but at most version <1.5> allowed
-<figures/knobs.pdf, id=486, 632.3625pt x 799.06526pt>
-File: figures/knobs.pdf Graphic file (type pdf)
-<use figures/knobs.pdf>
-Package pdftex.def Info: figures/knobs.pdf  used on input line 40.
-(pdftex.def)             Requested size: 216.81pt x 273.95863pt.
-[8] [9 <./figures/knobs.pdf>] [10] [11] [12] [13])
-(./sections/chapter2-background.tex [14]
+] [6] [7] [8] [9] [10] [11]) (./sections/chapter2-background.tex [12]
 Chapter 2.
-[15
+[13
 
-] [16]
+] [14]
 
 pdfTeX warning: pdflatex (file ./figures/docker_architecture.pdf): PDF inclusio
 n: found PDF version <1.7>, but at most version <1.5> allowed
-<figures/docker_architecture.pdf, id=553, 259.93109pt x 375.32219pt>
+<figures/docker_architecture.pdf, id=526, 259.93109pt x 375.32219pt>
 File: figures/docker_architecture.pdf Graphic file (type pdf)
 <use figures/docker_architecture.pdf>
 Package pdftex.def Info: figures/docker_architecture.pdf  used on input line 23
 .
 (pdftex.def)             Requested size: 173.44534pt x 250.45088pt.
-[17 <./figures/docker_architecture.pdf>] [18] [19] [20]
+[15 <./figures/docker_architecture.pdf>] [16] [17] [18]
 Overfull \hbox (8.74228pt too wide) in paragraph at lines 61--78
  [][] 
  []
 
-[21]
+[19]
 Overfull \hbox (1.15987pt too wide) in paragraph at lines 87--88
 \T1/cmr/m/n/12 AppArmor is a Linux se-cu-rity mod-ule that pro-vides Manda-tory
  Ac-cess Con-trol (MAC)
  []
 
-[22] [23] [24] [25]
+[20] [21] [22] [23]
 Underfull \hbox (badness 10000) in paragraph at lines 135--136
 []|\T1/cmr/m/n/12 Restricted un-less ex-plic-itly al-lowed via
  []
 
-) (./sections/chapter3-related-work.tex [26]
+) (./sections/chapter3-related-work.tex [24]
 Chapter 3.
 
 Underfull \hbox (badness 10000) in paragraph at lines 7--8
 
  []
 
-[27
+[25
 
-] [28] [29] [30] [31] [32] [33] [34] [35] [36] [37] [38] [39] [40] [41]
-[42] [43] [44] [45]
+] [26] [27] [28] [29] [30] [31] [32] [33] [34] [35] [36] [37] [38] [39]
+[40] [41] [42] [43]
 Underfull \hbox (badness 10000) in paragraph at lines 160--161
 
  []
@@ -1381,7 +1371,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 164--165
 
  []
 
-[46]
+[44]
 Underfull \hbox (badness 10000) in paragraph at lines 168--169
 
  []
@@ -1391,20 +1381,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 172--173
 
  []
 
-[47]) (./sections/chapter7-design.tex [48]
+[45]) (./sections/chapter7-design.tex [46]
 Chapter 4.
-[49
+[47
 
-] [50]
+] [48]
 
 pdfTeX warning: pdflatex (file ./figures/design.pdf): PDF inclusion: found PDF 
 version <1.7>, but at most version <1.5> allowed
-<figures/design.pdf, id=844, 505.89pt x 218.7372pt>
+<figures/design.pdf, id=817, 505.89pt x 218.7372pt>
 File: figures/design.pdf Graphic file (type pdf)
 <use figures/design.pdf>
 Package pdftex.def Info: figures/design.pdf  used on input line 24.
 (pdftex.def)             Requested size: 433.62001pt x 187.49284pt.
-<figures/example-output.png, id=845, 859.21pt x 276.03125pt>
+<figures/example-output.png, id=818, 859.21pt x 276.03125pt>
 File: figures/example-output.png Graphic file (type png)
 <use figures/example-output.png>
 Package pdftex.def Info: figures/example-output.png  used on input line 29.
@@ -1412,57 +1402,57 @@ Package pdftex.def Info: figures/example-output.png  used on input line 29.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[51 <./figures/design.pdf>] [52 <./figures/example-output.png>] [53] [54]
-[55] [56] [57] [58] [59]) (./sections/chapter8-implementation.tex [60]
+[49 <./figures/design.pdf>] [50 <./figures/example-output.png>] [51] [52]
+[53] [54] [55] [56] [57]) (./sections/chapter8-implementation.tex [58]
 Chapter 5.
 
 Package caption Warning: \label without proper reference on input line 114.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `fig:buildroot-construction' on page 61 undefined on i
+LaTeX Warning: Reference `fig:buildroot-construction' on page 59 undefined on i
 nput line 9.
 
-[61
+[59
 
-] [62] [63] [64] [65] [66] [67]
+] [60] [61] [62] [63] [64] [65]
 
 pdfTeX warning: pdflatex (file ./figures/buildroot-design.drawio.pdf): PDF incl
 usion: found PDF version <1.7>, but at most version <1.5> allowed
-<figures/buildroot-design.drawio.pdf, id=938, 614.295pt x 469.755pt>
+<figures/buildroot-design.drawio.pdf, id=910, 614.295pt x 469.755pt>
 File: figures/buildroot-design.drawio.pdf Graphic file (type pdf)
 <use figures/buildroot-design.drawio.pdf>
 Package pdftex.def Info: figures/buildroot-design.drawio.pdf  used on input lin
 e 115.
 (pdftex.def)             Requested size: 433.62001pt x 331.59306pt.
-[68 <./figures/buildroot-design.drawio.pdf>]
+[66 <./figures/buildroot-design.drawio.pdf>]
 LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 
 134.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmtt.fd
 File: ts1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
-) [69] [70]
+) [67] [68]
 Overfull \hbox (4.94363pt too wide) in paragraph at lines 164--165
 []\T1/cmr/m/n/12 The con-fig-u-ra-tion file is parsed us-ing the parse_-trick_-
 and_-run() func-tion (see []5.3[]).
  []
 
-[71] [72]
+[69] [70]
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
 nput line 210.
- [73] [74] [75]
+ [71] [72] [73]
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 )
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <8> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 329.
- [76] [77]
-[78] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+ [74] [75]
+[76] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 )
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
-) [79]
+) [77]
 Overfull \hbox (0.77739pt too wide) in paragraph at lines 429--430
 []\T1/cmr/m/n/12 Since $\OMS/cmsy/m/n/12 jP[]j \OT1/cmr/m/n/12 = \OMS/cmsy/m/n/
 12 jP[]j \OT1/cmr/m/n/12 = \OMS/cmsy/m/n/12 jP[]j \OT1/cmr/m/n/12 = \OMS/cmsy/m
@@ -1471,53 +1461,53 @@ mr/m/n/12 and $\OMS/cmsy/m/n/12 jP[]j \OT1/cmr/m/n/12 = \OMS/cmsy/m/n/12 jP[]j
 \OT1/cmr/m/n/12 =
  []
 
-[80] [81]
+[78] [79]
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 484.
- [82] [83]
+ [80] [81]
 Overfull \hbox (5.62773pt too wide) in paragraph at lines 540--541
 \T1/cmr/m/n/12 nents such as Docker and \T1/cmtt/m/n/12 runc\T1/cmr/m/n/12 . It
  ex-e-cutes shell com-mands us-ing Python's \T1/cmtt/m/n/12 subprocess
  []
 
-[84] [85] [86] [87]) (./sections/chapter8-evaluation.tex [88]
+[82] [83] [84] [85]) (./sections/chapter8-evaluation.tex [86]
 Chapter 6.
-[89
+[87
 
-] [90] [91] [92] [93] [94]
+] [88] [89] [90] [91] [92]
 Overfull \hbox (14.98367pt too wide) in paragraph at lines 166--179
  [][] 
  []
 
-[95]
+[93]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[96] [97] [98] [99] [100] [101] [102] [103] [104] [105] [106] [107] [108]
-[109] [110] [111]
+[94] [95] [96] [97] [98] [99] [100] [101] [102] [103] [104] [105] [106]
+[107] [108] [109]
 Overfull \hbox (16.62122pt too wide) in paragraph at lines 638--639
 \T1/cmr/m/n/12 To eval-u-ate scal-a-bil-ity, we con-structed a batch con-sist-i
 ng of 32 dis-tinct trick-configuration
  []
 
-[112] [113]) (./sections/chapter9-case-study.tex [114]
+[110] [111]) (./sections/chapter9-case-study.tex [112]
 Chapter 7.
-[115
+[113
 
 ]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[116]
+[114]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[117] [118] [119] [120] [121] [122] [123]
+[115] [116] [117] [118] [119] [120] [121]
 Overfull \hbox (3.85243pt too wide) in paragraph at lines 286--286
 []\T1/cmr/bx/n/17.28 Evaluating ptrace En-force-ment Across Linux Dis-
  []
 
-[124] [125]) (./sections/chapter10-conclusion.tex [126]
+[122] [123]) (./sections/chapter10-conclusion.tex [124]
 Chapter 8.
 
 Overfull \hbox (15.46849pt too wide) in paragraph at lines 4--5
@@ -1525,19 +1515,19 @@ Overfull \hbox (15.46849pt too wide) in paragraph at lines 4--5
 iner-ized en-vi-ron-ments. Through
  []
 
+[125
+
+]) (./sections/chapter11-appendix.tex [126]
+Appendix A.
 [127
 
-]) (./sections/chapter11-appendix.tex [128]
-Appendix A.
-[129
-
-] [130] [131]
+] [128] [129]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[132] [133]) (./thesis.bbl [134] [135
+[130] [131]) (./thesis.bbl [132] [133
 
-] [136] [137]
+] [134] [135]
 Underfull \hbox (badness 3108) in paragraph at lines 310--314
 []\T1/cmr/m/n/12 CrowdStrike.  VENOM: Vir-tu-al-ized En-vi-ron-ment Ne-glected 
 Op-er-a-tions
@@ -1549,7 +1539,7 @@ Underfull \hbox (badness 6016) in paragraph at lines 310--314
 / www . crowdstrike . com / blog /
  []
 
-[138]) [139] (./thesis.aux)
+[136]) [137] (./thesis.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -1565,10 +1555,10 @@ Package rerunfilecheck Info: File `thesis.out' has not changed.
 (rerunfilecheck)             Checksum: A218AA01142FDA18B076B5D44344197C;11611.
  ) 
 Here is how much of TeX's memory you used:
- 33757 strings out of 474222
- 612075 string characters out of 5748733
+ 33746 strings out of 474222
+ 611832 string characters out of 5748733
  2723975 words of memory out of 5000000
- 54656 multiletter control sequences out of 15000+600000
+ 54648 multiletter control sequences out of 15000+600000
  585469 words of font info for 101 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  94i,12n,96p,2390b,2307s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1607,10 +1597,10 @@ m-super/sfti1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1200.pfb
 onts/type1/public/cm-super/sftt1000.pfb></usr/share/texmf/fonts/type1/public/cm
 -super/sftt1200.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/zapfding/uzd
 r.pfb>
-Output written on thesis.pdf (140 pages, 1012422 bytes).
+Output written on thesis.pdf (138 pages, 986522 bytes).
 PDF statistics:
- 2007 PDF objects out of 2073 (max. 8388607)
- 1762 compressed objects within 18 object streams
- 705 named destinations out of 1000 (max. 500000)
- 614 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1978 PDF objects out of 2073 (max. 8388607)
+ 1740 compressed objects within 18 object streams
+ 702 named destinations out of 1000 (max. 500000)
+ 609 words of extra memory for PDF output out of 10000 (max. 10000000)
 
