@@ -1,4 +1,4 @@
-\chapter{Case Studies}
+    \chapter{Case Studies}
 \fontsize{12pt}{14pt} \selectfont
 \begin{doublespace}
 
@@ -198,6 +198,7 @@ This case study highlights the complexity of security policies in containerized 
 
 
 \section{Evaluating Docker Privileged Port Forwarding Restrictions}
+\label{sec:evaluating-docker-privileged-port-forwarding-restrictions}
 
 In this case study, we evaluate Docker's network isolation mechanisms to determine how well they enforce privileged port binding restrictions. Starting from Docker version 20.03, unprivileged ports start at 0 instead of 1024, effectively removing the need for root to bind to privileged ports. Table ~\ref{tab:port-binding-pre-20.03} presents the results of this change.
 
