@@ -5,7 +5,6 @@ Containers have become a foundational technology in cloud computing due to their
 
 To address this gap, this thesis presents Houdini, a modular framework for empirically testing container confinement. Houdini executes scripted tests, called tricks, inside an isolated virtual machine to observe whether security features like namespaces, cgroups, seccomp, and AppArmor are correctly enforced at runtime. By simulating real-world attack scenarios, Houdini reveals when isolation mechanisms silently fail, helping users validate security empirically.
 
-Through a series of case studies, Houdini reveals security inconsistencies, misconfigurations, and enforcement failures. It enables direct comparison of container behavior across different environments and highlights when documented security guarantees break down in practice. By making container confinement observable and testable, Houdini offers a practical approach to building more secure container systems.
-
+Through a series of case studies, Houdini reveals misconfigurations, enforcement failures, and security inconsistencies in container behavior across different combinations of Docker, runc, and Linux kernel versions. These case studies demonstrate how seemingly secure containers can violate isolation guarantees due to subtle interactions between runtime settings and system versions. By making container confinement observable and testable, Houdini provides a practical, empirical foundation for building and validating more secure container systems.
 
 \end{doublespace}

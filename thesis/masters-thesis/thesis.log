@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.6.28)  29 JUL 2025 21:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.6.28)  29 JUL 2025 22:55
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1271,15 +1271,15 @@ Package caption Info: End \AtBeginDocument code.
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/enc/
 dvips/cm-super/cm-super-t1.enc}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-su
-per-ts1.enc}]) (./sections/abstract.tex)
+per-ts1.enc}]) (./sections/abstract.tex
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.43 	\tableofcontents
-                       [1
+l.9 
+     [1
 
-] (./thesis.toc
+]) [2] (./thesis.toc
 LaTeX Font Info:    Trying to load font information for U+msa on input line 2.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
@@ -1289,13 +1289,13 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 2.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [2
+) [3
 
 ])
 \tf@toc=\write10
 \openout10 = `thesis.toc'.
 
- [3]
+ [4]
 (./thesis.lot
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 4
 .
@@ -1306,7 +1306,7 @@ File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 \openout11 = `thesis.lot'.
 
 
-[4
+[5
 
 ] (./thesis.lof
 Overfull \hbox (3.57048pt too wide) in paragraph at lines 12--12
@@ -1318,56 +1318,56 @@ ac-cess to \T1/cmtt/m/n/12 /etc/shadow\T1/cmr/m/n/12 .[] [][]
 \tf@lof=\write12
 \openout12 = `thesis.lof'.
 
- (./thesis.acr) (./sections/chapter1-introduction.tex [5
+ (./thesis.acr) (./sections/chapter1-introduction.tex [6
 
 ]
 Chapter 1.
-[6
+[7
 
-] [7] [8] [9] [10] [11] [12]) (./sections/chapter2-background.tex [13]
+] [8] [9] [10] [11] [12] [13]) (./sections/chapter2-background.tex [14]
 Chapter 2.
-[14
+[15
 
-] [15]
+] [16]
 
 pdfTeX warning: pdflatex (file ./figures/docker_architecture.pdf): PDF inclusio
 n: found PDF version <1.7>, but at most version <1.5> allowed
-<figures/docker_architecture.pdf, id=533, 259.93109pt x 375.32219pt>
+<figures/docker_architecture.pdf, id=542, 259.93109pt x 375.32219pt>
 File: figures/docker_architecture.pdf Graphic file (type pdf)
 <use figures/docker_architecture.pdf>
 Package pdftex.def Info: figures/docker_architecture.pdf  used on input line 23
 .
 (pdftex.def)             Requested size: 173.44534pt x 250.45088pt.
-[16 <./figures/docker_architecture.pdf>] [17] [18] [19]
-Overfull \hbox (8.74228pt too wide) in paragraph at lines 61--78
+[17 <./figures/docker_architecture.pdf>] [18] [19] [20]
+Overfull \hbox (8.74228pt too wide) in paragraph at lines 62--79
  [][] 
  []
 
-[20]
-Overfull \hbox (1.15987pt too wide) in paragraph at lines 87--88
+[21]
+Overfull \hbox (1.15987pt too wide) in paragraph at lines 88--89
 \T1/cmr/m/n/12 AppArmor is a Linux se-cu-rity mod-ule that pro-vides Manda-tory
  Ac-cess Con-trol (MAC)
  []
 
-[21] [22] [23]
-Underfull \hbox (badness 10000) in paragraph at lines 135--136
+[22] [23] [24] [25]
+Underfull \hbox (badness 10000) in paragraph at lines 136--137
 []|\T1/cmr/m/n/12 Restricted un-less ex-plic-itly al-lowed via
  []
 
-[24]) (./sections/chapter7-design.tex [25]
+) (./sections/chapter7-design.tex [26]
 Chapter 3.
-[26
+[27
 
-] [27]
+] [28]
 
 pdfTeX warning: pdflatex (file ./figures/design.pdf): PDF inclusion: found PDF 
 version <1.7>, but at most version <1.5> allowed
-<figures/design.pdf, id=636, 505.89pt x 218.7372pt>
+<figures/design.pdf, id=645, 505.89pt x 218.7372pt>
 File: figures/design.pdf Graphic file (type pdf)
 <use figures/design.pdf>
 Package pdftex.def Info: figures/design.pdf  used on input line 24.
 (pdftex.def)             Requested size: 433.62001pt x 187.49284pt.
-<figures/example-output.png, id=637, 653.44125pt x 252.945pt>
+<figures/example-output.png, id=646, 653.44125pt x 252.945pt>
 File: figures/example-output.png Graphic file (type png)
 <use figures/example-output.png>
 Package pdftex.def Info: figures/example-output.png  used on input line 29.
@@ -1375,57 +1375,57 @@ Package pdftex.def Info: figures/example-output.png  used on input line 29.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[28 <./figures/design.pdf>] [29 <./figures/example-output.png>] [30] [31]
-[32] [33] [34] [35] [36]) (./sections/chapter8-implementation.tex [37]
+[29 <./figures/design.pdf>] [30 <./figures/example-output.png>] [31] [32]
+[33] [34] [35] [36] [37]) (./sections/chapter8-implementation.tex [38]
 Chapter 4.
 
 Package caption Warning: \label without proper reference on input line 114.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `fig:buildroot-construction' on page 38 undefined on i
+LaTeX Warning: Reference `fig:buildroot-construction' on page 39 undefined on i
 nput line 9.
 
-[38
+[39
 
-] [39] [40] [41] [42] [43] [44]
+] [40] [41] [42] [43] [44] [45]
 
 pdfTeX warning: pdflatex (file ./figures/buildroot-design.drawio.pdf): PDF incl
 usion: found PDF version <1.7>, but at most version <1.5> allowed
-<figures/buildroot-design.drawio.pdf, id=730, 614.295pt x 469.755pt>
+<figures/buildroot-design.drawio.pdf, id=739, 614.295pt x 469.755pt>
 File: figures/buildroot-design.drawio.pdf Graphic file (type pdf)
 <use figures/buildroot-design.drawio.pdf>
 Package pdftex.def Info: figures/buildroot-design.drawio.pdf  used on input lin
 e 115.
 (pdftex.def)             Requested size: 433.62001pt x 331.59306pt.
-[45 <./figures/buildroot-design.drawio.pdf>]
+[46 <./figures/buildroot-design.drawio.pdf>]
 LaTeX Font Info:    Trying to load font information for TS1+cmtt on input line 
 134.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmtt.fd
 File: ts1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
-) [46] [47]
+) [47] [48]
 Overfull \hbox (4.94363pt too wide) in paragraph at lines 164--165
 []\T1/cmr/m/n/12 The con-fig-u-ra-tion file is parsed us-ing the parse_-trick_-
 and_-run() func-tion (see []4.3[]).
  []
 
-[48] [49]
+[49] [50]
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
 nput line 210.
- [50] [51] [52]
+ [51] [52] [53]
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 )
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <8> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 329.
- [53] [54]
-[55] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+ [54] [55]
+[56] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 )
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
-) [56]
+) [57]
 Overfull \hbox (0.77739pt too wide) in paragraph at lines 429--430
 []\T1/cmr/m/n/12 Since $\OMS/cmsy/m/n/12 jP[]j \OT1/cmr/m/n/12 = \OMS/cmsy/m/n/
 12 jP[]j \OT1/cmr/m/n/12 = \OMS/cmsy/m/n/12 jP[]j \OT1/cmr/m/n/12 = \OMS/cmsy/m
@@ -1434,101 +1434,95 @@ mr/m/n/12 and $\OMS/cmsy/m/n/12 jP[]j \OT1/cmr/m/n/12 = \OMS/cmsy/m/n/12 jP[]j
 \OT1/cmr/m/n/12 =
  []
 
-[57] [58]
+[58] [59]
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10> not available
 (Font)              Font shape `T1/cmtt/m/n' tried instead on input line 484.
- [59] [60]
+ [60] [61]
 Overfull \hbox (5.62773pt too wide) in paragraph at lines 540--541
 \T1/cmr/m/n/12 nents such as Docker and \T1/cmtt/m/n/12 runc\T1/cmr/m/n/12 . It
  ex-e-cutes shell com-mands us-ing Python's \T1/cmtt/m/n/12 subprocess
  []
 
-[61] [62] [63] [64]) (./sections/chapter8-evaluation.tex [65]
+[62] [63] [64] [65]) (./sections/chapter8-evaluation.tex [66]
 Chapter 5.
-[66
+[67
 
-] [67] [68] [69] [70] [71]
+] [68] [69] [70] [71] [72]
 Overfull \hbox (14.98367pt too wide) in paragraph at lines 166--179
  [][] 
  []
 
-[72]
+[73]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[73] [74] [75] [76] [77] [78] [79] [80] [81] [82] [83] [84] [85] [86] [87]
-[88]
+[74] [75] [76] [77] [78] [79] [80] [81] [82] [83] [84] [85] [86] [87] [88]
+[89]
 Overfull \hbox (16.62122pt too wide) in paragraph at lines 638--639
 \T1/cmr/m/n/12 To eval-u-ate scal-a-bil-ity, we con-structed a batch con-sist-i
 ng of 32 dis-tinct trick-configuration
  []
 
-[89] [90]) (./sections/chapter9-case-study.tex [91]
+[90] [91]) (./sections/chapter9-case-study.tex [92]
 Chapter 6.
-[92
+[93
 
 ]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[93]
+[94]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[94] [95] [96] [97] [98] [99] [100]
+[95] [96] [97] [98] [99] [100] [101]
 Overfull \hbox (3.85243pt too wide) in paragraph at lines 287--287
 []\T1/cmr/bx/n/17.28 Evaluating ptrace En-force-ment Across Linux Dis-
  []
 
-[101] [102] [103]) (./sections/chapter3-related-work.tex [104]
+[102] [103] [104]) (./sections/chapter3-related-work.tex [105]
 Chapter 7.
-[105
+[106
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 15--16
+Underfull \hbox (badness 10000) in paragraph at lines 13--14
 
  []
 
-[106] [107] [108] [109] [110] [111] [112] [113] [114] [115] [116] [117]
-[118] [119] [120] [121] [122] [123] [124]
-Underfull \hbox (badness 10000) in paragraph at lines 168--169
-
- []
-
-
+[107] [108] [109] [110] [111] [112] [113] [114] [115] [116] [117] [118]
+[119] [120] [121] [122] [123] [124] [125]
 Underfull \hbox (badness 10000) in paragraph at lines 172--173
 
  []
 
-[125]
+
 Underfull \hbox (badness 10000) in paragraph at lines 176--177
 
  []
 
-
+[126]
 Underfull \hbox (badness 10000) in paragraph at lines 180--181
 
  []
 
-[126]) (./sections/chapter10-conclusion.tex [127]
-Chapter 8.
 
-Overfull \hbox (15.46849pt too wide) in paragraph at lines 4--5
-\T1/cmr/m/n/12 be-tween in-tended and ac-tual se-cu-rity guar-an-tees in con-ta
-iner-ized en-vi-ron-ments. Through
+Underfull \hbox (badness 10000) in paragraph at lines 184--185
+
  []
 
-[128
+[127]) (./sections/chapter10-conclusion.tex [128]
+Chapter 8.
+[129
 
-]) (./sections/chapter11-appendix.tex [129]
+]) (./sections/chapter11-appendix.tex [130]
 Appendix A.
-[130
+[131
 
-] [131] [132]
+] [132] [133]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[133] [134]) (./thesis.bbl [135] [136
+[134] [135]) (./thesis.bbl [136] [137
 
 ]
 Underfull \hbox (badness 3108) in paragraph at lines 110--114
@@ -1542,7 +1536,7 @@ Underfull \hbox (badness 6016) in paragraph at lines 110--114
 / www . crowdstrike . com / blog /
  []
 
-[137] [138] [139]) [140] (./thesis.aux)
+[138] [139] [140]) [141] (./thesis.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
@@ -1555,13 +1549,13 @@ LaTeX Warning: There were undefined references.
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: C6C9C55B88ABC848B27A606EB05AA3B0;11662.
+(rerunfilecheck)             Checksum: 7616560FE214312A7834941BCBE7D03D;11888.
  ) 
 Here is how much of TeX's memory you used:
- 33757 strings out of 474222
- 612124 string characters out of 5748733
+ 33760 strings out of 474222
+ 612176 string characters out of 5748733
  2723975 words of memory out of 5000000
- 54653 multiletter control sequences out of 15000+600000
+ 54654 multiletter control sequences out of 15000+600000
  585469 words of font info for 101 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  94i,12n,96p,2390b,2308s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1600,10 +1594,10 @@ m-super/sfti1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1200.pfb
 onts/type1/public/cm-super/sftt1000.pfb></usr/share/texmf/fonts/type1/public/cm
 -super/sftt1200.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/zapfding/uzd
 r.pfb>
-Output written on thesis.pdf (141 pages, 1046230 bytes).
+Output written on thesis.pdf (142 pages, 1045237 bytes).
 PDF statistics:
- 1996 PDF objects out of 2073 (max. 8388607)
- 1755 compressed objects within 18 object streams
- 706 named destinations out of 1000 (max. 500000)
- 609 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2005 PDF objects out of 2073 (max. 8388607)
+ 1763 compressed objects within 18 object streams
+ 708 named destinations out of 1000 (max. 500000)
+ 617 words of extra memory for PDF output out of 10000 (max. 10000000)
 
