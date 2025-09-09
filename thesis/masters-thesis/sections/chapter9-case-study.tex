@@ -200,7 +200,7 @@ This case study highlights the complexity of security policies in containerized 
 \section{Evaluating Docker Privileged Port Forwarding Restrictions}
 \label{sec:evaluating-docker-privileged-port-forwarding-restrictions}
 
-In this case study, we evaluate Docker's network isolation mechanisms to determine how well they enforce privileged port binding restrictions. Starting from Docker version 20.03, unprivileged ports start at zero instead of 1024, effectively removing the need for root to bind to privileged ports. Table ~\ref{tab:port-binding-pre-20.03} presents the results of this change.
+In this case study, we evaluate Docker's network isolation mechanisms to determine how well they enforce privileged port binding restrictions. Starting from Docker version 20.03, unprivileged ports start at zero instead of 1024, effectively removing the need for NET\_BIND\_SERVICE to bind to privileged ports. Table ~\ref{tab:port-binding-pre-20.03} presents the results of this change.
 
 \begin{sidewaystable}
     \centering
@@ -213,7 +213,7 @@ In this case study, we evaluate Docker's network isolation mechanisms to determi
         19.03.9                & \cmark                         & \xmark                               & \xmark      & \xmark           & \xmark                                      \\ \hline
         19.03.0                & \cmark                         & \xmark                               & \xmark      & \xmark           & \xmark                                      \\ \hline
         20.10.0                & \cmark                         & \xmark                              & \xmark      & \xmark           & \xmark                                      \\ \hline
-        20.10.3                & \cmark                         & \xmark                              & \xmark      & \xmark           & \xmark                                      \\ \hline
+        20.10.3                & \cmark                         & \cmark                              & \cmark      & \xmark           & \xmark                                      \\ \hline
         23.0.0                 & \cmark                         & \cmark                              & \cmark      & \xmark           & \xmark                                      \\ \hline
         25.0.0                 & \cmark                         & \cmark                              & \cmark      & \xmark           & \xmark                                      \\ \hline
         27.0.1                 & \cmark                         & \cmark                              & \cmark      & \xmark           & \xmark                                      \\ \hline
@@ -347,6 +347,13 @@ Lastly, the ptrace enforcement study across Linux distributions showed a lack of
 
 Together, these case studies underscore Houdini’s effectiveness in revealing discrepancies between expected and actual security enforcement. They emphasize the need for dynamic testing when evaluating container confinement, especially in environments where assumptions about kernel behavior, runtime capabilities, or Docker defaults may no longer hold.
 
+An inherent limitation of empirical testing is that it is never clear when testing is complete. Houdini can only evaluate the specific tricks that are defined, meaning that untested attack vectors or misconfigurations may still exist. This differs from formal methods, which aim to provide proofs of correctness or completeness. While Houdini expands coverage by supporting large matrices of versions and configurations, it cannot guarantee exhaustive evaluation of all possible confinement weaknesses. As a result, empirical testing should be viewed as a practical but open-ended process. In other words, it can reveal regressions and enforcement gaps, but it cannot prove their absence.
 
+The case studies in this chapter were chosen to show how Houdini can test different aspects of container confinement. Case Study 1 looks at container escapes, Case Study 2 focuses on process tracing, and Case Studies 3 and 4 cover policy-based isolation. These examples were selected because they are widely used in practice, are central to Linux container security, and produce clear, measurable results that fit Houdini’s empirical approach. However, the set is not complete. One important area not covered is resource isolation, especially memory limits enforced by cgroups. If memory limits are not applied correctly, they can lead to denial-of-service problems or interference between containers and even the physical host. While Houdini could test these scenarios, they were outside the scope of this thesis. Future work could add tricks for memory and other resource controls, expanding Houdini’s coverage beyond the examples in this chapter.
 
+\section{Limitations}
+
+While Houdini advances empirical testing of container confinement, there are fundamental limits to what it can achieve. Most importantly, Houdini cannot provide exhaustive guarantees. It only evaluates the specific tricks that an expert user defines, meaning that untested scenarios may still contain weaknesses. Unlike formal verification, which aims for completeness, empirical testing is always bounded by the creativity and scope of the tests provided.
+
+Houdini can only be applied to vulnerabilities that are already known or hypothesized. Because it relies on predefined tricks authored by researchers, the framework does not autonomously uncover new vulnerabilities. Instead, it systematically replays and validates existing vulnerabilities across different versions of Docker, runc, and the Linux kernel to determine whether they persist, regress, or change in their enforcement. This makes Houdini especially valuable for confirming the continued relevance of published vulnerabilities and for detecting when fixes silently fail across versions.
 \end{doublespace}

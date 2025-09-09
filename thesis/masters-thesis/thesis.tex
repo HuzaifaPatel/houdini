@@ -1,59 +1,63 @@
 \documentclass[12pt]{report}
 
-% Set font encoding
-% \usepackage[T1]{fontenc}
+% ===== Core packages (deduplicated) =====
+\usepackage[T1]{fontenc}
 \usepackage{xcolor}
 \usepackage[hidelinks]{hyperref}
 \usepackage{setspace}
 \usepackage{pifont}
-\usepackage{graphicx} 
+\usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{float}
-\usepackage{multicol}    % in the preamble
-\usepackage{caption}     % for captioning outside the table
+\usepackage{multicol}
+\usepackage{caption}
 \usepackage{enumitem}
-\usepackage{hyperref}
 \usepackage{listings}
-\usepackage{minted}
-\usepackage{amsmath}  % For align, varnothing
-\usepackage{amssymb}  % For math symbols like varnothing
-\usepackage{listings} % For lstlisting
-\usepackage{xcolor}   % For listing background color
+\usepackage{minted}           % requires --shell-escape
+\usepackage{amsmath,amssymb}
 \usepackage{adjustbox}
 \usepackage{multirow}
-\usepackage{hyperref}
 \usepackage{rotating}
 \usepackage{underscore}
-\usepackage[T1]{fontenc}
 \usepackage{tikz}
-\newcommand{\cmark}{\ding{51}} % ✔
-\newcommand{\xmark}{\ding{55}} % ✘
+
+% ===== Glossaries (no acronyms) =====
+\usepackage[toc,nonumberlist]{glossaries}
+\makeglossaries
+\loadglsentries{glossary}     % <-- your file with \newglossaryentry{...} (no .tex)
+
+% ===== Layout & macros =====
+\usepackage[left=1.5in,right=1in,top=1in,bottom=1in]{geometry}
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
 \newcommand{\etal}{et~al.\ }
 
-\usepackage[acronym]{glossaries}
-% \usepackage{tikz}
-% \usepackage{tikzit}
-% Set margins
-\usepackage[left=1.5in, right=1in, top=1in, bottom=1in]{geometry}
-\makeglossaries
 \begin{document}
-	\input{sections/titlepage.tex}
-	\input{sections/abstract.tex}
-	% \input{sections/acknowledgements.tex}
-	\tableofcontents
-	\listoftables
-	\listoffigures
-	\printglossary[type=acronym, title=Nomenclature]
-	\input{sections/chapter1-introduction.tex}
-	\input{sections/chapter2-background.tex}
-	\input{sections/chapter7-design.tex}
-	\input{sections/chapter8-implementation.tex}
-	\input{sections/chapter8-evaluation.tex}
-	\input{sections/chapter9-case-study.tex}
-	\input{sections/chapter3-related-work.tex}
-	\input{sections/chapter10-conclusion.tex}
-	\input{sections/chapter11-appendix.tex}
 
-	\bibliographystyle{unsrt}
-	\bibliography{refs}
+\input{sections/titlepage.tex}
+\input{sections/abstract.tex}
+\input{sections/acknowledgements.tex}
+
+\tableofcontents
+\listoftables
+\listoffigures
+
+% ===== Main matter =====
+\input{sections/chapter1-introduction.tex}
+\input{sections/chapter2-background.tex}
+\input{sections/chapter7-design.tex}
+\input{sections/chapter8-implementation.tex}
+\input{sections/chapter8-evaluation.tex}
+\input{sections/chapter9-case-study.tex}
+\input{sections/chapter3-related-work.tex}
+\input{sections/chapter10-conclusion.tex}
+\input{sections/chapter11-appendix.tex}
+
+% ===== Glossary (terms only) =====
+\glsaddall                            % show all defined terms (remove later if you prefer “used only”)
+\printglossary[title=Glossary of Terms]
+
+\bibliographystyle{unsrt}
+\bibliography{refs}
+
 \end{document}

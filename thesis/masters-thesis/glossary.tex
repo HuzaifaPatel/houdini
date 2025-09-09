@@ -1,0 +1,105 @@
+
+% Expanded glossary entries for Houdini thesis
+% Load with: \loadglsentries{glossary_full} before \begin{document}
+
+% ===== Acronyms =====
+\newacronym{vm}{VM}{Virtual Machine}
+\newacronym{mac}{MAC}{Mandatory Access Control}
+\newacronym{dac}{DAC}{Discretionary Access Control}
+\newacronym{api}{API}{Application Programming Interface}
+\newacronym{kvm}{KVM}{Kernel-based Virtual Machine}
+\newacronym{qemu}{QEMU}{Quick emulator}
+\newacronym{pid}{PID}{Process Identifier}
+
+% ===== Core terms (define those used by others first) =====
+\newglossaryentry{trick}{
+  name=Trick,
+  plural=Tricks,
+  description={A scripted test case in Houdini that checks a specific aspect of container confinement, such as capabilities, policies, or escapes}
+}
+\newglossaryentry{runc}{
+  name=Runc,
+  description={The OCI-compliant low-level runtime used by Docker to spawn and run containers}
+}
+\newglossaryentry{ptrace}{
+  name=Ptrace,
+  description={A system call that allows one process to observe or control another; constrained by Yama and other security policies}
+}
+\newglossaryentry{lsm}{
+  name=LSM,
+  description={Linux Security Module; a kernel framework used by systems such as AppArmor, SELinux, and Yama}
+}
+
+% ===== Houdini terms =====
+\newglossaryentry{houdini}{
+  name=Houdini,
+  description={An execution framework for testing container confinement by running predefined \glspl{trick} in a controlled VM}
+}
+\newglossaryentry{overlay}{
+  name=Overlay,
+  description={A layered filesystem used in Houdini to inject Docker, Runc, and test files into the guest system}
+}
+\newglossaryentry{flask}{
+  name=Flask Server,
+  description={The guest-side API in Houdini that receives requests from the host and orchestrates Trick execution}
+}
+\newglossaryentry{versionpinning}{
+  name=Version Pinning,
+  description={Fixing exact versions of Docker, Runc, and the kernel to guarantee reproducible evaluation across time}
+}
+\newglossaryentry{regressiontesting}{
+  name=Regression Testing,
+  description={Re-running Tricks across versions to detect regressions in security enforcement}
+}
+\newglossaryentry{ablationtesting}{
+  name=Ablation Testing,
+  description={Disabling one confinement mechanism at a time to measure its contribution to container security}
+}
+
+% ===== Container & runtime =====
+\newglossaryentry{docker}{
+  name=Docker,
+  description={A platform for building, running, and managing containers using an OCI runtime such as \gls{runc}}
+}
+\newglossaryentry{dockerengine}{
+  name=Docker Engine,
+  description={The daemon that builds and runs containers; its version influences default confinement behaviors}
+}
+\newglossaryentry{container}{
+  name=Container,
+  description={A process running with isolated views of resources (via namespaces) and resource controls (via cgroups)}
+}
+\newglossaryentry{dockerfile}{
+  name=Dockerfile,
+  description={A declarative build script that defines how to construct a container image}
+}
+
+% ===== Kernel isolation primitives =====
+\newglossaryentry{namespaces}{
+  name=Namespaces,
+  description={Kernel features that isolate views of resources, including PID, network, mount, user, IPC, and UTS}
+}
+\newglossaryentry{apparmor}{
+  name=AppArmor,
+  description={An \gls{lsm} that applies per-program security profiles to restrict file, capability, and network access}
+}
+\newglossaryentry{selinux}{
+  name=SELinux,
+  description={An \gls{lsm} that enforces global label-based mandatory access control policies with fine-grained rules}
+}
+\newglossaryentry{yama}{
+  name=Yama,
+  description={An \gls{lsm} that restricts use of \gls{ptrace} to harden process isolation}
+}
+\newglossaryentry{cgroups}{
+  name=Cgroups,
+  description={Linux control groups that limit and account for resources such as CPU, memory, and processes across containers}
+}
+\newglossaryentry{seccomp}{
+  name=Seccomp,
+  description={A kernel feature that filters and restricts system calls based on an allow- or deny-list}
+}
+\newglossaryentry{capabilities}{
+  name=Linux Capabilities,
+  description={Fine-grained privileges split from root, such as \texttt{CAP\_NET\_BIND\_SERVICE} or \texttt{CAP\_SYS\_PTRACE}}
+}

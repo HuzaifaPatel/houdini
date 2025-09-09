@@ -33,11 +33,7 @@ Type 1 hypervisors run directly on physical hardware to create, control, and man
 
 Type 2 hypervisors (also called hosted hypervisors) are installed on the OS (Windows, Linux, macOS), similar to how computer programs are installed onto an OS. In other words, a type 2 hypervisor runs as a process on the host OS. Type 2 hypervisors abstract guest OSs from the host OS by introducing a third software layer above the hardware. Examples of type 2 hypervisors include but are not limited to VMware Workstation, VirtualBox, and QEMU ~\cite{bauman2015survey}~\cite{patel2025hypervisor}.
 
-Although the definitions of type 1 and type 2 hypervisors are widely accepted, there are gray areas where the distinction between the two remains unclear. For instance, according to its creator, RedHat, KVM is implemented and deployed using two Linux kernel modules that effectively convert the host Linux OS into a type-1 hypervisor ~\cite{graziano2011performance}. At the same time, KVM can be categorized as a type 2 hypervisor because KVM VMs are standard Linux processes that are competing with other Linux processes for CPU time given by the Linux kernel's native CPU scheduler ~\cite{kvmcpuschedule}. Due to disagreements and vagueness in the definitions of type 1 and type 2 hypervisors, two new classifications were defined: (1) native hypervisors and (2) emulation hypervisors ~\cite{10.1145/2775111}~\cite{patel2025hypervisor}.
-
-Native hypervisors are hypervisors that push VM guest instructions directly to the physical machine's CPU, by using virtualization extensions like Intel VT-x. ~\cite{10.1145/2775111}. Examples of Native hypervisors include but are not limited to Xen, KVM, VMware ESX, and Microsoft HyperV ~\cite{patel2025hypervisor}.
-
-Emulation hypervisors are hypervisors that emulate every VM guest instruction using software virtualization ~\cite{10.1145/2775111}. Emulated guest instructions are straightforward to trace because all guest VM instructions are trapped to the hypervisor. Examples of emulation hypervisors include but are not limited to QEMU, Bochs, early versions of VMware-Workstation, and VirtualBox ~\cite{10.1145/2775111}~\cite{patel2025hypervisor}.
+Although the definitions of type 1 and type 2 hypervisors are widely accepted, there are gray areas where the distinction between the two remains unclear. For instance, according to its creator, RedHat, KVM is implemented and deployed using two Linux kernel modules that effectively convert the host Linux OS into a type-1 hypervisor ~\cite{graziano2011performance}. At the same time, KVM can be categorized as a type 2 hypervisor because KVM VMs are standard Linux processes that are competing with other Linux processes for CPU time given by the Linux kernel's native CPU scheduler ~\cite{kvmcpuschedule}.
 
 \section{Process Isolation}
 
@@ -94,21 +90,14 @@ At the core of SELinux is a labeling system. Every file, process, and resource o
 
 SELinux operates in three modes: Enforcing, where policies are actively enforced and violations are blocked; Permissive, where violations are only logged (useful for debugging); and Disabled, where SELinux is turned off entirely. This flexibility makes it easier to adopt SELinux gradually or troubleshoot access issues without entirely disabling it \cite{redhat2007selinuxguide}.
 
-
-
-
-
-
-
-
-
+Both AppArmor and SELinux are implemented as Linux Security Modules (LSMs), meaning they extend the kernel’s security framework to enforce mandatory access control policies. In addition to these comprehensive LSMs, Linux also provides more specialized modules, such as Yama, which focus on narrower aspects of process confinement.
 
 
 
 \section{YAMA}
 
 
-Yama is a Linux Security Module (LSM) that adds additional restrictions to the ptrace system call, which is commonly used for debugging and process tracing. While ptrace is a powerful tool for legitimate uses like debuggers and profilers, it can also be abused by malicious processes to interfere with or spy on other running processes. Yama was introduced to mitigate these risks by controlling and limiting which processes can use ptrace on others, providing a simple but effective hardening mechanism against certain types of attacks.
+Yama is another LSM that adds additional restrictions to the ptrace system call, which is commonly used for debugging and process tracing. While ptrace is a powerful tool for legitimate uses like debuggers and profilers, it can also be abused by malicious processes to interfere with or spy on other running processes. Yama was introduced to mitigate these risks by controlling and limiting which processes can use ptrace on others, providing a simple but effective hardening mechanism against certain types of attacks.
 
 The core of Yama’s functionality revolves around the /proc/sys/kernel/yama/ptrace\_scope setting, which controls how restrictive the kernel is regarding ptrace access. The available levels range from 0 to 3, each enforcing progressively stricter controls. With ptrace\_scope=0, the system behaves traditionally, allowing any process to ptrace another process owned by the same user if the target is marked as dumpable. At 1, only parent processes can trace their children, limiting the risk of arbitrary tracing. Level 2 requires a process to have CAP\_SYS\_PTRACE capabilities (effectively root-level permissions) to trace any process, and level 3 completely turns off ptrace system-wide, locking down the system from process tracing even by privileged users.
 
