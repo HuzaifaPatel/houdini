@@ -90,7 +90,7 @@ At the core of SELinux is a labeling system. Every file, process, and resource o
 
 SELinux operates in three modes: Enforcing, where policies are actively enforced and violations are blocked; Permissive, where violations are only logged (useful for debugging); and Disabled, where SELinux is turned off entirely. This flexibility makes it easier to adopt SELinux gradually or troubleshoot access issues without entirely disabling it \cite{redhat2007selinuxguide}.
 
-Both AppArmor and SELinux are implemented as Linux Security Modules (LSMs), meaning they extend the kernel’s security framework to enforce mandatory access control policies. In addition to these comprehensive LSMs, Linux also provides more specialized modules, such as Yama, which focus on narrower aspects of process confinement.
+Both AppArmor and SELinux are implemented as Linux Security Modules (LSMs), meaning they extend the kernel’s security framework to enforce mandatory access control policies.
 
 
 

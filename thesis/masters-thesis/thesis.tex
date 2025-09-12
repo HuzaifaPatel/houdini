@@ -1,5 +1,16 @@
 \documentclass[12pt]{report}
 
+\begin{filecontents*}{\jobname.xmpdata}
+\Title{A Security Benchmarking Framework for Empirical Evaluation of Container Confinement}
+\Author{Huzaifa Patel}
+\Subject{Master's Thesis, Carleton University}
+\Keywords{Containers, Docker, Security, Houdini}
+\Publisher{Carleton University}
+\Language{en-CA}
+\CreatorTool{LaTeX with pdfTeX}
+\Producer{pdfTeX}
+\end{filecontents*}
+
 % ===== Core packages (deduplicated) =====
 \usepackage[T1]{fontenc}
 \usepackage{xcolor}
@@ -21,6 +32,10 @@
 \usepackage{underscore}
 \usepackage{tikz}
 
+
+\RequirePackage[a-2b]{pdfx} 
+
+
 % ===== Glossaries (no acronyms) =====
 \usepackage[toc,nonumberlist]{glossaries}
 \makeglossaries
@@ -31,6 +46,7 @@
 \newcommand{\cmark}{\ding{51}}
 \newcommand{\xmark}{\ding{55}}
 \newcommand{\etal}{et~al.\ }
+
 
 \begin{document}
 
