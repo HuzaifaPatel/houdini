@@ -14,15 +14,17 @@
 % ===== Core terms (define those used by others first) =====
 \newglossaryentry{trick}{
   name=Trick,
-  plural=Tricks,
+  plural=tricks,
   description={A scripted test case in Houdini that checks a specific aspect of container confinement, such as capabilities, policies, or escapes}
 }
 \newglossaryentry{runc}{
   name=Runc,
+  text=runc,
   description={The OCI-compliant low-level runtime used by Docker to spawn and run containers}
 }
 \newglossaryentry{ptrace}{
   name=Ptrace,
+  text=ptrace,
   description={A system call that allows one process to observe or control another; constrained by Yama and other security policies}
 }
 \newglossaryentry{lsm}{
@@ -33,10 +35,11 @@
 % ===== Houdini terms =====
 \newglossaryentry{Houdini}{
   name=Houdini,
-  description={An execution framework for testing container confinement by running predefined \glspl{trick} in a controlled VM}
+  description={An execution framework for testing container confinement by running predefined tricks in a controlled VM}
 }
 \newglossaryentry{overlay}{
   name=Overlay,
+  text=overlay,
   description={A layered filesystem used in Houdini to inject Docker, Runc, and test files into the guest system}
 }
 \newglossaryentry{Flask}{
@@ -44,15 +47,17 @@
   description={The guest-side API in Houdini that receives requests from the host and orchestrates Trick execution}
 }
 \newglossaryentry{version pinning}{
-  name=Version Pinning,
+  name=Version pinning,
+  text=version pinning,
   description={Fixing exact versions of Docker, Runc, and the kernel to guarantee reproducible evaluation across time}
 }
 \newglossaryentry{regression testing}{
-  name=Regression Testing,
+  name=Regression testing,
+  text=regression testing,
   description={Re-running Tricks across versions to detect regressions in security enforcement}
 }
-\newglossaryentry{ablation testing}{
-  name=Ablation Testing,
+\newglossaryentry{Ablation testing}{
+  name=Ablation testing,
   description={Disabling one confinement mechanism at a time to measure its contribution to container security}
 }
 
@@ -77,6 +82,7 @@
 % ===== Kernel isolation primitives =====
 \newglossaryentry{namespaces}{
   name=Namespaces,
+  text=namespaces,
   description={Kernel features that isolate views of resources, including PID, network, mount, user, IPC, and UTS}
 }
 \newglossaryentry{AppArmor}{
@@ -89,10 +95,11 @@
 }
 \newglossaryentry{Yama}{
   name=Yama,
-  description={An \gls{lsm} that restricts use of \gls{ptrace} to harden process isolation}
+  description={An \gls{lsm} that restricts use of ptrace to harden process isolation}
 }
 \newglossaryentry{cgroups}{
   name=Cgroups,
+  text=cgroups,
   description={Linux control groups that limit and account for resources such as CPU, memory, and processes across containers}
 }
 \newglossaryentry{seccomp}{
@@ -100,6 +107,6 @@
   description={A kernel feature that filters and restricts system calls based on an allow- or deny-list}
 }
 \newglossaryentry{Linux capabilities}{
-  name=Linux Capabilities,
+  name=Linux capabilities,
   description={Fine-grained privileges split from root, such as \texttt{CAP\_NET\_BIND\_SERVICE} or \texttt{CAP\_SYS\_PTRACE}}
 }
