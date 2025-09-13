@@ -42,8 +42,9 @@
   text=overlay,
   description={A layered filesystem used in Houdini to inject Docker, Runc, and test files into the guest system}
 }
-\newglossaryentry{Flask}{
+\newglossaryentry{Flask Server}{
   name=Flask Server,
+  text=Flask server,
   description={The guest-side API in Houdini that receives requests from the host and orchestrates Trick execution}
 }
 \newglossaryentry{version pinning}{
@@ -64,7 +65,7 @@
 % ===== Container & runtime =====
 \newglossaryentry{Docker}{
   name=Docker,
-  description={A platform for building, running, and managing containers using an OCI runtime such as \gls{runc}}
+  description={A platform for building, running, and managing containers using an OCI runtime such as runc}
 }
 \newglossaryentry{Docker Engine}{
   name=Docker Engine,
@@ -87,15 +88,15 @@
 }
 \newglossaryentry{AppArmor}{
   name=AppArmor,
-  description={An \gls{lsm} that applies per-program security profiles to restrict file, capability, and network access}
+  description={An LSM that applies per-program security profiles to restrict file, capability, and network access}
 }
 \newglossaryentry{SELinux}{
   name=SELinux,
-  description={An \gls{lsm} that enforces global label-based mandatory access control policies with fine-grained rules}
+  description={An LSM that enforces global label-based mandatory access control policies with fine-grained rules}
 }
 \newglossaryentry{Yama}{
   name=Yama,
-  description={An \gls{lsm} that restricts use of ptrace to harden process isolation}
+  description={An LSM that restricts use of ptrace to harden process isolation}
 }
 \newglossaryentry{cgroups}{
   name=Cgroups,

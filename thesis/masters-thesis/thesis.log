@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.6.28)  13 SEP 2025 10:04
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.6.28)  13 SEP 2025 10:20
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1436,7 +1436,7 @@ Chapter 2.
 
 pdfTeX warning: pdflatex (file ./figures/docker_architecture.pdf): PDF inclusio
 n: found PDF version <1.7>, but at most version <1.5> allowed
-<figures/docker_architecture.pdf, id=612, 259.93109pt x 375.32219pt>
+<figures/docker_architecture.pdf, id=608, 259.93109pt x 375.32219pt>
 File: figures/docker_architecture.pdf Graphic file (type pdf)
 <use figures/docker_architecture.pdf>
 Package pdftex.def Info: figures/docker_architecture.pdf  used on input line 23
@@ -1456,7 +1456,7 @@ Overfull \hbox (1.15987pt too wide) in paragraph at lines 84--85
 [24]
 Overfull \hbox (1.68616pt too wide) in paragraph at lines 93--94
 []\T1/cmr/m/n/12 Both Ap-pAr-mor and SELinux are im-ple-mented as Linux Se-cu-r
-ity Mod-ules (LSMs),
+ity Mod-ules ([][]LSM[]s),
  []
 
 [25] [26]
@@ -1475,16 +1475,19 @@ Chapter 3.
 
 pdfTeX warning: pdflatex (file ./figures/design.pdf): PDF inclusion: found PDF 
 version <1.7>, but at most version <1.5> allowed
-<figures/design.pdf, id=709, 505.89pt x 218.7372pt>
+<figures/design.pdf, id=706, 505.89pt x 218.7372pt>
 File: figures/design.pdf Graphic file (type pdf)
 <use figures/design.pdf>
 Package pdftex.def Info: figures/design.pdf  used on input line 24.
 (pdftex.def)             Requested size: 433.62001pt x 187.49284pt.
-<figures/example-output.png, id=710, 653.44125pt x 252.945pt>
+<figures/example-output.png, id=707, 653.44125pt x 252.945pt>
 File: figures/example-output.png Graphic file (type png)
 <use figures/example-output.png>
 Package pdftex.def Info: figures/example-output.png  used on input line 29.
 (pdftex.def)             Requested size: 433.62001pt x 167.85123pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 [31 <./figures/design.pdf>] [32 <./figures/example-output.png>] [33] [34]
 [35] [36] [37] [38] [39]) (./sections/chapter8-implementation.tex [40]
 Chapter 4.
@@ -1494,7 +1497,7 @@ Chapter 4.
 
 pdfTeX warning: pdflatex (file ./figures/buildroot-design.drawio.pdf): PDF incl
 usion: found PDF version <1.7>, but at most version <1.5> allowed
-<figures/buildroot-design.drawio.pdf, id=805, 614.295pt x 469.755pt>
+<figures/buildroot-design.drawio.pdf, id=802, 614.295pt x 469.755pt>
 File: figures/buildroot-design.drawio.pdf Graphic file (type pdf)
 <use figures/buildroot-design.drawio.pdf>
 Package pdftex.def Info: figures/buildroot-design.drawio.pdf  used on input lin
@@ -1648,12 +1651,12 @@ L3 programming layer <2024-01-22>
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `thesis.out' has not changed.
-(rerunfilecheck)             Checksum: D492664C2AC38A185FF6A3CB95B4E8D7;5416.
+(rerunfilecheck)             Checksum: F1F92E6443790BBDE768679C2C2B2B2D;5417.
  ) 
 Here is how much of TeX's memory you used:
  38007 strings out of 474222
- 677347 string characters out of 5748733
- 2722975 words of memory out of 5000000
+ 677567 string characters out of 5748733
+ 2723975 words of memory out of 5000000
  58793 multiletter control sequences out of 15000+600000
  585469 words of font info for 101 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1673,10 +1676,6 @@ pdfTeX warning (dest): name{Hfootnote.2} has been referenced but does not exist
 
 pdfTeX warning (dest): name{Hfootnote.1} has been referenced but does not exist
 , replaced by a fixed one
-
-
-pdfTeX warning (dest): name{glo:lsm} has been referenced but does not exist, re
-placed by a fixed one
 
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/
 share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/
@@ -1701,10 +1700,10 @@ m-super/sfti1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfti1200.pfb
 onts/type1/public/cm-super/sftt1000.pfb></usr/share/texmf/fonts/type1/public/cm
 -super/sftt1200.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/zapfding/uzd
 r.pfb>
-Output written on thesis.pdf (145 pages, 1069195 bytes).
+Output written on thesis.pdf (145 pages, 1069153 bytes).
 PDF statistics:
- 2082 PDF objects out of 2487 (max. 8388607)
- 1834 compressed objects within 19 object streams
+ 2079 PDF objects out of 2487 (max. 8388607)
+ 1831 compressed objects within 19 object streams
  737 named destinations out of 1000 (max. 500000)
  645 words of extra memory for PDF output out of 10000 (max. 10000000)
 
