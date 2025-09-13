@@ -1,34 +1,24 @@
-\glossaryentry{VM?\glossentry{vm}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{MAC?\glossentry{mac}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{DAC?\glossentry{dac}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{API?\glossentry{api}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{KVM?\glossentry{kvm}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{QEMU?\glossentry{qemu}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{PID?\glossentry{pid}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{Trick?\glossentry{trick}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{Runc?\glossentry{runc}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{Ptrace?\glossentry{ptrace}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{LSM?\glossentry{lsm}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{Houdini?\glossentry{houdini}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{Overlay?\glossentry{overlay}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{Flask Server?\glossentry{flask}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{Version Pinning?\glossentry{versionpinning}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{Regression Testing?\glossentry{regressiontesting}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{Ablation Testing?\glossentry{ablationtesting}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{Docker?\glossentry{docker}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{Docker Engine?\glossentry{dockerengine}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{Container?\glossentry{container}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{Dockerfile?\glossentry{dockerfile}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{Namespaces?\glossentry{namespaces}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{AppArmor?\glossentry{apparmor}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{SELinux?\glossentry{selinux}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{Yama?\glossentry{yama}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{Cgroups?\glossentry{cgroups}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{Seccomp?\glossentry{seccomp}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{Linux Capabilities?\glossentry{capabilities}|setentrycounter[]{page}"\glsnumberformat}{139}
-\glossaryentry{LSM?\glossentry{lsm}|setentrycounter[]{page}"\glsnumberformat}{140}
-\glossaryentry{Runc?\glossentry{runc}|setentrycounter[]{page}"\glsnumberformat}{140}
-\glossaryentry{Trick?\glossentry{trick}|setentrycounter[]{page}"\glsnumberformat}{140}
-\glossaryentry{LSM?\glossentry{lsm}|setentrycounter[]{page}"\glsnumberformat}{141}
-\glossaryentry{LSM?\glossentry{lsm}|setentrycounter[]{page}"\glsnumberformat}{141}
-\glossaryentry{Ptrace?\glossentry{ptrace}|setentrycounter[]{page}"\glsnumberformat}{141}
+\glossaryentry{LSM?\glossentry{lsm}|setentrycounter[]{page}"\glsnumberformat}{5}
+\glossaryentry{Runc?\glossentry{runc}|setentrycounter[]{page}"\glsnumberformat}{5}
+\glossaryentry{Trick?\glossentry{trick}|setentrycounter[]{page}"\glsnumberformat}{5}
+\glossaryentry{LSM?\glossentry{lsm}|setentrycounter[]{page}"\glsnumberformat}{6}
+\glossaryentry{LSM?\glossentry{lsm}|setentrycounter[]{page}"\glsnumberformat}{6}
+\glossaryentry{Ptrace?\glossentry{ptrace}|setentrycounter[]{page}"\glsnumberformat}{6}
+\glossaryentry{Cgroups?\glossentry{cgroups}|setentrycounter[]{page}"\glsnumberformat}{9}
+\glossaryentry{Docker?\glossentry{Docker}|setentrycounter[]{page}"\glsnumberformat}{10}
+\glossaryentry{Namespaces?\glossentry{namespaces}|setentrycounter[]{page}"\glsnumberformat}{10}
+\glossaryentry{Linux Capabilities?\glossentry{Linux capabilities}|setentrycounter[]{page}"\glsnumberformat}{10}
+\glossaryentry{AppArmor?\glossentry{AppArmor}|setentrycounter[]{page}"\glsnumberformat}{12}
+\glossaryentry{SELinux?\glossentry{SELinux}|setentrycounter[]{page}"\glsnumberformat}{12}
+\glossaryentry{Runc?\glossentry{runc}|setentrycounter[]{page}"\glsnumberformat}{13}
+\glossaryentry{Houdini?\glossentry{Houdini}|setentrycounter[]{page}"\glsnumberformat}{15}
+\glossaryentry{Docker Engine?\glossentry{Docker Engine}|setentrycounter[]{page}"\glsnumberformat}{18}
+\glossaryentry{Seccomp?\glossentry{seccomp}|setentrycounter[]{page}"\glsnumberformat}{24}
+\glossaryentry{Yama?\glossentry{Yama}|setentrycounter[]{page}"\glsnumberformat}{26}
+\glossaryentry{Dockerfile?\glossentry{Dockerfile}|setentrycounter[]{page}"\glsnumberformat}{30}
+\glossaryentry{Flask Server?\glossentry{Flask}|setentrycounter[]{page}"\glsnumberformat}{30}
+\glossaryentry{Container?\glossentry{container}|setentrycounter[]{page}"\glsnumberformat}{31}
+\glossaryentry{Ablation Testing?\glossentry{ablation testing}|setentrycounter[]{page}"\glsnumberformat}{33}
+\glossaryentry{Version Pinning?\glossentry{version pinning}|setentrycounter[]{page}"\glsnumberformat}{33}
+\glossaryentry{Overlay?\glossentry{overlay}|setentrycounter[]{page}"\glsnumberformat}{35}
+\glossaryentry{Regression Testing?\glossentry{regression testing}|setentrycounter[]{page}"\glsnumberformat}{88}

@@ -31,7 +31,7 @@
 }
 
 % ===== Houdini terms =====
-\newglossaryentry{houdini}{
+\newglossaryentry{Houdini}{
   name=Houdini,
   description={An execution framework for testing container confinement by running predefined \glspl{trick} in a controlled VM}
 }
@@ -39,29 +39,29 @@
   name=Overlay,
   description={A layered filesystem used in Houdini to inject Docker, Runc, and test files into the guest system}
 }
-\newglossaryentry{flask}{
+\newglossaryentry{Flask}{
   name=Flask Server,
   description={The guest-side API in Houdini that receives requests from the host and orchestrates Trick execution}
 }
-\newglossaryentry{versionpinning}{
+\newglossaryentry{version pinning}{
   name=Version Pinning,
   description={Fixing exact versions of Docker, Runc, and the kernel to guarantee reproducible evaluation across time}
 }
-\newglossaryentry{regressiontesting}{
+\newglossaryentry{regression testing}{
   name=Regression Testing,
   description={Re-running Tricks across versions to detect regressions in security enforcement}
 }
-\newglossaryentry{ablationtesting}{
+\newglossaryentry{ablation testing}{
   name=Ablation Testing,
   description={Disabling one confinement mechanism at a time to measure its contribution to container security}
 }
 
 % ===== Container & runtime =====
-\newglossaryentry{docker}{
+\newglossaryentry{Docker}{
   name=Docker,
   description={A platform for building, running, and managing containers using an OCI runtime such as \gls{runc}}
 }
-\newglossaryentry{dockerengine}{
+\newglossaryentry{Docker Engine}{
   name=Docker Engine,
   description={The daemon that builds and runs containers; its version influences default confinement behaviors}
 }
@@ -69,7 +69,7 @@
   name=Container,
   description={A process running with isolated views of resources (via namespaces) and resource controls (via cgroups)}
 }
-\newglossaryentry{dockerfile}{
+\newglossaryentry{Dockerfile}{
   name=Dockerfile,
   description={A declarative build script that defines how to construct a container image}
 }
@@ -79,15 +79,15 @@
   name=Namespaces,
   description={Kernel features that isolate views of resources, including PID, network, mount, user, IPC, and UTS}
 }
-\newglossaryentry{apparmor}{
+\newglossaryentry{AppArmor}{
   name=AppArmor,
   description={An \gls{lsm} that applies per-program security profiles to restrict file, capability, and network access}
 }
-\newglossaryentry{selinux}{
+\newglossaryentry{SELinux}{
   name=SELinux,
   description={An \gls{lsm} that enforces global label-based mandatory access control policies with fine-grained rules}
 }
-\newglossaryentry{yama}{
+\newglossaryentry{Yama}{
   name=Yama,
   description={An \gls{lsm} that restricts use of \gls{ptrace} to harden process isolation}
 }
@@ -99,7 +99,7 @@
   name=Seccomp,
   description={A kernel feature that filters and restricts system calls based on an allow- or deny-list}
 }
-\newglossaryentry{capabilities}{
+\newglossaryentry{Linux capabilities}{
   name=Linux Capabilities,
   description={Fine-grained privileges split from root, such as \texttt{CAP\_NET\_BIND\_SERVICE} or \texttt{CAP\_SYS\_PTRACE}}
 }

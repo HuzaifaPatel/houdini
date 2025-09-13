@@ -473,7 +473,7 @@ Container runtime behavior evolves significantly over time. Docker, runc, and th
 
 To answer this, we constructed a version matrix spanning over 70 Docker releases and their associated runc versions, grouped into three eras: early (e.g., 17.03), mid-range (e.g., 20.10), and modern (e.g., 27.0.3). Each combination was tested using a consistent trick designed to detect CVE-2024-21626 (see Case Study 1).
 
-Importantly, Houdini required no code or script modifications throughout this evaluation. Test logic remained unchanged. The orchestration layer, trick execution pipeline, and result reporting functioned identically across all tested Docker and runc versions. These findings validate Houdini’s suitability as a version-agnostic security regression testing framework, capable of catching both intended fixes and unintended regressions across evolving container platforms.
+Importantly, Houdini required no code or script modifications throughout this evaluation. Test logic remained unchanged. The orchestration layer, trick execution pipeline, and result reporting functioned identically across all tested Docker and runc versions. These findings validate Houdini’s suitability as a version-agnostic security \glspl{regression testing} framework, capable of catching both intended fixes and unintended regressions across evolving container platforms.
 
 This level of compatibility makes Houdini suitable not just for point-in-time security evaluation, but also for long-term regression tracking, archival vulnerability research, and continuous integration pipelines that must accommodate diverse and evolving container environments.
 

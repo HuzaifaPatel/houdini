@@ -37,7 +37,8 @@
 
 
 % ===== Glossaries (no acronyms) =====
-\usepackage[toc,nonumberlist]{glossaries}
+\usepackage[toc=false,nonumberlist]{glossaries}
+\renewcommand*{\glslink}[2]{#2}
 \makeglossaries
 \loadglsentries{glossary}     % <-- your file with \newglossaryentry{...} (no .tex)
 
@@ -55,6 +56,12 @@
 \input{sections/acknowledgements.tex}
 
 \tableofcontents
+% ===== Glossary (terms only) =====
+% \glsaddall
+
+% \glsaddallunused
+\printglossary[title=Glossary of Terms]
+
 \listoftables
 \listoffigures
 
@@ -68,10 +75,6 @@
 \input{sections/chapter3-related-work.tex}
 \input{sections/chapter10-conclusion.tex}
 \input{sections/chapter11-appendix.tex}
-
-% ===== Glossary (terms only) =====
-\glsaddall                            % show all defined terms (remove later if you prefer “used only”)
-\printglossary[title=Glossary of Terms]
 
 \bibliographystyle{unsrt}
 \bibliography{refs}
